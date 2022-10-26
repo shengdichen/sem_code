@@ -1,22 +1,19 @@
 import os
-import sys
-import numpy as np
-import cv2
-import matplotlib.pyplot as plt
-
-#%matplotlib inline
-import PIL.Image as Image
-import gym
 import random
-import torch
-import time
-import imageio
-
-from gym import Env, spaces
-from itertools import count
-from torch.utils.tensorboard import SummaryWriter
+import sys
 from collections import deque
 from datetime import datetime
+from itertools import count
+
+# %matplotlib inline
+import PIL.Image as Image
+import cv2
+import imageio
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+from gym import Env, spaces
+from torch.utils.tensorboard import SummaryWriter
 from tqdm.notebook import tqdm
 
 font = cv2.FONT_HERSHEY_COMPLEX_SMALL
@@ -34,16 +31,13 @@ from irl import (
 )
 
 from utils import prepare_update_airl, CustomCallback
-from env_utils import DiscReward, repack_vecenv, PWILReward
+from env_utils import repack_vecenv, PWILReward
 
 # stable baselines imports
-import stable_baselines3 as sb
 from stable_baselines3.common.callbacks import CallbackList, BaseCallback, EvalCallback
 from stable_baselines3.common.utils import configure_logger
 from stable_baselines3.common.env_util import make_vec_env
-from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3 import PPO as PPOSB
-from stable_baselines3 import SAC as SACSB
 
 
 class Point(object):
