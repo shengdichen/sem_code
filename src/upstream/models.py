@@ -1,12 +1,6 @@
 import torch
 import torch.multiprocessing
 import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
-from torch.distributions import Normal, MultivariateNormal, Categorical
-import copy
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import DotProduct, WhiteKernel
 
 
 class MiniGridCNN(nn.Module):
