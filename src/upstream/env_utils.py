@@ -7,6 +7,7 @@ from itertools import count
 from datetime import datetime
 from collections import deque
 import os
+
 # import doorenv
 # import envs
 import gym
@@ -16,13 +17,15 @@ from gym.spaces import Discrete
 import pybulletgym
 import pointMass
 import dm_control
+
 # import dmc2gym
-#import gym_minigrid
-#import robosuite
-#from robosuite.wrappers import GymWrapper
-#from robosuite import load_controller_config
-#from gym_minigrid.wrappers import *
+# import gym_minigrid
+# import robosuite
+# from robosuite.wrappers import GymWrapper
+# from robosuite import load_controller_config
+# from gym_minigrid.wrappers import *
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+
 # from stable_baselines3.bench import Monitor
 # from stable_baselines3.common.logger import Logger
 # from stable_baselines3.common.monitor import Monitor
@@ -43,14 +46,18 @@ def get_trajectory_list(demos):
             done_cnt += 1
             trajs.append(np.array(ep))
             ep = []
-        
+
     return trajs
 
+
 def format_name_string(name_string):
-    name_string = name_string.replace('{', '_').replace(
-        '}', '').replace(' ', '').replace("'xml_file'", '')
-    name_string = name_string.replace(
-        "'", "").replace(":", "").replace('/', '')
+    name_string = (
+        name_string.replace("{", "_")
+        .replace("}", "")
+        .replace(" ", "")
+        .replace("'xml_file'", "")
+    )
+    name_string = name_string.replace("'", "").replace(":", "").replace("/", "")
 
     return name_string
 
@@ -68,14 +75,16 @@ def get_env_demo_files(expert_demo_dir, env_name, spec):
         return int(text) if text.isdigit() else text
 
     def natural_keys(text):
-        return [atoi(c) for c in re.split(r'(\d+)', text)]
+        return [atoi(c) for c in re.split(r"(\d+)", text)]
 
     demo_files.sort(key=natural_keys)
 
     return demo_files
 
 
-def make_venv(opt, n_envs, spec, spec_test, wrapper_kwargs, use_rank=True, use_subprocess=False):
+def make_venv(
+    opt, n_envs, spec, spec_test, wrapper_kwargs, use_rank=True, use_subprocess=False
+):
     if spec is None:
         spec = {}
     if spec_test is None:
@@ -83,68 +92,132 @@ def make_venv(opt, n_envs, spec, spec_test, wrapper_kwargs, use_rank=True, use_s
     if wrapper_kwargs is None:
         wrapper_kwargs = {}
 
-    print("-"*100)
+    print("-" * 100)
 
-    if 'Custom' in opt.env_name:
-        envs = make_pybullet_venv(opt.env_name, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                                  n_envs=n_envs, seed=opt.seed, use_subprocess=use_subprocess,
-                                  use_rank=use_rank)
-        testing_env = make_pybullet_venv(opt.env_name, env_kwargs=spec_test,
-                                         n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                         use_rank=use_rank)
-    elif 'MiniGrid' in opt.env_name:
-        envs = make_minigrid_venv(opt.env_name, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                                  n_envs=n_envs, seed=opt.seed,
-                                  wrapper_type=opt.minigrid_wrapper,
-                                  use_subprocess=use_subprocess,
-                                  use_rank=use_rank)
-        testing_env = make_minigrid_venv(opt.env_name, env_kwargs=spec_test,
-                                         n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                         use_rank=use_rank,
-                                         wrapper_type=opt.minigrid_wrapper)
-    elif 'robosuite' in opt.env_name:
-        env_name = opt.env_name.replace('robosuite-', '')
-        envs = make_robosuite_venv(env_name, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                                   n_envs=n_envs, seed=opt.seed,
-                                   use_subprocess=use_subprocess,
-                                   use_rank=use_rank)
-        testing_env = make_robosuite_venv(env_name, env_kwargs=spec_test,
-                                          n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                          use_rank=use_rank)
+    if "Custom" in opt.env_name:
+        envs = make_pybullet_venv(
+            opt.env_name,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_pybullet_venv(
+            opt.env_name,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+    elif "MiniGrid" in opt.env_name:
+        envs = make_minigrid_venv(
+            opt.env_name,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            wrapper_type=opt.minigrid_wrapper,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_minigrid_venv(
+            opt.env_name,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+            wrapper_type=opt.minigrid_wrapper,
+        )
+    elif "robosuite" in opt.env_name:
+        env_name = opt.env_name.replace("robosuite-", "")
+        envs = make_robosuite_venv(
+            env_name,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_robosuite_venv(
+            env_name,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
 
     # dm_control environments
-    elif 'dmc' in opt.env_name:
-        _, env_name, env_task = opt.env_name.split('-')
-        envs = make_dmc_venv(env_name, env_task, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                             n_envs=n_envs, seed=opt.seed,
-                             use_subprocess=use_subprocess,
-                             use_rank=use_rank)
-        testing_env = make_dmc_venv(env_name, env_task, env_kwargs=spec_test,
-                                    n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                    use_rank=use_rank)
+    elif "dmc" in opt.env_name:
+        _, env_name, env_task = opt.env_name.split("-")
+        envs = make_dmc_venv(
+            env_name,
+            env_task,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_dmc_venv(
+            env_name,
+            env_task,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
 
-    elif 'door' in opt.env_name:
-        envs = make_door_venv(opt.env_name, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                              n_envs=n_envs, seed=opt.seed,
-                              use_subprocess=use_subprocess,
-                              use_rank=use_rank)
-        testing_env = make_door_venv(opt.env_name, env_kwargs=spec_test,
-                                     n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                     use_rank=use_rank)
+    elif "door" in opt.env_name:
+        envs = make_door_venv(
+            opt.env_name,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_door_venv(
+            opt.env_name,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
 
-    elif 'pointMass' in opt.env_name:
-        envs = make_pointmass_venv(opt.env_name, env_kwargs=spec, wrapper_kwargs=wrapper_kwargs,
-                                   n_envs=n_envs, seed=opt.seed,
-                                   use_subprocess=use_subprocess,
-                                   use_rank=use_rank)
-        testing_env = make_pointmass_venv(opt.env_name, env_kwargs=spec_test,
-                                          n_envs=1, seed=opt.seed, use_subprocess=use_subprocess,
-                                          use_rank=use_rank)
+    elif "pointMass" in opt.env_name:
+        envs = make_pointmass_venv(
+            opt.env_name,
+            env_kwargs=spec,
+            wrapper_kwargs=wrapper_kwargs,
+            n_envs=n_envs,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
+        testing_env = make_pointmass_venv(
+            opt.env_name,
+            env_kwargs=spec_test,
+            n_envs=1,
+            seed=opt.seed,
+            use_subprocess=use_subprocess,
+            use_rank=use_rank,
+        )
         testing_env = gym.make(opt.env_name, **spec_test)
         testing_env = pmObsWrapper(testing_env)
 
     # not pybullet or minigrid
     else:
+
         def make_env(rank):
             def _thunk():
                 env = gym.make(opt.env_name, **spec)
@@ -170,19 +243,24 @@ def make_venv(opt, n_envs, spec, spec_test, wrapper_kwargs, use_rank=True, use_s
         testing_env.action_space.seed(opt.seed)
         testing_env.observation_space.seed(opt.seed)
 
-    print("-"*100)
+    print("-" * 100)
 
     return envs, testing_env
 
 
 # The point of this is to include custom wrappers before creating vectorized env
 # This is adapted from stable baselines
-def make_pybullet_venv(env_id, n_envs, seed, env_kwargs=None,
-                       wrapper_kwargs=None,
-                       allow_early_resets=True,
-                       start_method=None,
-                       use_rank=True,
-                       use_subprocess=False):
+def make_pybullet_venv(
+    env_id,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_kwargs=None,
+    allow_early_resets=True,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
     """
     Create a wrapped, monitored VecEnv for Mujoco.
 
@@ -224,18 +302,25 @@ def make_pybullet_venv(env_id, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
-def make_dmc_venv(env_id, env_task, n_envs, seed, env_kwargs=None,
-                  wrapper_kwargs=None,
-                  allow_early_resets=True,
-                  start_method=None,
-                  use_rank=True,
-                  use_subprocess=False):
-    """
-    """
+def make_dmc_venv(
+    env_id,
+    env_task,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_kwargs=None,
+    allow_early_resets=True,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
+    """ """
+
     def make_env(rank):
         def _thunk():
             if use_rank:
@@ -257,8 +342,9 @@ def make_dmc_venv(env_id, env_task, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
 def make_robosuite_env(env_name, env_kwargs):
@@ -293,16 +379,22 @@ def make_robosuite_env(env_name, env_kwargs):
 
     return NormalizedBoxEnv(GymWrapper(env))
 
+
 # The point of this is to include custom wrappers before creating vectorized env
 # This is adapted from stable baselines
 
 
-def make_robosuite_venv(env_id, n_envs, seed, env_kwargs=None,
-                        wrapper_kwargs=None,
-                        allow_early_resets=True,
-                        start_method=None,
-                        use_rank=True,
-                        use_subprocess=False):
+def make_robosuite_venv(
+    env_id,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_kwargs=None,
+    allow_early_resets=True,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
     """
     Create a wrapped, monitored VecEnv for Mujoco.
 
@@ -346,15 +438,21 @@ def make_robosuite_venv(env_id, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
-def make_door_venv(env_id, n_envs, seed, env_kwargs=None,
-                   wrapper_kwargs=None,
-                   start_method=None,
-                   use_rank=True,
-                   use_subprocess=False):
+def make_door_venv(
+    env_id,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_kwargs=None,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
     """
     Create a wrapped, monitored VecEnv for Mujoco.
 
@@ -397,17 +495,23 @@ def make_door_venv(env_id, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
-def make_minigrid_venv(env_id, n_envs, seed, env_kwargs=None,
-                       wrapper_type='flat',
-                       wrapper_kwargs=None,
-                       allow_early_resets=True,
-                       start_method=None,
-                       use_rank=True,
-                       use_subprocess=False):
+def make_minigrid_venv(
+    env_id,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_type="flat",
+    wrapper_kwargs=None,
+    allow_early_resets=True,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
     """
     Create a wrapped, monitored VecEnv for Minigrid.
 
@@ -441,7 +545,7 @@ def make_minigrid_venv(env_id, n_envs, seed, env_kwargs=None,
             # env = Monitor(env, logger.get_dir() and os.path.join(logger.get_dir(), str(rank)),
             # allow_early_resets=allow_early_resets)
             env = apply_wrappers(env, **wrapper_kwargs)
-            if wrapper_type == 'flat':
+            if wrapper_type == "flat":
                 return FlatObsWrapper(env, **wrapper_kwargs)
             else:
                 return ImgObsWrapper(env, **wrapper_kwargs)
@@ -451,16 +555,22 @@ def make_minigrid_venv(env_id, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
-def make_pointmass_venv(env_id, n_envs, seed, env_kwargs=None,
-                        wrapper_kwargs=None,
-                        allow_early_resets=True,
-                        start_method=None,
-                        use_rank=True,
-                        use_subprocess=False):
+def make_pointmass_venv(
+    env_id,
+    n_envs,
+    seed,
+    env_kwargs=None,
+    wrapper_kwargs=None,
+    allow_early_resets=True,
+    start_method=None,
+    use_rank=True,
+    use_subprocess=False,
+):
     """
     Create a wrapped, monitored VecEnv for pointmass.
 
@@ -501,24 +611,29 @@ def make_pointmass_venv(env_id, n_envs, seed, env_kwargs=None,
     if n_envs == 1 or not use_subprocess:
         return DummyVecEnv([make_env(i) for i in range(n_envs)])
 
-    return SubprocVecEnv([make_env(i) for i in range(n_envs)],
-                         start_method=start_method)
+    return SubprocVecEnv(
+        [make_env(i) for i in range(n_envs)], start_method=start_method
+    )
 
 
 def apply_wrappers(env, reward_fn=None, stack_size=1, disc=None, demos=None, **kwargs):
     if stack_size > 1:
         env = FeatureStack(env, stack_size)
     if reward_fn is not None:
-        env = CustomReward(env, reward_fn, init_obs=kwargs['init_obs'],
-                           use_actions=kwargs['use_actions'])
+        env = CustomReward(
+            env,
+            reward_fn,
+            init_obs=kwargs["init_obs"],
+            use_actions=kwargs["use_actions"],
+        )
     if disc is not None:
-        if 'use_actions' in kwargs.keys():
-            env = DiscReward(env, disc, kwargs['use_actions'])
+        if "use_actions" in kwargs.keys():
+            env = DiscReward(env, disc, kwargs["use_actions"])
         else:
             env = DiscReward(env, disc)
-    
+
     if demos is not None:
-        env = PWILReward(env, demos, use_actions=kwargs['use_actions'])
+        env = PWILReward(env, demos, use_actions=kwargs["use_actions"])
 
     return env
 
@@ -528,6 +643,7 @@ def repack_vecenv(vecenv, disc, use_subprocess=False):
         def _thunk():
             env = apply_wrappers(e, disc=disc)
             return env
+
         return _thunk
 
     env_list = [repack_env(env) for env in vecenv.envs]
@@ -581,7 +697,7 @@ class CustomReward(gym.Wrapper):
             obs = next_obs
         else:
             obs = self.obs
-        info['gt_reward'] = gt_reward
+        info["gt_reward"] = gt_reward
         with torch.no_grad():
             # here either use observation or features from info dict
             # reward = self.reward_fn(torch.tensor(info["features"],
@@ -589,11 +705,19 @@ class CustomReward(gym.Wrapper):
             if self.use_actions:
                 if not isinstance(action, np.ndarray):
                     action = [action]
-                reward = self.reward_fn(torch.cat([torch.tensor(obs, dtype=torch.get_default_dtype()),
-                                                   torch.tensor(action, dtype=torch.get_default_dtype())], axis=-1))
+                reward = self.reward_fn(
+                    torch.cat(
+                        [
+                            torch.tensor(obs, dtype=torch.get_default_dtype()),
+                            torch.tensor(action, dtype=torch.get_default_dtype()),
+                        ],
+                        axis=-1,
+                    )
+                )
             else:
-                reward = self.reward_fn(torch.tensor(
-                    obs, dtype=torch.get_default_dtype()))
+                reward = self.reward_fn(
+                    torch.tensor(obs, dtype=torch.get_default_dtype())
+                )
             reward = reward.unsqueeze(0).cpu().numpy()
 
         self.obs = next_obs
@@ -604,15 +728,17 @@ class CustomReward(gym.Wrapper):
 class PWILRewarder(object):
     """Rewarder class to compute PWIL rewards."""
 
-    def __init__(self,
-                 demonstrations,
-                 subsampling,
-                 env,
-                 num_demonstrations=1,
-                 time_horizon=1000.,
-                 alpha=5.,
-                 beta=5.,
-                 observation_only=False):
+    def __init__(
+        self,
+        demonstrations,
+        subsampling,
+        env,
+        num_demonstrations=1,
+        time_horizon=1000.0,
+        alpha=5.0,
+        beta=5.0,
+        observation_only=False,
+    ):
 
         self.num_demonstrations = num_demonstrations
         self.time_horizon = time_horizon
@@ -631,26 +757,28 @@ class PWILRewarder(object):
         self.reward_scale = alpha
 
         self.observation_only = observation_only
-        self.demonstrations = self.filter_demonstrations(get_trajectory_list(demonstrations))
-        #self.vectorized_demonstrations = self.vectorize(self.demonstrations)
-        if self.observation_only:            
+        self.demonstrations = self.filter_demonstrations(
+            get_trajectory_list(demonstrations)
+        )
+        # self.vectorized_demonstrations = self.vectorize(self.demonstrations)
+        if self.observation_only:
             demos = np.concatenate(self.demonstrations)
-            self.vectorized_demonstrations = demos[:,:dim_obs]
+            self.vectorized_demonstrations = demos[:, :dim_obs]
         else:
             demos = np.concatenate(self.demonstrations)
-            self.vectorized_demonstrations = demos[:,:dim_obs+dim_act]
-        
+            self.vectorized_demonstrations = demos[:, : dim_obs + dim_act]
+
         self.scaler = self.get_scaler()
         self.reset()
 
     def filter_demonstrations(self, demonstrations):
         filtered_demonstrations = []
         np.random.shuffle(demonstrations)
-        for episode in demonstrations[:self.num_demonstrations]:
+        for episode in demonstrations[: self.num_demonstrations]:
             # Random episode start.
             random_offset = np.random.randint(0, self.subsampling)
             # Subsampling.
-            subsampled_episode = episode[random_offset::self.subsampling]
+            subsampled_episode = episode[random_offset :: self.subsampling]
             # Specify step types of demonstrations.
             # for transition in subsampled_episode:
             #     transition['step_type'] = dm_env.StepType.MID
@@ -686,15 +814,15 @@ class PWILRewarder(object):
         agent_atom = np.expand_dims(agent_atom, axis=0)  # add dim for scaler
         agent_atom = self.scaler.transform(agent_atom)[0]
 
-        # reset if list exhausted
-        if (len(self.expert_atoms) == 1):
+        # reset if list exhausted
+        if len(self.expert_atoms) == 1:
             self.reset()
-        
-        cost = 0.
+
+        cost = 0.0
         # As we match the expert's weights with the agent's weights, we might
         # raise an error due to float precision, we substract a small epsilon from
         # the agent's weights to prevent that.
-        weight = 1. / self.time_horizon - 1e-6
+        weight = 1.0 / self.time_horizon - 1e-6
         norms = np.linalg.norm(self.expert_atoms - agent_atom, axis=1)
 
         while weight > 0:
@@ -715,21 +843,21 @@ class PWILRewarder(object):
                 weight = 0
 
         reward = self.reward_scale * np.exp(-self.reward_sigma * cost)
-        return reward.astype('float32')
+        return reward.astype("float32")
 
     def compute_w2_dist_to_expert(self, trajectory):
         """Computes Wasserstein 2 distance to expert demonstrations."""
         self.reset()
         if self.observation_only:
-            trajectory = [t['observation'] for t in trajectory]
+            trajectory = [t["observation"] for t in trajectory]
         else:
-            trajectory = [np.concatenate([t['observation'], t['action']])
-                          for t in trajectory]
+            trajectory = [
+                np.concatenate([t["observation"], t["action"]]) for t in trajectory
+            ]
 
         trajectory = self.scaler.transform(trajectory)
-        trajectory_weights = 1./len(trajectory) * np.ones(len(trajectory))
-        cost_matrix = ot.dist(
-            trajectory, self.expert_atoms, metric='euclidean')
+        trajectory_weights = 1.0 / len(trajectory) * np.ones(len(trajectory))
+        cost_matrix = ot.dist(trajectory, self.expert_atoms, metric="euclidean")
         w2_dist = ot.emd2(trajectory_weights, self.expert_weights, cost_matrix)
         return w2_dist
 
@@ -741,9 +869,13 @@ class PWILReward(gym.Wrapper):
         self.use_actions = use_actions
         self.demos = demos
         self.obs = None
-        self.pwil = PWILRewarder(demos, subsampling=subsampling, env=env, 
-                                    num_demonstrations=n_demos, 
-                                    observation_only=(not use_actions))
+        self.pwil = PWILRewarder(
+            demos,
+            subsampling=subsampling,
+            env=env,
+            num_demonstrations=n_demos,
+            observation_only=(not use_actions),
+        )
 
     def step(self, action):
         # also, here, WANT state before applying action
@@ -752,7 +884,7 @@ class PWILReward(gym.Wrapper):
             obs = next_obs
         else:
             obs = self.obs
-        info['gt_reward'] = gt_reward
+        info["gt_reward"] = gt_reward
         if self.use_actions:
             reward = self.pwil.compute_reward(obs, action)
         else:
@@ -773,7 +905,7 @@ class DiscReward(gym.Wrapper):
 
     def step(self, action):
         next_obs, gt_reward, done, info = self.env.step(action)
-        info['gt_reward'] = gt_reward
+        info["gt_reward"] = gt_reward
         if self.obs is not None:
             obs_t = torch.tensor(self.obs, dtype=torch.get_default_dtype())
         else:
@@ -784,13 +916,13 @@ class DiscReward(gym.Wrapper):
 
         with torch.no_grad():
             # get discriminator reward and train on that
-            #print([p.norm(2) for p in self.discriminator.parameters()])
-            irl_reward = self.discriminator.get_reward(
-                obs_t, acs_t).cpu().numpy()
-            #irl_reward = self.discriminator.get_reward(obs_t, acs_t, next_obs_t).cpu().numpy()
+            # print([p.norm(2) for p in self.discriminator.parameters()])
+            irl_reward = self.discriminator.get_reward(obs_t, acs_t).cpu().numpy()
+            # irl_reward = self.discriminator.get_reward(obs_t, acs_t, next_obs_t).cpu().numpy()
         self.obs = next_obs
 
         return next_obs, irl_reward, done, info
+
 
 # pointmass dict extraction wrapper
 
@@ -798,19 +930,19 @@ class DiscReward(gym.Wrapper):
 class pmObsWrapper(gym.Wrapper):
     def __init__(self, env):
         self.env = env
-        self.env.observation_space = self.env.observation_space['observation']
+        self.env.observation_space = self.env.observation_space["observation"]
         print(self.env.observation_space)
         super().__init__(env=self.env)
 
     def reset(self):
         o = self.env.reset()
-        return np.concatenate([o['full_positional_state'], o['desired_goal']])
+        return np.concatenate([o["full_positional_state"], o["desired_goal"]])
 
     def step(self, action):
         o, r, d, i = self.env.step(action)
         # shaped reward
-        r_s = -np.linalg.norm(o['desired_goal'] - o['full_positional_state'])
-        o = np.concatenate([o['full_positional_state'], o['desired_goal']])
+        r_s = -np.linalg.norm(o["desired_goal"] - o["full_positional_state"])
+        o = np.concatenate([o["full_positional_state"], o["desired_goal"]])
         return o, r_s, d, i
 
 
@@ -821,10 +953,10 @@ class CustomImgObsWrapper(gym.core.ObservationWrapper):
 
     def __init__(self, env):
         super().__init__(env)
-        self.observation_space = env.observation_space.spaces['image']
+        self.observation_space = env.observation_space.spaces["image"]
 
     def observation(self, obs):
-        obs_t = np.transpose(obs['image'], (2, 1, 0))
+        obs_t = np.transpose(obs["image"], (2, 1, 0))
         print(obs_t.shape)
         return obs_t
 
@@ -832,6 +964,7 @@ class CustomImgObsWrapper(gym.core.ObservationWrapper):
 # ---------------------------------------------------------------------------
 # took these from rlkit implementation to normalized robosuite envs
 # ---------------------------------------------------------------------------
+
 
 class ProxyEnv(Env):
     def __init__(self, wrapped_env):
@@ -861,7 +994,7 @@ class ProxyEnv(Env):
             self.wrapped_env.terminate()
 
     def __getattr__(self, attr):
-        if attr == '_wrapped_env':
+        if attr == "_wrapped_env":
             raise AttributeError()
         return getattr(self._wrapped_env, attr)
 
@@ -878,7 +1011,7 @@ class ProxyEnv(Env):
         self.__dict__.update(state)
 
     def __str__(self):
-        return '{}({})'.format(type(self).__name__, self.wrapped_env)
+        return "{}({})".format(type(self).__name__, self.wrapped_env)
 
 
 class NormalizedBoxEnv(ProxyEnv):
@@ -888,11 +1021,11 @@ class NormalizedBoxEnv(ProxyEnv):
     """
 
     def __init__(
-            self,
-            env,
-            reward_scale=1.,
-            obs_mean=None,
-            obs_std=None,
+        self,
+        env,
+        reward_scale=1.0,
+        obs_mean=None,
+        obs_std=None,
     ):
         ProxyEnv.__init__(self, env)
         self._should_normalize = not (obs_mean is None and obs_std is None)
@@ -913,8 +1046,10 @@ class NormalizedBoxEnv(ProxyEnv):
 
     def estimate_obs_stats(self, obs_batch, override_values=False):
         if self._obs_mean is not None and not override_values:
-            raise Exception("Observation mean and std already set. To "
-                            "override, set override_values to True.")
+            raise Exception(
+                "Observation mean and std already set. To "
+                "override, set override_values to True."
+            )
         self._obs_mean = np.mean(obs_batch, axis=0)
         self._obs_std = np.std(obs_batch, axis=0)
 
@@ -924,7 +1059,7 @@ class NormalizedBoxEnv(ProxyEnv):
     def step(self, action):
         lb = self._wrapped_env.action_space.low
         ub = self._wrapped_env.action_space.high
-        scaled_action = lb + (action + 1.) * 0.5 * (ub - lb)
+        scaled_action = lb + (action + 1.0) * 0.5 * (ub - lb)
         scaled_action = np.clip(scaled_action, lb, ub)
 
         wrapped_step = self._wrapped_env.step(scaled_action)
