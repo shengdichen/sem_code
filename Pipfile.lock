@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "16aacae5c2bed82e8d7ed6d9aea1a49b8ed9cd9f78c591a8c219c6dcfab7cbef"
+            "sha256": "35cda484e74e744df624e9cfc703763f1a96e6664163c4ce742046161ec60ac3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -295,6 +295,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==3.4"
+        },
+        "imageio": {
+            "hashes": [
+                "sha256:9bdafe9c5a3d336a187f3f554f3e30bcdbf8a1d7d46f0e4d94e4a535adfb64c7",
+                "sha256:db7010cd10712518819a4187baf61b05988361ea20c23e829918727b27acb977"
+            ],
+            "index": "pypi",
+            "version": "==2.22.2"
         },
         "importlib-metadata": {
             "hashes": [
@@ -650,6 +658,7 @@
                 "sha256:fa768eff5f9f958270b081bb33581b4b569faabf8774726b283edb06617101dc",
                 "sha256:fac2d65901fb0fdf20363fbd345c01958a742f2dc62a8dd4495af66e3ff502a4"
             ],
+            "markers": "python_version >= '3.7'",
             "version": "==9.2.0"
         },
         "pluggy": {
