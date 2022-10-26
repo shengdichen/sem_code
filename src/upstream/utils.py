@@ -1,35 +1,17 @@
+import numpy as np
 import torch
 import torch.multiprocessing
-import torch.nn as nn
-import numpy as np
-from itertools import count
-from datetime import datetime
-from typing import Callable, Union
-import os
-import yaml
-
-# import doorenv
-import gym
 
 # from gym_minigrid.wrappers import *
 from stable_baselines3.common.callbacks import (
     BaseCallback,
-    CheckpointCallback,
-    CallbackList,
-    EvalCallback,
 )
-from stable_baselines3.common.utils import get_linear_fn, set_random_seed
-from stable_baselines3.common.utils import configure_logger
-from stable_baselines3 import PPO as PPOSB
-from stable_baselines3 import SAC as SACSB
-
-# from stable_baselines3.common.logger import logger
-# from stable_baselines3.common.monitor import Monitor
-
-from env_utils import make_venv, format_name_string, make_robosuite_env, pmObsWrapper
 from torch.utils.tensorboard import SummaryWriter
 
-from setuptools.command.saveopts import saveopts
+
+# import doorenv
+# from stable_baselines3.common.logger import logger
+# from stable_baselines3.common.monitor import Monitor
 
 # obsolete
 # def ppo_iter(mini_batch_size, obs, acs, returns, advantage):
