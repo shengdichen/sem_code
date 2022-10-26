@@ -1,10 +1,9 @@
-import torch
+import torch.autograd as autograd
 import torch.multiprocessing
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.autograd as autograd
-from torch.optim import Adam
 from torch.nn.utils import spectral_norm
+from torch.optim import Adam
 
 from models import MiniGridCNN
 from swil_utils import *
