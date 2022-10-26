@@ -1,22 +1,16 @@
-import numpy as np
-import re
-import glob
-import torch
-import itertools
-from itertools import count
-from datetime import datetime
+# from stable_baselines3.bench import Monitor
+# from stable_baselines3.common.logger import Logger
+# from stable_baselines3.common.monitor import Monitor
+import copy
 from collections import deque
-import os
 
 # import doorenv
 # import envs
 import gym
-from gym import Env
-from gym.spaces import Box
-from gym.spaces import Discrete
-import pybulletgym
-import pointMass
-import dm_control
+import numpy as np
+import ot
+import torch
+from sklearn import preprocessing
 
 # import dmc2gym
 # import gym_minigrid
@@ -25,15 +19,6 @@ import dm_control
 # from robosuite import load_controller_config
 # from gym_minigrid.wrappers import *
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
-
-# from stable_baselines3.bench import Monitor
-# from stable_baselines3.common.logger import Logger
-# from stable_baselines3.common.monitor import Monitor
-import copy
-
-import dm_env
-import ot
-from sklearn import preprocessing
 
 
 def get_trajectory_list(demos):
