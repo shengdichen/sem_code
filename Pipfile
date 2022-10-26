@@ -9,6 +9,7 @@ numpy = "*"
 gym = "*"
 stable-baselines3 = {extras = ["extra"], version = "*"}
 imageio = "*"
+POT = "*"
 scikit-learn = "*"
 
 [dev-packages]
