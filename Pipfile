@@ -8,6 +8,7 @@ pytest = "*"
 numpy = "*"
 gym = "*"
 stable-baselines3 = {extras = ["extra"], version = "*"}
+imageio = "*"
 
 [dev-packages]
 
