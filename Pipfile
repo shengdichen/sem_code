@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pytest = "*"
 numpy = "*"
 gym = "*"
 stable-baselines3 = {extras = ["extra"], version = "*"}
