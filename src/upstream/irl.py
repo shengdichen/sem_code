@@ -5,9 +5,13 @@ import torch.nn.functional as F
 from torch.nn.utils import spectral_norm
 from torch.optim import Adam
 
-from models import MiniGridCNN
-from swil_utils import *
-from utils import vampprior_kld_twolayervae, vampprior_kld_vae, gaussian_kld
+from src.upstream.models import MiniGridCNN
+from src.upstream.swil_utils import *
+from src.upstream.utils import (
+    vampprior_kld_twolayervae,
+    vampprior_kld_vae,
+    gaussian_kld,
+)
 
 
 class GAILDiscriminator(nn.Module):
