@@ -104,103 +104,114 @@ def save_expert_traj(
     env.close()
 
 
-def get_hist_data(demo, nr=40, canvas_size=200):
-    x = demo[:, 0]
-    y = demo[:, 1]
-    # Creating bins
-    x_min = np.min(x)
-    x_max = np.max(x)
+class Plotter:
+    def __init__(self):
+        pass  # intentionally left empty
 
-    y_min = np.min(y)
-    y_max = np.max(y)
+    @staticmethod
+    def plot_experts(n_timesteps=3e5, hist=True):
+        demo1 = Plotter.plot_traj(
+            "demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"
+        )
+        demo2 = Plotter.plot_traj(
+            "demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"
+        )
+        demo3 = Plotter.plot_traj(
+            "demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"
+        )
 
-    x_bins = np.linspace(0, canvas_size, nr)
-    y_bins = np.linspace(0, canvas_size, nr)
+        f = plt.figure(figsize=[15, 5])
+        ax1 = plt.subplot(131)
+        x, y, bins = Plotter.get_hist_data(demo1)
+        x_tgt = demo1[:, 2]
+        y_tgt = demo1[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
 
-    return x, y, [x_bins, y_bins]
+        plt.scatter(x_tgt, y_tgt, c="r")
+        ax2 = plt.subplot(132)
+        x, y, bins = Plotter.get_hist_data(demo2)
+        x_tgt = demo2[:, 2]
+        y_tgt = demo2[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
 
+        plt.scatter(x_tgt, y_tgt, c="r")
+        ax3 = plt.subplot(133)
+        x, y, bins = Plotter.get_hist_data(demo3)
+        x_tgt = demo3[:, 2]
+        y_tgt = demo3[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
+        plt.scatter(x_tgt, y_tgt, c="r")
 
-def plot_traj(fname, plot=False):
-    demo = np.load(fname)
+    @staticmethod
+    def plot_traj(fname, plot=False):
+        demo = np.load(fname)
 
-    # state visitation
-    if plot:
-        f1 = plt.figure()
-        plt.hist2d(x, y, bins=[x_bins, y_bins])
+        # state visitation
+        if plot:
+            f1 = plt.figure()
+            plt.hist2d(x, y, bins=[x_bins, y_bins])
 
-        plt.figure()
-        # action distribution
-        plt.hist(demo[:, 4])
+            plt.figure()
+            # action distribution
+            plt.hist(demo[:, 4])
 
-    # reward stats
-    num_episodes = np.sum(demo[:, -1])
-    rew_avg = np.mean(demo[:, -2])
-    rew_std = np.std(demo[:, -2])
-    rew_min = np.min(demo[:, -2])
-    rew_max = np.max(demo[:, -2])
+        # reward stats
+        num_episodes = np.sum(demo[:, -1])
+        rew_avg = np.mean(demo[:, -2])
+        rew_std = np.std(demo[:, -2])
+        rew_min = np.min(demo[:, -2])
+        rew_max = np.max(demo[:, -2])
 
-    ep_rew_list = []
-    ep_rew = 0
-    for sard in demo:
-        ep_rew += sard[-2]
-        if sard[-1] == 1:
-            ep_rew_list.append(ep_rew)
-            # print("episode_reward", ep_rew)
-            ep_rew = 0
+        ep_rew_list = []
+        ep_rew = 0
+        for sard in demo:
+            ep_rew += sard[-2]
+            if sard[-1] == 1:
+                ep_rew_list.append(ep_rew)
+                # print("episode_reward", ep_rew)
+                ep_rew = 0
 
-    ep_rew_avg = np.mean(ep_rew_list)
-    ep_rew_std = np.std(ep_rew_list)
-    ep_rew_min = np.min(ep_rew_list)
-    ep_rew_max = np.max(ep_rew_list)
+        ep_rew_avg = np.mean(ep_rew_list)
+        ep_rew_std = np.std(ep_rew_list)
+        ep_rew_min = np.min(ep_rew_list)
+        ep_rew_max = np.max(ep_rew_list)
 
-    print("Demo file stats")
-    print(fname)
-    print("-------------")
-    print("Number of episodes: ", num_episodes)
-    print("Reward stats: ", rew_avg, " +- ", rew_std)
-    print("Reward min / max", rew_min, " / ", rew_max)
-    print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
-    print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
-    print("-------------")
+        print("Demo file stats")
+        print(fname)
+        print("-------------")
+        print("Number of episodes: ", num_episodes)
+        print("Reward stats: ", rew_avg, " +- ", rew_std)
+        print("Reward min / max", rew_min, " / ", rew_max)
+        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
+        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
+        print("-------------")
 
-    return demo
+        return demo
 
+    @staticmethod
+    def get_hist_data(demo, nr=40, canvas_size=200):
+        x = demo[:, 0]
+        y = demo[:, 1]
+        # Creating bins
+        x_min = np.min(x)
+        x_max = np.max(x)
 
-def plot_experts(n_timesteps=3e5, hist=True):
-    demo1 = plot_traj("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy")
-    demo2 = plot_traj("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy")
-    demo3 = plot_traj("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy")
+        y_min = np.min(y)
+        y_max = np.max(y)
 
-    f = plt.figure(figsize=[15, 5])
-    ax1 = plt.subplot(131)
-    x, y, bins = get_hist_data(demo1)
-    x_tgt = demo1[:, 2]
-    y_tgt = demo1[:, 3]
-    if hist:
-        plt.hist2d(x, y, bins)
-    else:
-        plt.plot(x, y, "m-", alpha=0.3)
+        x_bins = np.linspace(0, canvas_size, nr)
+        y_bins = np.linspace(0, canvas_size, nr)
 
-    plt.scatter(x_tgt, y_tgt, c="r")
-    ax2 = plt.subplot(132)
-    x, y, bins = get_hist_data(demo2)
-    x_tgt = demo2[:, 2]
-    y_tgt = demo2[:, 3]
-    if hist:
-        plt.hist2d(x, y, bins)
-    else:
-        plt.plot(x, y, "m-", alpha=0.3)
-
-    plt.scatter(x_tgt, y_tgt, c="r")
-    ax3 = plt.subplot(133)
-    x, y, bins = get_hist_data(demo3)
-    x_tgt = demo3[:, 2]
-    y_tgt = demo3[:, 3]
-    if hist:
-        plt.hist2d(x, y, bins)
-    else:
-        plt.plot(x, y, "m-", alpha=0.3)
-    plt.scatter(x_tgt, y_tgt, c="r")
+        return x, y, [x_bins, y_bins]
 
 
 def load_expert_demos(n_timesteps=3e5):

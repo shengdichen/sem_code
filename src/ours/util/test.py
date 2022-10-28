@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from stable_baselines3 import PPO as PPOSB
 
 from src.ours.env.env import MovePoint
-from src.ours.util.helper import get_hist_data
+from src.ours.util.helper import Plotter
 
 
 def test_policy(
@@ -39,7 +39,7 @@ def test_policy(
 
     print(rm + " mean / std cumrew: ", np.mean(cum_rew), np.std(cum_rew))
     obsa = np.stack(obs_list)
-    x, y, bins = get_hist_data(obsa)
+    x, y, bins = Plotter.get_hist_data(obsa)
 
     fig = plt.figure()
     plt.title(rm)
