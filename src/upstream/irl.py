@@ -1,3 +1,4 @@
+import numpy as np
 import torch.autograd as autograd
 import torch.multiprocessing
 import torch.nn as nn
