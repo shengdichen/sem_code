@@ -60,48 +60,65 @@ class RewardCheckpointCallback(BaseCallback):
         pass
 
 
-def save_expert_traj(
-    env,
-    model,
-    nr_trajectories=10,
-    render=False,
-    demo_dir="./demos",
-    filename="exp",
-    deterministic=False,
-):
-    num_steps = 0
-    expert_traj = []
+class ExpertManager:
+    @staticmethod
+    def save_expert_traj(
+        env,
+        model,
+        nr_trajectories=10,
+        render=False,
+        demo_dir="./demos",
+        filename="exp",
+        deterministic=False,
+    ):
+        num_steps = 0
+        expert_traj = []
 
-    for i_episode in count():
-        ob = env.reset()
-        done = False
-        total_reward = 0
-        episode_traj = []
+        for i_episode in count():
+            ob = env.reset()
+            done = False
+            total_reward = 0
+            episode_traj = []
 
-        while not done:
-            ac, _states = model.predict(ob, deterministic=deterministic)
-            next_ob, reward, done, _ = env.step(ac)
+            while not done:
+                ac, _states = model.predict(ob, deterministic=deterministic)
+                next_ob, reward, done, _ = env.step(ac)
 
-            ob = next_ob
-            total_reward += reward
-            stacked_vec = np.hstack([np.squeeze(ob), np.squeeze(ac), reward, done])
-            expert_traj.append(stacked_vec)
-            episode_traj.append(stacked_vec)
-            num_steps += 1
-            if render:
-                env.render()
+                ob = next_ob
+                total_reward += reward
+                stacked_vec = np.hstack([np.squeeze(ob), np.squeeze(ac), reward, done])
+                expert_traj.append(stacked_vec)
+                episode_traj.append(stacked_vec)
+                num_steps += 1
+                if render:
+                    env.render()
 
-        print("Episode reward: ", total_reward)
+            print("Episode reward: ", total_reward)
 
-        if i_episode > nr_trajectories:
-            break
+            if i_episode > nr_trajectories:
+                break
 
-    expert_traj = np.stack(expert_traj)
-    if not os.path.exists(demo_dir):
-        os.mkdir(demo_dir)
-    np.save(os.path.join(demo_dir, filename + "_expert_traj.npy"), expert_traj)
+        expert_traj = np.stack(expert_traj)
+        if not os.path.exists(demo_dir):
+            os.mkdir(demo_dir)
+        np.save(os.path.join(demo_dir, filename + "_expert_traj.npy"), expert_traj)
 
-    env.close()
+        env.close()
+
+    @staticmethod
+    def load_expert_demos(n_timesteps=3e5):
+        expert_demos = []
+        expert_demos.append(
+            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy")
+        )
+        expert_demos.append(
+            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy")
+        )
+        expert_demos.append(
+            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy")
+        )
+
+        return expert_demos
 
 
 class Plotter:
@@ -212,21 +229,6 @@ class Plotter:
         y_bins = np.linspace(0, canvas_size, nr)
 
         return x, y, [x_bins, y_bins]
-
-
-def load_expert_demos(n_timesteps=3e5):
-    expert_demos = []
-    expert_demos.append(
-        np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy")
-    )
-    expert_demos.append(
-        np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy")
-    )
-    expert_demos.append(
-        np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy")
-    )
-
-    return expert_demos
 
 
 def plot_reward(discriminator, plot_value=False, env=None):

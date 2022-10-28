@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import kwargs
-from src.ours.util.helper import load_expert_demos, plot_reward
+from src.ours.util.helper import ExpertManager, plot_reward
 from src.ours.util.test import test_policy
 from src.ours.util.train import train_pwil
 from src.upstream.env_utils import PWILReward
@@ -11,7 +11,7 @@ from src.upstream.env_utils import PWILReward
 # train imitation learning / IRL policy
 train_pwil_ = True
 if train_pwil_:
-    demos = load_expert_demos(5e5)
+    demos = ExpertManager.load_expert_demos(5e5)
     flat_demos = [item for sublist in demos for item in sublist]
     model_pwil, plot = train_pwil(
         flat_demos,
@@ -35,7 +35,7 @@ if train_pwil_:
 
 # plot grid of PWIL rewards
 plots = []
-demos = load_expert_demos(5e5)
+demos = ExpertManager.load_expert_demos(5e5)
 flat_demos_0 = [item for sublist in demos for item in sublist]
 flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
 flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
