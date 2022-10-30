@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import ExpertManager, plot_reward
-from src.ours.util.test import test_policy
+from src.ours.util.test import PolicyTester
 from src.ours.util.train import train_pwil
 from src.upstream.env_utils import PWILReward
 
@@ -33,7 +33,7 @@ class TrainerPwil:
                 model_dir="./models",
                 save_deterministic=False,
             )
-            test_policy("", model=model_pwil)
+            PolicyTester.test_policy("", model=model_pwil)
             im = Image.fromarray(plot)
             im.save("pwil.png")
             plt.figure()
