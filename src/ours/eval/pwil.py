@@ -2,7 +2,7 @@ import PIL.Image as Image
 import matplotlib.pyplot as plt
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import kwargs
+from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import ExpertManager, plot_reward
 from src.ours.util.test import test_policy
 from src.ours.util.train import train_pwil
@@ -10,8 +10,10 @@ from src.upstream.env_utils import PWILReward
 
 
 class TrainerPwil:
-    @staticmethod
-    def training():
+    def __init__(self):
+        self._training_param = TrainingParam()
+
+    def training(self):
         # train imitation learning / IRL policy
         train_pwil_ = True
         if train_pwil_:
@@ -26,7 +28,7 @@ class TrainerPwil:
                 n_targets=2,
                 shift_x=0,
                 shift_y=0,
-                kwargs=kwargs,
+                kwargs=self._training_param._kwargs,
                 fname="pwil_0",
                 model_dir="./models",
                 save_deterministic=False,
