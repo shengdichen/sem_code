@@ -18,7 +18,7 @@ from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
-    plot_reward,
+    RewardPlotter,
     RewardCheckpointCallback,
 )
 from src.upstream.env_utils import PWILReward, repack_vecenv
@@ -95,7 +95,7 @@ class Training:
             use_actions=use_actions,
         )
 
-        plot = plot_reward(discriminator=None, env=env)
+        plot = RewardPlotter.plot_reward(discriminator=None, env=env)
 
         testing_env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
@@ -242,9 +242,9 @@ class Training:
         # if we're training with the learned reward, show what we're training with
         if not opt.train_discriminator:
             discriminator.load_state_dict(torch.load(opt.irl_reward_model))
-            plot_reward(discriminator)
+            RewardPlotter.plot_reward(discriminator)
             if opt.discriminator_type == "airl":
-                plot_reward(discriminator, plot_value=True)
+                RewardPlotter.plot_reward(discriminator, plot_value=True)
 
         # and wrap environment with irl reward
         env = repack_vecenv(env, disc=discriminator)
@@ -363,14 +363,14 @@ class Training:
                     if i_update % 1000 == 0:
                         print("Reward at iteration: ", i_update)
                         if opt.discriminator_type == "airl":
-                            plot_reward(discriminator, plot_value=True)
+                            RewardPlotter.plot_reward(discriminator, plot_value=True)
 
                 torch.save(
                     discriminator.state_dict(), os.path.join(log_path, "disc.th")
                 )
-                plot_list.append(plot_reward(discriminator))
+                plot_list.append(RewardPlotter.plot_reward(discriminator))
                 if opt.discriminator_type == "airl":
-                    plot_reward(discriminator, plot_value=True)
+                    RewardPlotter.plot_reward(discriminator, plot_value=True)
 
         plt.plot(losses)
 
