@@ -14,6 +14,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
+from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -33,8 +34,13 @@ from src.upstream.utils import CustomCallback, prepare_update_airl
 
 
 class Training:
-    @staticmethod
+    def __init__(self, training_param: TrainingParam):
+        self._training_param = training_param
+        self._log_path = self._training_param._log_path
+        self._kwargs = self._training_param._kwargs
+
     def train_expert(
+        self,
         n_timesteps,
         n_targets,
         shift_x,
@@ -45,7 +51,9 @@ class Training:
         save_deterministic=False,
     ):
         env = MovePoint(n_targets, shift_x, shift_y)
-        model = PPOSB("MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=log_path)
+        model = PPOSB(
+            "MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=self._log_path
+        )
         model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
         # save model
@@ -64,8 +72,8 @@ class Training:
 
         return model
 
-    @staticmethod
     def train_pwil(
+        self,
         demos,
         n_demos,
         subsampling,
@@ -90,12 +98,14 @@ class Training:
         plot = plot_reward(discriminator=None, env=env)
 
         testing_env = MovePoint(n_targets, shift_x, shift_y)
-        model = PPOSB("MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=log_path)
+        model = PPOSB(
+            "MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=self._log_path
+        )
 
         eval_callback = EvalCallback(
             testing_env,
-            best_model_save_path=log_path,
-            log_path=log_path,
+            best_model_save_path=self._log_path,
+            log_path=self._log_path,
             eval_freq=10000,
             deterministic=True,
             render=False,
@@ -103,7 +113,11 @@ class Training:
 
         # eval_callback.init_callback(ppo_dict[k])
         callback_list = CallbackList(
-            [CustomCallback(id="", log_path=log_path), eval_callback, TqdmCallback()]
+            [
+                CustomCallback(id="", log_path=self._log_path),
+                eval_callback,
+                TqdmCallback(),
+            ]
         )
 
         model.learn(total_timesteps=n_timesteps, callback=callback_list)
@@ -124,8 +138,7 @@ class Training:
 
         return model, plot
 
-    @staticmethod
-    def train_irl(opt, opt_policy, seed):
+    def train_irl(self, opt, opt_policy, seed):
         # create log dir
         if opt.irm_coeff > 0 and opt.train_discriminator:
             log_suffix = "irm_" + str(opt.irm_coeff)
@@ -237,7 +250,7 @@ class Training:
         env = repack_vecenv(env, disc=discriminator)
 
         # define imitation policy with respective callbacks
-        policy = PPOSB("MlpPolicy", env, **kwargs, tensorboard_log=log_path)
+        policy = PPOSB("MlpPolicy", env, **self._kwargs, tensorboard_log=log_path)
         new_logger = configure_logger(tensorboard_log=log_path)
         policy.ep_info_buffer = deque(maxlen=100)
         policy.ep_success_buffer = deque(maxlen=100)
