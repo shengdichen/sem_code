@@ -2,7 +2,7 @@ from argparse import Namespace
 
 import imageio
 
-from src.ours.util.test import test_policy
+from src.ours.util.test import PolicyTester
 from src.ours.util.train import train_irl
 
 
@@ -101,10 +101,10 @@ class TrainingIrl:
 
         train_irl(self._opt, self._opt_policy, seed=self._seed)
 
-        fig = test_policy(
+        fig = PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_233027/best_model.zip", rm="ERM"
         )
 
-        fig = test_policy(
+        fig = PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_234849/best_model.zip", rm="IRM"
         )
