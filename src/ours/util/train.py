@@ -138,7 +138,7 @@ class Training:
 
         return model, plot
 
-    def train_irl(self, opt, opt_policy, seed):
+    def train_irl(self, opt, opt_policy, seed, env_kwargs):
         # create log dir
         if opt.irm_coeff > 0 and opt.train_discriminator:
             log_suffix = "irm_" + str(opt.irm_coeff)
