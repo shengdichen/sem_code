@@ -14,8 +14,12 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.util.helper import TqdmCallback, ExpertManager, plot_reward, \
-    RewardCheckpointCallback
+from src.ours.util.helper import (
+    TqdmCallback,
+    ExpertManager,
+    plot_reward,
+    RewardCheckpointCallback,
+)
 from src.upstream.env_utils import PWILReward, repack_vecenv
 from src.upstream.irl import (
     AIRLDiscriminator,
