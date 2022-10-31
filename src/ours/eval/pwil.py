@@ -5,13 +5,14 @@ from src.ours.env.env import MovePoint
 from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import ExpertManager, plot_reward
 from src.ours.util.test import PolicyTester
-from src.ours.util.train import train_pwil
+from src.ours.util.train import Training
 from src.upstream.env_utils import PWILReward
 
 
 class TrainerPwil:
     def __init__(self):
         self._training_param = TrainingParam()
+        self._training = Training(self._training_param)
 
     def training(self):
         # train imitation learning / IRL policy
@@ -19,7 +20,7 @@ class TrainerPwil:
         if train_pwil_:
             demos = ExpertManager.load_expert_demos(5e5)
             flat_demos = [item for sublist in demos for item in sublist]
-            model_pwil, plot = train_pwil(
+            model_pwil, plot = self._training.train_pwil(
                 flat_demos,
                 n_demos=3,
                 subsampling=10,
