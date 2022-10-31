@@ -198,16 +198,11 @@ class ExpertManager:
 
     @staticmethod
     def load_expert_demos(n_timesteps=3e5):
-        expert_demos = []
-        expert_demos.append(
-            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy")
-        )
-        expert_demos.append(
-            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy")
-        )
-        expert_demos.append(
-            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy")
-        )
+        expert_demos = [
+            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"),
+            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"),
+            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"),
+        ]
 
         return expert_demos
 
