@@ -25,6 +25,18 @@ class TrainingParam:
             #'max_grad_norm':0.5
         }
 
+    @property
+    def seed(self):
+        return self._seed
+
+    @property
+    def log_path(self):
+        return self._log_path
+
+    @property
+    def kwargs(self):
+        return self._kwargs
+
     def propagate_seed(self):
         torch.manual_seed(self._seed)
         np.random.seed(self._seed)
