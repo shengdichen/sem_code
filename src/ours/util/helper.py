@@ -119,9 +119,7 @@ class TqdmCallback(BaseCallback):
 
 
 class RewardCheckpointCallback(BaseCallback):
-    def __init__(
-        self, discriminator, verbose=0, id="", plot_value=False, log_path=None
-    ):
+    def __init__(self, discriminator, verbose=0, plot_value=False, log_path=None):
         super(RewardCheckpointCallback, self).__init__(verbose)
         self.discriminator = discriminator
         self.log_path = log_path
