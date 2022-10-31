@@ -7,7 +7,7 @@ import torch
 class TrainingParam:
     def __init__(self):
         self._seed = 42
-        self.propagate_seed()
+        self._propagate_seed()
 
         self._log_path = "./pointmaze_results"
 
@@ -37,7 +37,7 @@ class TrainingParam:
     def kwargs(self):
         return self._kwargs
 
-    def propagate_seed(self):
+    def _propagate_seed(self):
         torch.manual_seed(self._seed)
         np.random.seed(self._seed)
         random.seed(self._seed)
