@@ -69,30 +69,31 @@ class RewardPlotter:
 
         fig = plt.gcf()
         fig.set_size_inches(24, 5)
-        ax1 = plt.subplot(141)
+        plt.subplot(141)
         plt.pcolor(x, y, r_1.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
-        ax1 = plt.subplot(142)
+        plt.subplot(142)
         plt.pcolor(x, y, r_gt_1)
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
-        ax3 = plt.subplot(143)
+        plt.subplot(143)
         plt.pcolor(x, y, r_2.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.title(title)
         plt.axis("equal")
-        ax4 = plt.subplot(144)
+        plt.subplot(144)
         plt.pcolor(x, y, r_gt_2)
         plt.colorbar()
         plt.title(title)
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.axis("equal")
+
         fig.canvas.draw()
         data = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
         image_from_plot = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
@@ -229,8 +230,8 @@ class Plotter:
             "demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"
         )
 
-        f = plt.figure(figsize=[15, 5])
-        ax1 = plt.subplot(131)
+        plt.figure(figsize=[15, 5])
+        plt.subplot(131)
         x, y, bins = Plotter.get_hist_data(demo1)
         x_tgt = demo1[:, 2]
         y_tgt = demo1[:, 3]
@@ -238,9 +239,8 @@ class Plotter:
             plt.hist2d(x, y, bins)
         else:
             plt.plot(x, y, "m-", alpha=0.3)
-
         plt.scatter(x_tgt, y_tgt, c="r")
-        ax2 = plt.subplot(132)
+        plt.subplot(132)
         x, y, bins = Plotter.get_hist_data(demo2)
         x_tgt = demo2[:, 2]
         y_tgt = demo2[:, 3]
@@ -248,9 +248,8 @@ class Plotter:
             plt.hist2d(x, y, bins)
         else:
             plt.plot(x, y, "m-", alpha=0.3)
-
         plt.scatter(x_tgt, y_tgt, c="r")
-        ax3 = plt.subplot(133)
+        plt.subplot(133)
         x, y, bins = Plotter.get_hist_data(demo3)
         x_tgt = demo3[:, 2]
         y_tgt = demo3[:, 3]
@@ -266,7 +265,7 @@ class Plotter:
 
         # state visitation
         if plot:
-            f1 = plt.figure()
+            plt.figure()
             plt.hist2d(x, y, bins=[x_bins, y_bins])
 
             plt.figure()
