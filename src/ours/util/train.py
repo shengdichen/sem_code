@@ -14,8 +14,8 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.util.helper import TqdmCallback, save_expert_traj, plot_reward, \
-    load_expert_demos, RewardCheckpointCallback
+from src.ours.util.helper import TqdmCallback, ExpertManager, plot_reward, \
+    RewardCheckpointCallback
 from src.upstream.env_utils import PWILReward, repack_vecenv
 from src.upstream.irl import (
     AIRLDiscriminator,
@@ -47,7 +47,7 @@ def train_expert(
         os.mkdir(model_dir)
 
     model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
-    save_expert_traj(
+    ExpertManager.save_expert_traj(
         env,
         model,
         nr_trajectories=10,
@@ -107,7 +107,7 @@ def train_pwil(
         os.mkdir(model_dir)
 
     model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
-    save_expert_traj(
+    ExpertManager.save_expert_traj(
         env,
         model,
         nr_trajectories=10,
@@ -147,7 +147,7 @@ def train_irl(opt, opt_policy, seed):
     # define environments and load expert demos
     env = make_vec_env(MovePoint, n_envs=1, env_kwargs=env_kwargs)
     testing_env = MovePoint(2, shift_x=0, shift_y=0)
-    expert_demos = load_expert_demos(opt.expert_demo_ts)
+    expert_demos = ExpertManager.load_expert_demos(opt.expert_demo_ts)
 
     # define discriminator
     if opt.discriminator_type == "airl":
