@@ -35,13 +35,11 @@ class PolicyTester:
                 print(rm + " rewards: ", rew)
                 cum_rew.append(rew)
 
-                rew_erm = 0
-
             obs_list.append(obs)
 
         print(rm + " mean / std cumrew: ", np.mean(cum_rew), np.std(cum_rew))
         obsa = np.stack(obs_list)
-        x, y, bins = Plotter.get_hist_data(obsa)
+        Plotter.get_hist_data(obsa)
 
         fig = plt.figure()
         plt.title(rm)
