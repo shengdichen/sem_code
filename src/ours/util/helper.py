@@ -69,24 +69,28 @@ class RewardPlotter:
 
         fig = plt.gcf()
         fig.set_size_inches(24, 5)
+
         plt.subplot(141)
         plt.pcolor(x, y, r_1.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(142)
         plt.pcolor(x, y, r_gt_1)
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(143)
         plt.pcolor(x, y, r_2.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(144)
         plt.pcolor(x, y, r_gt_2)
         plt.colorbar()
@@ -224,6 +228,7 @@ class Plotter:
         )
 
         plt.figure(figsize=[15, 5])
+
         plt.subplot(131)
         x, y, bins = Plotter.get_hist_data(demo1)
         x_tgt = demo1[:, 2]
@@ -233,6 +238,7 @@ class Plotter:
         else:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
+
         plt.subplot(132)
         x, y, bins = Plotter.get_hist_data(demo2)
         x_tgt = demo2[:, 2]
@@ -242,6 +248,7 @@ class Plotter:
         else:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
+
         plt.subplot(133)
         x, y, bins = Plotter.get_hist_data(demo3)
         x_tgt = demo3[:, 2]
