@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import TrainingParam
-from src.ours.util.helper import ExpertManager, plot_reward
+from src.ours.util.helper import ExpertManager, RewardPlotter
 from src.ours.util.test import PolicyTester
 from src.ours.util.train import Training
 from src.upstream.env_utils import PWILReward
@@ -60,7 +60,7 @@ class TrainerPwil:
                         subsampling=ss,
                         use_actions=False,
                     )
-                    plots.append(plot_reward(discriminator=None, env=env))
+                    plots.append(RewardPlotter.plot_reward(discriminator=None, env=env))
                     im = Image.fromarray(plot)
                     im.save(
                         "pwil_plots/pwil_ss{}_demoidx{}_n_demos{}.png".format(
