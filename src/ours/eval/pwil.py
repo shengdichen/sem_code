@@ -29,7 +29,7 @@ class TrainerPwil:
                 n_targets=2,
                 shift_x=0,
                 shift_y=0,
-                kwargs=self._training_param._kwargs,
+                kwargs=self._training_param.kwargs,
                 fname="pwil_0",
                 model_dir="./models",
                 save_deterministic=False,
