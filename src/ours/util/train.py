@@ -259,7 +259,7 @@ class Training:
         if opt.resume is not None:
             policy.load(os.path.join(opt.resume, "best_model.zip"), env)
 
-        ## create callbacks to evaluate and plot ground truth reward
+        # create callbacks to evaluate and plot ground truth reward
         if opt.train_discriminator:
             callback_on_best = RewardCheckpointCallback(
                 discriminator=discriminator,
@@ -290,7 +290,7 @@ class Training:
         plot_list = []
 
         for i_update in tqdm(range(opt.n_irl_episodes), "episodes"):
-            ## collect rollout buffer
+            # collect rollout buffer
             if policy._last_obs is None:
                 policy._last_obs = env.reset()
             policy.collect_rollouts(
@@ -302,7 +302,7 @@ class Training:
 
             total_numsteps = total_numsteps + opt_policy.n_steps
 
-            ## train policy
+            # train policy
             policy.train()
             # different buffer spec in SB
             policy.logger.dump(total_numsteps)
