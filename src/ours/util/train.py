@@ -315,8 +315,8 @@ class Training:
                     policy_action_batch = transitions.actions
 
                     bce_losses = {}
-                    policy_estimates = {}
-                    expert_estimates = {}
+                    # policy_estimates = {}
+                    # expert_estimates = {}
                     grad_pens = {}
                     for i, demo in enumerate(expert_demos):
                         update_dict = prepare_update_airl(
@@ -336,8 +336,12 @@ class Training:
 
                     bce_loss_all = torch.stack(list(bce_losses.values())).mean()
                     losses.append(bce_loss_all.detach().numpy())
-                    # policy_estimates_all = torch.stack(list(policy_estimates.values())).mean()
-                    # expert_estimates_all = torch.stack(list(expert_estimates.values())).mean()
+                    # policy_estimates_all = torch.stack(
+                    #     list(policy_estimates.values())
+                    # ).mean()
+                    # expert_estimates_all = torch.stack(
+                    #     list(expert_estimates.values())
+                    # ).mean()
                     grad_pen_all = torch.stack(list(grad_pens.values())).mean()
                     loss = bce_loss_all + opt.irm_coeff * grad_pen_all
                     # TODO: is this necessary?
@@ -346,8 +350,12 @@ class Training:
 
                     discriminator.update(loss)
 
-                    # summary_writer.add_scalar('IRL/AIRL_policy_estimate', policy_estimates_all, i_update)
-                    # summary_writer.add_scalar('IRL/'AIRL_expert_estimate', expert_estimates_all, i_update)
+                    # summary_writer.add_scalar(
+                    #     "IRL/AIRL_policy_estimate", policy_estimates_all, i_update
+                    # )
+                    # summary_writer.add_scalar(
+                    #     "IRL/AIRL_expert_estimate", expert_estimates_all, i_update
+                    # )
                     summary_writer.add_scalar(
                         "IRL/" + opt.discriminator_type + "_bceloss",
                         bce_loss_all,
