@@ -309,14 +309,15 @@ class Plotter:
     def get_hist_data(demo, nr=40, canvas_size=200):
         x = demo[:, 0]
         y = demo[:, 1]
-        # Creating bins
-        x_min = np.min(x)
-        x_max = np.max(x)
-
-        y_min = np.min(y)
-        y_max = np.max(y)
-
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
         return x, y, [x_bins, y_bins]
+
+    @staticmethod
+    def get_np_min_max(vec: np.ndarray):
+        return np.min(vec), np.max(vec)
+
+    @staticmethod
+    def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
+        return Plotter.get_np_min_max(vec_x), Plotter.get_np_min_max(vec_y)
