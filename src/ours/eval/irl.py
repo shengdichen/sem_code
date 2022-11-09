@@ -76,7 +76,7 @@ class TrainingIrl:
 
     def train_various_irl(self):
         self._opt.irm_coeff = 100.0
-        plots, best_rew_plots, best_val_plots = self._training.train_irl(
+        self._training.train_irl(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
@@ -115,10 +115,10 @@ class TrainingIrl:
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
-        fig = PolicyTester.test_policy(
+        PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_233027/best_model.zip", rm="ERM"
         )
 
-        fig = PolicyTester.test_policy(
+        PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_234849/best_model.zip", rm="IRM"
         )
