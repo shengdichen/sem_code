@@ -27,6 +27,7 @@ class TrainerExpert:
             )
             Plotter.plot_experts(n_timesteps)
 
-    def plot_experts(self):
+    @staticmethod
+    def plot_experts():
         Plotter.plot_experts(5e5)
         Plotter.plot_experts(5e5, hist=False)

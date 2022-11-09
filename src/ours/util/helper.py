@@ -69,24 +69,28 @@ class RewardPlotter:
 
         fig = plt.gcf()
         fig.set_size_inches(24, 5)
+
         plt.subplot(141)
         plt.pcolor(x, y, r_1.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(142)
         plt.pcolor(x, y, r_gt_1)
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(143)
         plt.pcolor(x, y, r_2.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.title(title)
         plt.axis("equal")
+
         plt.subplot(144)
         plt.pcolor(x, y, r_gt_2)
         plt.colorbar()
@@ -119,9 +123,7 @@ class TqdmCallback(BaseCallback):
 
 
 class RewardCheckpointCallback(BaseCallback):
-    def __init__(
-        self, discriminator, verbose=0, id="", plot_value=False, log_path=None
-    ):
+    def __init__(self, discriminator, verbose=0, plot_value=False, log_path=None):
         super(RewardCheckpointCallback, self).__init__(verbose)
         self.discriminator = discriminator
         self.log_path = log_path
@@ -200,16 +202,11 @@ class ExpertManager:
 
     @staticmethod
     def load_expert_demos(n_timesteps=3e5):
-        expert_demos = []
-        expert_demos.append(
-            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy")
-        )
-        expert_demos.append(
-            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy")
-        )
-        expert_demos.append(
-            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy")
-        )
+        expert_demos = [
+            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"),
+            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"),
+            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"),
+        ]
 
         return expert_demos
 
@@ -231,6 +228,7 @@ class Plotter:
         )
 
         plt.figure(figsize=[15, 5])
+
         plt.subplot(131)
         x, y, bins = Plotter.get_hist_data(demo1)
         x_tgt = demo1[:, 2]
@@ -240,6 +238,7 @@ class Plotter:
         else:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
+
         plt.subplot(132)
         x, y, bins = Plotter.get_hist_data(demo2)
         x_tgt = demo2[:, 2]
@@ -249,6 +248,7 @@ class Plotter:
         else:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
+
         plt.subplot(133)
         x, y, bins = Plotter.get_hist_data(demo3)
         x_tgt = demo3[:, 2]
@@ -309,14 +309,15 @@ class Plotter:
     def get_hist_data(demo, nr=40, canvas_size=200):
         x = demo[:, 0]
         y = demo[:, 1]
-        # Creating bins
-        x_min = np.min(x)
-        x_max = np.max(x)
-
-        y_min = np.min(y)
-        y_max = np.max(y)
-
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
         return x, y, [x_bins, y_bins]
+
+    @staticmethod
+    def get_np_min_max(vec: np.ndarray):
+        return np.min(vec), np.max(vec)
+
+    @staticmethod
+    def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
+        return Plotter.get_np_min_max(vec_x), Plotter.get_np_min_max(vec_y)

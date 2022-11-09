@@ -22,7 +22,7 @@ class TrainingParam:
             "clip_range_vf": None,
             "ent_coef": 0.0,
             "vf_coef": 0.5,
-            #'max_grad_norm':0.5
+            # "max_grad_norm":0.5
         }
 
     def propagate_seed(self):
