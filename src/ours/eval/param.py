@@ -7,7 +7,7 @@ import torch
 class TrainingParam:
     def __init__(self):
         self._seed = 42
-        self.propagate_seed()
+        self._propagate_seed()
 
         self._log_path = "./pointmaze_results"
 
@@ -25,7 +25,19 @@ class TrainingParam:
             # "max_grad_norm":0.5
         }
 
-    def propagate_seed(self):
+    @property
+    def seed(self):
+        return self._seed
+
+    @property
+    def log_path(self):
+        return self._log_path
+
+    @property
+    def kwargs(self):
+        return self._kwargs
+
+    def _propagate_seed(self):
         torch.manual_seed(self._seed)
         np.random.seed(self._seed)
         random.seed(self._seed)
