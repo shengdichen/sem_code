@@ -11,7 +11,7 @@ stable-baselines3 = {extras = ["extra"], version = "*"}
 imageio = "*"
 POT = "*"
 scikit-learn = "*"
-opencv-python = "*"
+opencv-contrib-python = "*"
 
 [dev-packages]
 
