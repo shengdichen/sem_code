@@ -1,4 +1,4 @@
-import cv2
+from src.ours.env.icon import Icon
 
 
 class Point(object):
@@ -32,18 +32,14 @@ class Point(object):
 class Agent(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
         super(Agent, self).__init__(name, x_max, x_min, y_max, y_min)
-        self.icon = cv2.imread("agent.png") / 255.0
-        # self.icon = cv2.circle(image, center_coordinates, radius, color, thickness)
 
-        self.icon_w = 5
-        self.icon_h = 5
-        self.icon = cv2.resize(self.icon, (self.icon_h, self.icon_w))
+        self.icon_w, self.icon_h = 5, 5
+        self.icon = Icon("agent.png", (self.icon_w, self.icon_h)).icon
 
 
 class Target(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
         super(Target, self).__init__(name, x_max, x_min, y_max, y_min)
-        self.icon = cv2.imread("star.png") / 255.0
-        self.icon_w = 4
-        self.icon_h = 4
-        self.icon = cv2.resize(self.icon, (self.icon_h, self.icon_w))
+
+        self.icon_w, self.icon_h = 4, 4
+        self.icon = Icon("star.png", (self.icon_w, self.icon_h)).icon
