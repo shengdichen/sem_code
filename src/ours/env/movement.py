@@ -2,19 +2,14 @@ from src.ours.env.icon import Icon
 
 
 class Point(object):
-    def __init__(self, x_max, x_min, y_max, y_min, icon_w, icon_h):
+    def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x = 0
         self.y = 0
+
         self.x_min = x_min
-        self.x_max = x_max
         self.y_min = y_min
-        self.y_max = y_max
-
-        self.icon_w = icon_w
-        self.icon_h = icon_h
-
-        self.x_max_with_icon = self.x_max - self.icon_w
-        self.y_max_with_icon = self.y_max - self.icon_h
+        self.x_max_with_icon = x_max_with_icon
+        self.y_max_with_icon = y_max_with_icon
 
     def set_position(self, x, y):
         self.x = self.clamp(x, self.x_min, self.x_max_with_icon)
