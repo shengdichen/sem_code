@@ -2,7 +2,7 @@ from src.ours.env.icon import Icon
 
 
 class Point(object):
-    def __init__(self, name, x_max, x_min, y_max, y_min):
+    def __init__(self, name, x_max, x_min, y_max, y_min, icon_w, icon_h):
         self.x = 0
         self.y = 0
         self.x_min = x_min
@@ -10,6 +10,9 @@ class Point(object):
         self.y_min = y_min
         self.y_max = y_max
         self.name = name
+
+        self.icon_w = icon_w
+        self.icon_h = icon_h
 
     def set_position(self, x, y):
         self.x = self.clamp(x, self.x_min, self.x_max - self.icon_w)
@@ -31,15 +34,21 @@ class Point(object):
 
 class Agent(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
-        super(Agent, self).__init__(name, x_max, x_min, y_max, y_min)
-
         self.icon_w, self.icon_h = 5, 5
+
+        super(Agent, self).__init__(
+            name, x_max, x_min, y_max, y_min, self.icon_w, self.icon_h
+        )
+
         self.icon = Icon("agent.png", (self.icon_w, self.icon_h)).icon
 
 
 class Target(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
-        super(Target, self).__init__(name, x_max, x_min, y_max, y_min)
-
         self.icon_w, self.icon_h = 4, 4
+
+        super(Target, self).__init__(
+            name, x_max, x_min, y_max, y_min, self.icon_w, self.icon_h
+        )
+
         self.icon = Icon("star.png", (self.icon_w, self.icon_h)).icon
