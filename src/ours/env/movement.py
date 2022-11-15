@@ -13,9 +13,12 @@ class Point(object):
         self.icon_w = icon_w
         self.icon_h = icon_h
 
+        self.x_max_with_icon = self.x_max - self.icon_w
+        self.y_max_with_icon = self.y_max - self.icon_h
+
     def set_position(self, x, y):
-        self.x = self.clamp(x, self.x_min, self.x_max - self.icon_w)
-        self.y = self.clamp(y, self.y_min, self.y_max - self.icon_h)
+        self.x = self.clamp(x, self.x_min, self.x_max_with_icon)
+        self.y = self.clamp(y, self.y_min, self.y_max_with_icon)
 
     def get_position(self):
         return (self.x, self.y)
@@ -24,8 +27,8 @@ class Point(object):
         self.x += del_x
         self.y += del_y
 
-        self.x = self.clamp(self.x, self.x_min, self.x_max - self.icon_w)
-        self.y = self.clamp(self.y, self.y_min, self.y_max - self.icon_h)
+        self.x = self.clamp(self.x, self.x_min, self.x_max_with_icon)
+        self.y = self.clamp(self.y, self.y_min, self.y_max_with_icon)
 
     def clamp(self, n, minn, maxn):
         return max(min(maxn, n), minn)
