@@ -1,7 +1,7 @@
 from src.ours.env.icon import Icon
 
 
-class Point(object):
+class Point:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x = 0
         self.y = 0
@@ -16,7 +16,7 @@ class Point(object):
         self.y = self.clamp(y, self.y_min, self.y_max_with_icon)
 
     def get_position(self):
-        return (self.x, self.y)
+        return self.x, self.y
 
     def move(self, del_x, del_y):
         self.x += del_x
