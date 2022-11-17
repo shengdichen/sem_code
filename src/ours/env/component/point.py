@@ -22,7 +22,7 @@ class NamedPointWithIcon:
         )
         self.icon = Icon(icon_path, icon_size).icon
 
-    def has_collided(self, that: "NamedPointWithIcon"):
+    def has_collided(self, that: "NamedPointWithIcon") -> bool:
         has_collided_x, has_collided_y = False, False
 
         this_x, this_y = self.movement.get_position()
