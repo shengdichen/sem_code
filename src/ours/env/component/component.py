@@ -1,5 +1,5 @@
-from src.ours.env.icon import Icon
-from src.ours.env.movement import MovementTwoDim
+from src.ours.env.component.icon.icon import Icon
+from src.ours.env.component.movement import MovementTwoDim
 
 
 class NamedPointWithIcon:
@@ -34,7 +34,7 @@ class PointFactory:
             self.name,
             (self.x_min, self.x_max),
             (self.y_min, self.y_max),
-            "agent.png",
+            "icon/agent.png",
             (5, 5),
         )
 
@@ -43,6 +43,6 @@ class PointFactory:
             self.name,
             (self.x_min, self.x_max),
             (self.y_min, self.y_max),
-            "star.png",
+            "icon/star.png",
             (4, 4),
         )
