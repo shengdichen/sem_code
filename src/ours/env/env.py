@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.component import Agent, Target
+from src.ours.env.component import PointFactory, NamedPointWithIcon
 
 
 class MovePoint(Env):
@@ -56,13 +56,14 @@ class MovePoint(Env):
         # Draw the agent on canvas
         for elem in self.elements:
             elem_shape = elem.icon.shape
-            x, y = elem.x, elem.y
+            x, y = elem.movement.x, elem.movement.y
             self.canvas[y : y + elem_shape[1], x : x + elem_shape[0]] = elem.icon
 
         agent = self.agent
         agent_shape = self.agent.icon.shape
         self.canvas_hist[
-            agent.y : agent.y + agent_shape[1], agent.x : agent.x + agent_shape[0]
+            agent.movement.y : agent.movement.y + agent_shape[1],
+            agent.movement.x : agent.movement.x + agent_shape[0],
         ] += 1
 
         # normalize hist canvas
@@ -94,8 +95,10 @@ class MovePoint(Env):
             y = 10
 
         # Intialise the agent
-        self.agent = Agent("agent", self.x_max, self.x_min, self.y_max, self.y_min)
-        self.agent.set_position(x, y)
+        self.agent = PointFactory(
+            "agent", self.x_max, self.x_min, self.y_max, self.y_min
+        ).create_agent()
+        self.agent.movement.set_position(x, y)
 
         # Intialise the elements
         self.elements = [self.agent]
@@ -113,10 +116,10 @@ class MovePoint(Env):
         ]
         self.targets = []
         for i, p in enumerate(pos):
-            tgt = Target(
+            tgt = PointFactory(
                 "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            )
-            tgt.set_position(p[0], p[1])
+            ).create_target()
+            tgt.movement.set_position(p[0], p[1])
             self.targets.append(tgt)
 
         self.elements.extend(self.targets)
@@ -128,7 +131,14 @@ class MovePoint(Env):
         self.draw_elements_on_canvas()
 
         curr_tgt = self.targets[self.curr_tgt]
-        state = np.stack([self.agent.x, self.agent.y, curr_tgt.x, curr_tgt.y])
+        state = np.stack(
+            [
+                self.agent.movement.x,
+                self.agent.movement.y,
+                curr_tgt.movement.x,
+                curr_tgt.movement.y,
+            ]
+        )
 
         # return the observation
         return state
@@ -137,9 +147,9 @@ class MovePoint(Env):
     def generate_random_targets(self):
         tgts = []
         for i in range(self.n_tgt):
-            tgt = Target(
+            tgt = PointFactory(
                 "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            )
+            ).create_target()
 
             tgt_x = random.randrange(
                 self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
@@ -147,7 +157,7 @@ class MovePoint(Env):
             tgt_y = random.randrange(
                 self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
             )
-            tgt.set_position(tgt_x, tgt_y)
+            tgt.movement.set_position(tgt_x, tgt_y)
             tgts.append(tgt)
 
         return tgts
@@ -161,13 +171,13 @@ class MovePoint(Env):
 
         # apply the action to the agent
         if action == 0:
-            self.agent.move(0, 2)
+            self.agent.movement.move(0, 2)
         elif action == 1:
-            self.agent.move(0, -2)
+            self.agent.movement.move(0, -2)
         elif action == 2:
-            self.agent.move(2, 0)
+            self.agent.movement.move(2, 0)
         elif action == 3:
-            self.agent.move(-2, 0)
+            self.agent.movement.move(-2, 0)
         # REMOVE NOOP
         # elif action == 4:
         #    self.agent.move(0,0)
@@ -175,7 +185,10 @@ class MovePoint(Env):
         curr_tgt = self.targets[self.curr_tgt]
         # l2 distance as reward
         reward = -(
-            np.sqrt((self.agent.x - curr_tgt.x) ** 2 + (self.agent.y - curr_tgt.y) ** 2)
+            np.sqrt(
+                (self.agent.movement.x - curr_tgt.movement.x) ** 2
+                + (self.agent.movement.y - curr_tgt.movement.y) ** 2
+            )
         )
 
         if self.has_collided(self.agent, curr_tgt):
@@ -191,7 +204,14 @@ class MovePoint(Env):
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
-        state = np.stack([self.agent.x, self.agent.y, curr_tgt.x, curr_tgt.y])
+        state = np.stack(
+            [
+                self.agent.movement.x,
+                self.agent.movement.y,
+                curr_tgt.movement.x,
+                curr_tgt.movement.y,
+            ]
+        )
 
         # If out of fuel, end the episode.
         if self.time == 0:
@@ -199,17 +219,17 @@ class MovePoint(Env):
 
         return state, reward, self.done, {}
 
-    def has_collided(self, elem1, elem2):
+    def has_collided(self, elem1: NamedPointWithIcon, elem2: NamedPointWithIcon):
         x_col = False
         y_col = False
 
-        elem1_x, elem1_y = elem1.get_position()
-        elem2_x, elem2_y = elem2.get_position()
+        elem1_x, elem1_y = elem1.movement.get_position()
+        elem2_x, elem2_y = elem2.movement.get_position()
 
-        if 2 * abs(elem1_x - elem2_x) <= (elem1.icon_w + elem2.icon_w):
+        if 2 * abs(elem1_x - elem2_x) <= (elem1.x_icon + elem2.x_icon):
             x_col = True
 
-        if 2 * abs(elem1_y - elem2_y) <= (elem1.icon_h + elem2.icon_h):
+        if 2 * abs(elem1_y - elem2_y) <= (elem1.y_icon + elem2.y_icon):
             y_col = True
 
         if x_col and y_col:
