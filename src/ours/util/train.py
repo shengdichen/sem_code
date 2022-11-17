@@ -244,6 +244,9 @@ class Training:
                 l2_coeff=opt.l2_coeff,
                 use_actions=opt.use_actions,
             )
+        else:
+            print("Specified discriminator invalid!")
+            return 1
 
         # if we're training with the learned reward, show what we're training with
         if not opt.train_discriminator:
