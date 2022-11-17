@@ -34,10 +34,7 @@ class NamedPointWithIcon:
         if 2 * abs(this_y - that_y) <= (self.y_icon + that.y_icon):
             has_collided_y = True
 
-        if x_col and y_col:
-            return True
-
-        return False
+        return has_collided_x and has_collided_y
 
 
 class PointFactory:
