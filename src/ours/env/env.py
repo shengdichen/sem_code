@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.component.point import PointFactory, NamedPointWithIcon
+from src.ours.env.component.point import PointFactory
 
 
 class MovePoint(Env):
