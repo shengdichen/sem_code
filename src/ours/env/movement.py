@@ -1,6 +1,3 @@
-from src.ours.env.icon import Icon
-
-
 class Point:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x_min = x_min
