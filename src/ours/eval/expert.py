@@ -23,3 +23,12 @@ class ClientTrainerExpert:
     def plot_experts():
         Plotter.plot_experts(5e5)
         Plotter.plot_experts(5e5, hist=False)
+
+
+def client_code():
+    trainer = ClientTrainerExpert()
+    trainer.train_experts()
+
+
+if __name__ == "__main__":
+    client_code()
