@@ -11,7 +11,7 @@ class TrainingParam:
 
         self._log_path = "./pointmaze_results"
 
-        self._kwargs = {
+        self._kwargs_ppo = {
             "learning_rate": 0.0003,
             "n_steps": 256,
             "batch_size": 64,
@@ -34,8 +34,8 @@ class TrainingParam:
         return self._log_path
 
     @property
-    def kwargs(self):
-        return self._kwargs
+    def kwargs_ppo(self):
+        return self._kwargs_ppo
 
     def _propagate_seed(self):
         torch.manual_seed(self._seed)
