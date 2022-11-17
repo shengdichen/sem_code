@@ -37,7 +37,7 @@ class Training:
     def __init__(self, training_param: TrainingParam):
         self._training_param = training_param
         self._log_path = self._training_param.log_path
-        self._kwargs = self._training_param.kwargs
+        self._kwargs_ppo = self._training_param.kwargs_ppo
 
     def train_expert(
         self,
@@ -45,14 +45,17 @@ class Training:
         n_targets,
         shift_x,
         shift_y,
-        kwargs,
         fname,
         model_dir="./models",
         save_deterministic=False,
     ):
         env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
-            "MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=self._log_path
+            "MlpPolicy",
+            env,
+            verbose=0,
+            **self._kwargs_ppo,
+            tensorboard_log=self._log_path
         )
         model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
@@ -82,7 +85,6 @@ class Training:
         n_targets,
         shift_x,
         shift_y,
-        kwargs,
         fname,
         model_dir="./models",
         save_deterministic=False,
@@ -99,7 +101,11 @@ class Training:
 
         testing_env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
-            "MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=self._log_path
+            "MlpPolicy",
+            env,
+            verbose=0,
+            **self._kwargs_ppo,
+            tensorboard_log=self._log_path
         )
 
         eval_callback = EvalCallback(
@@ -238,6 +244,9 @@ class Training:
                 l2_coeff=opt.l2_coeff,
                 use_actions=opt.use_actions,
             )
+        else:
+            print("Specified discriminator invalid!")
+            return 1
 
         # if we're training with the learned reward, show what we're training with
         if not opt.train_discriminator:
@@ -250,7 +259,7 @@ class Training:
         env = repack_vecenv(env, disc=discriminator)
 
         # define imitation policy with respective callbacks
-        policy = PPOSB("MlpPolicy", env, **self._kwargs, tensorboard_log=log_path)
+        policy = PPOSB("MlpPolicy", env, **self._kwargs_ppo, tensorboard_log=log_path)
         new_logger = configure_logger(tensorboard_log=log_path)
         policy.ep_info_buffer = deque(maxlen=100)
         policy.ep_success_buffer = deque(maxlen=100)
