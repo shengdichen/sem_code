@@ -9,7 +9,7 @@ from src.ours.util.train import Training
 from src.upstream.env_utils import PWILReward
 
 
-class TrainerPwil:
+class ClientTrainerPwil:
     def __init__(self):
         self._training_param = TrainingParam()
         self._training = Training(self._training_param)
