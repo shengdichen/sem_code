@@ -7,7 +7,7 @@ from src.ours.util.test import PolicyTester
 from src.ours.util.train import Training
 
 
-class TrainingIrl:
+class ClientTrainingIrl:
     def __init__(self):
         # TODO:
         #   use training_param instead of separately naming these things
