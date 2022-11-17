@@ -34,7 +34,7 @@ class PointFactory:
             self.name,
             (self.x_min, self.x_max),
             (self.y_min, self.y_max),
-            "icon/agent.png",
+            "./agent.png",
             (5, 5),
         )
 
@@ -43,6 +43,6 @@ class PointFactory:
             self.name,
             (self.x_min, self.x_max),
             (self.y_min, self.y_max),
-            "icon/star.png",
+            "./star.png",
             (4, 4),
         )
