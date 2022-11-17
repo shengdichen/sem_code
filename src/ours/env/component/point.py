@@ -22,6 +22,24 @@ class NamedPointWithIcon:
         )
         self.icon = Icon(icon_path, icon_size).icon
 
+    def has_collided(elem1: "NamedPointWithIcon", elem2: "NamedPointWithIcon"):
+        x_col = False
+        y_col = False
+
+        elem1_x, elem1_y = elem1.movement.get_position()
+        elem2_x, elem2_y = elem2.movement.get_position()
+
+        if 2 * abs(elem1_x - elem2_x) <= (elem1.x_icon + elem2.x_icon):
+            x_col = True
+
+        if 2 * abs(elem1_y - elem2_y) <= (elem1.y_icon + elem2.y_icon):
+            y_col = True
+
+        if x_col and y_col:
+            return True
+
+        return False
+
 
 class PointFactory:
     def __init__(self, name: str, x_max, x_min, y_max, y_min):
