@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.component.point import PointFactory, NamedPointWithIcon
+from src.ours.env.component.point import PointFactory
 
 
 class MovePoint(Env):
@@ -191,7 +191,7 @@ class MovePoint(Env):
             )
         )
 
-        if self.has_collided(self.agent, curr_tgt):
+        if self.agent.has_collided(curr_tgt):
             # reward += 5
             if self.curr_tgt == len(self.targets) - 1:
                 # task solved
@@ -218,24 +218,6 @@ class MovePoint(Env):
             self.done = True
 
         return state, reward, self.done, {}
-
-    def has_collided(self, elem1: NamedPointWithIcon, elem2: NamedPointWithIcon):
-        x_col = False
-        y_col = False
-
-        elem1_x, elem1_y = elem1.movement.get_position()
-        elem2_x, elem2_y = elem2.movement.get_position()
-
-        if 2 * abs(elem1_x - elem2_x) <= (elem1.x_icon + elem2.x_icon):
-            x_col = True
-
-        if 2 * abs(elem1_y - elem2_y) <= (elem1.y_icon + elem2.y_icon):
-            y_col = True
-
-        if x_col and y_col:
-            return True
-
-        return False
 
     def render(self, mode="human"):
         assert mode in [
