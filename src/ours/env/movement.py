@@ -3,30 +3,32 @@ from src.ours.env.icon import Icon
 
 class Point:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
-        self.x = 0
-        self.y = 0
-
         self.x_min = x_min
         self.y_min = y_min
         self.x_max_with_icon = x_max_with_icon
         self.y_max_with_icon = y_max_with_icon
 
-    def set_position(self, x, y):
-        self.x = self.clamp(x, self.x_min, self.x_max_with_icon)
-        self.y = self.clamp(y, self.y_min, self.y_max_with_icon)
+        self.x_movement = MovementOneDim((self.x_min, self.x_max_with_icon))
+        self.y_movement = MovementOneDim((self.y_min, self.y_max_with_icon))
 
-    def get_position(self):
+    @property
+    def x(self):
+        return self.x_movement.pos
+
+    @property
+    def y(self):
+        return self.y_movement.pos
+
+    def set_position(self, x: float, y: float) -> None:
+        self.x_movement.set(x)
+        self.y_movement.set(y)
+
+    def get_position(self) -> tuple[float, float]:
         return self.x, self.y
 
-    def move(self, del_x, del_y):
-        self.x += del_x
-        self.y += del_y
-
-        self.x = self.clamp(self.x, self.x_min, self.x_max_with_icon)
-        self.y = self.clamp(self.y, self.y_min, self.y_max_with_icon)
-
-    def clamp(self, n, minn, maxn):
-        return max(min(maxn, n), minn)
+    def move(self, del_x: float, del_y: float) -> None:
+        self.x_movement.shift(del_x)
+        self.y_movement.shift(del_y)
 
 
 class MovementOneDim:
