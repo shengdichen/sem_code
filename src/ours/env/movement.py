@@ -27,3 +27,25 @@ class Point:
 
     def clamp(self, n, minn, maxn):
         return max(min(maxn, n), minn)
+
+
+class MovementOneDim:
+    def __init__(self, pos_range: tuple[float, float]):
+        self._pos = 0
+        self._pos_min, self._pos_max = pos_range
+
+    @property
+    def pos(self):
+        return self._pos
+
+    def set(self, value: float) -> None:
+        self._pos = self._clamp(value)
+
+    def shift(self, shift_by: float) -> None:
+        self.set(self._pos + shift_by)
+
+    def get_range(self) -> tuple[float, float]:
+        return self._pos_min, self._pos_max
+
+    def _clamp(self, pos_desired: float) -> float:
+        return max(min(self._pos_max, pos_desired), self._pos_min)
