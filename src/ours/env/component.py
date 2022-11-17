@@ -23,6 +23,31 @@ class NamedPointWithIcon:
         self.icon = Icon(icon_path, icon_size).icon
 
 
+class PointFactory:
+    def __init__(self, name: str, x_max, x_min, y_max, y_min):
+        self.name = name
+        self.x_max, self.x_min = x_max, x_min
+        self.y_max, self.y_min = y_max, y_min
+
+    def create_agent(self) -> NamedPointWithIcon:
+        return NamedPointWithIcon(
+            self.name,
+            (self.x_min, self.x_max),
+            (self.y_min, self.y_max),
+            "agent.png",
+            (5, 5),
+        )
+
+    def create_target(self) -> NamedPointWithIcon:
+        return NamedPointWithIcon(
+            self.name,
+            (self.x_min, self.x_max),
+            (self.y_min, self.y_max),
+            "star.png",
+            (4, 4),
+        )
+
+
 class Agent(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
         self.name = name
