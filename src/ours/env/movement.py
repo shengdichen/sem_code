@@ -1,4 +1,4 @@
-class Point:
+class MovementTwoDim:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x_min = x_min
         self.y_min = y_min
