@@ -448,3 +448,74 @@ class TrainerExpert(Trainer):
         )
 
         return model
+
+
+class TrainerPwil(Trainer):
+    def train(
+        self,
+        demos,
+        n_demos,
+        subsampling,
+        use_actions,
+        n_timesteps,
+        n_targets,
+        shift_x,
+        shift_y,
+        fname,
+        model_dir="./models",
+        save_deterministic=False,
+    ):
+        env = PWILReward(
+            env=MovePoint(n_targets, shift_x, shift_y),
+            demos=demos,
+            n_demos=n_demos,
+            subsampling=subsampling,
+            use_actions=use_actions,
+        )
+
+        plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+
+        testing_env = MovePoint(n_targets, shift_x, shift_y)
+        model = PPOSB(
+            "MlpPolicy",
+            env,
+            verbose=0,
+            **self._kwargs_ppo,
+            tensorboard_log=self._log_path
+        )
+
+        eval_callback = EvalCallback(
+            testing_env,
+            best_model_save_path=self._log_path,
+            log_path=self._log_path,
+            eval_freq=10000,
+            deterministic=True,
+            render=False,
+        )
+
+        # eval_callback.init_callback(ppo_dict[k])
+        callback_list = CallbackList(
+            [
+                CustomCallback(id="", log_path=self._log_path),
+                eval_callback,
+                TqdmCallback(),
+            ]
+        )
+
+        model.learn(total_timesteps=n_timesteps, callback=callback_list)
+
+        # save model
+        if not os.path.exists(model_dir):
+            os.mkdir(model_dir)
+
+        model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
+        ExpertManager.save_expert_traj(
+            env,
+            model,
+            nr_trajectories=10,
+            render=False,
+            filename=fname + str(n_timesteps),
+            deterministic=save_deterministic,
+        )
+
+        return model, plot
