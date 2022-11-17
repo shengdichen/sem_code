@@ -2,6 +2,27 @@ from src.ours.env.icon import Icon
 from src.ours.env.movement import Point
 
 
+class NamedPointWithIcon:
+    def __init__(
+        self, name, range_x_without_icon, range_y_without_icon, icon_path, icon_size
+    ):
+        self._name = name
+
+        self.x_min, self.x_max = range_x_without_icon
+        self.y_min, self.y_max = range_y_without_icon
+
+        self.x_icon, self.y_icon = icon_size
+
+        self._x_max_with_icon, self._y_max_with_icon = (
+            self.x_max - self.x_icon,
+            self.y_max - self.y_icon,
+        )
+        self.point = Point(
+            self._x_max_with_icon, self.x_min, self._y_max_with_icon, self.y_min
+        )
+        self.icon = Icon(icon_path, icon_size).icon
+
+
 class Agent(Point):
     def __init__(self, name, x_max, x_min, y_max, y_min):
         self.name = name
