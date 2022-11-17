@@ -3,7 +3,7 @@ from src.ours.util.helper import Plotter
 from src.ours.util.train import Training
 
 
-class TrainerExpert:
+class ClientTrainerExpert:
     def __init__(self):
         self._training_param = TrainingParam()
         self._training = Training(self._training_param)
