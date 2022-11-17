@@ -22,17 +22,17 @@ class NamedPointWithIcon:
         )
         self.icon = Icon(icon_path, icon_size).icon
 
-    def has_collided(elem1: "NamedPointWithIcon", elem2: "NamedPointWithIcon"):
+    def has_collided(self, elem2: "NamedPointWithIcon"):
         x_col = False
         y_col = False
 
-        elem1_x, elem1_y = elem1.movement.get_position()
+        elem1_x, elem1_y = self.movement.get_position()
         elem2_x, elem2_y = elem2.movement.get_position()
 
-        if 2 * abs(elem1_x - elem2_x) <= (elem1.x_icon + elem2.x_icon):
+        if 2 * abs(elem1_x - elem2_x) <= (self.x_icon + elem2.x_icon):
             x_col = True
 
-        if 2 * abs(elem1_y - elem2_y) <= (elem1.y_icon + elem2.y_icon):
+        if 2 * abs(elem1_y - elem2_y) <= (self.y_icon + elem2.y_icon):
             y_col = True
 
         if x_col and y_col:

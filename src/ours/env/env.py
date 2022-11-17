@@ -191,7 +191,7 @@ class MovePoint(Env):
             )
         )
 
-        if NamedPointWithIcon.has_collided(self.agent, curr_tgt):
+        if self.agent.has_collided(curr_tgt):
             # reward += 5
             if self.curr_tgt == len(self.targets) - 1:
                 # task solved
