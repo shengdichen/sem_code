@@ -81,7 +81,6 @@ class Training:
         n_targets,
         shift_x,
         shift_y,
-        kwargs,
         fname,
         model_dir="./models",
         save_deterministic=False,
@@ -98,7 +97,7 @@ class Training:
 
         testing_env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
-            "MlpPolicy", env, verbose=0, **kwargs, tensorboard_log=self._log_path
+            "MlpPolicy", env, verbose=0, **self._kwargs, tensorboard_log=self._log_path
         )
 
         eval_callback = EvalCallback(
