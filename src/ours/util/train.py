@@ -44,16 +44,13 @@ class Trainer:
 
 
 class TrainerExpert(Trainer):
-    def train(
-        self,
-        n_timesteps,
-        n_targets,
-        shift_x,
-        shift_y,
-        fname,
-        model_dir="./models",
-        save_deterministic=False,
-    ):
+    def __init__(self, training_param: TrainingParam):
+        super().__init__(training_param)
+
+        self._model_dir = "./models"
+        self._save_deterministic = False
+
+    def train(self, n_timesteps, n_targets, shift_x, shift_y, fname):
         env = MovePoint(n_targets, shift_x, shift_y)
 
         model = PPOSB(
@@ -66,17 +63,17 @@ class TrainerExpert(Trainer):
         model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
         # save model
-        if not os.path.exists(model_dir):
-            os.mkdir(model_dir)
+        if not os.path.exists(self._model_dir):
+            os.mkdir(self._model_dir)
 
-        model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
+        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
         ExpertManager.save_expert_traj(
             env,
             model,
             nr_trajectories=10,
             render=False,
             filename=fname + str(n_timesteps),
-            deterministic=save_deterministic,
+            deterministic=self._save_deterministic,
         )
 
         return model
