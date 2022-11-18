@@ -83,7 +83,7 @@ class TrainerPwil(Trainer):
     def __init__(self, training_param: TrainingParam):
         super().__init__(training_param)
 
-        self._model_dir = "./models"
+        self._model_dir = "./models_pwil"
         self._save_deterministic = False
 
     def train(
