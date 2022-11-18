@@ -18,17 +18,16 @@ class ClientTrainerExpert:
         self._train(2, 0, 50, "exp_0_50")
         self._train(2, 50, 0, "exp_50_0")
 
-        self._plot(self._n_timesteps)
+        self._plot()
 
     def _train(self, n_targets, shift_x, shift_y, fname):
         env = MovePoint(n_targets, shift_x, shift_y)
         trainer = TrainerExpert(self._training_param, env)
         trainer.train(self._n_timesteps, n_targets, shift_x, shift_y, fname)
 
-    @staticmethod
-    def _plot(n_timesteps: int):
-        Plotter.plot_experts(n_timesteps)
-        Plotter.plot_experts(n_timesteps, hist=False)
+    def _plot(self):
+        Plotter.plot_experts(self._n_timesteps)
+        Plotter.plot_experts(self._n_timesteps, hist=False)
 
 
 def client_code():
