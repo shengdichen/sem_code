@@ -74,7 +74,7 @@ class ClientTrainerPwil:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-        # test_policy('', model=model_pwil)
+        PolicyTester.test_policy('', model=model_pwil)
 
 
 def client_code():
