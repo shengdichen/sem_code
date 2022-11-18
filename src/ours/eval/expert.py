@@ -9,7 +9,7 @@ class ClientTrainerExpert:
         self._training_param = TrainingParam()
         self._n_timesteps = int(3e5)
 
-    def train_experts(self):
+    def train_and_plot(self):
         """
         # Train experts with different shifts representing their waypoint preferences
         """
@@ -18,7 +18,7 @@ class ClientTrainerExpert:
         self._train(2, 0, 50, "exp_0_50")
         self._train(2, 50, 0, "exp_50_0")
 
-        self.plot_experts(self._n_timesteps)
+        self._plot(self._n_timesteps)
 
     def _train(self, n_targets, shift_x, shift_y, fname):
         env = MovePoint(n_targets, shift_x, shift_y)
@@ -26,14 +26,14 @@ class ClientTrainerExpert:
         trainer.train(self._n_timesteps, n_targets, shift_x, shift_y, fname)
 
     @staticmethod
-    def plot_experts(n_timesteps: int):
+    def _plot(n_timesteps: int):
         Plotter.plot_experts(n_timesteps)
         Plotter.plot_experts(n_timesteps, hist=False)
 
 
 def client_code():
     trainer = ClientTrainerExpert()
-    trainer.train_experts()
+    trainer.train_and_plot()
 
 
 if __name__ == "__main__":
