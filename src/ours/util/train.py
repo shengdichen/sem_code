@@ -6,6 +6,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from gym import Env
 from stable_baselines3 import PPO as PPOSB
 from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 from stable_baselines3.common.env_util import make_vec_env
@@ -44,18 +45,17 @@ class Trainer:
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: TrainingParam, env: Env):
         super().__init__(training_param)
 
+        self._env = env
         self._model_dir = "./models"
         self._save_deterministic = False
 
     def train(self, n_timesteps, n_targets, shift_x, shift_y, fname):
-        env = MovePoint(n_targets, shift_x, shift_y)
-
         model = PPOSB(
             "MlpPolicy",
-            env,
+            self._env,
             verbose=0,
             **self._kwargs_ppo,
             tensorboard_log=self._log_path
@@ -68,7 +68,7 @@ class TrainerExpert(Trainer):
 
         model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
         ExpertManager.save_expert_traj(
-            env,
+            self._env,
             model,
             nr_trajectories=10,
             render=False,
