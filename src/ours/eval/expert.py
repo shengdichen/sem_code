@@ -14,16 +14,23 @@ class ClientTrainerExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 0}, "exp_0_0")
-        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 50}, "exp_0_50")
-        self._train({"n_targets": 2, "shift_x": 50, "shift_y": 0}, "exp_50_0")
+        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 0})
+        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 50})
+        self._train({"n_targets": 2, "shift_x": 50, "shift_y": 0})
 
         self._plot()
 
-    def _train(self, env_config: dict[str:int], fname: str) -> None:
+    def _train(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(self._training_param, env)
-        trainer.train(self._n_timesteps, n_targets, shift_x, shift_y, fname)
+        filename = self._get_filename_from_shift_values(env_config)
+
+        trainer.train(self._n_timesteps, filename)
+
+    @staticmethod
+    def _get_filename_from_shift_values(env_conig: dict[str:int]) -> str:
+        shift_x, shift_y = env_conig["shift_x"], env_conig["shift_y"]
+        return "exp_" + str(shift_x) + "_" + str(shift_y)
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)

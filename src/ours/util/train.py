@@ -52,7 +52,7 @@ class TrainerExpert(Trainer):
         self._model_dir = "./models"
         self._save_deterministic = False
 
-    def train(self, n_timesteps, n_targets, shift_x, shift_y, fname):
+    def train(self, n_timesteps, fname):
         model = PPOSB(
             "MlpPolicy",
             self._env,
