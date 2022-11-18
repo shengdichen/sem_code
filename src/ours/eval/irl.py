@@ -77,27 +77,11 @@ class ClientTrainingIrl:
         )
 
     def train_various_irl(self):
-        # TODO:
-        #   DRY this!
-        self._opt.irm_coeff = 100.0
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
-
-        self._opt.irm_coeff = 10.0
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
-
-        self._opt.irm_coeff = 0.1
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
-
-        self._opt.irm_coeff = 1.0
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
+        for irm_coeff in [100, 10, 0.1, 1.0]:
+            self._opt.irm_coeff = irm_coeff
+            self._trainer.train(
+                self._opt, self._opt_policy, self._seed, self._env_kwargs
+            )
 
     def train_on_reward(self):
         # train on recovered reward
@@ -106,18 +90,14 @@ class ClientTrainingIrl:
         )
         self._opt.train_discriminator = False
 
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
+        self._trainer.train(self._opt, self._opt_policy, self._seed, self._env_kwargs)
 
         self._opt.irl_reward_model = (
             "./logs/results_2dnav_irl20220803_232801irm_1.0_train_disc/disc.th"
         )
         self._opt.train_discriminator = False
 
-        self._trainer.train(
-            self._opt, self._opt_policy, self._seed, self._env_kwargs
-        )
+        self._trainer.train(self._opt, self._opt_policy, self._seed, self._env_kwargs)
 
         PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_233027/best_model.zip", rm="ERM"
