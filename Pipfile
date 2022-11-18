@@ -12,6 +12,8 @@ imageio = "*"
 POT = "*"
 scikit-learn = "*"
 opencv-contrib-python = "*"
+torch = "*"
+torchvision = "*"
 
 [dev-packages]
 
