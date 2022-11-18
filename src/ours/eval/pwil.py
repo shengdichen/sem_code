@@ -73,3 +73,12 @@ class ClientTrainerPwil:
         # vutils.save_image(plots, normalize=True, nrow=6)
 
         # test_policy('', model=model_pwil)
+
+
+def client_code():
+    trainer = ClientTrainerPwil()
+    trainer.training()
+
+
+if __name__ == "__main__":
+    client_code()
