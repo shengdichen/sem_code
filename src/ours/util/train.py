@@ -80,11 +80,13 @@ class TrainerExpert(Trainer):
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: TrainingParam, envs: tuple[Env, Env]):
         super().__init__(training_param)
 
         self._model_dir = "./models_pwil"
         self._save_deterministic = False
+
+        self._env_raw, self._env_raw_testing = envs
 
     def train(
         self,
@@ -93,13 +95,10 @@ class TrainerPwil(Trainer):
         subsampling,
         use_actions,
         n_timesteps,
-        n_targets,
-        shift_x,
-        shift_y,
         fname,
     ):
         env = PWILReward(
-            env=MovePoint(n_targets, shift_x, shift_y),
+            env=self._env_raw,
             demos=demos,
             n_demos=n_demos,
             subsampling=subsampling,
@@ -108,7 +107,6 @@ class TrainerPwil(Trainer):
 
         plot = RewardPlotter.plot_reward(discriminator=None, env=env)
 
-        testing_env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
             "MlpPolicy",
             env,
@@ -118,7 +116,7 @@ class TrainerPwil(Trainer):
         )
 
         eval_callback = EvalCallback(
-            testing_env,
+            self._env_raw_testing,
             best_model_save_path=self._log_path,
             log_path=self._log_path,
             eval_freq=10000,
