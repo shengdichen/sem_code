@@ -30,8 +30,6 @@ class ClientTrainerPwil:
                 shift_x=0,
                 shift_y=0,
                 fname="pwil_0",
-                model_dir="./models",
-                save_deterministic=False,
             )
             PolicyTester.test_policy("", model=model_pwil)
             im = Image.fromarray(plot)
