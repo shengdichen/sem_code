@@ -13,12 +13,13 @@ from src.upstream.env_utils import PWILReward
 class ClientTrainerPwil:
     def __init__(self):
         self._training_param = TrainingParam()
+        self._n_timesteps = int(3e5)
 
     def training(self):
         # train imitation learning / IRL policy
         train_pwil_ = True
         if train_pwil_:
-            demos = ExpertManager.load_expert_demos(5e5)
+            demos = ExpertManager.load_expert_demos(self._n_timesteps)
             flat_demos = [item for sublist in demos for item in sublist]
 
             env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -43,7 +44,7 @@ class ClientTrainerPwil:
 
         # plot grid of PWIL rewards
         plots = []
-        demos = ExpertManager.load_expert_demos(5e5)
+        demos = ExpertManager.load_expert_demos(self._n_timesteps)
         flat_demos_0 = [item for sublist in demos for item in sublist]
         flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
         flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
