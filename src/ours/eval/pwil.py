@@ -1,5 +1,6 @@
 import PIL.Image as Image
 import matplotlib.pyplot as plt
+import torchvision
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
@@ -71,7 +72,7 @@ class ClientTrainerPwil:
                         )
                     )
 
-        # vutils.save_image(plots, normalize=True, nrow=6)
+        torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
         # test_policy('', model=model_pwil)
 
