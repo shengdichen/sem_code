@@ -62,7 +62,8 @@ class ClientTrainerPwil:
                         subsampling=ss,
                         use_actions=False,
                     )
-                    plots.append(RewardPlotter.plot_reward(discriminator=None, env=env))
+                    plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+                    plots.append(plot)
                     im = Image.fromarray(plot)
                     im.save(
                         "pwil_plots/pwil_ss{}_demoidx{}_n_demos{}.png".format(
