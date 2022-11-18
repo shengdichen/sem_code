@@ -1,6 +1,7 @@
 import PIL.Image as Image
 import matplotlib.pyplot as plt
 
+from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import TrainingParam
 from src.ours.util.helper import ExpertManager, RewardPlotter
@@ -12,7 +13,6 @@ from src.upstream.env_utils import PWILReward
 class ClientTrainerPwil:
     def __init__(self):
         self._training_param = TrainingParam()
-        self._trainer = TrainerPwil(self._training_param)
 
     def training(self):
         # train imitation learning / IRL policy
@@ -20,15 +20,19 @@ class ClientTrainerPwil:
         if train_pwil_:
             demos = ExpertManager.load_expert_demos(5e5)
             flat_demos = [item for sublist in demos for item in sublist]
-            model_pwil, plot = self._trainer.train(
+
+            env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
+            env_raw, env_raw_testing = (
+                PointEnvFactory(env_config).create(),
+                PointEnvFactory(env_config).create(),
+            )
+            trainer = TrainerPwil(self._training_param, (env_raw, env_raw_testing))
+            model_pwil, plot = trainer.train(
                 flat_demos,
                 n_demos=3,
                 subsampling=10,
                 use_actions=False,
                 n_timesteps=1e3,
-                n_targets=2,
-                shift_x=0,
-                shift_y=0,
                 fname="pwil_0",
             )
             PolicyTester.test_policy("", model=model_pwil)
