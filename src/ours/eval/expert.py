@@ -9,7 +9,7 @@ class ClientTrainerExpert:
         self._training_param = TrainingParam()
         self._n_timesteps = int(3e5)
 
-    def train_and_plot(self):
+    def train_and_plot(self) -> None:
         """
         # Train experts with different shifts representing their waypoint preferences
         """
@@ -20,12 +20,12 @@ class ClientTrainerExpert:
 
         self._plot()
 
-    def _train(self, env_config: dict[str:int], fname):
+    def _train(self, env_config: dict[str:int], fname: str) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(self._training_param, env)
         trainer.train(self._n_timesteps, n_targets, shift_x, shift_y, fname)
 
-    def _plot(self):
+    def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
         Plotter.plot_experts(self._n_timesteps, hist=False)
 
