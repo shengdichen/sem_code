@@ -83,7 +83,7 @@ class ClientTrainerPwil:
 
 def client_code():
     trainer = ClientTrainerPwil()
-    trainer.training()
+    trainer.test()
 
 
 if __name__ == "__main__":
