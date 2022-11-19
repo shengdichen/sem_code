@@ -19,30 +19,28 @@ class ClientTrainerPwil:
 
     def training(self):
         # train imitation learning / IRL policy
-        train_pwil_ = True
-        if train_pwil_:
-            demos = ExpertManager.load_expert_demos(self._n_timesteps)
-            flat_demos = [item for sublist in demos for item in sublist]
+        demos = ExpertManager.load_expert_demos(self._n_timesteps)
+        flat_demos = [item for sublist in demos for item in sublist]
 
-            env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
-            env_raw, env_raw_testing = (
-                PointEnvFactory(env_config).create(),
-                PointEnvFactory(env_config).create(),
-            )
-            trainer = TrainerPwil(self._training_param, (env_raw, env_raw_testing))
-            model_pwil, plot = trainer.train(
-                flat_demos,
-                n_demos=3,
-                subsampling=10,
-                use_actions=False,
-                n_timesteps=1e3,
-                fname="pwil_0",
-            )
-            PolicyTester.test_policy("", model=model_pwil)
-            im = Image.fromarray(plot)
-            im.save("pwil.png")
-            plt.figure()
-            plt.imshow(im)
+        env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
+        env_raw, env_raw_testing = (
+            PointEnvFactory(env_config).create(),
+            PointEnvFactory(env_config).create(),
+        )
+        trainer = TrainerPwil(self._training_param, (env_raw, env_raw_testing))
+        model_pwil, plot = trainer.train(
+            flat_demos,
+            n_demos=3,
+            subsampling=10,
+            use_actions=False,
+            n_timesteps=1e3,
+            fname="pwil_0",
+        )
+        PolicyTester.test_policy("", model=model_pwil)
+        im = Image.fromarray(plot)
+        im.save("pwil.png")
+        plt.figure()
+        plt.imshow(im)
 
     def plot_grid(self):
         # plot grid of PWIL rewards
