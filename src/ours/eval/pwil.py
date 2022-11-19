@@ -44,6 +44,7 @@ class ClientTrainerPwil:
             plt.figure()
             plt.imshow(im)
 
+    def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
         demos = ExpertManager.load_expert_demos(self._n_timesteps)
