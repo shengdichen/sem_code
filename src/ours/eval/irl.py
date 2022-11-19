@@ -106,3 +106,12 @@ class ClientTrainingIrl:
         PolicyTester.test_policy(
             "logs/results_2dnav_irl20220803_234849/best_model.zip", rm="IRM"
         )
+
+
+def client_code():
+    trainer = ClientTrainingIrl()
+    trainer.training_settings()
+
+
+if __name__ == "__main__":
+    client_code()
