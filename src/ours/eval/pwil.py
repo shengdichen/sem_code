@@ -1,6 +1,7 @@
 import PIL.Image as Image
 import matplotlib.pyplot as plt
 import torchvision
+from stable_baselines3 import PPO
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
@@ -74,7 +75,11 @@ class ClientTrainerPwil:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-        PolicyTester.test_policy('', model=model_pwil)
+    @staticmethod
+    def test():
+        save_dir = "models_pwil/model_pwil_0{}".format(1e3)
+        model = PPO.load(save_dir)
+        PolicyTester.test_policy("", model=model)
 
 
 def client_code():
