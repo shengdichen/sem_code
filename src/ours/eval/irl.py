@@ -30,7 +30,7 @@ class ClientTrainingIrl:
         }
 
         self._irl_args = {
-            "expert_demo_ts": 5e5,
+            "expert_demo_ts": int(3e5),
             "use_sb_ppo": True,
             "n_irl_epochs": 5,
             "n_irl_episodes": 100,
