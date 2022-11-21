@@ -41,3 +41,13 @@ class CommonParam:
         torch.manual_seed(self._seed)
         np.random.seed(self._seed)
         random.seed(self._seed)
+
+
+class ExpertParam(CommonParam):
+    def __init__(self):
+        super().__init__()
+        self._model_dir = "./models/"
+
+    @property
+    def model_dir(self):
+        return self._model_dir
