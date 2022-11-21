@@ -49,7 +49,7 @@ class TrainerPwil(Trainer):
             "MlpPolicy",
             env,
             verbose=0,
-            **self._kwargs_ppo,
+            **self._training_param.kwargs_ppo,
             tensorboard_log=self._training_param.sb3_tblog_dir
         )
 

@@ -158,7 +158,12 @@ class TrainerIrl(Trainer):
         env = repack_vecenv(env, disc=discriminator)
 
         # define imitation policy with respective callbacks
-        policy = PPOSB("MlpPolicy", env, **self._kwargs_ppo, tensorboard_log=log_path)
+        policy = PPOSB(
+            "MlpPolicy",
+            env,
+            **self._training_param.kwargs_ppo,
+            tensorboard_log=log_path
+        )
         new_logger = configure_logger(tensorboard_log=log_path)
         policy.ep_info_buffer = deque(maxlen=100)
         policy.ep_success_buffer = deque(maxlen=100)
