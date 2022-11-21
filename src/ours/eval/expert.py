@@ -7,7 +7,7 @@ from src.ours.util.train import TrainerExpert
 class ClientTrainerExpert:
     def __init__(self):
         self._training_param = ExpertParam()
-        self._n_timesteps = int(3e5)
+        self._n_timesteps = self._training_param.n_steps_expert_train
 
     def train_and_plot(self) -> None:
         """
