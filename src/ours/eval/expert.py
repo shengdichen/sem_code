@@ -18,20 +18,28 @@ class TrainerExpert(Trainer):
         self._demo_dir = training_param.demo_dir
         self._save_deterministic = False
 
-    def train(self, n_timesteps, fname):
-        model = PPOSB(
+        self._model = PPOSB(
             "MlpPolicy",
             self._env,
             verbose=0,
             **self._training_param.kwargs_ppo,
             tensorboard_log=self._training_param.sb3_tblog_dir
         )
-        model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
-        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
+    @property
+    def model(self):
+        return self._model
+
+    def train(self, n_timesteps, fname):
+        self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
+
+        self._model.save(
+            os.path.join(self._model_dir, "model_" + fname + str(n_timesteps))
+        )
+
         ExpertManager.save_expert_traj(
             self._env,
-            model,
+            self._model,
             nr_trajectories=10,
             render=False,
             demo_dir=self._demo_dir,
@@ -39,7 +47,7 @@ class TrainerExpert(Trainer):
             deterministic=self._save_deterministic,
         )
 
-        return model
+        return self._model
 
 
 class ClientTrainerExpert:
