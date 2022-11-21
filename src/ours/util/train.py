@@ -2,6 +2,7 @@ import os
 import random
 from collections import deque
 from datetime import datetime
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -153,6 +154,13 @@ class TrainerPwil(Trainer):
 
 
 class TrainerIrl(Trainer):
+    def __init__(self, training_param: TrainingParam):
+        super().__init__(training_param)
+
+        self._log_root_dir, self._demo_root_dir = "./logs/", "./demos/"
+        Path(self._log_root_dir).mkdir(exist_ok=True)
+        Path(self._demo_root_dir).mkdir(exist_ok=True)
+
     def train(self, opt, opt_policy, seed, env_kwargs):
         # create log dir
         if opt.irm_coeff > 0 and opt.train_discriminator:
@@ -164,10 +172,12 @@ class TrainerIrl(Trainer):
             log_suffix += "_train_disc"
 
         log_path = (
-            "./logs/results_2dnav_irl"
+            self._log_root_dir
+            + "results_2dnav_irl"
             + datetime.now().strftime("%Y%m%d_%H%M%S")
             + log_suffix
         )
+
         if not os.path.exists(log_path):
             os.mkdir(log_path)
 
