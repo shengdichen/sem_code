@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import TrainingParam
+from src.ours.eval.param import CommonParam, ExpertParam, PwilParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -36,9 +36,9 @@ from src.upstream.utils import CustomCallback, prepare_update_airl
 
 
 class Trainer:
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: CommonParam):
         self._training_param = training_param
-        self._log_path = self._training_param.log_path
+        self._sb3_tblog_dir = self._training_param.sb3_tblog_dir
         self._kwargs_ppo = self._training_param.kwargs_ppo
 
     def train(self, **kwargs):
@@ -46,11 +46,12 @@ class Trainer:
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: TrainingParam, env: Env):
+    def __init__(self, training_param: ExpertParam, env: Env):
         super().__init__(training_param)
 
         self._env = env
-        self._model_dir = "./models"
+        self._model_dir = training_param.model_dir
+        self._demo_dir = training_param.demo_dir
         self._save_deterministic = False
 
     def train(self, n_timesteps, fname):
@@ -59,13 +60,9 @@ class TrainerExpert(Trainer):
             self._env,
             verbose=0,
             **self._kwargs_ppo,
-            tensorboard_log=self._log_path
+            tensorboard_log=self._sb3_tblog_dir
         )
         model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
-
-        # save model
-        if not os.path.exists(self._model_dir):
-            os.mkdir(self._model_dir)
 
         model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
         ExpertManager.save_expert_traj(
@@ -73,6 +70,7 @@ class TrainerExpert(Trainer):
             model,
             nr_trajectories=10,
             render=False,
+            demo_dir=self._demo_dir,
             filename=fname + str(n_timesteps),
             deterministic=self._save_deterministic,
         )
@@ -81,7 +79,7 @@ class TrainerExpert(Trainer):
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: TrainingParam, envs: tuple[Env, Env]):
+    def __init__(self, training_param: PwilParam, envs: tuple[Env, Env]):
         super().__init__(training_param)
 
         self._model_dir = "./models_pwil"
@@ -113,13 +111,13 @@ class TrainerPwil(Trainer):
             env,
             verbose=0,
             **self._kwargs_ppo,
-            tensorboard_log=self._log_path
+            tensorboard_log=self._sb3_tblog_dir
         )
 
         eval_callback = EvalCallback(
             self._env_raw_testing,
-            best_model_save_path=self._log_path,
-            log_path=self._log_path,
+            best_model_save_path=self._sb3_tblog_dir,
+            log_path=self._sb3_tblog_dir,
             eval_freq=10000,
             deterministic=True,
             render=False,
@@ -128,7 +126,7 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         callback_list = CallbackList(
             [
-                CustomCallback(id="", log_path=self._log_path),
+                CustomCallback(id="", log_path=self._sb3_tblog_dir),
                 eval_callback,
                 TqdmCallback(),
             ]
@@ -154,7 +152,7 @@ class TrainerPwil(Trainer):
 
 
 class TrainerIrl(Trainer):
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: CommonParam):
         super().__init__(training_param)
 
         self._log_root_dir, self._demo_root_dir = "./logs/", "./demos/"

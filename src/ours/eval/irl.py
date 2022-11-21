@@ -2,7 +2,7 @@ from argparse import Namespace
 
 import imageio
 
-from src.ours.eval.param import TrainingParam
+from src.ours.eval.param import CommonParam
 from src.ours.util.test import PolicyTester
 from src.ours.util.train import TrainerIrl
 
@@ -60,7 +60,7 @@ class ClientTrainingIrl:
         self._opt_ppo = Namespace(**self._kwargs_ppo)
         self._opt_irl = Namespace(**self._kwargs_irl)
 
-        self._training_param = TrainingParam()
+        self._training_param = CommonParam()
         self._trainer = TrainerIrl(self._training_param)
 
     def training_settings(self):
