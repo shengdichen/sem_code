@@ -4,7 +4,7 @@ import numpy as np
 import torch
 
 
-class TrainingParam:
+class CommonParam:
     def __init__(self):
         self._seed = 42
         self._propagate_seed()

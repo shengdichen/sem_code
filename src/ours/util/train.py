@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import TrainingParam
+from src.ours.eval.param import CommonParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -36,7 +36,7 @@ from src.upstream.utils import CustomCallback, prepare_update_airl
 
 
 class Trainer:
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: CommonParam):
         self._training_param = training_param
         self._log_path = self._training_param.log_path
         self._kwargs_ppo = self._training_param.kwargs_ppo
@@ -46,7 +46,7 @@ class Trainer:
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: TrainingParam, env: Env):
+    def __init__(self, training_param: CommonParam, env: Env):
         super().__init__(training_param)
 
         self._env = env
@@ -81,7 +81,7 @@ class TrainerExpert(Trainer):
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: TrainingParam, envs: tuple[Env, Env]):
+    def __init__(self, training_param: CommonParam, envs: tuple[Env, Env]):
         super().__init__(training_param)
 
         self._model_dir = "./models_pwil"
@@ -154,7 +154,7 @@ class TrainerPwil(Trainer):
 
 
 class TrainerIrl(Trainer):
-    def __init__(self, training_param: TrainingParam):
+    def __init__(self, training_param: CommonParam):
         super().__init__(training_param)
 
         self._log_root_dir, self._demo_root_dir = "./logs/", "./demos/"

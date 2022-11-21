@@ -5,7 +5,7 @@ from stable_baselines3 import PPO
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import TrainingParam
+from src.ours.eval.param import CommonParam
 from src.ours.util.helper import ExpertManager, RewardPlotter
 from src.ours.util.test import PolicyTester
 from src.ours.util.train import TrainerPwil
@@ -14,7 +14,7 @@ from src.upstream.env_utils import PWILReward
 
 class ClientTrainerPwil:
     def __init__(self):
-        self._training_param = TrainingParam()
+        self._training_param = CommonParam()
         self._n_timesteps = int(3e5)
 
     def training(self):
