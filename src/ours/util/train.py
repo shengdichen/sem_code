@@ -80,6 +80,14 @@ class TrainerExpert(Trainer):
 
 
 class TrainerPwil(Trainer):
+    def __init__(self, training_param: TrainingParam, envs: tuple[Env, Env]):
+        super().__init__(training_param)
+
+        self._model_dir = "./models_pwil"
+        self._save_deterministic = False
+
+        self._env_raw, self._env_raw_testing = envs
+
     def train(
         self,
         demos,
@@ -87,15 +95,10 @@ class TrainerPwil(Trainer):
         subsampling,
         use_actions,
         n_timesteps,
-        n_targets,
-        shift_x,
-        shift_y,
         fname,
-        model_dir="./models",
-        save_deterministic=False,
     ):
         env = PWILReward(
-            env=MovePoint(n_targets, shift_x, shift_y),
+            env=self._env_raw,
             demos=demos,
             n_demos=n_demos,
             subsampling=subsampling,
@@ -104,7 +107,6 @@ class TrainerPwil(Trainer):
 
         plot = RewardPlotter.plot_reward(discriminator=None, env=env)
 
-        testing_env = MovePoint(n_targets, shift_x, shift_y)
         model = PPOSB(
             "MlpPolicy",
             env,
@@ -114,7 +116,7 @@ class TrainerPwil(Trainer):
         )
 
         eval_callback = EvalCallback(
-            testing_env,
+            self._env_raw_testing,
             best_model_save_path=self._log_path,
             log_path=self._log_path,
             eval_freq=10000,
@@ -134,17 +136,17 @@ class TrainerPwil(Trainer):
         model.learn(total_timesteps=n_timesteps, callback=callback_list)
 
         # save model
-        if not os.path.exists(model_dir):
-            os.mkdir(model_dir)
+        if not os.path.exists(self._model_dir):
+            os.mkdir(self._model_dir)
 
-        model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
+        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
         ExpertManager.save_expert_traj(
             env,
             model,
             nr_trajectories=10,
             render=False,
             filename=fname + str(n_timesteps),
-            deterministic=save_deterministic,
+            deterministic=self._save_deterministic,
         )
 
         return model, plot
