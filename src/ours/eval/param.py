@@ -47,14 +47,20 @@ class CommonParam:
 class ExpertParam(CommonParam):
     def __init__(self):
         super().__init__()
-        self._model_dir = "./models/"
+
+        self._model_dir, self._demo_dir = "./models/", "./demos/"
         Path(self._model_dir).mkdir(exist_ok=True)
+        Path(self._demo_dir).mkdir(exist_ok=True)
 
         self._n_steps_expert_train = int(3e5)
 
     @property
     def model_dir(self):
         return self._model_dir
+
+    @property
+    def demo_dir(self):
+        return self._demo_dir
 
     @property
     def n_steps_expert_train(self):

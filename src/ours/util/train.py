@@ -51,6 +51,7 @@ class TrainerExpert(Trainer):
 
         self._env = env
         self._model_dir = training_param.model_dir
+        self._demo_dir = training_param.demo_dir
         self._save_deterministic = False
 
     def train(self, n_timesteps, fname):
@@ -69,6 +70,7 @@ class TrainerExpert(Trainer):
             model,
             nr_trajectories=10,
             render=False,
+            demo_dir=self._demo_dir,
             filename=fname + str(n_timesteps),
             deterministic=self._save_deterministic,
         )
