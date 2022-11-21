@@ -63,10 +63,6 @@ class TrainerExpert(Trainer):
         )
         model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
-        # save model
-        if not os.path.exists(self._model_dir):
-            os.mkdir(self._model_dir)
-
         model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
         ExpertManager.save_expert_traj(
             self._env,

@@ -1,4 +1,5 @@
 import random
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -47,6 +48,7 @@ class ExpertParam(CommonParam):
     def __init__(self):
         super().__init__()
         self._model_dir = "./models/"
+        Path(self._model_dir).mkdir(exist_ok=True)
 
     @property
     def model_dir(self):
