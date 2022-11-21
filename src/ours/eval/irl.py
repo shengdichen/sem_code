@@ -4,10 +4,10 @@ import imageio
 
 from src.ours.eval.param import TrainingParam
 from src.ours.util.test import PolicyTester
-from src.ours.util.train import Training
+from src.ours.util.train import TrainerIrl
 
 
-class TrainingIrl:
+class ClientTrainingIrl:
     def __init__(self):
         # TODO:
         #   use training_param instead of separately naming these things
@@ -61,10 +61,10 @@ class TrainingIrl:
         self._opt = Namespace(**self._irl_args)
 
         self._training_param = TrainingParam()
-        self._training = Training(self._training_param)
+        self._trainer = TrainerIrl(self._training_param)
 
     def training_settings(self):
-        plots, best_rew_plots, best_val_plots = self._training.train_irl(
+        plots, best_rew_plots, best_val_plots = self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
@@ -80,22 +80,22 @@ class TrainingIrl:
         # TODO:
         #   DRY this!
         self._opt.irm_coeff = 100.0
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
         self._opt.irm_coeff = 10.0
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
         self._opt.irm_coeff = 0.1
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
         self._opt.irm_coeff = 1.0
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
@@ -106,7 +106,7 @@ class TrainingIrl:
         )
         self._opt.train_discriminator = False
 
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
@@ -115,7 +115,7 @@ class TrainingIrl:
         )
         self._opt.train_discriminator = False
 
-        self._training.train_irl(
+        self._trainer.train(
             self._opt, self._opt_policy, self._seed, self._env_kwargs
         )
 
