@@ -9,6 +9,8 @@ from src.ours.util.train import Training
 
 class TrainingIrl:
     def __init__(self):
+        # TODO:
+        #   use training_param instead of separately naming these things
         self._seed = 42
 
         self._env_kwargs = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -75,6 +77,8 @@ class TrainingIrl:
         )
 
     def train_various_irl(self):
+        # TODO:
+        #   DRY this!
         self._opt.irm_coeff = 100.0
         self._training.train_irl(
             self._opt, self._opt_policy, self._seed, self._env_kwargs

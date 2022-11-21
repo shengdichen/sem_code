@@ -216,6 +216,8 @@ class Plotter:
         pass  # intentionally left empty
 
     @staticmethod
+    # TODO:
+    #   name of demo-file should be a parameter, not hard-coded!
     def plot_experts(n_timesteps=3e5, hist=True):
         demo1 = Plotter.plot_traj(
             "demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"
