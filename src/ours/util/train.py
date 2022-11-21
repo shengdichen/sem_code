@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import CommonParam, ExpertParam, PwilParam
+from src.ours.eval.param import CommonParam, PwilParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -43,39 +43,6 @@ class Trainer:
 
     def train(self, **kwargs):
         pass
-
-
-class TrainerExpert(Trainer):
-    def __init__(self, training_param: ExpertParam, env: Env):
-        super().__init__(training_param)
-
-        self._env = env
-        self._model_dir = training_param.model_dir
-        self._demo_dir = training_param.demo_dir
-        self._save_deterministic = False
-
-    def train(self, n_timesteps, fname):
-        model = PPOSB(
-            "MlpPolicy",
-            self._env,
-            verbose=0,
-            **self._kwargs_ppo,
-            tensorboard_log=self._sb3_tblog_dir
-        )
-        model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
-
-        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
-        ExpertManager.save_expert_traj(
-            self._env,
-            model,
-            nr_trajectories=10,
-            render=False,
-            demo_dir=self._demo_dir,
-            filename=fname + str(n_timesteps),
-            deterministic=self._save_deterministic,
-        )
-
-        return model
 
 
 class TrainerPwil(Trainer):
