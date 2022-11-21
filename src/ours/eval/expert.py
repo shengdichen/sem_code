@@ -1,12 +1,12 @@
 from src.ours.env.creation import PointEnvFactory
-from src.ours.eval.param import CommonParam
+from src.ours.eval.param import ExpertParam
 from src.ours.util.helper import Plotter
 from src.ours.util.train import TrainerExpert
 
 
 class ClientTrainerExpert:
     def __init__(self):
-        self._training_param = CommonParam()
+        self._training_param = ExpertParam()
         self._n_timesteps = int(3e5)
 
     def train_and_plot(self) -> None:
