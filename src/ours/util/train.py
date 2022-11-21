@@ -39,42 +39,6 @@ class Training:
         self._log_path = self._training_param.log_path
         self._kwargs_ppo = self._training_param.kwargs_ppo
 
-    def train_expert(
-        self,
-        n_timesteps,
-        n_targets,
-        shift_x,
-        shift_y,
-        fname,
-        model_dir="./models",
-        save_deterministic=False,
-    ):
-        env = MovePoint(n_targets, shift_x, shift_y)
-        model = PPOSB(
-            "MlpPolicy",
-            env,
-            verbose=0,
-            **self._kwargs_ppo,
-            tensorboard_log=self._log_path
-        )
-        model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
-
-        # save model
-        if not os.path.exists(model_dir):
-            os.mkdir(model_dir)
-
-        model.save(os.path.join(model_dir, "model_" + fname + str(n_timesteps)))
-        ExpertManager.save_expert_traj(
-            env,
-            model,
-            nr_trajectories=10,
-            render=False,
-            filename=fname + str(n_timesteps),
-            deterministic=save_deterministic,
-        )
-
-        return model
-
     def train_pwil(
         self,
         demos,
