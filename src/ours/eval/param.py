@@ -51,3 +51,13 @@ class ExpertParam(CommonParam):
     @property
     def model_dir(self):
         return self._model_dir
+
+
+class PwilParam(CommonParam):
+    def __init__(self):
+        super().__init__()
+        self._model_dir = "./models_pwil/"
+
+    @property
+    def model_dir(self):
+        return self._model_dir
