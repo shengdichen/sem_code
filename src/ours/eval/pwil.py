@@ -50,13 +50,13 @@ class TrainerPwil(Trainer):
             env,
             verbose=0,
             **self._kwargs_ppo,
-            tensorboard_log=self._sb3_tblog_dir
+            tensorboard_log=self._training_param.sb3_tblog_dir
         )
 
         eval_callback = EvalCallback(
             self._env_raw_testing,
-            best_model_save_path=self._sb3_tblog_dir,
-            log_path=self._sb3_tblog_dir,
+            best_model_save_path=self._training_param.sb3_tblog_dir,
+            log_path=self._training_param.sb3_tblog_dir,
             eval_freq=10000,
             deterministic=True,
             render=False,
@@ -65,7 +65,7 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         callback_list = CallbackList(
             [
-                CustomCallback(id="", log_path=self._sb3_tblog_dir),
+                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
                 eval_callback,
                 TqdmCallback(),
             ]
