@@ -54,9 +54,18 @@ class PathGenerator:
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
+        self._prefix = "exp"
+        self._connector = "_"
+
     def get_filename_from_shift_values(self) -> str:
         shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
-        return "exp_" + str(shift_x) + "_" + str(shift_y)
+        return (
+            self._prefix
+            + self._connector
+            + str(shift_x)
+            + self._connector
+            + str(shift_y)
+        )
 
 
 class ClientTrainerExpert:
