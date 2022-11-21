@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import CommonParam
+from src.ours.eval.param import CommonParam, ExpertParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -46,11 +46,11 @@ class Trainer:
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: CommonParam, env: Env):
+    def __init__(self, training_param: ExpertParam, env: Env):
         super().__init__(training_param)
 
         self._env = env
-        self._model_dir = "./models"
+        self._model_dir = training_param.model_dir
         self._save_deterministic = False
 
     def train(self, n_timesteps, fname):
