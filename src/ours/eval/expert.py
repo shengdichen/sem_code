@@ -51,9 +51,11 @@ class TrainerExpert(Trainer):
 
 
 class PathGenerator:
-    @staticmethod
-    def _get_filename_from_shift_values(env_conig: dict[str:int]) -> str:
-        shift_x, shift_y = env_conig["shift_x"], env_conig["shift_y"]
+    def __init__(self, env_config: dict[str:int]):
+        self._env_config = env_config
+
+    def get_filename_from_shift_values(self) -> str:
+        shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
         return "exp_" + str(shift_x) + "_" + str(shift_y)
 
 
@@ -76,7 +78,7 @@ class ClientTrainerExpert:
     def _train(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(self._training_param, env)
-        filename = PathGenerator._get_filename_from_shift_values(env_config)
+        filename = PathGenerator(env_config).get_filename_from_shift_values()
 
         trainer.train(self._n_timesteps, filename)
 
