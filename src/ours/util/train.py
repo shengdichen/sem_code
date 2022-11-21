@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import CommonParam, ExpertParam
+from src.ours.eval.param import CommonParam, ExpertParam, PwilParam
 from src.ours.util.helper import (
     TqdmCallback,
     ExpertManager,
@@ -81,7 +81,7 @@ class TrainerExpert(Trainer):
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: CommonParam, envs: tuple[Env, Env]):
+    def __init__(self, training_param: PwilParam, envs: tuple[Env, Env]):
         super().__init__(training_param)
 
         self._model_dir = "./models_pwil"
