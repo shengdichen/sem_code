@@ -9,7 +9,7 @@ class CommonParam:
         self._seed = 42
         self._propagate_seed()
 
-        self._log_path = "./pointmaze_results"
+        self._sb3_tblog_dir = "./pointmaze_results"
 
         self._kwargs_ppo = {
             "learning_rate": 0.0003,
@@ -30,8 +30,8 @@ class CommonParam:
         return self._seed
 
     @property
-    def log_path(self):
-        return self._log_path
+    def sb3_tblog_dir(self):
+        return self._sb3_tblog_dir
 
     @property
     def kwargs_ppo(self):
