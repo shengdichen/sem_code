@@ -1,15 +1,93 @@
+import os
+
 import PIL.Image as Image
 import matplotlib.pyplot as plt
 import torchvision
-from stable_baselines3 import PPO
+from gym import Env
+from stable_baselines3 import PPO, PPO as PPOSB
+from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import PwilParam
-from src.ours.util.helper import ExpertManager, RewardPlotter
+from src.ours.util.helper import ExpertManager, RewardPlotter, TqdmCallback
 from src.ours.util.test import PolicyTester
-from src.ours.util.train import TrainerPwil
+from src.ours.util.train import Trainer
 from src.upstream.env_utils import PWILReward
+from src.upstream.utils import CustomCallback
+
+
+class TrainerPwil(Trainer):
+    def __init__(self, training_param: PwilParam, envs: tuple[Env, Env]):
+        super().__init__(training_param)
+
+        self._model_dir = "./models_pwil"
+        self._save_deterministic = False
+
+        self._env_raw, self._env_raw_testing = envs
+
+    def train(
+        self,
+        demos,
+        n_demos,
+        subsampling,
+        use_actions,
+        n_timesteps,
+        fname,
+    ):
+        env = PWILReward(
+            env=self._env_raw,
+            demos=demos,
+            n_demos=n_demos,
+            subsampling=subsampling,
+            use_actions=use_actions,
+        )
+
+        plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+
+        model = PPOSB(
+            "MlpPolicy",
+            env,
+            verbose=0,
+            **self._training_param.kwargs_ppo,
+            tensorboard_log=self._training_param.sb3_tblog_dir
+        )
+
+        eval_callback = EvalCallback(
+            self._env_raw_testing,
+            best_model_save_path=self._training_param.sb3_tblog_dir,
+            log_path=self._training_param.sb3_tblog_dir,
+            eval_freq=10000,
+            deterministic=True,
+            render=False,
+        )
+
+        # eval_callback.init_callback(ppo_dict[k])
+        callback_list = CallbackList(
+            [
+                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
+                eval_callback,
+                TqdmCallback(),
+            ]
+        )
+
+        model.learn(total_timesteps=n_timesteps, callback=callback_list)
+
+        # save model
+        if not os.path.exists(self._model_dir):
+            os.mkdir(self._model_dir)
+
+        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
+        ExpertManager.save_expert_traj(
+            env,
+            model,
+            nr_trajectories=10,
+            render=False,
+            filename=fname + str(n_timesteps),
+            deterministic=self._save_deterministic,
+        )
+
+        return model, plot
 
 
 class ClientTrainerPwil:
