@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.eval.param import ExpertParam
@@ -66,6 +68,15 @@ class PathGenerator:
             + self._connector
             + str(shift_y)
         )
+
+
+class Saver:
+    def __init__(self, model: BaseAlgorithm, savepath_rel: Path):
+        self._model = model
+        self._savepath_rel = savepath_rel
+
+    def save_model(self):
+        self._model.save(self._savepath_rel)
 
 
 class ClientTrainerExpert:
