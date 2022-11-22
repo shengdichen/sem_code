@@ -4,7 +4,7 @@ from gym import Env
 from stable_baselines3 import PPO as PPOSB
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.env.creation import PointEnvFactory
+from src.ours.env.creation import PointEnvFactory, PathGenerator
 from src.ours.eval.param import ExpertParam
 from src.ours.util.helper import Plotter, TqdmCallback, ExpertManager
 from src.ours.util.train import Trainer
@@ -41,23 +41,6 @@ class TrainerExpert(Trainer):
             demo_dir=self._demo_dir,
             filename=fname + str(n_timesteps),
             deterministic=self._save_deterministic,
-        )
-
-class PathGenerator:
-    def __init__(self, env_config: dict[str:int]):
-        self._env_config = env_config
-
-        self._prefix = "exp"
-        self._connector = "_"
-
-    def get_filename_from_shift_values(self) -> str:
-        shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
-        return (
-            self._prefix
-            + self._connector
-            + str(shift_x)
-            + self._connector
-            + str(shift_y)
         )
 
 
