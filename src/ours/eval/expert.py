@@ -2,10 +2,10 @@ from pathlib import Path
 
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
-from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.env.creation import PointEnvFactory, PathGenerator
 from src.ours.eval.param import ExpertParam
+from src.ours.eval.util import Saver
 from src.ours.util.helper import Plotter, TqdmCallback, ExpertManager
 from src.ours.util.train import Trainer
 
@@ -42,15 +42,6 @@ class TrainerExpert(Trainer):
             filename=fname + str(n_timesteps),
             deterministic=self._save_deterministic,
         )
-
-
-class Saver:
-    def __init__(self, model: BaseAlgorithm, savepath_rel: Path):
-        self._model = model
-        self._savepath_rel = savepath_rel
-
-    def save_model(self):
-        self._model.save(self._savepath_rel)
 
 
 class ClientTrainerExpert:
