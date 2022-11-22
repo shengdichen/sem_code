@@ -70,7 +70,10 @@ class ExpertParam(CommonParam):
 class PwilParam(CommonParam):
     def __init__(self):
         super().__init__()
-        self._model_dir = "./models_pwil/"
+
+        self._model_dir, self._demo_dir = "./models_pwil/", "./demos/"
+        Path(self._model_dir).mkdir(exist_ok=True)
+        Path(self._demo_dir).mkdir(exist_ok=True)
 
     @property
     def model_dir(self):
