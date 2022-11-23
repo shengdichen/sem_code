@@ -35,6 +35,8 @@ class CommonParam:
             # "max_grad_norm":0.5
         }
 
+        self._n_steps_expert_train = int(3e5)
+
     @property
     def seed(self):
         return self._seed
@@ -55,6 +57,10 @@ class CommonParam:
     def kwargs_ppo(self):
         return self._kwargs_ppo
 
+    @property
+    def n_steps_expert_train(self):
+        return self._n_steps_expert_train
+
     def _propagate_seed(self):
         torch.manual_seed(self._seed)
         np.random.seed(self._seed)
@@ -67,12 +73,6 @@ class ExpertParam(CommonParam):
 
         self._model_dir, self._demo_dir = "./models/", "./demos/"
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
-
-        self._n_steps_expert_train = int(3e5)
-
-    @property
-    def n_steps_expert_train(self):
-        return self._n_steps_expert_train
 
 
 class PwilParam(CommonParam):
