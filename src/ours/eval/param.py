@@ -17,6 +17,7 @@ class CommonParam:
         self._propagate_seed()
 
         self._sb3_tblog_dir = "./pointmaze_results/"
+        Util.mkdir_if_not_existent(self._sb3_tblog_dir)
 
         self._kwargs_ppo = {
             "learning_rate": 0.0003,
