@@ -198,10 +198,7 @@ class ExpertManager:
 
         self._expert_manager_param = expert_manager_param
 
-    def save_expert_traj(
-        self,
-        filename="exp",
-    ):
+    def get_expert_traj(self):
         num_steps = 0
         expert_traj = []
 
@@ -231,8 +228,13 @@ class ExpertManager:
             if i_episode > self._expert_manager_param.nr_trajectories:
                 break
 
-        expert_traj = np.stack(expert_traj)
+        return np.stack(expert_traj)
 
+    def save_expert_traj(
+        self,
+        filename="exp",
+    ):
+        expert_traj = self.get_expert_traj()
         np.save(os.path.join(self._demo_dir, filename + self._postfix), expert_traj)
 
         self._env.close()
