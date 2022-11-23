@@ -18,6 +18,7 @@ class CommonParam:
 
         self._sb3_tblog_dir = "./pointmaze_results/"
         Util.mkdir_if_not_existent(self._sb3_tblog_dir)
+        self._model_dir, self._demo_dir = "./", "./"
 
         self._kwargs_ppo = {
             "learning_rate": 0.0003,
@@ -42,6 +43,14 @@ class CommonParam:
         return self._sb3_tblog_dir
 
     @property
+    def model_dir(self):
+        return self._model_dir
+
+    @property
+    def demo_dir(self):
+        return self._demo_dir
+
+    @property
     def kwargs_ppo(self):
         return self._kwargs_ppo
 
@@ -56,18 +65,10 @@ class ExpertParam(CommonParam):
         super().__init__()
 
         self._model_dir, self._demo_dir = "./models/", "./demos/"
-        Path(self._model_dir).mkdir(exist_ok=True)
-        Path(self._demo_dir).mkdir(exist_ok=True)
+        for dir in [self._model_dir, self._demo_dir]:
+            Path(dir).mkdir(exist_ok=True)
 
         self._n_steps_expert_train = int(3e5)
-
-    @property
-    def model_dir(self):
-        return self._model_dir
-
-    @property
-    def demo_dir(self):
-        return self._demo_dir
 
     @property
     def n_steps_expert_train(self):
@@ -79,9 +80,5 @@ class PwilParam(CommonParam):
         super().__init__()
 
         self._model_dir, self._demo_dir = "./models_pwil/", "./demos/"
-        Path(self._model_dir).mkdir(exist_ok=True)
-        Path(self._demo_dir).mkdir(exist_ok=True)
-
-    @property
-    def model_dir(self):
-        return self._model_dir
+        for dir in [self._model_dir, self._demo_dir]:
+            Path(dir).mkdir(exist_ok=True)
