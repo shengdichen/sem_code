@@ -1,5 +1,6 @@
 import os
 from itertools import count
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -208,6 +209,17 @@ class ExpertManager:
         ]
 
         return expert_demos
+
+
+class ExpertSaveLoad:
+    def __init__(self, path: Path):
+        self._path = str(path)
+
+    def save(self, target):
+        np.save(self._path, target)
+
+    def load(self):
+        return np.load(self._path)
 
 
 class Plotter:
