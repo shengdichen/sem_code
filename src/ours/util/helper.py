@@ -173,13 +173,10 @@ class ExpertManager:
 
         self._n_timesteps = self._training_param.n_steps_expert_train
 
-    @staticmethod
     def save_expert_traj(
-        env,
-        model,
+        self,
         nr_trajectories=10,
         render=False,
-        demo_dir="./demos",
         filename="exp",
         deterministic=False,
     ):
@@ -187,14 +184,14 @@ class ExpertManager:
         expert_traj = []
 
         for i_episode in count():
-            ob = env.reset()
+            ob = self._env.reset()
             done = False
             total_reward = 0
             episode_traj = []
 
             while not done:
-                ac, _states = model.predict(ob, deterministic=deterministic)
-                next_ob, reward, done, _ = env.step(ac)
+                ac, _states = self._model.predict(ob, deterministic=deterministic)
+                next_ob, reward, done, _ = self._env.step(ac)
 
                 ob = next_ob
                 total_reward += reward
@@ -203,7 +200,7 @@ class ExpertManager:
                 episode_traj.append(stacked_vec)
                 num_steps += 1
                 if render:
-                    env.render()
+                    self._env.render()
 
             print("Episode reward: ", total_reward)
 
@@ -212,9 +209,9 @@ class ExpertManager:
 
         expert_traj = np.stack(expert_traj)
 
-        np.save(os.path.join(demo_dir, filename + "_expert_traj.npy"), expert_traj)
+        np.save(os.path.join(self._demo_dir, filename + self._postfix), expert_traj)
 
-        env.close()
+        self._env.close()
 
     def load_expert_demos(self):
         expert_demos = []
