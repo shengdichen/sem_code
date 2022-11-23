@@ -10,7 +10,7 @@ from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
-from src.ours.eval.param import ExpertParam, PwilParam
+from src.ours.eval.param import CommonParam
 
 
 class RewardPlotter:
@@ -184,7 +184,7 @@ class ExpertManager:
     def __init__(
         self,
         env_model: tuple[Env, Any],
-        training_param: ExpertParam | PwilParam,
+        training_param: CommonParam,
         expert_manager_param=ExpertManagerParam(),
     ):
         self._env, self._model = env_model
