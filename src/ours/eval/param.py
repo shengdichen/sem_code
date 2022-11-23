@@ -5,6 +5,12 @@ import numpy as np
 import torch
 
 
+class Util:
+    @staticmethod
+    def mkdir_if_not_existent(dir: str):
+        Path(dir).mkdir(exist_ok=True)
+
+
 class CommonParam:
     def __init__(self):
         self._seed = 42
