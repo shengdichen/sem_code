@@ -7,8 +7,9 @@ import torch
 
 class Util:
     @staticmethod
-    def mkdir_if_not_existent(dir: str):
-        Path(dir).mkdir(exist_ok=True)
+    def mkdir_if_not_existent(directories: list[str]):
+        for d in directories:
+            Path(d).mkdir(exist_ok=True)
 
 
 class CommonParam:
@@ -17,7 +18,7 @@ class CommonParam:
         self._propagate_seed()
 
         self._sb3_tblog_dir = "./pointmaze_results/"
-        Util.mkdir_if_not_existent(self._sb3_tblog_dir)
+        Util.mkdir_if_not_existent([self._sb3_tblog_dir])
         self._model_dir, self._demo_dir = "./", "./"
 
         self._kwargs_ppo = {
@@ -65,8 +66,7 @@ class ExpertParam(CommonParam):
         super().__init__()
 
         self._model_dir, self._demo_dir = "./models/", "./demos/"
-        for dir in [self._model_dir, self._demo_dir]:
-            Path(dir).mkdir(exist_ok=True)
+        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
 
         self._n_steps_expert_train = int(3e5)
 
@@ -80,5 +80,4 @@ class PwilParam(CommonParam):
         super().__init__()
 
         self._model_dir, self._demo_dir = "./models_pwil/", "./demos/"
-        for dir in [self._model_dir, self._demo_dir]:
-            Path(dir).mkdir(exist_ok=True)
+        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
