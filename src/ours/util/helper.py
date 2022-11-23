@@ -160,6 +160,26 @@ class RewardCheckpointCallback(BaseCallback):
         pass
 
 
+class ExpertManagerParam:
+    def __init__(self):
+        self._nr_trajectories = 10
+
+        self._render = False
+        self._deterministic = False
+
+    @property
+    def nr_trajectories(self):
+        return self._nr_trajectories
+
+    @property
+    def render(self):
+        return self._render
+
+    @property
+    def deterministic(self):
+        return self._deterministic
+
+
 class ExpertManager:
     def __init__(
         self, env_model: tuple[Env, Any], training_param: ExpertParam | PwilParam
