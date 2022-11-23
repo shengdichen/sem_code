@@ -216,13 +216,20 @@ class ExpertManager:
 
         env.close()
 
-    @staticmethod
-    def load_expert_demos(n_timesteps=3e5):
-        expert_demos = [
-            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"),
-            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"),
-            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"),
-        ]
+    def load_expert_demos(self):
+        expert_demos = []
+        for shift_x, shift_y in [(0, 0), (50, 0), (0, 50)]:
+            expert_demos.append(
+                ExpertSaveLoad(
+                    Path(
+                        "{0}/{1}_{2}_{3}".format(
+                            self._demo_dir, self._prefix, shift_x, shift_y
+                        )
+                        + str(self._n_timesteps)
+                        + self._postfix
+                    )
+                ).load()
+            )
 
         return expert_demos
 
