@@ -228,6 +228,8 @@ class ExpertManager:
             if i_episode > self._expert_manager_param.nr_trajectories:
                 break
 
+        self._env.close()
+
         return np.stack(expert_traj)
 
     def save_expert_traj(self, filename="exp"):
@@ -235,9 +237,8 @@ class ExpertManager:
         path_saveload = Path(
             "{0}/{1}{2}".format(self._demo_dir, filename, self._postfix)
         )
-        ExpertSaveLoad(path_saveload).save(expert_traj)
 
-        self._env.close()
+        ExpertSaveLoad(path_saveload).save(expert_traj)
 
     def load_expert_demos(self):
         expert_demos = []
