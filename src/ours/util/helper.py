@@ -1,12 +1,16 @@
 import os
 from itertools import count
 from pathlib import Path
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
+
+from src.ours.eval.param import ExpertParam, PwilParam
 
 
 class RewardPlotter:
@@ -157,6 +161,18 @@ class RewardCheckpointCallback(BaseCallback):
 
 
 class ExpertManager:
+    def __init__(
+        self, env_model: tuple[Env, Any], training_param: ExpertParam | PwilParam
+    ):
+        self._env, self._model = env_model
+        self._training_param = training_param
+
+        self._demo_dir = self._training_param.demo_dir
+        self._prefix = "exp"
+        self._postfix = "_expert_traj.npy"
+
+        self._n_timesteps = self._training_param.n_steps_expert_train
+
     @staticmethod
     def save_expert_traj(
         env,
