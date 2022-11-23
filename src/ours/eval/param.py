@@ -10,7 +10,7 @@ class CommonParam:
         self._seed = 42
         self._propagate_seed()
 
-        self._sb3_tblog_dir = "./pointmaze_results"
+        self._sb3_tblog_dir = "./pointmaze_results/"
 
         self._kwargs_ppo = {
             "learning_rate": 0.0003,
