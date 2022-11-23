@@ -230,12 +230,12 @@ class ExpertManager:
 
         return np.stack(expert_traj)
 
-    def save_expert_traj(
-        self,
-        filename="exp",
-    ):
+    def save_expert_traj(self, filename="exp"):
         expert_traj = self.get_expert_traj()
-        np.save(os.path.join(self._demo_dir, filename + self._postfix), expert_traj)
+        path_saveload = Path(
+            "{0}/{1}{2}".format(self._demo_dir, filename, self._postfix)
+        )
+        ExpertSaveLoad(path_saveload).save(expert_traj)
 
         self._env.close()
 
