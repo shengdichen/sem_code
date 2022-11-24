@@ -1,12 +1,16 @@
 import os
 from itertools import count
 from pathlib import Path
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
+
+from src.ours.eval.param import ExpertParam, PwilParam
 
 
 class RewardPlotter:
@@ -157,13 +161,22 @@ class RewardCheckpointCallback(BaseCallback):
 
 
 class ExpertManager:
-    @staticmethod
+    def __init__(
+        self, env_model: tuple[Env, Any], training_param: ExpertParam | PwilParam
+    ):
+        self._env, self._model = env_model
+        self._training_param = training_param
+
+        self._demo_dir = self._training_param.demo_dir
+        self._prefix = "exp"
+        self._postfix = "_expert_traj.npy"
+
+        self._n_timesteps = self._training_param.n_steps_expert_train
+
     def save_expert_traj(
-        env,
-        model,
+        self,
         nr_trajectories=10,
         render=False,
-        demo_dir="./demos",
         filename="exp",
         deterministic=False,
     ):
@@ -171,14 +184,14 @@ class ExpertManager:
         expert_traj = []
 
         for i_episode in count():
-            ob = env.reset()
+            ob = self._env.reset()
             done = False
             total_reward = 0
             episode_traj = []
 
             while not done:
-                ac, _states = model.predict(ob, deterministic=deterministic)
-                next_ob, reward, done, _ = env.step(ac)
+                ac, _states = self._model.predict(ob, deterministic=deterministic)
+                next_ob, reward, done, _ = self._env.step(ac)
 
                 ob = next_ob
                 total_reward += reward
@@ -187,7 +200,7 @@ class ExpertManager:
                 episode_traj.append(stacked_vec)
                 num_steps += 1
                 if render:
-                    env.render()
+                    self._env.render()
 
             print("Episode reward: ", total_reward)
 
@@ -196,17 +209,24 @@ class ExpertManager:
 
         expert_traj = np.stack(expert_traj)
 
-        np.save(os.path.join(demo_dir, filename + "_expert_traj.npy"), expert_traj)
+        np.save(os.path.join(self._demo_dir, filename + self._postfix), expert_traj)
 
-        env.close()
+        self._env.close()
 
-    @staticmethod
-    def load_expert_demos(n_timesteps=3e5):
-        expert_demos = [
-            np.load("demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"),
-            np.load("demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"),
-            np.load("demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"),
-        ]
+    def load_expert_demos(self):
+        expert_demos = []
+        for shift_x, shift_y in [(0, 0), (50, 0), (0, 50)]:
+            expert_demos.append(
+                ExpertSaveLoad(
+                    Path(
+                        "{0}/{1}_{2}_{3}".format(
+                            self._demo_dir, self._prefix, shift_x, shift_y
+                        )
+                        + str(self._n_timesteps)
+                        + self._postfix
+                    )
+                ).load()
+            )
 
         return expert_demos
 
