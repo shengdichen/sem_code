@@ -160,9 +160,32 @@ class RewardCheckpointCallback(BaseCallback):
         pass
 
 
+class ExpertManagerParam:
+    def __init__(self):
+        self._nr_trajectories = 10
+
+        self._render = False
+        self._deterministic = False
+
+    @property
+    def nr_trajectories(self):
+        return self._nr_trajectories
+
+    @property
+    def render(self):
+        return self._render
+
+    @property
+    def deterministic(self):
+        return self._deterministic
+
+
 class ExpertManager:
     def __init__(
-        self, env_model: tuple[Env, Any], training_param: ExpertParam | PwilParam
+        self,
+        env_model: tuple[Env, Any],
+        training_param: ExpertParam | PwilParam,
+        expert_manager_param=ExpertManagerParam(),
     ):
         self._env, self._model = env_model
         self._training_param = training_param
@@ -173,12 +196,11 @@ class ExpertManager:
 
         self._n_timesteps = self._training_param.n_steps_expert_train
 
+        self._expert_manager_param = expert_manager_param
+
     def save_expert_traj(
         self,
-        nr_trajectories=10,
-        render=False,
         filename="exp",
-        deterministic=False,
     ):
         num_steps = 0
         expert_traj = []
@@ -190,7 +212,9 @@ class ExpertManager:
             episode_traj = []
 
             while not done:
-                ac, _states = self._model.predict(ob, deterministic=deterministic)
+                ac, _states = self._model.predict(
+                    ob, deterministic=self._expert_manager_param.deterministic
+                )
                 next_ob, reward, done, _ = self._env.step(ac)
 
                 ob = next_ob
@@ -199,12 +223,12 @@ class ExpertManager:
                 expert_traj.append(stacked_vec)
                 episode_traj.append(stacked_vec)
                 num_steps += 1
-                if render:
+                if self._expert_manager_param.render:
                     self._env.render()
 
             print("Episode reward: ", total_reward)
 
-            if i_episode > nr_trajectories:
+            if i_episode > self._expert_manager_param.nr_trajectories:
                 break
 
         expert_traj = np.stack(expert_traj)
