@@ -189,14 +189,7 @@ class ExpertManager:
         expert_manager_param=ExpertManagerParam(),
     ):
         self._expert_generator = ExpertTrajGenerator(env_model, expert_manager_param)
-
         self._training_param = training_param
-
-        self._demo_dir = self._training_param.demo_dir
-        self._prefix = self._training_param.prefix
-        self._postfix = self._training_param.postfix
-
-        self._n_timesteps = self._training_param.n_steps_expert_train
 
     def save_expert_traj(self, filename="exp"):
         expert_traj = self._expert_generator.get_expert_traj()
