@@ -1,7 +1,8 @@
-import os
+from pathlib import Path
 
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.env.creation import PointEnvFactory
 from src.ours.eval.param import ExpertParam
@@ -14,24 +15,27 @@ class TrainerExpert(Trainer):
         super().__init__(training_param)
 
         self._env = env
-        self._model_dir = training_param.model_dir
         self._demo_dir = training_param.demo_dir
         self._save_deterministic = False
 
-    def train(self, n_timesteps, fname):
-        model = PPOSB(
+        self._model = PPOSB(
             "MlpPolicy",
             self._env,
             verbose=0,
             **self._training_param.kwargs_ppo,
             tensorboard_log=self._training_param.sb3_tblog_dir
         )
-        model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
-        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
+    @property
+    def model(self):
+        return self._model
+
+    def train(self, n_timesteps, fname):
+        self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
+
         ExpertManager.save_expert_traj(
             self._env,
-            model,
+            self._model,
             nr_trajectories=10,
             render=False,
             demo_dir=self._demo_dir,
@@ -39,7 +43,34 @@ class TrainerExpert(Trainer):
             deterministic=self._save_deterministic,
         )
 
-        return model
+        return self._model
+
+
+class PathGenerator:
+    def __init__(self, env_config: dict[str:int]):
+        self._env_config = env_config
+
+        self._prefix = "exp"
+        self._connector = "_"
+
+    def get_filename_from_shift_values(self) -> str:
+        shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
+        return (
+            self._prefix
+            + self._connector
+            + str(shift_x)
+            + self._connector
+            + str(shift_y)
+        )
+
+
+class Saver:
+    def __init__(self, model: BaseAlgorithm, savepath_rel: Path):
+        self._model = model
+        self._savepath_rel = savepath_rel
+
+    def save_model(self):
+        self._model.save(self._savepath_rel)
 
 
 class ClientTrainerExpert:
@@ -52,23 +83,23 @@ class ClientTrainerExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 0})
-        self._train({"n_targets": 2, "shift_x": 0, "shift_y": 50})
-        self._train({"n_targets": 2, "shift_x": 50, "shift_y": 0})
+        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 0})
+        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 50})
+        self._train_and_save({"n_targets": 2, "shift_x": 50, "shift_y": 0})
 
         self._plot()
 
-    def _train(self, env_config: dict[str:int]) -> None:
+    def _train_and_save(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(self._training_param, env)
-        filename = self._get_filename_from_shift_values(env_config)
+        filename = PathGenerator(env_config).get_filename_from_shift_values()
 
-        trainer.train(self._n_timesteps, filename)
-
-    @staticmethod
-    def _get_filename_from_shift_values(env_conig: dict[str:int]) -> str:
-        shift_x, shift_y = env_conig["shift_x"], env_conig["shift_y"]
-        return "exp_" + str(shift_x) + "_" + str(shift_y)
+        model = trainer.train(self._n_timesteps, filename)
+        Saver(
+            model,
+            Path(self._training_param.model_dir)
+            / Path("model_" + filename + str(self._n_timesteps)),
+        ).save_model()
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
