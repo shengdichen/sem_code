@@ -203,6 +203,10 @@ class ExpertManager:
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
 
+    def load_one_demo(self, filename: str):
+        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
+        return ExpertSaveLoad(path_saveload).load()
+
     def load_expert_demos(self):
         expert_demos = []
         for shift_x, shift_y in [(0, 0), (50, 0), (0, 50)]:
