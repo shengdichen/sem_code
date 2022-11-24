@@ -10,6 +10,7 @@ from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
+from src.ours.env.creation import PathGenerator
 from src.ours.eval.param import CommonParam
 
 
@@ -209,21 +210,14 @@ class ExpertManager:
 
     def load_expert_demos(self):
         expert_demos = []
-        for shift_x, shift_y in [(0, 0), (50, 0), (0, 50)]:
-            expert_demos.append(
-                ExpertSaveLoad(
-                    Path(
-                        "{0}/{1}_{2}_{3}{4}{5}".format(
-                            self._demo_dir,
-                            self._prefix,
-                            shift_x,
-                            shift_y,
-                            self._n_timesteps,
-                            self._postfix,
-                        )
-                    )
-                ).load()
-            )
+        for env_config in [
+            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
+            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
+            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
+        ]:
+            filename = PathGenerator(env_config).get_filename_from_shift_values()
+            demo = self.load_one_demo(filename)
+            expert_demos.append(demo)
 
         return expert_demos
 
