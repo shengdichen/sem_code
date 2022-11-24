@@ -194,8 +194,7 @@ class ExpertManager:
                 break
 
         expert_traj = np.stack(expert_traj)
-        if not os.path.exists(demo_dir):
-            os.mkdir(demo_dir)
+
         np.save(os.path.join(demo_dir, filename + "_expert_traj.npy"), expert_traj)
 
         env.close()
