@@ -246,11 +246,14 @@ class ExpertManager:
             expert_demos.append(
                 ExpertSaveLoad(
                     Path(
-                        "{0}/{1}_{2}_{3}".format(
-                            self._demo_dir, self._prefix, shift_x, shift_y
+                        "{0}/{1}_{2}_{3}{4}{5}".format(
+                            self._demo_dir,
+                            self._prefix,
+                            shift_x,
+                            shift_y,
+                            self._n_timesteps,
+                            self._postfix,
                         )
-                        + str(self._n_timesteps)
-                        + self._postfix
                     )
                 ).load()
             )
