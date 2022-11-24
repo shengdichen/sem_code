@@ -28,7 +28,7 @@ class TrainerExpert(Trainer):
     def model(self):
         return self._model
 
-    def train(self, n_timesteps, fname):
+    def train(self, n_timesteps):
         self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
 
@@ -53,7 +53,7 @@ class ClientTrainerExpert:
         trainer = TrainerExpert(self._training_param, env)
         filename = PathGenerator(env_config).get_filename_from_shift_values()
 
-        trainer.train(self._n_timesteps, filename)
+        trainer.train(self._n_timesteps)
         Saver(
             trainer.model,
             Path(self._training_param.model_dir)
