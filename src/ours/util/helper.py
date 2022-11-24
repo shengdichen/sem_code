@@ -192,8 +192,8 @@ class ExpertManager:
         self._training_param = training_param
 
         self._demo_dir = self._training_param.demo_dir
-        self._prefix = "exp"
-        self._postfix = "_expert_traj.npy"
+        self._prefix = self._training_param.prefix
+        self._postfix = self._training_param.postfix
 
         self._n_timesteps = self._training_param.n_steps_expert_train
 
