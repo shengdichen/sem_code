@@ -43,9 +43,6 @@ class TrainerExpert(Trainer):
             deterministic=self._save_deterministic,
         )
 
-        return self._model
-
-
 class PathGenerator:
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
@@ -94,9 +91,9 @@ class ClientTrainerExpert:
         trainer = TrainerExpert(self._training_param, env)
         filename = PathGenerator(env_config).get_filename_from_shift_values()
 
-        model = trainer.train(self._n_timesteps, filename)
+        trainer.train(self._n_timesteps, filename)
         Saver(
-            model,
+            trainer.model,
             Path(self._training_param.model_dir)
             / Path("model_" + filename + str(self._n_timesteps)),
         ).save_model()
