@@ -60,7 +60,7 @@ class ClientTrainerExpert:
             / Path("model_" + filename + str(self._n_timesteps)),
         ).save_model()
         ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
-            filename + str(self._n_timesteps),
+            filename
         )
 
     def _plot(self) -> None:

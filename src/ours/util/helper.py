@@ -235,7 +235,9 @@ class ExpertManager:
     def save_expert_traj(self, filename="exp"):
         expert_traj = self.get_expert_traj()
         path_saveload = Path(
-            "{0}/{1}{2}".format(self._demo_dir, filename, self._postfix)
+            "{0}/{1}{2}{3}".format(
+                self._demo_dir, filename, self._n_timesteps, self._postfix
+            )
         )
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
