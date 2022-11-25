@@ -15,8 +15,6 @@ class TrainerExpert(Trainer):
         super().__init__(training_param)
 
         self._env = env
-        self._demo_dir = training_param.demo_dir
-        self._save_deterministic = False
 
         self._model = PPOSB(
             "MlpPolicy",
@@ -32,16 +30,6 @@ class TrainerExpert(Trainer):
 
     def train(self, n_timesteps, fname):
         self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
-
-        ExpertManager.save_expert_traj(
-            self._env,
-            self._model,
-            nr_trajectories=10,
-            render=False,
-            demo_dir=self._demo_dir,
-            filename=fname + str(n_timesteps),
-            deterministic=self._save_deterministic,
-        )
 
 
 class ClientTrainerExpert:
@@ -71,6 +59,9 @@ class ClientTrainerExpert:
             Path(self._training_param.model_dir)
             / Path("model_" + filename + str(self._n_timesteps)),
         ).save_model()
+        ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
+            filename + str(self._n_timesteps),
+        )
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
