@@ -3,7 +3,7 @@ from pathlib import Path
 from src.ours.eval.param import CommonParam
 
 
-class ExpertPathGenerator:
+class ExpertSaveLoadPathGenerator:
     def __init__(self, training_param: CommonParam):
         self._training_param = training_param
 
@@ -18,7 +18,7 @@ class ExpertPathGenerator:
         )
 
 
-class Sb3PathGenerator:
+class Sb3SaveLoadPathGenerator:
     def __init__(self, training_param: CommonParam):
         self._training_param = training_param
 

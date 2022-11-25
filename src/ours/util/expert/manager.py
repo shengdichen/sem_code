@@ -10,7 +10,7 @@ from src.ours.util.expert.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.pathprovider import ExpertPathGenerator
+from src.ours.util.pathprovider import ExpertSaveLoadPathGenerator
 
 
 class ExpertManager:
@@ -21,7 +21,7 @@ class ExpertManager:
         expert_manager_param=TrajectoryGeneratorConfig(),
     ):
         self._expert_generator = TrajectoryGenerator(env_model, expert_manager_param)
-        self._path_generator = ExpertPathGenerator(training_param)
+        self._path_generator = ExpertSaveLoadPathGenerator(training_param)
 
     def save_expert_traj(self, env_identifier: str) -> None:
         expert_traj = self._expert_generator.get_trajectory()

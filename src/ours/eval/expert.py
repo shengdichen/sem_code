@@ -6,7 +6,7 @@ from src.ours.eval.param import ExpertParam
 from src.ours.eval.util import Saver
 from src.ours.util.helper import Plotter, TqdmCallback
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.pathprovider import Sb3PathGenerator
+from src.ours.util.pathprovider import Sb3SaveLoadPathGenerator
 from src.ours.util.train import Trainer
 
 
@@ -61,7 +61,7 @@ class ClientTrainerExpert:
 
         trainer.train()
         Saver(
-            trainer.model, Sb3PathGenerator(self._training_param).get_path(env_identifier)
+            trainer.model, Sb3SaveLoadPathGenerator(self._training_param).get_path(env_identifier)
         ).save_model()
         ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
             env_identifier
