@@ -10,7 +10,8 @@ from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import PwilParam
-from src.ours.util.helper import ExpertManager, RewardPlotter, TqdmCallback
+from src.ours.util.helper import RewardPlotter, TqdmCallback
+from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.test import PolicyTester
 from src.ours.util.train import Trainer
 from src.upstream.env_utils import PWILReward
@@ -97,7 +98,7 @@ class ClientTrainerPwil:
 
     def training(self):
         # train imitation learning / IRL policy
-        demos = ExpertManager.load_expert_demos(self._n_timesteps)
+        demos = ExpertManager.load_default_demos(self._n_timesteps)
         flat_demos = [item for sublist in demos for item in sublist]
 
         env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -123,7 +124,7 @@ class ClientTrainerPwil:
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
-        demos = ExpertManager.load_expert_demos(self._n_timesteps)
+        demos = ExpertManager.load_default_demos(self._n_timesteps)
         flat_demos_0 = [item for sublist in demos for item in sublist]
         flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
         flat_demos_12 = [item for sublist in demos[1:] for item in sublist]

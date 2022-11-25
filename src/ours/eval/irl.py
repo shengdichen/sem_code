@@ -18,7 +18,8 @@ from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import CommonParam
-from src.ours.util.helper import ExpertManager, RewardPlotter, RewardCheckpointCallback
+from src.ours.util.helper import RewardPlotter, RewardCheckpointCallback
+from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.test import PolicyTester
 from src.ours.util.train import Trainer
 from src.upstream.env_utils import repack_vecenv
@@ -71,7 +72,7 @@ class TrainerIrl(Trainer):
         # define environments and load expert demos
         env = make_vec_env(MovePoint, n_envs=1, env_kwargs=env_kwargs)
         testing_env = MovePoint(2, shift_x=0, shift_y=0)
-        expert_demos = ExpertManager.load_expert_demos(opt.expert_demo_ts)
+        expert_demos = ExpertManager.load_default_demos(opt.expert_demo_ts)
 
         # define discriminator
         if opt.discriminator_type == "airl":

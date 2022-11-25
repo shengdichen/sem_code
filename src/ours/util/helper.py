@@ -1,17 +1,10 @@
 import os
-from itertools import count
-from pathlib import Path
-from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
-
-from src.ours.env.creation import PathGenerator
-from src.ours.eval.param import CommonParam
 
 
 class RewardPlotter:
@@ -159,130 +152,6 @@ class RewardCheckpointCallback(BaseCallback):
 
     def _on_training_end(self) -> None:
         pass
-
-
-class ExpertManagerParam:
-    def __init__(self):
-        self._nr_trajectories = 10
-
-        self._render = False
-        self._deterministic = False
-
-    @property
-    def nr_trajectories(self):
-        return self._nr_trajectories
-
-    @property
-    def render(self):
-        return self._render
-
-    @property
-    def deterministic(self):
-        return self._deterministic
-
-
-class ExpertManager:
-    def __init__(
-        self,
-        env_model: tuple[Env, Any],
-        training_param: CommonParam,
-        expert_manager_param=ExpertManagerParam(),
-    ):
-        self._expert_generator = ExpertTrajGenerator(env_model, expert_manager_param)
-        self._training_param = training_param
-
-    def save_expert_traj(self, filename="exp"):
-        expert_traj = self._expert_generator.get_expert_traj()
-        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
-
-        ExpertSaveLoad(path_saveload).save(expert_traj)
-
-    def load_one_demo(self, filename: str):
-        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
-        return ExpertSaveLoad(path_saveload).load()
-
-    def load_expert_demos(self):
-        expert_demos = []
-        for env_config in [
-            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
-            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
-            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
-        ]:
-            filename = PathGenerator(env_config).get_filename_from_shift_values()
-            demo = self.load_one_demo(filename)
-            expert_demos.append(demo)
-
-        return expert_demos
-
-
-class ExpertPathGenerator:
-    def __init__(self, training_param: CommonParam):
-        self._training_param = training_param
-
-    def get_path(self, filename: str) -> Path:
-        return Path(
-            "{0}/{1}{2}{3}".format(
-                self._training_param.demo_dir,
-                filename,
-                self._training_param.n_steps_expert_train,
-                self._training_param.postfix,
-            )
-        )
-
-
-class ExpertSaveLoad:
-    def __init__(self, path: Path):
-        self._path = str(path)
-
-    def save(self, target):
-        np.save(self._path, target)
-
-    def load(self):
-        return np.load(self._path)
-
-
-class ExpertTrajGenerator:
-    def __init__(
-        self,
-        env_model: tuple[Env, Any],
-        expert_manager_param=ExpertManagerParam(),
-    ):
-        self._env, self._model = env_model
-        self._expert_manager_param = expert_manager_param
-
-    def get_expert_traj(self):
-        num_steps = 0
-        expert_traj = []
-
-        for i_episode in count():
-            ob = self._env.reset()
-            done = False
-            total_reward = 0
-            episode_traj = []
-
-            while not done:
-                ac, _states = self._model.predict(
-                    ob, deterministic=self._expert_manager_param.deterministic
-                )
-                next_ob, reward, done, _ = self._env.step(ac)
-
-                ob = next_ob
-                total_reward += reward
-                stacked_vec = np.hstack([np.squeeze(ob), np.squeeze(ac), reward, done])
-                expert_traj.append(stacked_vec)
-                episode_traj.append(stacked_vec)
-                num_steps += 1
-                if self._expert_manager_param.render:
-                    self._env.render()
-
-            print("Episode reward: ", total_reward)
-
-            if i_episode > self._expert_manager_param.nr_trajectories:
-                break
-
-        self._env.close()
-
-        return np.stack(expert_traj)
 
 
 class Plotter:
