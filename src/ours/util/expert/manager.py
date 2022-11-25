@@ -23,14 +23,14 @@ class ExpertManager:
         self._expert_generator = TrajectoryGenerator(env_model, expert_manager_param)
         self._path_generator = ExpertPathGenerator(training_param)
 
-    def save_expert_traj(self, filename: str) -> None:
+    def save_expert_traj(self, env_identifier: str) -> None:
         expert_traj = self._expert_generator.get_trajectory()
-        path_saveload = self._path_generator.get_path(filename)
+        path_saveload = self._path_generator.get_path(env_identifier)
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
 
-    def load_one_demo(self, filename: str) -> np.ndarray:
-        path_saveload = self._path_generator.get_path(filename)
+    def load_one_demo(self, env_identifier: str) -> np.ndarray:
+        path_saveload = self._path_generator.get_path(env_identifier)
         return ExpertSaveLoad(path_saveload).load()
 
     def load_default_demos(self) -> list[np.ndarray]:
