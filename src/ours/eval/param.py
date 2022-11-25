@@ -21,6 +21,8 @@ class CommonParam:
         Util.mkdir_if_not_existent([self._sb3_tblog_dir])
         self._model_dir, self._demo_dir = "./", "./"
 
+        self._prefix, self._postfix = "exp", "_expert_traj.npy"
+
         self._kwargs_ppo = {
             "learning_rate": 0.0003,
             "n_steps": 256,
@@ -60,6 +62,14 @@ class CommonParam:
     @property
     def n_steps_expert_train(self):
         return self._n_steps_expert_train
+
+    @property
+    def prefix(self):
+        return self._prefix
+
+    @property
+    def postfix(self):
+        return self._postfix
 
     def _propagate_seed(self):
         torch.manual_seed(self._seed)

@@ -10,6 +10,7 @@ from gym import Env
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
+from src.ours.env.creation import PathGenerator
 from src.ours.eval.param import CommonParam
 
 
@@ -188,44 +189,45 @@ class ExpertManager:
         expert_manager_param=ExpertManagerParam(),
     ):
         self._expert_generator = ExpertTrajGenerator(env_model, expert_manager_param)
-
         self._training_param = training_param
-
-        self._demo_dir = self._training_param.demo_dir
-        self._prefix = "exp"
-        self._postfix = "_expert_traj.npy"
-
-        self._n_timesteps = self._training_param.n_steps_expert_train
 
     def save_expert_traj(self, filename="exp"):
         expert_traj = self._expert_generator.get_expert_traj()
-        path_saveload = Path(
-            "{0}/{1}{2}{3}".format(
-                self._demo_dir, filename, self._n_timesteps, self._postfix
-            )
-        )
+        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
 
+    def load_one_demo(self, filename: str):
+        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
+        return ExpertSaveLoad(path_saveload).load()
+
     def load_expert_demos(self):
         expert_demos = []
-        for shift_x, shift_y in [(0, 0), (50, 0), (0, 50)]:
-            expert_demos.append(
-                ExpertSaveLoad(
-                    Path(
-                        "{0}/{1}_{2}_{3}{4}{5}".format(
-                            self._demo_dir,
-                            self._prefix,
-                            shift_x,
-                            shift_y,
-                            self._n_timesteps,
-                            self._postfix,
-                        )
-                    )
-                ).load()
-            )
+        for env_config in [
+            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
+            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
+            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
+        ]:
+            filename = PathGenerator(env_config).get_filename_from_shift_values()
+            demo = self.load_one_demo(filename)
+            expert_demos.append(demo)
 
         return expert_demos
+
+
+class ExpertPathGenerator:
+    def __init__(self, training_param: CommonParam):
+        self._training_param = training_param
+
+    def get_path(self, filename: str) -> Path:
+        return Path(
+            "{0}/{1}{2}{3}".format(
+                self._training_param.demo_dir,
+                filename,
+                self._training_param.n_steps_expert_train,
+                self._training_param.postfix,
+            )
+        )
 
 
 class ExpertSaveLoad:
