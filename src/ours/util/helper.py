@@ -11,7 +11,11 @@ from tqdm import tqdm
 
 from src.ours.env.creation import PathGenerator
 from src.ours.eval.param import CommonParam
-from src.ours.util.expert.trajectory import TrajectoryGeneratorConfig, TrajectoryGenerator
+from src.ours.util.expert.saveload import ExpertSaveLoad
+from src.ours.util.expert.trajectory import (
+    TrajectoryGeneratorConfig,
+    TrajectoryGenerator,
+)
 
 
 class RewardPlotter:
@@ -208,17 +212,6 @@ class ExpertPathGenerator:
                 self._training_param.postfix,
             )
         )
-
-
-class ExpertSaveLoad:
-    def __init__(self, path: Path):
-        self._path = str(path)
-
-    def save(self, target):
-        np.save(self._path, target)
-
-    def load(self):
-        return np.load(self._path)
 
 
 class Plotter:
