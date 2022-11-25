@@ -6,7 +6,8 @@ from stable_baselines3 import PPO as PPOSB
 from src.ours.env.creation import PointEnvFactory, PathGenerator
 from src.ours.eval.param import ExpertParam
 from src.ours.eval.util import Saver
-from src.ours.util.helper import Plotter, TqdmCallback, ExpertManager
+from src.ours.util.helper import Plotter, TqdmCallback
+from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.train import Trainer
 
 
