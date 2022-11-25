@@ -5,7 +5,7 @@ import numpy as np
 from gym import Env
 
 
-class ExpertManagerParam:
+class TrajectoryGeneratorConfig:
     def __init__(self):
         self._nr_trajectories = 10
 
@@ -25,16 +25,16 @@ class ExpertManagerParam:
         return self._deterministic
 
 
-class ExpertTrajGenerator:
+class TrajectoryGenerator:
     def __init__(
         self,
         env_model: tuple[Env, Any],
-        expert_manager_param=ExpertManagerParam(),
+        expert_manager_param=TrajectoryGeneratorConfig(),
     ):
         self._env, self._model = env_model
         self._expert_manager_param = expert_manager_param
 
-    def get_expert_traj(self):
+    def get_trajectory(self):
         num_steps = 0
         expert_traj = []
 

@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from src.ours.env.creation import PathGenerator
 from src.ours.eval.param import CommonParam
-from src.ours.util.expert.trajectory import ExpertManagerParam, ExpertTrajGenerator
+from src.ours.util.expert.trajectory import TrajectoryGeneratorConfig, TrajectoryGenerator
 
 
 class RewardPlotter:
@@ -166,13 +166,13 @@ class ExpertManager:
         self,
         env_model: tuple[Env, Any],
         training_param: CommonParam,
-        expert_manager_param=ExpertManagerParam(),
+        expert_manager_param=TrajectoryGeneratorConfig(),
     ):
-        self._expert_generator = ExpertTrajGenerator(env_model, expert_manager_param)
+        self._expert_generator = TrajectoryGenerator(env_model, expert_manager_param)
         self._training_param = training_param
 
     def save_expert_traj(self, filename="exp"):
-        expert_traj = self._expert_generator.get_expert_traj()
+        expert_traj = self._expert_generator.get_trajectory()
         path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
