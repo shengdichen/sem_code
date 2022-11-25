@@ -12,7 +12,7 @@ from src.ours.util.train import Trainer
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: ExpertParam, env: Env):
+    def __init__(self, env: Env, training_param: ExpertParam):
         super().__init__(training_param)
 
         self._env = env
@@ -51,7 +51,7 @@ class ClientTrainerExpert:
 
     def _train_and_save(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
-        trainer = TrainerExpert(self._training_param, env)
+        trainer = TrainerExpert(env, self._training_param)
         filename = PathGenerator(env_config).get_filename_from_shift_values()
 
         trainer.train(self._n_timesteps)
