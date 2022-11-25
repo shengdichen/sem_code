@@ -71,7 +71,7 @@ class TrainerIrl(Trainer):
         # define environments and load expert demos
         env = make_vec_env(MovePoint, n_envs=1, env_kwargs=env_kwargs)
         testing_env = MovePoint(2, shift_x=0, shift_y=0)
-        expert_demos = ExpertManager.load_expert_demos(opt.expert_demo_ts)
+        expert_demos = ExpertManager.load_default_demos(opt.expert_demo_ts)
 
         # define discriminator
         if opt.discriminator_type == "airl":

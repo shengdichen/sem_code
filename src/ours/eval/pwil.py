@@ -97,7 +97,7 @@ class ClientTrainerPwil:
 
     def training(self):
         # train imitation learning / IRL policy
-        demos = ExpertManager.load_expert_demos(self._n_timesteps)
+        demos = ExpertManager.load_default_demos(self._n_timesteps)
         flat_demos = [item for sublist in demos for item in sublist]
 
         env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -123,7 +123,7 @@ class ClientTrainerPwil:
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
-        demos = ExpertManager.load_expert_demos(self._n_timesteps)
+        demos = ExpertManager.load_default_demos(self._n_timesteps)
         flat_demos_0 = [item for sublist in demos for item in sublist]
         flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
         flat_demos_12 = [item for sublist in demos[1:] for item in sublist]

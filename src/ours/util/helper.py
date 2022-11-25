@@ -185,7 +185,7 @@ class ExpertManager:
         path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
         return ExpertSaveLoad(path_saveload).load()
 
-    def load_expert_demos(self):
+    def load_default_demos(self):
         expert_demos = []
         for env_config in [
             {"n_targets": 2, "shift_x": 0, "shift_y": 0},
