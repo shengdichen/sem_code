@@ -34,7 +34,7 @@ class TrajectoryGenerator:
         self._env, self._model = env_model
         self._expert_manager_param = expert_manager_param
 
-    def get_trajectory(self):
+    def get_trajectory(self) -> np.ndarray:
         num_steps = 0
         expert_traj = []
 
