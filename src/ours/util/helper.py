@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from typing import Any
 
 import matplotlib.pyplot as plt
@@ -16,6 +15,7 @@ from src.ours.util.expert.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
+from src.ours.util.pathprovider import ExpertPathGenerator
 
 
 class RewardPlotter:
@@ -197,21 +197,6 @@ class ExpertManager:
             expert_demos.append(demo)
 
         return expert_demos
-
-
-class ExpertPathGenerator:
-    def __init__(self, training_param: CommonParam):
-        self._training_param = training_param
-
-    def get_path(self, filename: str) -> Path:
-        return Path(
-            "{0}/{1}{2}{3}".format(
-                self._training_param.demo_dir,
-                filename,
-                self._training_param.n_steps_expert_train,
-                self._training_param.postfix,
-            )
-        )
 
 
 class Plotter:
