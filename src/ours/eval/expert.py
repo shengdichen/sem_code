@@ -29,7 +29,7 @@ class TrainerExpert(Trainer):
     def model(self):
         return self._model
 
-    def train(self, n_timesteps):
+    def train(self, n_timesteps: int) -> None:
         self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
 
 
