@@ -173,16 +173,16 @@ class ExpertManager:
         expert_manager_param=TrajectoryGeneratorConfig(),
     ):
         self._expert_generator = TrajectoryGenerator(env_model, expert_manager_param)
-        self._training_param = training_param
+        self._path_generator = ExpertPathGenerator(training_param)
 
     def save_expert_traj(self, filename="exp"):
         expert_traj = self._expert_generator.get_trajectory()
-        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
+        path_saveload = self._path_generator.get_path(filename)
 
         ExpertSaveLoad(path_saveload).save(expert_traj)
 
     def load_one_demo(self, filename: str):
-        path_saveload = ExpertPathGenerator(self._training_param).get_path(filename)
+        path_saveload = self._path_generator.get_path(filename)
         return ExpertSaveLoad(path_saveload).load()
 
     def load_default_demos(self):
