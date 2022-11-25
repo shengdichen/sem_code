@@ -46,9 +46,12 @@ class ClientTrainerExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 0})
-        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 50})
-        self._train_and_save({"n_targets": 2, "shift_x": 50, "shift_y": 0})
+        for env_config in [
+            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
+            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
+            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
+        ]:
+            self._train_and_save(env_config)
 
         self._plot()
 
