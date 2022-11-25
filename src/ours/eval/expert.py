@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 
@@ -8,6 +6,7 @@ from src.ours.eval.param import ExpertParam
 from src.ours.eval.util import Saver
 from src.ours.util.helper import Plotter, TqdmCallback
 from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.pathprovider import Sb3PathGenerator
 from src.ours.util.train import Trainer
 
 
@@ -62,9 +61,7 @@ class ClientTrainerExpert:
 
         trainer.train()
         Saver(
-            trainer.model,
-            Path(self._training_param.model_dir)
-            / Path("model_" + filename + str(self._n_timesteps)),
+            trainer.model, Sb3PathGenerator(self._training_param).get_path(filename)
         ).save_model()
         ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
             filename

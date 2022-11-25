@@ -16,3 +16,18 @@ class ExpertPathGenerator:
                 self._training_param.postfix,
             )
         )
+
+
+class Sb3PathGenerator:
+    def __init__(self, training_param: CommonParam):
+        self._training_param = training_param
+
+    def get_path(self, filename: str) -> Path:
+        return Path(
+            "{0}/{1}{2}{3}".format(
+                self._training_param.model_dir,
+                "model_",
+                filename,
+                self._training_param.n_steps_expert_train,
+            )
+        )
