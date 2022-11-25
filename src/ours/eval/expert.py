@@ -1,7 +1,7 @@
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 
-from src.ours.env.creation import PointEnvFactory, PathGenerator
+from src.ours.env.creation import PointEnvFactory, PointEnvIdentifierGenerator
 from src.ours.eval.param import ExpertParam
 from src.ours.eval.util import Saver
 from src.ours.util.helper import Plotter, TqdmCallback
@@ -57,14 +57,14 @@ class ClientTrainerExpert:
     def _train_and_save(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(env, self._training_param)
-        filename = PathGenerator(env_config).get_filename_from_shift_values()
+        env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
 
         trainer.train()
         Saver(
-            trainer.model, Sb3PathGenerator(self._training_param).get_path(filename)
+            trainer.model, Sb3PathGenerator(self._training_param).get_path(env_identifier)
         ).save_model()
         ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
-            filename
+            env_identifier
         )
 
     def _plot(self) -> None:

@@ -3,7 +3,7 @@ from typing import Any
 import numpy as np
 from gym import Env
 
-from src.ours.env.creation import PathGenerator
+from src.ours.env.creation import PointEnvIdentifierGenerator
 from src.ours.eval.param import CommonParam
 from src.ours.util.expert.saveload import ExpertSaveLoad
 from src.ours.util.expert.trajectory import (
@@ -40,8 +40,8 @@ class ExpertManager:
             {"n_targets": 2, "shift_x": 0, "shift_y": 50},
             {"n_targets": 2, "shift_x": 50, "shift_y": 0},
         ]:
-            filename = PathGenerator(env_config).get_filename_from_shift_values()
-            demo = self.load_one_demo(filename)
+            env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
+            demo = self.load_one_demo(env_identifier)
             expert_demos.append(demo)
 
         return expert_demos
