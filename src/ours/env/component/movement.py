@@ -14,16 +14,16 @@ class MovementTwoDim:
     def y(self):
         return self.y_movement.pos
 
-    def set_position(self, x: float, y: float) -> None:
-        self.x_movement.set(x)
-        self.y_movement.set(y)
+    def set_position(self, pos_desired_x: float, pos_desired_y: float) -> None:
+        self.x_movement.set(pos_desired_x)
+        self.y_movement.set(pos_desired_y)
 
     def get_position(self) -> tuple[float, float]:
         return self.x, self.y
 
-    def move(self, del_x: float, del_y: float) -> None:
-        self.x_movement.shift(del_x)
-        self.y_movement.shift(del_y)
+    def shift(self, shift_by_x: float, shift_by_y: float) -> None:
+        self.x_movement.shift(shift_by_x)
+        self.y_movement.shift(shift_by_y)
 
 
 class MovementOneDim:

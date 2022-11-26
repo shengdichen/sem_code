@@ -179,13 +179,13 @@ class MovePoint(Env):
 
         # apply the action to the agent
         if action == 0:
-            self.agent.movement.move(0, 2)
+            self.agent.movement.shift(0, 2)
         elif action == 1:
-            self.agent.movement.move(0, -2)
+            self.agent.movement.shift(0, -2)
         elif action == 2:
-            self.agent.movement.move(2, 0)
+            self.agent.movement.shift(2, 0)
         elif action == 3:
-            self.agent.movement.move(-2, 0)
+            self.agent.movement.shift(-2, 0)
         # REMOVE NOOP
         # elif action == 4:
         #    self.agent.move(0,0)
