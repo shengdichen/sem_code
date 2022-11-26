@@ -12,7 +12,7 @@ from src.ours.util.train import Trainer
 
 
 class TrainerExpert(Trainer):
-    def __init__(self, training_param: ExpertParam, env: Env):
+    def __init__(self, env: Env, training_param: ExpertParam):
         super().__init__(training_param)
 
         self._env = env
@@ -29,8 +29,11 @@ class TrainerExpert(Trainer):
     def model(self):
         return self._model
 
-    def train(self, n_timesteps):
-        self._model.learn(total_timesteps=n_timesteps, callback=[TqdmCallback()])
+    def train(self) -> None:
+        self._model.learn(
+            total_timesteps=self._training_param.n_steps_expert_train,
+            callback=[TqdmCallback()],
+        )
 
 
 class ClientTrainerExpert:
@@ -43,18 +46,21 @@ class ClientTrainerExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 0})
-        self._train_and_save({"n_targets": 2, "shift_x": 0, "shift_y": 50})
-        self._train_and_save({"n_targets": 2, "shift_x": 50, "shift_y": 0})
+        for env_config in [
+            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
+            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
+            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
+        ]:
+            self._train_and_save(env_config)
 
         self._plot()
 
     def _train_and_save(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
-        trainer = TrainerExpert(self._training_param, env)
+        trainer = TrainerExpert(env, self._training_param)
         filename = PathGenerator(env_config).get_filename_from_shift_values()
 
-        trainer.train(self._n_timesteps)
+        trainer.train()
         Saver(
             trainer.model,
             Path(self._training_param.model_dir)
