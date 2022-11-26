@@ -1,6 +1,6 @@
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.expert.sb3.train import TrainerExpert
+from src.ours.util.expert.sb3.util.train import TrainerExpert
 
 
 class ClientExpert:
