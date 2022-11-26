@@ -1,4 +1,4 @@
-from src.ours.eval.param import CommonParam
+from src.ours.util.common.param import CommonParam
 
 
 class Trainer:

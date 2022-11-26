@@ -1,7 +1,7 @@
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 
-from src.ours.eval.param import ExpertParam
+from src.ours.util.common.param import ExpertParam
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.train import Trainer
 

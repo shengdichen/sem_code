@@ -1,5 +1,5 @@
 from src.ours.env.creation import PointEnvFactory, PointEnvIdentifierGenerator
-from src.ours.eval.param import ExpertParam
+from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.client import ClientExpert
 from src.ours.util.expert.manager import ExpertManager

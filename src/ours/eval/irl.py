@@ -17,7 +17,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.param import CommonParam
+from src.ours.util.common.param import CommonParam
 from src.ours.util.common.helper import RewardPlotter, RewardCheckpointCallback
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.common.test import PolicyTester
