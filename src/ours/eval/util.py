@@ -6,7 +6,7 @@ from src.ours.eval.param import CommonParam
 from src.ours.util.pathprovider import Sb3SaveLoadPathGenerator
 
 
-class Saver:
+class Sb3Saver:
     def __init__(self, model: BaseAlgorithm, savepath_rel: Path):
         self._model = model
         self._savepath_rel = savepath_rel
@@ -15,12 +15,12 @@ class Saver:
         self._model.save(self._savepath_rel)
 
 
-class SaverManager:
+class Sb3Manager:
     def __init__(self, model: BaseAlgorithm, training_param: CommonParam):
         self._model = model
         self._path_generator = Sb3SaveLoadPathGenerator(training_param)
 
     def save(self, env_identifier: str):
         path_saveload = self._path_generator.get_path(env_identifier)
-        saver = Saver(self._model, path_saveload)
+        saver = Sb3Saver(self._model, path_saveload)
         saver.save_model()

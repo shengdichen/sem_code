@@ -3,7 +3,7 @@ from stable_baselines3 import PPO as PPOSB
 
 from src.ours.env.creation import PointEnvFactory, PointEnvIdentifierGenerator
 from src.ours.eval.param import ExpertParam
-from src.ours.eval.util import SaverManager
+from src.ours.eval.util import Sb3Manager
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.helper import Plotter, TqdmCallback
 from src.ours.util.train import Trainer
@@ -34,25 +34,26 @@ class TrainerExpert(Trainer):
         )
 
 
-class ExpertClient:
+class ClientExpert:
     def __init__(
         self,
         trainer: TrainerExpert,
-        managers: tuple[SaverManager, ExpertManager],
+        managers: tuple[Sb3Manager, ExpertManager],
         env_identifier: str,
     ):
         self._trainer = trainer
         self._saver_manager, self._expert_manager = managers
         self._env_identifier = env_identifier
 
-    def _train_and_save(self) -> None:
+    def train(self) -> None:
         self._trainer.train()
 
+    def save(self) -> None:
         self._saver_manager.save(self._env_identifier)
         self._expert_manager.save_expert_traj(self._env_identifier)
 
 
-class ClientTrainerExpert:
+class PointEnvExpert:
     def __init__(self):
         self._training_param = ExpertParam()
         self._n_timesteps = self._training_param.n_steps_expert_train
@@ -76,15 +77,16 @@ class ClientTrainerExpert:
         trainer = TrainerExpert(env, self._training_param)
         env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
 
-        expert_client = ExpertClient(
+        expert_client = ClientExpert(
             trainer,
             (
-                SaverManager(trainer.model, self._training_param),
+                Sb3Manager(trainer.model, self._training_param),
                 ExpertManager((env, trainer.model), self._training_param),
             ),
             env_identifier,
         )
-        expert_client._train_and_save()
+        expert_client.train()
+        expert_client.save()
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
@@ -92,7 +94,7 @@ class ClientTrainerExpert:
 
 
 def client_code():
-    trainer = ClientTrainerExpert()
+    trainer = PointEnvExpert()
     trainer.train_and_plot()
 
 
