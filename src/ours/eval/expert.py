@@ -34,6 +34,24 @@ class TrainerExpert(Trainer):
         )
 
 
+class ExpertClient:
+    def __init__(
+        self,
+        trainer: TrainerExpert,
+        managers: tuple[SaverManager, ExpertManager],
+        env_identifier: str,
+    ):
+        self._trainer = trainer
+        self._saver_manager, self._expert_manager = managers
+        self._env_identifier = env_identifier
+
+    def _train_and_save(self) -> None:
+        self._trainer.train()
+
+        self._saver_manager.save(self._env_identifier)
+        self._expert_manager.save_expert_traj(self._env_identifier)
+
+
 class ClientTrainerExpert:
     def __init__(self):
         self._training_param = ExpertParam()
@@ -58,11 +76,15 @@ class ClientTrainerExpert:
         trainer = TrainerExpert(env, self._training_param)
         env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
 
-        trainer.train()
-        SaverManager(trainer.model, self._training_param).save(env_identifier)
-        ExpertManager((env, trainer.model), self._training_param).save_expert_traj(
-            env_identifier
+        expert_client = ExpertClient(
+            trainer,
+            (
+                SaverManager(trainer.model, self._training_param),
+                ExpertManager((env, trainer.model), self._training_param),
+            ),
+            env_identifier,
         )
+        expert_client._train_and_save()
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
