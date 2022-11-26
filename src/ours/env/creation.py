@@ -17,14 +17,14 @@ class PointEnvFactory(EnvFactory):
         return MovePoint(**self._env_config)
 
 
-class PathGenerator:
+class PointEnvIdentifierGenerator:
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
         self._prefix = "exp"
         self._connector = "_"
 
-    def get_filename_from_shift_values(self) -> str:
+    def get_identifier(self) -> str:
         shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
         return (
             self._prefix

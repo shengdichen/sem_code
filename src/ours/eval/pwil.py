@@ -84,7 +84,7 @@ class TrainerPwil(Trainer):
             model,
             nr_trajectories=10,
             render=False,
-            filename=fname + str(n_timesteps),
+            env_identifier=fname + str(n_timesteps),
             deterministic=self._save_deterministic,
         )
 
