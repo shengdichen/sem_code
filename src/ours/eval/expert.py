@@ -1,56 +1,10 @@
-from gym import Env
-from stable_baselines3 import PPO as PPOSB
-
 from src.ours.env.creation import PointEnvFactory, PointEnvIdentifierGenerator
 from src.ours.eval.param import ExpertParam
-from src.ours.eval.util import Sb3Manager
+from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.client import ClientExpert
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.helper import Plotter, TqdmCallback
-from src.ours.util.train import Trainer
-
-
-class TrainerExpert(Trainer):
-    def __init__(self, env: Env, training_param: ExpertParam):
-        super().__init__(training_param)
-
-        self._env = env
-
-        self._model = PPOSB(
-            "MlpPolicy",
-            self._env,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir
-        )
-
-    @property
-    def model(self):
-        return self._model
-
-    def train(self) -> None:
-        self._model.learn(
-            total_timesteps=self._training_param.n_steps_expert_train,
-            callback=[TqdmCallback()],
-        )
-
-
-class ClientExpert:
-    def __init__(
-        self,
-        trainer: TrainerExpert,
-        managers: tuple[Sb3Manager, ExpertManager],
-        env_identifier: str,
-    ):
-        self._trainer = trainer
-        self._saver_manager, self._expert_manager = managers
-        self._env_identifier = env_identifier
-
-    def train(self) -> None:
-        self._trainer.train()
-
-    def save(self) -> None:
-        self._saver_manager.save(self._env_identifier)
-        self._expert_manager.save_expert_traj(self._env_identifier)
+from src.ours.util.expert.sb3.util.train import TrainerExpert
+from src.ours.util.common.helper import Plotter
 
 
 class PointEnvExpert:

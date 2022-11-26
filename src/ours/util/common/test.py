@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from stable_baselines3 import PPO as PPOSB
 
 from src.ours.env.env import MovePoint
-from src.ours.util.helper import Plotter
+from src.ours.util.common.helper import Plotter
 
 
 class PolicyTester:

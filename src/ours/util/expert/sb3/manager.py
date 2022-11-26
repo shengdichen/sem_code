@@ -1,18 +1,8 @@
-from pathlib import Path
-
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.eval.param import CommonParam
-from src.ours.util.pathprovider import Sb3SaveLoadPathGenerator
-
-
-class Sb3Saver:
-    def __init__(self, model: BaseAlgorithm, savepath_rel: Path):
-        self._model = model
-        self._savepath_rel = savepath_rel
-
-    def save_model(self):
-        self._model.save(self._savepath_rel)
+from src.ours.util.common.pathprovider import Sb3SaveLoadPathGenerator
+from src.ours.util.expert.sb3.util.saveload import Sb3Saver
 
 
 class Sb3Manager:
