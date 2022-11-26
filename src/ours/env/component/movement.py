@@ -37,8 +37,8 @@ class MovementOneDim:
     def pos(self):
         return self._pos
 
-    def set(self, value: float) -> None:
-        self._pos = self._clamp(value)
+    def set(self, pos_desired: float) -> None:
+        self._pos = self._clamp(pos_desired)
 
     def shift(self, shift_by: float) -> None:
         self.set(self._pos + shift_by)
