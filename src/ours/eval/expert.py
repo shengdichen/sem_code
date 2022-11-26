@@ -45,9 +45,10 @@ class ClientExpert:
         self._saver_manager, self._expert_manager = managers
         self._env_identifier = env_identifier
 
-    def _train_and_save(self) -> None:
+    def train(self) -> None:
         self._trainer.train()
 
+    def save(self) -> None:
         self._saver_manager.save(self._env_identifier)
         self._expert_manager.save_expert_traj(self._env_identifier)
 
@@ -84,7 +85,8 @@ class PointEnvExpert:
             ),
             env_identifier,
         )
-        expert_client._train_and_save()
+        expert_client.train()
+        expert_client.save()
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
