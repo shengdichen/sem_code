@@ -34,7 +34,7 @@ class TrainerExpert(Trainer):
         )
 
 
-class ExpertClient:
+class ClientExpert:
     def __init__(
         self,
         trainer: TrainerExpert,
@@ -52,7 +52,7 @@ class ExpertClient:
         self._expert_manager.save_expert_traj(self._env_identifier)
 
 
-class ClientTrainerExpert:
+class PointEnvExpert:
     def __init__(self):
         self._training_param = ExpertParam()
         self._n_timesteps = self._training_param.n_steps_expert_train
@@ -76,7 +76,7 @@ class ClientTrainerExpert:
         trainer = TrainerExpert(env, self._training_param)
         env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
 
-        expert_client = ExpertClient(
+        expert_client = ClientExpert(
             trainer,
             (
                 Sb3Manager(trainer.model, self._training_param),
@@ -92,7 +92,7 @@ class ClientTrainerExpert:
 
 
 def client_code():
-    trainer = ClientTrainerExpert()
+    trainer = PointEnvExpert()
     trainer.train_and_plot()
 
 
