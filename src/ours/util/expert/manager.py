@@ -10,7 +10,7 @@ from src.ours.util.expert.util.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.pathprovider import ExpertSaveLoadPathGenerator
+from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 
 
 class ExpertManager:

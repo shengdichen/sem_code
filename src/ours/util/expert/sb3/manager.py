@@ -1,7 +1,7 @@
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.eval.param import CommonParam
-from src.ours.util.pathprovider import Sb3SaveLoadPathGenerator
+from src.ours.util.common.pathprovider import Sb3SaveLoadPathGenerator
 from src.ours.util.expert.sb3.saveload import Sb3Saver
 
 

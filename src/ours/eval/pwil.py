@@ -10,10 +10,10 @@ from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
 from src.ours.eval.param import PwilParam
-from src.ours.util.helper import RewardPlotter, TqdmCallback
+from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.test import PolicyTester
-from src.ours.util.train import Trainer
+from src.ours.util.common.test import PolicyTester
+from src.ours.util.common.train import Trainer
 from src.upstream.env_utils import PWILReward
 from src.upstream.utils import CustomCallback
 
