@@ -21,7 +21,7 @@ class PointEnvIdentifierGenerator:
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
-        self._prefix = "exp"
+        self._prefix = "pointenv"
         self._connector = "_"
 
     def get_identifier(self) -> str:
