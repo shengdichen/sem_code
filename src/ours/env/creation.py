@@ -29,7 +29,7 @@ class PointEnvIdentifierGenerator:
         return (
             self._prefix
             + self._connector
-            + str(shift_x)
+            + "{0:03}".format(shift_x)
             + self._connector
-            + str(shift_y)
+            + "{0:03}".format(shift_y)
         )
