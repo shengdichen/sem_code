@@ -81,7 +81,7 @@ class ExpertParam(CommonParam):
     def __init__(self):
         super().__init__()
 
-        self._model_dir, self._demo_dir = "./models/", "./demos/"
+        self._model_dir, self._demo_dir = "./expert/models/", "./expert/demos/"
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
 
 
@@ -89,5 +89,5 @@ class PwilParam(CommonParam):
     def __init__(self):
         super().__init__()
 
-        self._model_dir, self._demo_dir = "./models_pwil/", "./demos/"
+        self._model_dir, self._demo_dir = "./pwil/models/", "./pwil/demos/"
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
