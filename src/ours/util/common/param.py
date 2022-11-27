@@ -9,7 +9,7 @@ class Util:
     @staticmethod
     def mkdir_if_not_existent(directories: list[str]):
         for d in directories:
-            Path(d).mkdir(exist_ok=True)
+            Path(d).mkdir(parents=True, exist_ok=True)
 
 
 class CommonParam:
