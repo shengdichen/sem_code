@@ -9,7 +9,7 @@ class ExpertSaveLoadPathGenerator:
 
     def get_path(self, env_identifier: str) -> Path:
         return Path(
-            "{0}/{1}{2}{3}".format(
+            "{0}/{1}{2}{3:07}".format(
                 self._training_param.demo_dir,
                 env_identifier,
                 "_",
@@ -24,7 +24,7 @@ class Sb3SaveLoadPathGenerator:
 
     def get_path(self, env_identifier: str) -> Path:
         return Path(
-            "{0}/{1}{2}{3}".format(
+            "{0}/{1}{2}{3:07}".format(
                 self._training_param.model_dir,
                 env_identifier,
                 "_",
