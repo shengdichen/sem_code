@@ -17,7 +17,7 @@ class CommonParam:
         self._seed = 42
         self._propagate_seed()
 
-        self._sb3_tblog_dir = "./pointmaze_results/"
+        self._sb3_tblog_dir = "./sb3_tb/"
         Util.mkdir_if_not_existent([self._sb3_tblog_dir])
         self._model_dir, self._demo_dir = "./", "./"
 
