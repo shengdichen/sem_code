@@ -1,4 +1,8 @@
-from src.ours.env.creation import PointEnvFactory, PointEnvIdentifierGenerator
+from src.ours.env.creation import (
+    PointEnvFactory,
+    PointEnvIdentifierGenerator,
+    PointEnvConfigFactory,
+)
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.client import ClientExpert
@@ -17,11 +21,7 @@ class PointEnvExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        for env_config in [
-            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
-            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
-            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
-        ]:
+        for env_config in PointEnvConfigFactory().env_configs:
             self._train_and_save(env_config)
 
         self._plot()
