@@ -16,6 +16,8 @@ class PointEnvExpert:
         self._training_param = ExpertParam()
         self._n_timesteps = self._training_param.n_steps_expert_train
 
+        self._env_configs = PointEnvConfigFactory().env_configs
+
     def train_and_plot(self) -> None:
         self._train_default_configs()
         self._plot()
@@ -25,7 +27,7 @@ class PointEnvExpert:
         # Train experts with different shifts representing their waypoint preferences
         """
 
-        for env_config in PointEnvConfigFactory().env_configs:
+        for env_config in self._env_configs:
             self._train_and_save(env_config)
 
     def _train_and_save(self, env_config: dict[str:int]) -> None:
