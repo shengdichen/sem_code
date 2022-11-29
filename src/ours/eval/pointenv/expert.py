@@ -14,8 +14,8 @@ from src.ours.util.common.helper import Plotter
 
 
 class PointEnvExpertSingle:
-    def __init__(self, env_config: dict[str:int]):
-        self._training_param = ExpertParam()
+    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+        self._training_param = training_param
 
         self._expert_client = self._make_expert_client(env_config)
 
