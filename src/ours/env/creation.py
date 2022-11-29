@@ -44,3 +44,6 @@ class PointEnvIdentifierGenerator:
             + self._connector
             + "{0:03}".format(shift_y)
         )
+
+    def from_env(self, env: MovePoint) -> str:
+        return self.get_identifier(env.env_config)
