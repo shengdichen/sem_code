@@ -36,7 +36,7 @@ class ExpertManager:
     def load_default_demos(self) -> list[np.ndarray]:
         expert_demos = []
         for env_config in PointEnvConfigFactory().env_configs:
-            env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
+            env_identifier = PointEnvIdentifierGenerator().get_identifier(env_config)
             demo = self.load_one_demo(env_identifier)
             expert_demos.append(demo)
 
