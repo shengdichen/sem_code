@@ -6,6 +6,7 @@ from src.ours.util.common.param import CommonParam
 class ExpertSaveLoadPathGenerator:
     def __init__(self, training_param: CommonParam):
         self._training_param = training_param
+        self._np_postfix = ".npy"
 
     def get_path(self, env_identifier: str) -> Path:
         return Path(
@@ -14,7 +15,7 @@ class ExpertSaveLoadPathGenerator:
                 env_identifier,
                 "_",
                 self._training_param.n_steps_expert_train,
-                ".npy"
+                self._np_postfix,
             )
         )
 
