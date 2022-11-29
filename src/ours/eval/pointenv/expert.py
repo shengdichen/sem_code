@@ -41,7 +41,7 @@ class PointEnvExpertSingle:
         return self._expert_client.load()
 
 
-class PointEnvExpert:
+class PointEnvExpertDefault:
     def __init__(self):
         self._training_param = ExpertParam()
         self._n_timesteps = self._training_param.n_steps_expert_train
