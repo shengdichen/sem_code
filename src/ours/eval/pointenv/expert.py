@@ -68,6 +68,15 @@ class PointEnvExpert:
         Plotter.plot_experts(self._n_timesteps)
         Plotter.plot_experts(self._n_timesteps, hist=False)
 
+    def load_default_demos(self) -> list[np.ndarray]:
+        expert_demos = []
+        for env_config in PointEnvConfigFactory().env_configs:
+            pointenv_expert = PointEnvExpertSingle(self._training_param, env_config)
+            demo = pointenv_expert.load()
+            expert_demos.append(demo)
+
+        return expert_demos
+
 
 def client_code():
     trainer = PointEnvExpert()
