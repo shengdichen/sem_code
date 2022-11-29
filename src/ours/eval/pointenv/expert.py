@@ -47,6 +47,16 @@ class PointEnvExpert:
         self._n_timesteps = self._training_param.n_steps_expert_train
 
         self._env_configs = PointEnvConfigFactory().env_configs
+        self._pointenv_experts = self._make_pointenv_experts()
+
+    def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
+        pointenv_experts = []
+        for env_config in self._env_configs:
+            pointenv_experts.append(
+                PointEnvExpertSingle(self._training_param, env_config)
+            )
+
+        return pointenv_experts
 
     def train_and_plot(self) -> None:
         self._train_default_configs()
