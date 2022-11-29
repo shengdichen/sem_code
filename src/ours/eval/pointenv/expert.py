@@ -1,3 +1,5 @@
+import numpy as np
+
 from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
@@ -11,27 +13,18 @@ from src.ours.util.expert.sb3.util.train import TrainerExpert
 from src.ours.util.common.helper import Plotter
 
 
-class PointEnvExpert:
-    def __init__(self):
-        self._training_param = ExpertParam()
-        self._n_timesteps = self._training_param.n_steps_expert_train
+class PointEnvExpertSingle:
+    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+        self._training_param = training_param
 
-    def train_and_plot(self) -> None:
-        """
-        # Train experts with different shifts representing their waypoint preferences
-        """
+        self._expert_client = self._make_expert_client(env_config)
 
-        for env_config in PointEnvConfigFactory().env_configs:
-            self._train_and_save(env_config)
-
-        self._plot()
-
-    def _train_and_save(self, env_config: dict[str:int]) -> None:
+    def _make_expert_client(self, env_config: dict[str:int]) -> ClientExpert:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(env, self._training_param)
-        env_identifier = PointEnvIdentifierGenerator().get_identifier(env_config)
+        env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
-        expert_client = ClientExpert(
+        return ClientExpert(
             trainer,
             (
                 Sb3Manager(trainer.model, self._training_param),
@@ -39,16 +32,59 @@ class PointEnvExpert:
             ),
             env_identifier,
         )
-        expert_client.train()
-        expert_client.save()
 
-    def _plot(self) -> None:
+    def train_and_save(self) -> None:
+        self._expert_client.train()
+        self._expert_client.save()
+
+    def load(self) -> np.ndarray:
+        return self._expert_client.load()
+
+
+class PointEnvExpertDefault:
+    def __init__(self):
+        self._training_param = ExpertParam()
+        self._n_timesteps = self._training_param.n_steps_expert_train
+
+        self._env_configs = PointEnvConfigFactory().env_configs
+        self._pointenv_experts = self._make_pointenv_experts()
+
+    def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
+        pointenv_experts = []
+        for env_config in self._env_configs:
+            pointenv_experts.append(
+                PointEnvExpertSingle(self._training_param, env_config)
+            )
+
+        return pointenv_experts
+
+    def train_and_plot(self) -> None:
+        self.train_and_save()
+        self.plot()
+
+    def train_and_save(self) -> None:
+        """
+        # Train experts with different shifts representing their waypoint preferences
+        """
+
+        for pointenv_expert in self._pointenv_experts:
+            pointenv_expert.train_and_save()
+
+    def plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
         Plotter.plot_experts(self._n_timesteps, hist=False)
 
+    def load(self) -> list[np.ndarray]:
+        expert_demos = []
+        for pointenv_expert in self._pointenv_experts:
+            demo = pointenv_expert.load()
+            expert_demos.append(demo)
+
+        return expert_demos
+
 
 def client_code():
-    trainer = PointEnvExpert()
+    trainer = PointEnvExpertDefault()
     trainer.train_and_plot()
 
 
