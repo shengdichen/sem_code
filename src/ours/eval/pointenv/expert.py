@@ -59,10 +59,10 @@ class PointEnvExpertDefault:
         return pointenv_experts
 
     def train_and_plot(self) -> None:
-        self._train_default_configs()
-        self._plot()
+        self.train_and_save()
+        self.plot()
 
-    def _train_default_configs(self):
+    def train_and_save(self):
         """
         # Train experts with different shifts representing their waypoint preferences
         """
@@ -70,11 +70,11 @@ class PointEnvExpertDefault:
         for pointenv_expert in self._pointenv_experts:
             pointenv_expert.train_and_save()
 
-    def _plot(self) -> None:
+    def plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
         Plotter.plot_experts(self._n_timesteps, hist=False)
 
-    def load_default_demos(self) -> list[np.ndarray]:
+    def load(self) -> list[np.ndarray]:
         expert_demos = []
         for pointenv_expert in self._pointenv_experts:
             demo = pointenv_expert.load()
@@ -84,7 +84,7 @@ class PointEnvExpertDefault:
 
 
 def client_code():
-    trainer = PointEnvExpert()
+    trainer = PointEnvExpertDefault()
     trainer.train_and_plot()
 
 
