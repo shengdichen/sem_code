@@ -33,7 +33,7 @@ class PointEnvExpert:
     def _train_and_save(self, env_config: dict[str:int]) -> None:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(env, self._training_param)
-        env_identifier = PointEnvIdentifierGenerator().get_identifier(env_config)
+        env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
         expert_client = ClientExpert(
             trainer,
