@@ -61,20 +61,8 @@ class PointEnvExpert:
             self._train_and_save(env_config)
 
     def _train_and_save(self, env_config: dict[str:int]) -> None:
-        env = PointEnvFactory(env_config).create()
-        trainer = TrainerExpert(env, self._training_param)
-        env_identifier = PointEnvIdentifierGenerator().from_env(env)
-
-        expert_client = ClientExpert(
-            trainer,
-            (
-                Sb3Manager(trainer.model, self._training_param),
-                ExpertManager((env, trainer.model), self._training_param),
-            ),
-            env_identifier,
-        )
-        expert_client.train()
-        expert_client.save()
+        pointenv_expert = PointEnvExpertSingle(self._training_param, env_config)
+        pointenv_expert.train_and_save()
 
     def _plot(self) -> None:
         Plotter.plot_experts(self._n_timesteps)
