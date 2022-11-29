@@ -3,7 +3,7 @@ from typing import Any
 import numpy as np
 from gym import Env
 
-from src.ours.env.creation import PointEnvIdentifierGenerator
+from src.ours.env.creation import PointEnvIdentifierGenerator, PointEnvConfigFactory
 from src.ours.util.common.param import CommonParam
 from src.ours.util.expert.util.saveload import ExpertSaveLoad
 from src.ours.util.expert.util.trajectory import (
@@ -35,12 +35,8 @@ class ExpertManager:
 
     def load_default_demos(self) -> list[np.ndarray]:
         expert_demos = []
-        for env_config in [
-            {"n_targets": 2, "shift_x": 0, "shift_y": 0},
-            {"n_targets": 2, "shift_x": 0, "shift_y": 50},
-            {"n_targets": 2, "shift_x": 50, "shift_y": 0},
-        ]:
-            env_identifier = PointEnvIdentifierGenerator(env_config).get_identifier()
+        for env_config in PointEnvConfigFactory().env_configs:
+            env_identifier = PointEnvIdentifierGenerator().get_identifier(env_config)
             demo = self.load_one_demo(env_identifier)
             expert_demos.append(demo)
 
