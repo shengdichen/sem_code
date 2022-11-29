@@ -1,4 +1,3 @@
-from itertools import count
 from typing import Any
 
 import numpy as np
@@ -38,7 +37,7 @@ class TrajectoryGenerator:
         num_steps = 0
         expert_traj = []
 
-        for i_episode in count():
+        for i_episode in range(self._expert_manager_param.nr_trajectories):
             ob = self._env.reset()
             done = False
             total_reward = 0
@@ -60,9 +59,6 @@ class TrajectoryGenerator:
                     self._env.render()
 
             print("Episode reward: ", total_reward)
-
-            if i_episode > self._expert_manager_param.nr_trajectories:
-                break
 
         self._env.close()
 
