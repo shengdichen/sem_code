@@ -76,8 +76,7 @@ class PointEnvExpert:
 
     def load_default_demos(self) -> list[np.ndarray]:
         expert_demos = []
-        for env_config in PointEnvConfigFactory().env_configs:
-            pointenv_expert = PointEnvExpertSingle(self._training_param, env_config)
+        for pointenv_expert in self._pointenv_experts:
             demo = pointenv_expert.load()
             expert_demos.append(demo)
 
