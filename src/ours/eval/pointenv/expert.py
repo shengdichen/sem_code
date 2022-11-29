@@ -17,11 +17,14 @@ class PointEnvExpertSingle:
     def __init__(self, env_config: dict[str:int]):
         self._training_param = ExpertParam()
 
+        self._expert_client = self._make_expert_client(env_config)
+
+    def _make_expert_client(self, env_config: dict[str:int]) -> ClientExpert:
         env = PointEnvFactory(env_config).create()
         trainer = TrainerExpert(env, self._training_param)
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
-        self._expert_client = ClientExpert(
+        return ClientExpert(
             trainer,
             (
                 Sb3Manager(trainer.model, self._training_param),
