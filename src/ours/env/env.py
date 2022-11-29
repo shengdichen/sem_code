@@ -49,6 +49,14 @@ class MovePoint(Env):
         self.shift_y = shift_y
         self.random_init = random_init
 
+    @property
+    def env_config(self):
+        return {
+            "n_targets": self.n_tgt,
+            "shift_x": self.shift_x,
+            "shift_y": self.shift_y,
+        }
+
     def draw_elements_on_canvas(self):
         # Init the canvas
         self.canvas = np.ones(self.canvas_shape) * 1
