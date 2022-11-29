@@ -31,14 +31,12 @@ class PointEnvConfigFactory:
 
 
 class PointEnvIdentifierGenerator:
-    def __init__(self, env_config: dict[str:int]):
-        self._env_config = env_config
-
+    def __init__(self):
         self._prefix = "pointenv"
         self._connector = "_"
 
-    def get_identifier(self) -> str:
-        shift_x, shift_y = self._env_config["shift_x"], self._env_config["shift_y"]
+    def get_identifier(self, env_config: dict[str:int]) -> str:
+        shift_x, shift_y = env_config["shift_x"], env_config["shift_y"]
         return (
             self._prefix
             + self._connector
