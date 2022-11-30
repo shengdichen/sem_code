@@ -16,9 +16,9 @@ class MovePoint(Env):
         self.canvas_shape = (200, 200, 3)
         self.observation_shape = 4
         self.observation_space = spaces.Box(
-            low=np.zeros(self.observation_shape),
-            high=np.ones(self.observation_shape) * 200,
-            dtype=np.float32,
+            low=np.zeros(self.observation_shape, dtype=np.float64),
+            high=np.ones(self.observation_shape, dtype=np.float64) * 200,
+            dtype=np.float64,
         )
 
         # Define an action space ranging from 0 to 4
