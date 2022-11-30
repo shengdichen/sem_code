@@ -250,6 +250,25 @@ class MovePoint(Env):
         plt.close("all")
 
 
+class PointEnvRenderer:
+    def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
+        self._canvas = canvas
+        self._canvas_hist = canvas_hist
+
+    def render(self, mode: str):
+        if mode == "human":
+            heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
+            heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
+            heatmap = heatmap / 255
+            cat_img = np.hstack((self._canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
+            cv2.imshow("game", cat_img)
+            # plt.imshow("Game", cat_img)
+            cv2.waitKey(10)
+
+        elif mode == "rgb_array":
+            return self._canvas
+
+
 def client_code():
     pointenv = MovePoint()
     pointenv.reset()
