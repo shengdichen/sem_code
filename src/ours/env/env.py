@@ -5,7 +5,7 @@ import numpy as np
 from gym import Env, spaces
 
 from src.ours.env.component.point import PointFactory
-from src.ours.env.util import PointEnvRenderer
+from src.ours.env.util import PointEnvRenderer, PointEnvRendererRgb
 
 
 class MovePoint(Env):
@@ -233,7 +233,13 @@ class MovePoint(Env):
             "human",
             "rgb_array",
         ], 'Invalid mode, must be either "human" or "rgb_array"'
-        PointEnvRenderer(self.canvas, self.canvas_hist).render(mode)
+
+        if mode == "human":
+            renderer = PointEnvRenderer(self.canvas, self.canvas_hist)
+        else:
+            renderer = PointEnvRendererRgb(self.canvas)
+
+        renderer.render()
 
     def close(self):
         PointEnvRenderer.clean_up()
