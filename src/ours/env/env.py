@@ -102,6 +102,7 @@ class MovePoint(Env):
             x = 10
             y = 10
 
+        self.elements = []
         # Intialise the agent
         self.agent = PointFactory(
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
@@ -109,7 +110,7 @@ class MovePoint(Env):
         self.agent.movement.set_position(x, y)
 
         # Intialise the elements
-        self.elements = [self.agent]
+        self.elements.append(self.agent)
 
         # Set the targets
         # self.targets = self.generate_targets()
