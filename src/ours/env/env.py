@@ -27,7 +27,7 @@ class MovePoint(Env):
         )
 
         # Create a canvas to render the environment images upon
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas = np.ones(self.canvas_shape)
         self.canvas_hist = np.zeros(self.canvas_shape)
 
         # Define elements present inside the environment
@@ -59,7 +59,7 @@ class MovePoint(Env):
 
     def draw_elements_on_canvas(self):
         # Init the canvas
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas = np.ones(self.canvas_shape)
 
         # Draw the agent on canvas
         for elem in self.elements:
