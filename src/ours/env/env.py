@@ -27,7 +27,7 @@ class MovePoint(Env):
         )
 
         # Create a canvas to render the environment images upon
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas = np.ones(self.canvas_shape)
         self.canvas_hist = np.zeros(self.canvas_shape)
 
         # Define elements present inside the environment
@@ -59,7 +59,7 @@ class MovePoint(Env):
 
     def draw_elements_on_canvas(self):
         # Init the canvas
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas = np.ones(self.canvas_shape)
 
         # Draw the agent on canvas
         for elem in self.elements:
@@ -79,7 +79,9 @@ class MovePoint(Env):
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
         # Put the info on canvas
-        # self.canvas = cv2.putText(self.canvas, text, (10,20), font, 0.8, (0,0,0), 1, cv2.LINE_AA)
+        # self.canvas = cv2.putText(
+        #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
+        # )
 
     def reset(self):
         # Flag that marks the termination of an episode
@@ -102,6 +104,7 @@ class MovePoint(Env):
             x = 10
             y = 10
 
+        self.elements = []
         # Intialise the agent
         self.agent = PointFactory(
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
@@ -109,7 +112,7 @@ class MovePoint(Env):
         self.agent.movement.set_position(x, y)
 
         # Intialise the elements
-        self.elements = [self.agent]
+        self.elements.append(self.agent)
 
         # Set the targets
         # self.targets = self.generate_targets()
@@ -179,13 +182,13 @@ class MovePoint(Env):
 
         # apply the action to the agent
         if action == 0:
-            self.agent.movement.move(0, 2)
+            self.agent.movement.shift(0, 2)
         elif action == 1:
-            self.agent.movement.move(0, -2)
+            self.agent.movement.shift(0, -2)
         elif action == 2:
-            self.agent.movement.move(2, 0)
+            self.agent.movement.shift(2, 0)
         elif action == 3:
-            self.agent.movement.move(-2, 0)
+            self.agent.movement.shift(-2, 0)
         # REMOVE NOOP
         # elif action == 4:
         #    self.agent.move(0,0)
