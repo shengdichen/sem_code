@@ -243,3 +243,22 @@ class MovePoint(Env):
 
     def close(self):
         PointEnvRendererHuman.clean_up()
+
+
+class ActionConverter:
+    def __init__(self, action: int):
+        self._action = action
+
+    def get_shift(self):
+        if self._action == 0:
+            shift = 0, 2
+        elif self._action == 1:
+            shift = 0, -2
+        elif self._action == 2:
+            shift = 2, 0
+        elif self._action == 3:
+            shift = -2, 0
+        else:
+            shift = 0, 0
+
+        return shift
