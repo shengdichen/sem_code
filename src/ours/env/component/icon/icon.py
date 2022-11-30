@@ -6,11 +6,17 @@ import cv2
 class Icon:
     def __init__(self, path_rel: str, size: tuple[int, int]):
         self._icon = self._load(path_rel)
-        self._resize(size)
+
+        self._size = size
+        self._resize()
 
     @property
     def icon(self):
         return self._icon
+
+    @property
+    def size(self):
+        return self._size
 
     @staticmethod
     def _load(path_rel: str):
@@ -22,5 +28,5 @@ class Icon:
         # self._icon = cv2.circle(image, center_coordinates, radius, color, thickness)
         pass
 
-    def _resize(self, size: tuple[int, int]):
-        self._icon = cv2.resize(self._icon, size)
+    def _resize(self):
+        self._icon = cv2.resize(self._icon, self._size)
