@@ -247,16 +247,21 @@ class PointEnvRenderer:
 
     def render(self, mode: str):
         if mode == "human":
-            heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
-            heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
-            heatmap = heatmap / 255
-            cat_img = np.hstack((self._canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
-            cv2.imshow("game", cat_img)
-            # plt.imshow("Game", cat_img)
-            cv2.waitKey(10)
-
+            self.render_human()
         elif mode == "rgb_array":
-            return self._canvas
+            self.render_rgb()
+
+    def render_human(self):
+        heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
+        heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
+        heatmap = heatmap / 255
+        cat_img = np.hstack((self._canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
+        cv2.imshow("game", cat_img)
+        # plt.imshow("Game", cat_img)
+        cv2.waitKey(10)
+
+    def render_rgb(self):
+        return self._canvas
 
 
 def client_code():
