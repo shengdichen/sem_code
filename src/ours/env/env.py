@@ -233,17 +233,7 @@ class MovePoint(Env):
             "human",
             "rgb_array",
         ], 'Invalid mode, must be either "human" or "rgb_array"'
-        if mode == "human":
-            heatmapimg = np.array(self.canvas_hist * 255, dtype=np.uint8)
-            heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
-            heatmap = heatmap / 255
-            cat_img = np.hstack((self.canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
-            cv2.imshow("game", cat_img)
-            # plt.imshow("Game", cat_img)
-            cv2.waitKey(10)
-
-        elif mode == "rgb_array":
-            return self.canvas
+        PointEnvRenderer(self.canvas, self.canvas_hist).render(mode)
 
     def close(self):
         cv2.destroyAllWindows()
