@@ -26,9 +26,10 @@ class PointEnvRendererHuman(PointEnvRendererBase):
 
         return heatmap
 
-    @staticmethod
-    def _get_separator() -> np.ndarray:
-        return np.ones([200, 4, 3]) * 0.2
+    def _get_separator(self) -> np.ndarray:
+        height, width = self._canvas.shape[0], 4
+
+        return np.ones([height, width, 3]) * 0.2
 
     def render(self) -> None:
         cat_img = self._get_image()
