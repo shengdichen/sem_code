@@ -180,7 +180,6 @@ class MovePoint(Env):
         # Decrease the time counter
         self.time -= 1
 
-        # apply the action to the agent
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
 
@@ -235,7 +234,6 @@ class MovePoint(Env):
 
 class ActionConverter:
     def __init__(self, action: int, action_space: spaces.Space):
-        # Assert that it is a valid action
         assert action_space.contains(action), "Invalid Action"
 
         self._action = action
