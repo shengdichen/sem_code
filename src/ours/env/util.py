@@ -27,7 +27,7 @@ class PointEnvRenderer(PointEnvRendererBase):
         return heatmap
 
     @staticmethod
-    def _get_separator():
+    def _get_separator() -> np.ndarray:
         return np.ones([200, 4, 3]) * 0.2
 
     def render(self) -> None:
@@ -36,11 +36,11 @@ class PointEnvRenderer(PointEnvRendererBase):
         # plt.imshow("Game", cat_img)
         cv2.waitKey(10)
 
-    def _get_image(self):
+    def _get_image(self) -> np.ndarray:
         return np.hstack((self._canvas, self._separator, self._heatmap))
 
     @staticmethod
-    def clean_up():
+    def clean_up() -> None:
         cv2.destroyAllWindows()
         plt.close("all")
 
