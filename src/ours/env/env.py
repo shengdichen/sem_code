@@ -248,7 +248,7 @@ class PointEnvRenderer:
     def render(self, mode: str):
         if mode == "human":
             self.render_human()
-        elif mode == "rgb_array":
+        else:
             self.render_rgb()
 
     def render_human(self):
