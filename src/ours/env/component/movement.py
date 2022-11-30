@@ -30,7 +30,7 @@ class MovementTwoDim:
 
 class MovementOneDim:
     def __init__(self, pos_range: tuple[float, float]):
-        self._pos = 0
+        self._pos = 0.0
         self._pos_min, self._pos_max = pos_range
 
     @property
