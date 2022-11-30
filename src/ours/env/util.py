@@ -14,9 +14,7 @@ class PointEnvRenderer:
             self.render_rgb()
 
     def render_human(self) -> None:
-        heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
-        heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
-        heatmap = heatmap / 255
+        heatmap = self._get_heatmap()
         cat_img = np.hstack((self._canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
         cv2.imshow("game", cat_img)
         # plt.imshow("Game", cat_img)
