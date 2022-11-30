@@ -18,7 +18,8 @@ class PointEnvRenderer(PointEnvRendererBase):
         self._heatmap = self._get_heatmap(canvas_hist)
         self._separator = self._get_separator()
 
-    def _get_heatmap(self, canvas_hist: np.ndarray):
+    @staticmethod
+    def _get_heatmap(canvas_hist: np.ndarray):
         heatmapimg = np.array(canvas_hist * 255, dtype=np.uint8)
         heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
         heatmap = heatmap / 255
