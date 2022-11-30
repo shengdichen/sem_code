@@ -63,15 +63,13 @@ class MovePoint(Env):
 
         # Draw the agent on canvas
         for elem in self.elements:
-            elem_shape = elem.icon.shape
             x, y = elem.movement.x, elem.movement.y
-            self.canvas[y : y + elem_shape[1], x : x + elem_shape[0]] = elem.icon
+            self.canvas[y : y + elem.y_icon, x : x + elem.x_icon] = elem.icon
 
         agent = self.agent
-        agent_shape = self.agent.icon.shape
         self.canvas_hist[
-            agent.movement.y : agent.movement.y + agent_shape[1],
-            agent.movement.x : agent.movement.x + agent_shape[0],
+            agent.movement.y : agent.movement.y + agent.y_icon,
+            agent.movement.x : agent.movement.x + agent.x_icon,
         ] += 1
 
         # normalize hist canvas
