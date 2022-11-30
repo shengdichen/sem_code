@@ -65,11 +65,7 @@ class MovePoint(Env):
             x, y = elem.movement.x, elem.movement.y
             self.canvas[y : y + elem.y_icon, x : x + elem.x_icon] = elem.icon
 
-        agent = self.agent
-        self.canvas_hist[
-            agent.movement.y : agent.movement.y + agent.y_icon,
-            agent.movement.x : agent.movement.x + agent.x_icon,
-        ] += 1
+        self._register_agent_on_hist()
 
         # normalize hist canvas
         # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
@@ -79,6 +75,13 @@ class MovePoint(Env):
         # self.canvas = cv2.putText(
         #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
         # )
+
+    def _register_agent_on_hist(self):
+        agent = self.agent
+        self.canvas_hist[
+            agent.movement.y : agent.movement.y + agent.y_icon,
+            agent.movement.x : agent.movement.x + agent.x_icon,
+        ] += 1
 
     def reset(self):
         # Flag that marks the termination of an episode
