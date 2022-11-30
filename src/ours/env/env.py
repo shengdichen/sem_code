@@ -149,8 +149,8 @@ class MovePoint(Env):
             [
                 self.agent.movement.x,
                 self.agent.movement.y,
-                curr_tgt.movement.x,
-                curr_tgt.movement.y,
+                self.targets[self.curr_tgt_id].movement.x,
+                self.targets[self.curr_tgt_id].movement.y,
             ]
         )
 
@@ -185,9 +185,9 @@ class MovePoint(Env):
 
         curr_tgt = self.targets[self.curr_tgt_id]
 
-        reward = -1 * self.agent.distance_l2(curr_tgt)
+        reward = -1 * self.agent.distance_l2(self.targets[self.curr_tgt_id])
 
-        if self.agent.has_collided(curr_tgt):
+        if self.agent.has_collided(self.targets[self.curr_tgt_id]):
             # reward += 5
             if self.curr_tgt_id == len(self.targets) - 1:
                 # task solved
@@ -204,8 +204,8 @@ class MovePoint(Env):
             [
                 self.agent.movement.x,
                 self.agent.movement.y,
-                curr_tgt.movement.x,
-                curr_tgt.movement.y,
+                self.targets[self.curr_tgt_id].movement.x,
+                self.targets[self.curr_tgt_id].movement.y,
             ]
         )
 
