@@ -57,14 +57,7 @@ class MovePoint(Env):
         }
 
     def draw_elements_on_canvas(self):
-        # Init the canvas
-        self.canvas = np.ones(self.canvas_shape)
-
-        # Draw the agent on canvas
-        for elem in self.elements:
-            x, y = elem.movement.x, elem.movement.y
-            self.canvas[y : y + elem.y_icon, x : x + elem.x_icon] = elem.icon
-
+        self._register_agent_and_targets()
         self._register_agent_on_hist()
 
         # normalize hist canvas
@@ -75,6 +68,15 @@ class MovePoint(Env):
         # self.canvas = cv2.putText(
         #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
         # )
+
+    def _register_agent_and_targets(self):
+        # Init the canvas
+        self.canvas = np.ones(self.canvas_shape)
+
+        # Draw the agent on canvas
+        for elem in self.elements:
+            x, y = elem.movement.x, elem.movement.y
+            self.canvas[y : y + elem.y_icon, x : x + elem.x_icon] = elem.icon
 
     def _register_agent_on_hist(self):
         agent = self.agent
