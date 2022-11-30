@@ -11,7 +11,7 @@ class PointEnvRendererBase(ABC):
         pass
 
 
-class PointEnvRenderer(PointEnvRendererBase):
+class PointEnvRendererHuman(PointEnvRendererBase):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
 
