@@ -14,9 +14,8 @@ class PointEnvRendererBase(ABC):
 class PointEnvRenderer(PointEnvRendererBase):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
-        self._canvas_hist = canvas_hist
 
-        self._heatmap = self._get_heatmap()
+        self._heatmap = self._get_heatmap(canvas_hist)
         self._separator = self._get_separator()
 
     def render(self) -> None:
@@ -28,8 +27,8 @@ class PointEnvRenderer(PointEnvRendererBase):
     def _get_image(self):
         return np.hstack((self._canvas, self._separator, self._heatmap))
 
-    def _get_heatmap(self):
-        heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
+    def _get_heatmap(self, canvas_hist: np.ndarray):
+        heatmapimg = np.array(canvas_hist * 255, dtype=np.uint8)
         heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
         heatmap = heatmap / 255
 
