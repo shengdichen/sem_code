@@ -236,7 +236,7 @@ class MovePoint(Env):
         PointEnvRenderer(self.canvas, self.canvas_hist).render(mode)
 
     def close(self):
-        cv2.destroyAllWindows()
+        PointEnvRenderer.clean_up()
         plt.close("all")
 
 
