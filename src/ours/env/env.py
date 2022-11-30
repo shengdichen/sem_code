@@ -263,6 +263,10 @@ class PointEnvRenderer:
     def render_rgb(self):
         return self._canvas
 
+    @staticmethod
+    def clean_up():
+        cv2.destroyAllWindows()
+
 
 def client_code():
     pointenv = MovePoint()
