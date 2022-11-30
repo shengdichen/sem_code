@@ -27,6 +27,10 @@ class PointEnvRenderer:
 
         return heatmap
 
+    @staticmethod
+    def _get_separator():
+        return np.ones([200, 4, 3]) * 0.2
+
     def render_rgb(self) -> None:
         print(self._canvas)
 
