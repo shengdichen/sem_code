@@ -16,6 +16,9 @@ class PointEnvRenderer(PointEnvRendererBase):
         self._canvas = canvas
         self._canvas_hist = canvas_hist
 
+        self._heatmap = self._get_heatmap()
+        self._separator = self._get_separator()
+
     def render(self) -> None:
         cat_img = self._get_image()
         cv2.imshow("game", cat_img)
@@ -23,9 +26,7 @@ class PointEnvRenderer(PointEnvRendererBase):
         cv2.waitKey(10)
 
     def _get_image(self):
-        heatmap = self._get_heatmap()
-        separator = self._get_separator()
-        return np.hstack((self._canvas, separator, heatmap))
+        return np.hstack((self._canvas, self._separator, self._heatmap))
 
     def _get_heatmap(self):
         heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
