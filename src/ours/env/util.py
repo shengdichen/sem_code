@@ -22,6 +22,13 @@ class PointEnvRenderer:
         # plt.imshow("Game", cat_img)
         cv2.waitKey(10)
 
+    def _get_heatmap(self):
+        heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
+        heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
+        heatmap = heatmap / 255
+
+        return heatmap
+
     def render_rgb(self) -> None:
         print(self._canvas)
 
