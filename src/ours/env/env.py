@@ -176,7 +176,7 @@ class MovePoint(Env):
 
         return tgts
 
-    def step(self, action):
+    def step(self, action: int):
         # Decrease the time counter
         self.time -= 1
 
