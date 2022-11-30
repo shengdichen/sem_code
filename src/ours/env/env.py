@@ -184,17 +184,8 @@ class MovePoint(Env):
         self.time -= 1
 
         # apply the action to the agent
-        if action == 0:
-            self.agent.movement.shift(0, 2)
-        elif action == 1:
-            self.agent.movement.shift(0, -2)
-        elif action == 2:
-            self.agent.movement.shift(2, 0)
-        elif action == 3:
-            self.agent.movement.shift(-2, 0)
-        # REMOVE NOOP
-        # elif action == 4:
-        #    self.agent.move(0,0)
+        shift = ActionConverter(action).get_shift()
+        self.agent.movement.shift(shift[0], shift[1])
 
         curr_tgt = self.targets[self.curr_tgt]
 
