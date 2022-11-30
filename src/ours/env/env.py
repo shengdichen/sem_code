@@ -142,9 +142,9 @@ class MovePoint(Env):
         self.draw_elements_on_canvas()
 
         # Reset the reward
-        self.curr_tgt = 0
+        self.curr_tgt_id = 0
 
-        curr_tgt = self.targets[self.curr_tgt]
+        curr_tgt = self.targets[self.curr_tgt_id]
         state = np.stack(
             [
                 self.agent.movement.x,
@@ -183,19 +183,19 @@ class MovePoint(Env):
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
 
-        curr_tgt = self.targets[self.curr_tgt]
+        curr_tgt = self.targets[self.curr_tgt_id]
 
         reward = -1 * self.agent.distance_l2(curr_tgt)
 
         if self.agent.has_collided(curr_tgt):
             # reward += 5
-            if self.curr_tgt == len(self.targets) - 1:
+            if self.curr_tgt_id == len(self.targets) - 1:
                 # task solved
                 # reward += 100
                 self.done = True
             else:
                 # update target
-                self.curr_tgt += 1
+                self.curr_tgt_id += 1
 
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
