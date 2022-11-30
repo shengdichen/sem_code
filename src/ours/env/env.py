@@ -177,14 +177,11 @@ class MovePoint(Env):
         return tgts
 
     def step(self, action):
-        # Assert that it is a valid action
-        assert self.action_space.contains(action), "Invalid Action"
-
         # Decrease the time counter
         self.time -= 1
 
         # apply the action to the agent
-        shift = ActionConverter(action).get_shift()
+        shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
 
         curr_tgt = self.targets[self.curr_tgt]
@@ -237,7 +234,10 @@ class MovePoint(Env):
 
 
 class ActionConverter:
-    def __init__(self, action: int):
+    def __init__(self, action: int, action_space: spaces.Space):
+        # Assert that it is a valid action
+        assert action_space.contains(action), "Invalid Action"
+
         self._action = action
 
     def get_shift(self):
