@@ -34,6 +34,7 @@ class MovePoint(Env):
 
         # Add targets
         self.n_tgt = n_targets
+        self.curr_tgt_id = 0
         self.targets = []
 
         # Maximum episode length
