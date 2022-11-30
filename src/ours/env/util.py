@@ -15,7 +15,8 @@ class PointEnvRenderer:
 
     def render_human(self) -> None:
         heatmap = self._get_heatmap()
-        cat_img = np.hstack((self._canvas, np.ones([200, 4, 3]) * 0.2, heatmap))
+        separator = self._get_separator()
+        cat_img = np.hstack((self._canvas, separator, heatmap))
         cv2.imshow("game", cat_img)
         # plt.imshow("Game", cat_img)
         cv2.waitKey(10)
