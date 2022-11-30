@@ -18,15 +18,6 @@ class PointEnvRenderer(PointEnvRendererBase):
         self._heatmap = self._get_heatmap(canvas_hist)
         self._separator = self._get_separator()
 
-    def render(self) -> None:
-        cat_img = self._get_image()
-        cv2.imshow("game", cat_img)
-        # plt.imshow("Game", cat_img)
-        cv2.waitKey(10)
-
-    def _get_image(self):
-        return np.hstack((self._canvas, self._separator, self._heatmap))
-
     def _get_heatmap(self, canvas_hist: np.ndarray):
         heatmapimg = np.array(canvas_hist * 255, dtype=np.uint8)
         heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
@@ -37,6 +28,15 @@ class PointEnvRenderer(PointEnvRendererBase):
     @staticmethod
     def _get_separator():
         return np.ones([200, 4, 3]) * 0.2
+
+    def render(self) -> None:
+        cat_img = self._get_image()
+        cv2.imshow("game", cat_img)
+        # plt.imshow("Game", cat_img)
+        cv2.waitKey(10)
+
+    def _get_image(self):
+        return np.hstack((self._canvas, self._separator, self._heatmap))
 
     @staticmethod
     def clean_up():
