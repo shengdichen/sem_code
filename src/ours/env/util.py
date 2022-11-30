@@ -7,13 +7,13 @@ class PointEnvRenderer:
         self._canvas = canvas
         self._canvas_hist = canvas_hist
 
-    def render(self, mode: str):
+    def render(self, mode: str) -> None:
         if mode == "human":
             self.render_human()
         else:
             self.render_rgb()
 
-    def render_human(self):
+    def render_human(self) -> None:
         heatmapimg = np.array(self._canvas_hist * 255, dtype=np.uint8)
         heatmap = cv2.applyColorMap(heatmapimg, cv2.COLORMAP_JET)
         heatmap = heatmap / 255

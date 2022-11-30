@@ -228,7 +228,7 @@ class MovePoint(Env):
 
         return state, reward, self.done, {}
 
-    def render(self, mode="human"):
+    def render(self, mode="human") -> None:
         assert mode in [
             "human",
             "rgb_array",
