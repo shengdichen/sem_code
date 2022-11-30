@@ -79,7 +79,9 @@ class MovePoint(Env):
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
         # Put the info on canvas
-        # self.canvas = cv2.putText(self.canvas, text, (10,20), font, 0.8, (0,0,0), 1, cv2.LINE_AA)
+        # self.canvas = cv2.putText(
+        #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
+        # )
 
     def reset(self):
         # Flag that marks the termination of an episode
