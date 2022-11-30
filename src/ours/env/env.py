@@ -144,7 +144,6 @@ class MovePoint(Env):
         # Reset the reward
         self.curr_tgt_id = 0
 
-        curr_tgt = self.targets[self.curr_tgt_id]
         state = np.stack(
             [
                 self.agent.movement.x,
@@ -182,8 +181,6 @@ class MovePoint(Env):
 
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
-
-        curr_tgt = self.targets[self.curr_tgt_id]
 
         reward = -1 * self.agent.distance_l2(self.targets[self.curr_tgt_id])
 
