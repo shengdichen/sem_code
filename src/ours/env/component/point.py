@@ -1,5 +1,3 @@
-import numpy as np
-
 from src.ours.env.component.icon.icon import Icon
 from src.ours.env.component.movement import MovementTwoDim
 
@@ -39,10 +37,7 @@ class NamedPointWithIcon:
         return has_collided_x and has_collided_y
 
     def distance_l2(self, that: "NamedPointWithIcon") -> float:
-        return np.sqrt(
-            (self.movement.x - that.movement.x) ** 2
-            + (self.movement.y - that.movement.y) ** 2
-        )
+        return self.movement.distance_l2(that.movement)
 
 
 class PointFactory:

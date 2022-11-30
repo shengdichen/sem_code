@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class MovementTwoDim:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x_min, self.x_max_with_icon = x_min, x_max_with_icon
@@ -24,6 +27,9 @@ class MovementTwoDim:
     def shift(self, shift_by_x: float, shift_by_y: float) -> None:
         self.x_movement.shift(shift_by_x)
         self.y_movement.shift(shift_by_y)
+
+    def distance_l2(self, that: "MovementTwoDim") -> float:
+        return np.sqrt((self.x - that.x) ** 2 + (self.y - that.y) ** 2)
 
 
 class MovementOneDim:
