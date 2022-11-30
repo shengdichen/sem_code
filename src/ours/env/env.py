@@ -92,9 +92,6 @@ class MovePoint(Env):
         # Reset the fuel consumed
         self.time = self.max_time
 
-        # Reset the reward
-        self.curr_tgt = 0
-
         # Determine a place to intialise the agent in
         if self.random_init:
             x = random.randrange(
@@ -143,6 +140,9 @@ class MovePoint(Env):
 
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
+
+        # Reset the reward
+        self.curr_tgt = 0
 
         curr_tgt = self.targets[self.curr_tgt]
         state = np.stack(
