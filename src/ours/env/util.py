@@ -22,8 +22,8 @@ class PointEnvRenderer:
         # plt.imshow("Game", cat_img)
         cv2.waitKey(10)
 
-    def render_rgb(self):
-        return self._canvas
+    def render_rgb(self) -> None:
+        print(self._canvas)
 
     @staticmethod
     def clean_up():
