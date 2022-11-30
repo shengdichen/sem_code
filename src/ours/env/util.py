@@ -10,18 +10,12 @@ class PointEnvRendererBase(ABC):
         pass
 
 
-class PointEnvRenderer:
+class PointEnvRenderer(PointEnvRendererBase):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
         self._canvas_hist = canvas_hist
 
-    def render(self, mode: str) -> None:
-        if mode == "human":
-            self.render_human()
-        else:
-            self.render_rgb()
-
-    def render_human(self) -> None:
+    def render(self) -> None:
         cat_img = self._get_image()
         cv2.imshow("game", cat_img)
         # plt.imshow("Game", cat_img)
@@ -43,9 +37,14 @@ class PointEnvRenderer:
     def _get_separator():
         return np.ones([200, 4, 3]) * 0.2
 
-    def render_rgb(self) -> None:
-        print(self._canvas)
-
     @staticmethod
     def clean_up():
         cv2.destroyAllWindows()
+
+
+class PointEnvRendererRgb(PointEnvRendererBase):
+    def __init__(self, canvas: np.ndarray):
+        self._canvas = canvas
+
+    def render(self) -> None:
+        print(self._canvas)
