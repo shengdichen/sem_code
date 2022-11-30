@@ -29,7 +29,10 @@ class MovementTwoDim:
         self.y_movement.shift(shift_by_y)
 
     def distance_l2(self, that: "MovementTwoDim") -> float:
-        return np.sqrt((self.x - that.x) ** 2 + (self.y - that.y) ** 2)
+        return np.sqrt(
+            self.x_movement.diff_squared(that.x_movement)
+            + self.y_movement.diff_squared(that.y_movement)
+        )
 
 
 class MovementOneDim:
@@ -52,3 +55,6 @@ class MovementOneDim:
 
     def _clamp(self, pos_desired: float) -> float:
         return max(min(self._pos_max, pos_desired), self._pos_min)
+
+    def diff_squared(self, that: "MovementOneDim") -> float:
+        return (self._pos - that._pos) ** 2
