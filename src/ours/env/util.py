@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 class PointEnvRendererBase(ABC):
@@ -40,6 +41,7 @@ class PointEnvRenderer(PointEnvRendererBase):
     @staticmethod
     def clean_up():
         cv2.destroyAllWindows()
+        plt.close("all")
 
 
 class PointEnvRendererRgb(PointEnvRendererBase):

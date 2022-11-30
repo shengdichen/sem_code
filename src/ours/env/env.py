@@ -1,6 +1,5 @@
 import random
 
-import matplotlib.pyplot as plt
 import numpy as np
 from gym import Env, spaces
 
@@ -243,7 +242,6 @@ class MovePoint(Env):
 
     def close(self):
         PointEnvRenderer.clean_up()
-        plt.close("all")
 
 
 def client_code():
