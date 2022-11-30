@@ -247,3 +247,13 @@ class MovePoint(Env):
     def close(self):
         cv2.destroyAllWindows()
         plt.close("all")
+
+
+def client_code():
+    pointenv = MovePoint()
+    pointenv.reset()
+    pointenv.render("human")
+
+
+if __name__ == "__main__":
+    client_code()
