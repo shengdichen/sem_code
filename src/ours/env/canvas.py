@@ -5,18 +5,26 @@ from src.ours.env.component.point import NamedPointWithIcon
 
 class CanvasRelated:
     def __init__(self, canvas_shape: tuple[int, int]):
-        self.colormap_shape = canvas_shape[0], canvas_shape[1], 3
+        self._colormap_shape = canvas_shape[0], canvas_shape[1], 3
 
-        self.canvas, self.canvas_hist = self._make_canvas_and_hist()
+        self._canvas, self._canvas_hist = self._make_canvas_and_hist()
+
+    @property
+    def canvas(self):
+        return self._canvas
+
+    @property
+    def canvas_hist(self):
+        return self._canvas_hist
 
     def _make_canvas_and_hist(self) -> tuple[np.ndarray, np.ndarray]:
-        return np.ones(self.colormap_shape), np.zeros(self.colormap_shape)
+        return np.ones(self._colormap_shape), np.zeros(self._colormap_shape)
 
     def register_on_canvas(self, points: list[NamedPointWithIcon]) -> None:
-        self.canvas = np.ones(self.colormap_shape)
+        self._canvas = np.ones(self._colormap_shape)
 
         for point in points:
-            self.canvas[
+            self._canvas[
                 point.movement.y : point.movement.y + point.y_icon,
                 point.movement.x : point.movement.x + point.x_icon,
             ] = point.icon
@@ -29,7 +37,7 @@ class CanvasRelated:
         # )
 
     def register_on_hist(self, point: NamedPointWithIcon) -> None:
-        self.canvas_hist[
+        self._canvas_hist[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
         ] += 1
