@@ -30,10 +30,7 @@ class MovePoint(Env):
         self.canvas_hist = np.zeros(self.canvas_shape)
 
         # Permissible area of helicper to be
-        self.y_min = int(self.canvas_shape[0] * 0.1)
-        self.x_min = 0
-        self.y_max = int(self.canvas_shape[0] * 0.9)
-        self.x_max = self.canvas_shape[1]
+        self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
         self.shift_x = shift_x
         self.shift_y = shift_y
 
@@ -57,6 +54,14 @@ class MovePoint(Env):
 
         self.done = False
 
+    def get_ranges(self):
+        y_min = int(self.canvas_shape[0] * 0.1)
+        x_min = 0
+        y_max = int(self.canvas_shape[0] * 0.9)
+        x_max = self.canvas_shape[1]
+
+        return y_min, x_min, y_max, x_max
+
     @property
     def env_config(self):
         return {
@@ -75,8 +80,10 @@ class MovePoint(Env):
 
         # Draw the agent on canvas
         for point in self.agent_and_targets:
-            x, y = point.movement.x, point.movement.y
-            self.canvas[y : y + point.y_icon, x : x + point.x_icon] = point.icon
+            self.canvas[
+                point.movement.y : point.movement.y + point.y_icon,
+                point.movement.x : point.movement.x + point.x_icon,
+            ] = point.icon
 
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
