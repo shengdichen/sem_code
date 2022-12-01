@@ -85,9 +85,6 @@ class MovePoint(Env):
 
         return targets
 
-    def get_reset_agent_pos(self):
-        return self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
-
     def get_reset_targets_pos(self):
         # define two targets to simulate different experts
         pos = [
@@ -106,7 +103,7 @@ class MovePoint(Env):
         self.time = self.max_time
 
         # Determine a place to intialise the agent in
-        x, y = self.get_reset_agent_pos()
+        x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
         self.agent.movement.set_position(x, y)
 
         # Set the targets
