@@ -13,6 +13,14 @@ class VisualizerBase(ABC):
     def register(self, **kwargs):
         pass
 
+    def get_ranges(self):
+        y_min = int(self._colormat_shape[0] * 0.1)
+        x_min = 0
+        y_max = int(self._colormat_shape[0] * 0.9)
+        x_max = self._colormat_shape[1]
+
+        return y_min, x_min, y_max, x_max
+
 
 class AgentTargetsVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
