@@ -3,7 +3,7 @@ import random
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.canvas import CanvasRelated
+from src.ours.env.canvas import Visualizer
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
@@ -26,7 +26,7 @@ class MovePoint(Env):
             5,
         )
 
-        self.canvas_related = CanvasRelated(self.canvas_shape)
+        self.canvas_related = Visualizer(self.canvas_shape)
 
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()

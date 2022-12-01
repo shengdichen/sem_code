@@ -3,7 +3,7 @@ import numpy as np
 from src.ours.env.component.point import NamedPointWithIcon
 
 
-class CanvasRelated:
+class Visualizer:
     def __init__(self, canvas_shape: tuple[int, int]):
         self._colormap_shape = canvas_shape[0], canvas_shape[1], 3
 
