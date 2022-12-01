@@ -87,12 +87,7 @@ class MovePoint(Env):
 
     def get_reset_agent_pos(self):
         if self.random_init:
-            x = random.randrange(
-                int(self.canvas_shape[0] * 0.05), int(self.canvas_shape[0] * 0.10)
-            )
-            y = random.randrange(
-                int(self.canvas_shape[1] * 0.15), int(self.canvas_shape[1] * 0.20)
-            )
+            x, y = self._agent_targets_visualizer.get_reset_agent_pos_random()
         else:
             x = 10
             y = 10
