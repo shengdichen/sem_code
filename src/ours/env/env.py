@@ -12,6 +12,9 @@ class SpacesGenerator:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
+    def get_spaces(self):
+        return self.get_observation_space(), self.get_action_space()
+
     def get_observation_space(self):
         obs_length = 4
 
