@@ -27,7 +27,6 @@ class SpacesGenerator:
     @staticmethod
     def _get_action_space():
         n_legal_actions = 5
-        # Define an action space ranging from 0 to 4
         return spaces.Discrete(n_legal_actions)
 
 
