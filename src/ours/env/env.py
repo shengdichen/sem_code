@@ -8,6 +8,27 @@ from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
+class SpacesGenerator:
+    def __init__(self, side_length: int):
+        self._side_length = side_length
+
+    def get_observation_space(self):
+        obs_length = 4
+
+        return spaces.Box(
+            low=np.zeros(obs_length, dtype=np.float64),
+            high=np.ones(obs_length, dtype=np.float64) * self._side_length,
+            dtype=np.float64,
+        )
+
+    @staticmethod
+    def get_action_space():
+        # Define an action space ranging from 0 to 4
+        return spaces.Discrete(
+            5,
+        )
+
+
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
         super(MovePoint, self).__init__()
