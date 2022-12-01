@@ -106,13 +106,7 @@ class MovePoint(Env):
         }
 
     def draw_elements_on_canvas(self):
-        self._register_agent_and_targets()
-        self._register_agent_on_hist()
-
-    def _register_agent_and_targets(self):
         self.canvas_related.register_on_canvas(self.agent_and_targets)
-
-    def _register_agent_on_hist(self):
         self.canvas_related.register_on_hist(self.agent)
 
     def make_agent(self) -> NamedPointWithIcon:
