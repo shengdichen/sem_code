@@ -11,8 +11,10 @@ class CanvasRelated:
     def __init__(self, canvas_shape: tuple[int, int, int]):
         self.canvas_shape = canvas_shape
 
-        self.canvas = np.ones(self.canvas_shape)
-        self.canvas_hist = np.zeros(self.canvas_shape)
+        self.canvas, self.canvas_hist = self._make_canvas_and_hist()
+
+    def _make_canvas_and_hist(self) -> tuple[np.ndarray, np.ndarray]:
+        return np.ones(self.canvas_shape), np.zeros(self.canvas_shape)
 
 
 class MovePoint(Env):
