@@ -157,6 +157,18 @@ class MovePoint(Env):
         # return the observation
         return state
 
+    def get_state(self):
+        state = np.stack(
+            [
+                self.agent.movement.x,
+                self.agent.movement.y,
+                self.targets[self.curr_tgt_id].movement.x,
+                self.targets[self.curr_tgt_id].movement.y,
+            ]
+        )
+
+        return state
+
     # TODO: expand to preferences as random process!
     def generate_random_targets(self):
         tgts = []
