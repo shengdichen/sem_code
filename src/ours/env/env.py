@@ -26,8 +26,8 @@ class MovePoint(Env):
             5,
         )
 
-        self._canvas = AgentTargetsVisualizer(self.canvas_shape)
-        self._canvas_hist = TrajectoryHeatVisualizer(self.canvas_shape)
+        self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
+        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
 
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
@@ -71,8 +71,8 @@ class MovePoint(Env):
         }
 
     def draw_elements_on_canvas(self):
-        self._canvas.register(self.agent_and_targets)
-        self._canvas_hist.register(self.agent)
+        self._agent_targets_visualizer.register(self.agent_and_targets)
+        self._trajectory_heat_visualizer.register(self.agent)
 
     def make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
@@ -209,10 +209,10 @@ class MovePoint(Env):
 
         if mode == "human":
             renderer = PointEnvRendererHuman(
-                self._canvas.canvas, self._canvas_hist.canvas_hist
+                self._agent_targets_visualizer.canvas, self._trajectory_heat_visualizer.canvas_hist
             )
         else:
-            renderer = PointEnvRendererRgb(self._canvas.canvas)
+            renderer = PointEnvRendererRgb(self._agent_targets_visualizer.canvas)
 
         renderer.render()
 
