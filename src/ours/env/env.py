@@ -30,7 +30,12 @@ class MovePoint(Env):
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
 
         # Permissible area of helicper to be
-        self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
+        (
+            self.y_min,
+            self.x_min,
+            self.y_max,
+            self.x_max,
+        ) = self._agent_targets_visualizer.get_ranges()
         self.shift_x = shift_x
         self.shift_y = shift_y
 
