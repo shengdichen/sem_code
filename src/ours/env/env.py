@@ -242,13 +242,3 @@ class MovePoint(Env):
 
     def close(self):
         PointEnvRendererHuman.clean_up()
-
-
-def client_code():
-    pointenv = MovePoint()
-    pointenv.reset()
-    pointenv.render("human")
-
-
-if __name__ == "__main__":
-    client_code()
