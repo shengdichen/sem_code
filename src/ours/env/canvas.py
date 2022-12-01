@@ -13,10 +13,8 @@ class CanvasRelated:
         return np.ones(self.colormap_shape), np.zeros(self.colormap_shape)
 
     def register_on_canvas(self, points: list[NamedPointWithIcon]):
-        # Init the canvas
         self.canvas = np.ones(self.colormap_shape)
 
-        # Draw the agent on canvas
         for point in points:
             self.canvas[
                 point.movement.y : point.movement.y + point.y_icon,
