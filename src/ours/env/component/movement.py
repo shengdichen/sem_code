@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class MovementTwoDim:
     def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
         self.x_min, self.x_max_with_icon = x_min, x_max_with_icon
@@ -25,6 +28,12 @@ class MovementTwoDim:
         self.x_movement.shift(shift_by_x)
         self.y_movement.shift(shift_by_y)
 
+    def distance_l2(self, that: "MovementTwoDim") -> float:
+        return np.sqrt(
+            self.x_movement.diff_squared(that.x_movement)
+            + self.y_movement.diff_squared(that.y_movement)
+        )
+
 
 class MovementOneDim:
     def __init__(self, pos_range: tuple[float, float]):
@@ -46,3 +55,6 @@ class MovementOneDim:
 
     def _clamp(self, pos_desired: float) -> float:
         return max(min(self._pos_max, pos_desired), self._pos_min)
+
+    def diff_squared(self, that: "MovementOneDim") -> float:
+        return (self._pos - that._pos) ** 2

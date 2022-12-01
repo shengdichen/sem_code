@@ -191,13 +191,8 @@ class MovePoint(Env):
         #    self.agent.move(0,0)
 
         curr_tgt = self.targets[self.curr_tgt]
-        # l2 distance as reward
-        reward = -(
-            np.sqrt(
-                (self.agent.movement.x - curr_tgt.movement.x) ** 2
-                + (self.agent.movement.y - curr_tgt.movement.y) ** 2
-            )
-        )
+
+        reward = -1 * self.agent.distance_l2(curr_tgt)
 
         if self.agent.has_collided(curr_tgt):
             # reward += 5

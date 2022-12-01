@@ -36,6 +36,9 @@ class NamedPointWithIcon:
 
         return has_collided_x and has_collided_y
 
+    def distance_l2(self, that: "NamedPointWithIcon") -> float:
+        return self.movement.distance_l2(that.movement)
+
 
 class PointFactory:
     def __init__(self, name: str, x_max, x_min, y_max, y_min):
