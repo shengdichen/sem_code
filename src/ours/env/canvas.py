@@ -5,7 +5,7 @@ import numpy as np
 from src.ours.env.component.point import NamedPointWithIcon
 
 
-class VisuaizerBase(ABC):
+class VisualizerBase(ABC):
     def __init__(self, shape: tuple[int, int]):
         self._colormat_shape = shape[0], shape[1], 3
 
@@ -14,7 +14,7 @@ class VisuaizerBase(ABC):
         pass
 
 
-class AgentTargetsVisualizer(VisuaizerBase):
+class AgentTargetsVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
@@ -44,7 +44,7 @@ class AgentTargetsVisualizer(VisuaizerBase):
         # )
 
 
-class TrajectoryHeatVisualizer(VisuaizerBase):
+class TrajectoryHeatVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
