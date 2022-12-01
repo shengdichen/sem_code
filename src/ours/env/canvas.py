@@ -1,3 +1,4 @@
+import random
 from abc import abstractmethod, ABC
 
 import numpy as np
@@ -20,6 +21,16 @@ class VisualizerBase(ABC):
         x_max = self._colormat_shape[1]
 
         return y_min, x_min, y_max, x_max
+
+    def get_reset_agent_pos_random(self):
+        x = random.randrange(
+            int(self._colormat_shape[0] * 0.05), int(self._colormat_shape[0] * 0.10)
+        )
+        y = random.randrange(
+            int(self._colormat_shape[1] * 0.15), int(self._colormat_shape[1] * 0.20)
+        )
+
+        return x, y
 
 
 class AgentTargetsVisualizer(VisualizerBase):
