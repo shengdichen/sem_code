@@ -85,17 +85,6 @@ class MovePoint(Env):
 
         return targets
 
-    def get_reset_targets_pos(self):
-        # define two targets to simulate different experts
-        pos = [
-            (
-                int(self.canvas_shape[0] / 2) + self.shift_x,
-                int(self.canvas_shape[1] / 2) + self.shift_y,
-            ),
-            (int(self.canvas_shape[0] * 0.95), int(self.canvas_shape[1] * 0.95)),
-        ]
-        return pos
-
     def reset(self):
         # Flag that marks the termination of an episode
         self.done = False
@@ -109,7 +98,9 @@ class MovePoint(Env):
         # Set the targets
         # self.targets = self.generate_targets()
 
-        target_positions = self.get_reset_targets_pos()
+        target_positions = self._agent_targets_visualizer.get_reset_targets_pos(
+            (self.shift_x, self.shift_y)
+        )
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
