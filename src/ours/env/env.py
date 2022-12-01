@@ -145,9 +145,9 @@ class MovePoint(Env):
         # Set the targets
         # self.targets = self.generate_targets()
 
-        pos = self.get_reset_targets_pos()
-        for tgt, p in zip(self.targets, pos):
-            tgt.movement.set_position(p[0], p[1])
+        target_positions = self.get_reset_targets_pos()
+        for target, target_pos in zip(self.targets, target_positions):
+            target.movement.set_position(target_pos[0], target_pos[1])
 
         # Reset the Canvas
         self.canvas = np.ones(self.canvas_shape) * 1
