@@ -24,10 +24,10 @@ class VisualizerBase(ABC):
 
     def get_reset_agent_pos(self, use_random):
         if use_random:
-            return self.get_reset_agent_pos_random()
-        return self.get_reset_agent_pos_fixed()
+            return self._get_reset_agent_pos_random()
+        return self._get_reset_agent_pos_fixed()
 
-    def get_reset_agent_pos_random(self):
+    def _get_reset_agent_pos_random(self):
         x = random.randrange(
             int(self._colormat_shape[0] * 0.05), int(self._colormat_shape[0] * 0.10)
         )
@@ -37,7 +37,7 @@ class VisualizerBase(ABC):
 
         return x, y
 
-    def get_reset_agent_pos_fixed(self):
+    def _get_reset_agent_pos_fixed(self):
         x = 10
         y = 10
 
