@@ -7,6 +7,16 @@ from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
+class CanvasRelated:
+    def __init__(self, canvas_shape: tuple[int, int, int]):
+        # Define a 2-D observation space
+        self.canvas_shape = canvas_shape
+
+        # Create a canvas to render the environment images upon
+        self.canvas = np.ones(self.canvas_shape)
+        self.canvas_hist = np.zeros(self.canvas_shape)
+
+
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
         super(MovePoint, self).__init__()
@@ -25,9 +35,11 @@ class MovePoint(Env):
             5,
         )
 
+        self.canvas_related = CanvasRelated(self.canvas_shape)
+
         # Create a canvas to render the environment images upon
-        self.canvas = np.ones(self.canvas_shape)
-        self.canvas_hist = np.zeros(self.canvas_shape)
+        self.canvas = self.canvas_related.canvas
+        self.canvas_hist = self.canvas_related.canvas_hist
 
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
