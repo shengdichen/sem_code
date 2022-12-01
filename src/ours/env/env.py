@@ -3,7 +3,7 @@ import random
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.canvas import Visualizer
+from src.ours.env.canvas import CanvasHistVisualizer, CanvasVisualizer
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
@@ -26,7 +26,8 @@ class MovePoint(Env):
             5,
         )
 
-        self.canvas_related = Visualizer(self.canvas_shape)
+        self._canvas = CanvasVisualizer(self.canvas_shape)
+        self._canvas_hist = CanvasHistVisualizer(self.canvas_shape)
 
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
@@ -70,8 +71,8 @@ class MovePoint(Env):
         }
 
     def draw_elements_on_canvas(self):
-        self.canvas_related.register_on_canvas(self.agent_and_targets)
-        self.canvas_related.register_on_hist(self.agent)
+        self._canvas.register(self.agent_and_targets)
+        self._canvas_hist.register(self.agent)
 
     def make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
@@ -208,10 +209,10 @@ class MovePoint(Env):
 
         if mode == "human":
             renderer = PointEnvRendererHuman(
-                self.canvas_related.canvas, self.canvas_related.canvas_hist
+                self._canvas.canvas, self._canvas_hist.canvas_hist
             )
         else:
-            renderer = PointEnvRendererRgb(self.canvas_related.canvas)
+            renderer = PointEnvRendererRgb(self._canvas.canvas)
 
         renderer.render()
 
