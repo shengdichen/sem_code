@@ -37,9 +37,9 @@ class MovePoint(Env):
         self.targets = self.make_targets()
 
         # Define elements present inside the environment
-        self.elements = []
-        self.elements.append(self.agent)
-        self.elements.extend(self.targets)
+        self.agent_and_targets = []
+        self.agent_and_targets.append(self.agent)
+        self.agent_and_targets.extend(self.targets)
 
         # Maximum episode length
         self.max_time = 1000
@@ -70,9 +70,9 @@ class MovePoint(Env):
         self.canvas = np.ones(self.canvas_shape)
 
         # Draw the agent on canvas
-        for elem in self.elements:
-            x, y = elem.movement.x, elem.movement.y
-            self.canvas[y : y + elem.y_icon, x : x + elem.x_icon] = elem.icon
+        for point in self.agent_and_targets:
+            x, y = point.movement.x, point.movement.y
+            self.canvas[y : y + point.y_icon, x : x + point.x_icon] = point.icon
 
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
