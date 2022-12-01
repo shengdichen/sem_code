@@ -89,8 +89,7 @@ class MovePoint(Env):
         if self.random_init:
             x, y = self._agent_targets_visualizer.get_reset_agent_pos_random()
         else:
-            x = 10
-            y = 10
+            x, y = self._agent_targets_visualizer.get_reset_agent_pos_fixed()
 
         return x, y
 
