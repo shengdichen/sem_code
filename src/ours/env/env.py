@@ -29,6 +29,14 @@ class MovePoint(Env):
         self.canvas = np.ones(self.canvas_shape)
         self.canvas_hist = np.zeros(self.canvas_shape)
 
+        # Permissible area of helicper to be
+        self.y_min = int(self.canvas_shape[0] * 0.1)
+        self.x_min = 0
+        self.y_max = int(self.canvas_shape[0] * 0.9)
+        self.x_max = self.canvas_shape[1]
+        self.shift_x = shift_x
+        self.shift_y = shift_y
+
         self.agent = self.make_agent()
 
         # Add targets
@@ -44,13 +52,6 @@ class MovePoint(Env):
         # Maximum episode length
         self.max_time = 1000
 
-        # Permissible area of helicper to be
-        self.y_min = int(self.canvas_shape[0] * 0.1)
-        self.x_min = 0
-        self.y_max = int(self.canvas_shape[0] * 0.9)
-        self.x_max = self.canvas_shape[1]
-        self.shift_x = shift_x
-        self.shift_y = shift_y
         self.random_init = random_init
 
     @property
