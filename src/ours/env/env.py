@@ -8,8 +8,8 @@ from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
 class CanvasRelated:
-    def __init__(self, canvas_shape: tuple[int, int, int]):
-        self.canvas_shape = canvas_shape
+    def __init__(self, canvas_shape: tuple[int, int]):
+        self.canvas_shape = canvas_shape[0], canvas_shape[1], 3
 
         self.canvas, self.canvas_hist = self._make_canvas_and_hist()
 
@@ -48,12 +48,12 @@ class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
         super(MovePoint, self).__init__()
 
-        # Define a 2-D observation space
-        self.canvas_shape = (200, 200, 3)
+        self._side_length = 200
+        self.canvas_shape = self._side_length, self._side_length
         self.observation_shape = 4
         self.observation_space = spaces.Box(
             low=np.zeros(self.observation_shape, dtype=np.float64),
-            high=np.ones(self.observation_shape, dtype=np.float64) * 200,
+            high=np.ones(self.observation_shape, dtype=np.float64) * self._side_length,
             dtype=np.float64,
         )
 
