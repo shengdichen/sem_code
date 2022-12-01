@@ -37,10 +37,6 @@ class MovePoint(Env):
 
         self.canvas_related = CanvasRelated(self.canvas_shape)
 
-        # Create a canvas to render the environment images upon
-        self.canvas = self.canvas_related.canvas
-        self.canvas_hist = self.canvas_related.canvas_hist
-
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
         self.shift_x = shift_x
@@ -88,11 +84,11 @@ class MovePoint(Env):
 
     def _register_agent_and_targets(self):
         # Init the canvas
-        self.canvas = np.ones(self.canvas_shape)
+        self.canvas_related.canvas = np.ones(self.canvas_shape)
 
         # Draw the agent on canvas
         for point in self.agent_and_targets:
-            self.canvas[
+            self.canvas_related.canvas[
                 point.movement.y : point.movement.y + point.y_icon,
                 point.movement.x : point.movement.x + point.x_icon,
             ] = point.icon
@@ -106,7 +102,7 @@ class MovePoint(Env):
 
     def _register_agent_on_hist(self):
         agent = self.agent
-        self.canvas_hist[
+        self.canvas_related.canvas_hist[
             agent.movement.y : agent.movement.y + agent.y_icon,
             agent.movement.x : agent.movement.x + agent.x_icon,
         ] += 1
@@ -172,7 +168,7 @@ class MovePoint(Env):
             target.movement.set_position(target_pos[0], target_pos[1])
 
         # Reset the Canvas
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas_related.canvas = np.ones(self.canvas_shape) * 1
 
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
@@ -251,9 +247,11 @@ class MovePoint(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = PointEnvRendererHuman(self.canvas, self.canvas_hist)
+            renderer = PointEnvRendererHuman(
+                self.canvas_related.canvas, self.canvas_related.canvas_hist
+            )
         else:
-            renderer = PointEnvRendererRgb(self.canvas)
+            renderer = PointEnvRendererRgb(self.canvas_related.canvas)
 
         renderer.render()
 
