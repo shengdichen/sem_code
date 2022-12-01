@@ -87,6 +87,20 @@ class MovePoint(Env):
         # normalize hist canvas
         # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
 
+    def get_reset_agent_pos(self):
+        if self.random_init:
+            x = random.randrange(
+                int(self.canvas_shape[0] * 0.05), int(self.canvas_shape[0] * 0.10)
+            )
+            y = random.randrange(
+                int(self.canvas_shape[1] * 0.15), int(self.canvas_shape[1] * 0.20)
+            )
+        else:
+            x = 10
+            y = 10
+
+        return x, y
+
     def reset(self):
         # Flag that marks the termination of an episode
         self.done = False
