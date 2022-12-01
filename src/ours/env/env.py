@@ -145,10 +145,10 @@ class MovePoint(Env):
         # Reset the reward
         self.curr_tgt_id = 0
 
-        state = self.get_state()
-        return state
+        obs = self._get_obs()
+        return obs
 
-    def get_state(self):
+    def _get_obs(self):
         state = np.stack(
             [
                 self.agent.movement.x,
@@ -201,13 +201,13 @@ class MovePoint(Env):
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
-        state = self.get_state()
+        obs = self._get_obs()
 
         # If out of fuel, end the episode.
         if self.time == 0:
             self.done = True
 
-        return state, reward, self.done, {}
+        return obs, reward, self.done, {}
 
     def render(self, mode="human") -> None:
         assert mode in [
