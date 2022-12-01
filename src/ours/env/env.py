@@ -13,9 +13,9 @@ class SpacesGenerator:
         self._side_length = side_length
 
     def get_spaces(self):
-        return self.get_observation_space(), self.get_action_space()
+        return self._get_observation_space(), self._get_action_space()
 
-    def get_observation_space(self):
+    def _get_observation_space(self):
         obs_length = 4
 
         return spaces.Box(
@@ -25,7 +25,7 @@ class SpacesGenerator:
         )
 
     @staticmethod
-    def get_action_space():
+    def _get_action_space():
         # Define an action space ranging from 0 to 4
         return spaces.Discrete(
             5,
