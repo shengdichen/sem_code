@@ -130,9 +130,6 @@ class MovePoint(Env):
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-        # Reset the Canvas
-        self.canvas_related.canvas = np.ones(self.canvas_shape) * 1
-
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
