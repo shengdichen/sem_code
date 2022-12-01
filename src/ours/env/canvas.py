@@ -13,7 +13,7 @@ class VisualizerBase(ABC):
     def register(self, **kwargs):
         pass
 
-    def get_ranges(self):
+    def get_movement_ranges(self):
         y_min = int(self._colormat_shape[0] * 0.1)
         x_min = 0
         y_max = int(self._colormat_shape[0] * 0.9)

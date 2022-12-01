@@ -35,7 +35,7 @@ class MovePoint(Env):
             self.x_min,
             self.y_max,
             self.x_max,
-        ) = self._agent_targets_visualizer.get_ranges()
+        ) = self._agent_targets_visualizer.get_movement_ranges()
         self.shift_x = shift_x
         self.shift_y = shift_y
 
