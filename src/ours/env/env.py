@@ -80,8 +80,10 @@ class MovePoint(Env):
 
         # Draw the agent on canvas
         for point in self.agent_and_targets:
-            x, y = point.movement.x, point.movement.y
-            self.canvas[y : y + point.y_icon, x : x + point.x_icon] = point.icon
+            self.canvas[
+                point.movement.y : point.movement.y + point.y_icon,
+                point.movement.x : point.movement.x + point.x_icon,
+            ] = point.icon
 
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
