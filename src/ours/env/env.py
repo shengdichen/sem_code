@@ -51,8 +51,11 @@ class MovePoint(Env):
 
         # Maximum episode length
         self.max_time = 1000
+        self.time = self.max_time
 
         self.random_init = random_init
+
+        self.done = False
 
     @property
     def env_config(self):
