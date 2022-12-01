@@ -59,14 +59,6 @@ class MovePoint(Env):
 
         self.done = False
 
-    def get_ranges(self):
-        y_min = int(self.canvas_shape[0] * 0.1)
-        x_min = 0
-        y_max = int(self.canvas_shape[0] * 0.9)
-        x_max = self.canvas_shape[1]
-
-        return y_min, x_min, y_max, x_max
-
     @property
     def env_config(self):
         return {
