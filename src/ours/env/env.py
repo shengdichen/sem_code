@@ -9,16 +9,16 @@ from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 class CanvasRelated:
     def __init__(self, canvas_shape: tuple[int, int]):
-        self.canvas_shape = canvas_shape[0], canvas_shape[1], 3
+        self.colormap_shape = canvas_shape[0], canvas_shape[1], 3
 
         self.canvas, self.canvas_hist = self._make_canvas_and_hist()
 
     def _make_canvas_and_hist(self) -> tuple[np.ndarray, np.ndarray]:
-        return np.ones(self.canvas_shape), np.zeros(self.canvas_shape)
+        return np.ones(self.colormap_shape), np.zeros(self.colormap_shape)
 
     def register_on_canvas(self, points: list[NamedPointWithIcon]):
         # Init the canvas
-        self.canvas = np.ones(self.canvas_shape)
+        self.canvas = np.ones(self.colormap_shape)
 
         # Draw the agent on canvas
         for point in points:
