@@ -14,7 +14,7 @@ class VisuaizerBase(ABC):
         pass
 
 
-class CanvasVisualizer(VisuaizerBase):
+class AgentTargetsVisualizer(VisuaizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
@@ -41,7 +41,7 @@ class CanvasVisualizer(VisuaizerBase):
         # )
 
 
-class CanvasHistVisualizer(VisuaizerBase):
+class TrajectoryHeatVisualizer(VisuaizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
