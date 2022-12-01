@@ -209,10 +209,11 @@ class MovePoint(Env):
 
         if mode == "human":
             renderer = PointEnvRendererHuman(
-                self._agent_targets_visualizer.canvas, self._trajectory_heat_visualizer.canvas_hist
+                self._agent_targets_visualizer.colormat,
+                self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = PointEnvRendererRgb(self._agent_targets_visualizer.canvas)
+            renderer = PointEnvRendererRgb(self._agent_targets_visualizer.colormat)
 
         renderer.render()
 
