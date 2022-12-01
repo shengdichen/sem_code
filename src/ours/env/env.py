@@ -108,16 +108,7 @@ class MovePoint(Env):
         self.time = self.max_time
 
         # Determine a place to intialise the agent in
-        if self.random_init:
-            x = random.randrange(
-                int(self.canvas_shape[0] * 0.05), int(self.canvas_shape[0] * 0.10)
-            )
-            y = random.randrange(
-                int(self.canvas_shape[1] * 0.15), int(self.canvas_shape[1] * 0.20)
-            )
-        else:
-            x = 10
-            y = 10
+        x, y = self.get_reset_agent_pos()
 
         self.elements = []
         # Intialise the agent
