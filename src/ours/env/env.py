@@ -121,6 +121,17 @@ class MovePoint(Env):
 
         return x, y
 
+    def get_reset_targets_pos(self):
+        # define two targets to simulate different experts
+        pos = [
+            (
+                int(self.canvas_shape[0] / 2) + self.shift_x,
+                int(self.canvas_shape[1] / 2) + self.shift_y,
+            ),
+            (int(self.canvas_shape[0] * 0.95), int(self.canvas_shape[1] * 0.95)),
+        ]
+        return pos
+
     def reset(self):
         # Flag that marks the termination of an episode
         self.done = False
