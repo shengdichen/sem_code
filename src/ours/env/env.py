@@ -9,10 +9,8 @@ from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 class CanvasRelated:
     def __init__(self, canvas_shape: tuple[int, int, int]):
-        # Define a 2-D observation space
         self.canvas_shape = canvas_shape
 
-        # Create a canvas to render the environment images upon
         self.canvas = np.ones(self.canvas_shape)
         self.canvas_hist = np.zeros(self.canvas_shape)
 
