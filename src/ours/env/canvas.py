@@ -43,6 +43,19 @@ class VisualizerBase(ABC):
 
         return x, y
 
+    def get_reset_targets_pos(self, shifts):
+        shift_x, shift_y = shifts
+
+        # define two targets to simulate different experts
+        pos = [
+            (
+                int(self._colormat_shape[0] / 2) + shift_x,
+                int(self._colormat_shape[1] / 2) + shift_y,
+            ),
+            (int(self._colormat_shape[0] * 0.95), int(self._colormat_shape[1] * 0.95)),
+        ]
+        return pos
+
 
 class AgentTargetsVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
