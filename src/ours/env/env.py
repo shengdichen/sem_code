@@ -32,10 +32,12 @@ class MovePoint(Env):
         # Define elements present inside the environment
         self.elements = []
 
+        self.agent = self.make_agent()
+
         # Add targets
         self.n_tgt = n_targets
         self.curr_tgt_id = 0
-        self.targets = []
+        self.targets = self.make_targets()
 
         # Maximum episode length
         self.max_time = 1000
