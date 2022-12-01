@@ -18,14 +18,17 @@ class AgentTargetsVisualizer(VisuaizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
-        self._colormat = np.ones(self._colormat_shape)
+        self._colormat = self._make()
 
     @property
     def colormat(self):
         return self._colormat
 
+    def _make(self) -> np.ndarray:
+        return np.ones(self._colormat_shape)
+
     def register(self, points: list[NamedPointWithIcon]) -> None:
-        self._colormat = np.ones(self._colormat_shape)
+        self._colormat = self._make()
 
         for point in points:
             self._colormat[
@@ -45,11 +48,14 @@ class TrajectoryHeatVisualizer(VisuaizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 
-        self._colormat = np.zeros(self._colormat_shape)
+        self._colormat = self._make()
 
     @property
     def colormat(self):
         return self._colormat
+
+    def _make(self) -> np.ndarray:
+        return np.zeros(self._colormat_shape)
 
     def register(self, point: NamedPointWithIcon) -> None:
         self._colormat[
