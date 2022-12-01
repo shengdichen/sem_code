@@ -41,6 +41,26 @@ class CanvasVisualizer(VisuaizerBase):
         # )
 
 
+class CanvasHistVisualizer(VisuaizerBase):
+    def __init__(self, canvas_shape: tuple[int, int]):
+        super().__init__(canvas_shape)
+
+        self._canvas_hist = np.zeros(self._colormap_shape)
+
+    @property
+    def canvas_hist(self):
+        return self._canvas_hist
+
+    def register(self, point: NamedPointWithIcon) -> None:
+        self._canvas_hist[
+            point.movement.y : point.movement.y + point.y_icon,
+            point.movement.x : point.movement.x + point.x_icon,
+        ] += 1
+
+        # normalize hist canvas
+        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+
+
 class Visualizer:
     def __init__(self, canvas_shape: tuple[int, int]):
         self._colormap_shape = canvas_shape[0], canvas_shape[1], 3
