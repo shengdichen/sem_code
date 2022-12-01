@@ -22,6 +22,11 @@ class VisualizerBase(ABC):
 
         return y_min, x_min, y_max, x_max
 
+    def get_reset_agent_pos(self, use_random):
+        if use_random:
+            return self.get_reset_agent_pos_random()
+        return self.get_reset_agent_pos_fixed()
+
     def get_reset_agent_pos_random(self):
         x = random.randrange(
             int(self._colormat_shape[0] * 0.05), int(self._colormat_shape[0] * 0.10)
