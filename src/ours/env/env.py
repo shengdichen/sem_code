@@ -16,20 +16,19 @@ class SpacesGenerator:
         return self._get_observation_space(), self._get_action_space()
 
     def _get_observation_space(self):
-        obs_length = 4
+        n_movements_to_observe = 4
 
         return spaces.Box(
-            low=np.zeros(obs_length, dtype=np.float64),
-            high=np.ones(obs_length, dtype=np.float64) * self._side_length,
+            low=np.zeros(n_movements_to_observe, dtype=np.float64),
+            high=np.ones(n_movements_to_observe, dtype=np.float64) * self._side_length,
             dtype=np.float64,
         )
 
     @staticmethod
     def _get_action_space():
+        n_legal_actions = 5
         # Define an action space ranging from 0 to 4
-        return spaces.Discrete(
-            5,
-        )
+        return spaces.Discrete(n_legal_actions)
 
 
 class MovePoint(Env):
