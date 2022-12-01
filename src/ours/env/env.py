@@ -3,7 +3,7 @@ import random
 import numpy as np
 from gym import Env, spaces
 
-from src.ours.env.component.point import PointFactory
+from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
@@ -86,6 +86,21 @@ class MovePoint(Env):
 
         # normalize hist canvas
         # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+
+    def make_agent(self) -> NamedPointWithIcon:
+        return PointFactory(
+            "agent", self.x_max, self.x_min, self.y_max, self.y_min
+        ).create_agent()
+
+    def make_targets(self) -> list[NamedPointWithIcon]:
+        targets = []
+        for i in range(self.n_tgt):
+            tgt = PointFactory(
+                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
+            ).create_target()
+            targets.append(tgt)
+
+        return targets
 
     def get_reset_agent_pos(self):
         if self.random_init:
