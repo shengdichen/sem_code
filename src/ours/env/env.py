@@ -145,14 +145,7 @@ class MovePoint(Env):
         # Set the targets
         # self.targets = self.generate_targets()
 
-        # define two targets to simulate different experts
-        pos = [
-            (
-                int(self.canvas_shape[0] / 2) + self.shift_x,
-                int(self.canvas_shape[1] / 2) + self.shift_y,
-            ),
-            (int(self.canvas_shape[0] * 0.95), int(self.canvas_shape[1] * 0.95)),
-        ]
+        pos = self.get_reset_targets_pos()
         for tgt, p in zip(self.targets, pos):
             tgt.movement.set_position(p[0], p[1])
 
