@@ -129,16 +129,7 @@ class MovePoint(Env):
 
         # Determine a place to intialise the agent in
         x, y = self.get_reset_agent_pos()
-
-        self.elements = []
-        # Intialise the agent
-        self.agent = PointFactory(
-            "agent", self.x_max, self.x_min, self.y_max, self.y_min
-        ).create_agent()
         self.agent.movement.set_position(x, y)
-
-        # Intialise the elements
-        self.elements.append(self.agent)
 
         # Set the targets
         # self.targets = self.generate_targets()
@@ -151,15 +142,8 @@ class MovePoint(Env):
             ),
             (int(self.canvas_shape[0] * 0.95), int(self.canvas_shape[1] * 0.95)),
         ]
-        self.targets = []
-        for i, p in enumerate(pos):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            ).create_target()
+        for tgt, p in zip(self.targets, pos):
             tgt.movement.set_position(p[0], p[1])
-            self.targets.append(tgt)
-
-        self.elements.extend(self.targets)
 
         # Reset the Canvas
         self.canvas = np.ones(self.canvas_shape) * 1
