@@ -30,10 +30,7 @@ class MovePoint(Env):
         self.canvas_hist = np.zeros(self.canvas_shape)
 
         # Permissible area of helicper to be
-        self.y_min = int(self.canvas_shape[0] * 0.1)
-        self.x_min = 0
-        self.y_max = int(self.canvas_shape[0] * 0.9)
-        self.x_max = self.canvas_shape[1]
+        self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
         self.shift_x = shift_x
         self.shift_y = shift_y
 
