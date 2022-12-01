@@ -16,6 +16,33 @@ class CanvasRelated:
     def _make_canvas_and_hist(self) -> tuple[np.ndarray, np.ndarray]:
         return np.ones(self.canvas_shape), np.zeros(self.canvas_shape)
 
+    def register_on_canvas(self, points: list[NamedPointWithIcon]):
+        # Init the canvas
+        self.canvas = np.ones(self.canvas_shape)
+
+        # Draw the agent on canvas
+        for point in points:
+            self.canvas[
+                point.movement.y : point.movement.y + point.y_icon,
+                point.movement.x : point.movement.x + point.x_icon,
+            ] = point.icon
+
+        # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
+
+        # Put the info on canvas
+        # self.canvas = cv2.putText(
+        #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
+        # )
+
+    def register_on_hist(self, point: NamedPointWithIcon):
+        self.canvas_hist[
+            point.movement.y : point.movement.y + point.y_icon,
+            point.movement.x : point.movement.x + point.x_icon,
+        ] += 1
+
+        # normalize hist canvas
+        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+
 
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
@@ -83,32 +110,10 @@ class MovePoint(Env):
         self._register_agent_on_hist()
 
     def _register_agent_and_targets(self):
-        # Init the canvas
-        self.canvas_related.canvas = np.ones(self.canvas_shape)
-
-        # Draw the agent on canvas
-        for point in self.agent_and_targets:
-            self.canvas_related.canvas[
-                point.movement.y : point.movement.y + point.y_icon,
-                point.movement.x : point.movement.x + point.x_icon,
-            ] = point.icon
-
-        # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
-
-        # Put the info on canvas
-        # self.canvas = cv2.putText(
-        #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
-        # )
+        self.canvas_related.register_on_canvas(self.agent_and_targets)
 
     def _register_agent_on_hist(self):
-        agent = self.agent
-        self.canvas_related.canvas_hist[
-            agent.movement.y : agent.movement.y + agent.y_icon,
-            agent.movement.x : agent.movement.x + agent.x_icon,
-        ] += 1
-
-        # normalize hist canvas
-        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+        self.canvas_related.register_on_hist(self.agent)
 
     def make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
