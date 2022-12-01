@@ -6,8 +6,8 @@ from src.ours.env.component.point import NamedPointWithIcon
 
 
 class VisuaizerBase(ABC):
-    def __init__(self, canvas_shape: tuple[int, int]):
-        self._colormap_shape = canvas_shape[0], canvas_shape[1], 3
+    def __init__(self, shape: tuple[int, int]):
+        self._colormat_shape = shape[0], shape[1], 3
 
     @abstractmethod
     def register(self, **kwargs):
@@ -15,17 +15,17 @@ class VisuaizerBase(ABC):
 
 
 class CanvasVisualizer(VisuaizerBase):
-    def __init__(self, canvas_shape: tuple[int, int]):
-        super().__init__(canvas_shape)
+    def __init__(self, shape: tuple[int, int]):
+        super().__init__(shape)
 
-        self._canvas = np.ones(self._colormap_shape)
+        self._canvas = np.ones(self._colormat_shape)
 
     @property
     def canvas(self):
         return self._canvas
 
     def register(self, points: list[NamedPointWithIcon]) -> None:
-        self._canvas = np.ones(self._colormap_shape)
+        self._canvas = np.ones(self._colormat_shape)
 
         for point in points:
             self._canvas[
@@ -42,10 +42,10 @@ class CanvasVisualizer(VisuaizerBase):
 
 
 class CanvasHistVisualizer(VisuaizerBase):
-    def __init__(self, canvas_shape: tuple[int, int]):
-        super().__init__(canvas_shape)
+    def __init__(self, shape: tuple[int, int]):
+        super().__init__(shape)
 
-        self._canvas_hist = np.zeros(self._colormap_shape)
+        self._canvas_hist = np.zeros(self._colormat_shape)
 
     @property
     def canvas_hist(self):
