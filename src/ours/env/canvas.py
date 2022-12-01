@@ -12,7 +12,7 @@ class CanvasRelated:
     def _make_canvas_and_hist(self) -> tuple[np.ndarray, np.ndarray]:
         return np.ones(self.colormap_shape), np.zeros(self.colormap_shape)
 
-    def register_on_canvas(self, points: list[NamedPointWithIcon]):
+    def register_on_canvas(self, points: list[NamedPointWithIcon]) -> None:
         self.canvas = np.ones(self.colormap_shape)
 
         for point in points:
@@ -28,7 +28,7 @@ class CanvasRelated:
         #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
         # )
 
-    def register_on_hist(self, point: NamedPointWithIcon):
+    def register_on_hist(self, point: NamedPointWithIcon) -> None:
         self.canvas_hist[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
