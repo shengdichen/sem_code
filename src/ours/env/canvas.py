@@ -32,6 +32,12 @@ class VisualizerBase(ABC):
 
         return x, y
 
+    def get_reset_agent_pos_fixed(self):
+        x = 10
+        y = 10
+
+        return x, y
+
 
 class AgentTargetsVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
