@@ -3,6 +3,7 @@ import random
 import numpy as np
 from gym import Env, spaces
 
+from src.ours.env.canvas import CanvasRelated
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
@@ -11,12 +12,12 @@ class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
         super(MovePoint, self).__init__()
 
-        # Define a 2-D observation space
-        self.canvas_shape = (200, 200, 3)
+        self._side_length = 200
+        self.canvas_shape = self._side_length, self._side_length
         self.observation_shape = 4
         self.observation_space = spaces.Box(
             low=np.zeros(self.observation_shape, dtype=np.float64),
-            high=np.ones(self.observation_shape, dtype=np.float64) * 200,
+            high=np.ones(self.observation_shape, dtype=np.float64) * self._side_length,
             dtype=np.float64,
         )
 
@@ -25,9 +26,7 @@ class MovePoint(Env):
             5,
         )
 
-        # Create a canvas to render the environment images upon
-        self.canvas = np.ones(self.canvas_shape)
-        self.canvas_hist = np.zeros(self.canvas_shape)
+        self.canvas_related = CanvasRelated(self.canvas_shape)
 
         # Permissible area of helicper to be
         self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
@@ -71,36 +70,8 @@ class MovePoint(Env):
         }
 
     def draw_elements_on_canvas(self):
-        self._register_agent_and_targets()
-        self._register_agent_on_hist()
-
-    def _register_agent_and_targets(self):
-        # Init the canvas
-        self.canvas = np.ones(self.canvas_shape)
-
-        # Draw the agent on canvas
-        for point in self.agent_and_targets:
-            self.canvas[
-                point.movement.y : point.movement.y + point.y_icon,
-                point.movement.x : point.movement.x + point.x_icon,
-            ] = point.icon
-
-        # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
-
-        # Put the info on canvas
-        # self.canvas = cv2.putText(
-        #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
-        # )
-
-    def _register_agent_on_hist(self):
-        agent = self.agent
-        self.canvas_hist[
-            agent.movement.y : agent.movement.y + agent.y_icon,
-            agent.movement.x : agent.movement.x + agent.x_icon,
-        ] += 1
-
-        # normalize hist canvas
-        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+        self.canvas_related.register_on_canvas(self.agent_and_targets)
+        self.canvas_related.register_on_hist(self.agent)
 
     def make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
@@ -160,7 +131,7 @@ class MovePoint(Env):
             target.movement.set_position(target_pos[0], target_pos[1])
 
         # Reset the Canvas
-        self.canvas = np.ones(self.canvas_shape) * 1
+        self.canvas_related.canvas = np.ones(self.canvas_shape) * 1
 
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
@@ -239,9 +210,11 @@ class MovePoint(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = PointEnvRendererHuman(self.canvas, self.canvas_hist)
+            renderer = PointEnvRendererHuman(
+                self.canvas_related.canvas, self.canvas_related.canvas_hist
+            )
         else:
-            renderer = PointEnvRendererRgb(self.canvas)
+            renderer = PointEnvRendererRgb(self.canvas_related.canvas)
 
         renderer.render()
 
