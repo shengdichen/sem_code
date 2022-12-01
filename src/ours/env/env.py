@@ -145,16 +145,7 @@ class MovePoint(Env):
         # Reset the reward
         self.curr_tgt_id = 0
 
-        state = np.stack(
-            [
-                self.agent.movement.x,
-                self.agent.movement.y,
-                self.targets[self.curr_tgt_id].movement.x,
-                self.targets[self.curr_tgt_id].movement.y,
-            ]
-        )
-
-        # return the observation
+        state = self.get_state()
         return state
 
     def get_state(self):
@@ -210,14 +201,7 @@ class MovePoint(Env):
         # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
-        state = np.stack(
-            [
-                self.agent.movement.x,
-                self.agent.movement.y,
-                self.targets[self.curr_tgt_id].movement.x,
-                self.targets[self.curr_tgt_id].movement.y,
-            ]
-        )
+        state = self.get_state()
 
         # If out of fuel, end the episode.
         if self.time == 0:
