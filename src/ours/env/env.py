@@ -20,57 +20,57 @@ class MovePoint(Env):
             self._side_length
         ).get_spaces()
 
-        self.canvas_shape = self._side_length, self._side_length
-        self._field = MovementField(self.canvas_shape)
-        self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
-        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
+        self._canvas_shape = self._side_length, self._side_length
+        self._field = MovementField(self._canvas_shape)
+        self._agent_targets_visualizer = AgentTargetsVisualizer(self._canvas_shape)
+        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._canvas_shape)
 
         (
-            self.y_min,
-            self.x_min,
-            self.y_max,
-            self.x_max,
+            self._y_min,
+            self._x_min,
+            self._y_max,
+            self._x_max,
         ) = self._field.get_movement_ranges()
-        self.shift_x = shift_x
-        self.shift_y = shift_y
+        self._shift_x = shift_x
+        self._shift_y = shift_y
 
-        self.random_init = random_init
+        self._random_init = random_init
 
-        self.agent = self._make_agent()
+        self._agent = self._make_agent()
 
-        self.n_tgt = n_targets
-        self.curr_tgt_id = 0
-        self.targets = self._make_targets()
+        self._n_tgt = n_targets
+        self._curr_tgt_id = 0
+        self._targets = self._make_targets()
 
-        self.agent_and_targets = []
-        self.agent_and_targets.append(self.agent)
-        self.agent_and_targets.extend(self.targets)
+        self._agent_and_targets = []
+        self._agent_and_targets.append(self._agent)
+        self._agent_and_targets.extend(self._targets)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
-        self.done = False
+        self._done = False
 
     @property
     def env_config(self):
         return {
-            "n_targets": self.n_tgt,
-            "shift_x": self.shift_x,
-            "shift_y": self.shift_y,
+            "n_targets": self._n_tgt,
+            "shift_x": self._shift_x,
+            "shift_y": self._shift_y,
         }
 
     def _draw_elements_on_canvas(self):
-        self._agent_targets_visualizer.register(self.agent_and_targets)
-        self._trajectory_heat_visualizer.register(self.agent)
+        self._agent_targets_visualizer.register(self._agent_and_targets)
+        self._trajectory_heat_visualizer.register(self._agent)
 
     def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
-            "agent", self.x_max, self.x_min, self.y_max, self.y_min
+            "agent", self._x_max, self._x_min, self._y_max, self._y_min
         ).create_agent()
 
     def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
-        for i in range(self.n_tgt):
+        for i in range(self._n_tgt):
             tgt = PointFactory(
-                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
+                "tgt_{}".format(i), self._x_max, self._x_min, self._y_max, self._y_min
             ).create_target()
 
             # TODO: expand to preferences as random process!
@@ -83,21 +83,21 @@ class MovePoint(Env):
         return targets
 
     def reset(self):
-        x, y = self._field.get_reset_agent_pos(self.random_init)
-        self.agent.movement.set_position(x, y)
+        x, y = self._field.get_reset_agent_pos(self._random_init)
+        self._agent.movement.set_position(x, y)
 
         target_positions = self._field.get_reset_targets_pos(
-            (self.shift_x, self.shift_y)
+            (self._shift_x, self._shift_y)
         )
-        for target, target_pos in zip(self.targets, target_positions):
+        for target, target_pos in zip(self._targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
         self._draw_elements_on_canvas()
 
-        self.curr_tgt_id = 0
+        self._curr_tgt_id = 0
 
         self._curr_episode_length = 0
-        self.done = False
+        self._done = False
 
         obs = self._get_obs()
         return obs
@@ -105,10 +105,10 @@ class MovePoint(Env):
     def _get_obs(self):
         state = np.stack(
             [
-                self.agent.movement.x,
-                self.agent.movement.y,
-                self.targets[self.curr_tgt_id].movement.x,
-                self.targets[self.curr_tgt_id].movement.y,
+                self._agent.movement.x,
+                self._agent.movement.y,
+                self._targets[self._curr_tgt_id].movement.x,
+                self._targets[self._curr_tgt_id].movement.y,
             ]
         )
 
@@ -116,9 +116,9 @@ class MovePoint(Env):
 
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
-        self.agent.movement.shift(shift[0], shift[1])
+        self._agent.movement.shift(shift[0], shift[1])
 
-        reward = -1 * self.agent.distance_l2(self.targets[self.curr_tgt_id])
+        reward = -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
 
         self._update_target()
 
@@ -128,19 +128,19 @@ class MovePoint(Env):
 
         self._curr_episode_length += 1
         if self._curr_episode_length == self._max_episode_length:
-            self.done = True
+            self._done = True
 
-        return obs, reward, self.done, {}
+        return obs, reward, self._done, {}
 
     def _update_target(self):
-        if self.agent.has_collided(self.targets[self.curr_tgt_id]):
+        if self._agent.has_collided(self._targets[self._curr_tgt_id]):
             # reward += 5
-            if self.curr_tgt_id == len(self.targets) - 1:
+            if self._curr_tgt_id == len(self._targets) - 1:
                 # task solved
                 # reward += 100
-                self.done = True
+                self._done = True
             else:
-                self.curr_tgt_id += 1
+                self._curr_tgt_id += 1
 
     def render(self, mode="human") -> None:
         assert mode in [
