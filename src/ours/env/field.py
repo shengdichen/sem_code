@@ -5,24 +5,19 @@ class EmptyBoard:
     def __init__(self, shape: tuple[int, int]):
         self._shape = shape[0], shape[1]
 
-        (
-            self._y_min,
-            self._x_min,
-            self._y_max,
-            self._x_max,
-        ) = self._get_movement_ranges()
+        self._x_range, self._y_range = self._get_movement_ranges()
 
-    def _get_movement_ranges(self) -> tuple[int, int, int, int]:
+    def _get_movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
         y_min = int(self._shape[0] * 0.1)
         x_min = 0
         y_max = int(self._shape[0] * 0.9)
         x_max = self._shape[1]
 
-        return y_min, x_min, y_max, x_max
+        return (x_min, x_max), (y_min, y_max)
 
     @property
-    def movement_ranges(self) -> tuple[int, int, int, int]:
-        return self._y_min, self._x_min, self._y_max, self._x_max
+    def movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
+        return self._x_range, self._y_range
 
     def get_reset_agent_pos(self, use_random: bool) -> tuple[int, int]:
         if use_random:
@@ -59,10 +54,12 @@ class EmptyBoard:
 
     def get_target_pos_random(self) -> tuple[int, int]:
         pos_x = random.randrange(
-            self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
+            self._y_range[0] + int(self._y_range[1] / 4),
+            self._y_range[1] - int(self._y_range[1] / 4),
         )
         pos_y = random.randrange(
-            self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
+            self._y_range[0] + int(self._y_range[1] / 4),
+            self._y_range[1] - int(self._y_range[1] / 4),
         )
 
         return pos_x, pos_y
