@@ -115,14 +115,7 @@ class MovePoint(Env):
 
         reward = -1 * self.agent.distance_l2(self.targets[self.curr_tgt_id])
 
-        if self.agent.has_collided(self.targets[self.curr_tgt_id]):
-            # reward += 5
-            if self.curr_tgt_id == len(self.targets) - 1:
-                # task solved
-                # reward += 100
-                self.done = True
-            else:
-                self.curr_tgt_id += 1
+        self._update_target()
 
         self.draw_elements_on_canvas()
 
@@ -133,6 +126,16 @@ class MovePoint(Env):
             self.done = True
 
         return obs, reward, self.done, {}
+
+    def _update_target(self):
+        if self.agent.has_collided(self.targets[self.curr_tgt_id]):
+            # reward += 5
+            if self.curr_tgt_id == len(self.targets) - 1:
+                # task solved
+                # reward += 100
+                self.done = True
+            else:
+                self.curr_tgt_id += 1
 
     def render(self, mode="human") -> None:
         assert mode in [
