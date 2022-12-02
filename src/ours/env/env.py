@@ -31,12 +31,10 @@ class MovePoint(Env):
 
         self.agent = self.make_agent()
 
-        # Add targets
         self.n_tgt = n_targets
         self.curr_tgt_id = 0
         self.targets = self.make_targets()
 
-        # Define elements present inside the environment
         self.agent_and_targets = []
         self.agent_and_targets.append(self.agent)
         self.agent_and_targets.extend(self.targets)
@@ -81,16 +79,11 @@ class MovePoint(Env):
         return targets
 
     def reset(self):
-        # Flag that marks the termination of an episode
         self.done = False
         self._curr_episode_length = 0
 
-        # Determine a place to intialise the agent in
         x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
         self.agent.movement.set_position(x, y)
-
-        # Set the targets
-        # self.targets = self.generate_targets()
 
         target_positions = self._agent_targets_visualizer.get_reset_targets_pos(
             (self.shift_x, self.shift_y)
@@ -98,10 +91,8 @@ class MovePoint(Env):
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-        # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
-        # Reset the reward
         self.curr_tgt_id = 0
 
         obs = self._get_obs()
@@ -134,10 +125,8 @@ class MovePoint(Env):
                 # reward += 100
                 self.done = True
             else:
-                # update target
                 self.curr_tgt_id += 1
 
-        # Draw elements on the canvas
         self.draw_elements_on_canvas()
 
         obs = self._get_obs()
