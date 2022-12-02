@@ -25,9 +25,7 @@ class MovePoint(Env):
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
-        (
-            self._x_min,
-            self._x_max,
+        (self._x_min, self._x_max), (
             self._y_min,
             self._y_max,
         ) = self._board.movement_ranges

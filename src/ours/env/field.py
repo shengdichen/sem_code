@@ -5,24 +5,22 @@ class EmptyBoard:
     def __init__(self, shape: tuple[int, int]):
         self._shape = shape[0], shape[1]
 
-        (
-            self._x_min,
-            self._x_max,
+        (self._x_min, self._x_max), (
             self._y_min,
             self._y_max,
         ) = self._get_movement_ranges()
 
-    def _get_movement_ranges(self) -> tuple[int, int, int, int]:
+    def _get_movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
         y_min = int(self._shape[0] * 0.1)
         x_min = 0
         y_max = int(self._shape[0] * 0.9)
         x_max = self._shape[1]
 
-        return x_min, x_max, y_min, y_max
+        return (x_min, x_max), (y_min, y_max)
 
     @property
-    def movement_ranges(self) -> tuple[int, int, int, int]:
-        return self._x_min, self._x_max, self._y_min, self._y_max
+    def movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
+        return (self._x_min, self._x_max), (self._y_min, self._y_max)
 
     def get_reset_agent_pos(self, use_random: bool) -> tuple[int, int]:
         if use_random:
