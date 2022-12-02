@@ -22,3 +22,24 @@ class SpacesGenerator:
     def _get_action_space():
         n_legal_actions = 5
         return spaces.Discrete(n_legal_actions)
+
+
+class ActionConverter:
+    def __init__(self, action: int, action_space: spaces.Space):
+        assert action_space.contains(action), "Invalid Action"
+
+        self._action = action
+
+    def get_shift(self):
+        if self._action == 0:
+            shift = 0, 2
+        elif self._action == 1:
+            shift = 0, -2
+        elif self._action == 2:
+            shift = 2, 0
+        elif self._action == 3:
+            shift = -2, 0
+        else:
+            shift = 0, 0
+
+        return shift
