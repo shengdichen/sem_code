@@ -119,11 +119,7 @@ class MovePoint(Env):
 
     @property
     def env_config(self):
-        return {
-            "n_targets": self._n_tgt,
-            "shift_x": self._shift_x,
-            "shift_y": self._shift_y,
-        }
+        return self._field.env_config
 
     def _draw_elements_on_canvas(self):
         self._agent_targets_visualizer.register(self._agent_and_targets)
