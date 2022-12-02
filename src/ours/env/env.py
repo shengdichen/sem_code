@@ -6,7 +6,7 @@ from src.ours.env.component.canvas import (
 )
 from src.ours.env.component.field import Field
 from src.ours.env.util.space import SpacesGenerator, ActionConverter
-from src.ours.env.util.util import PointEnvRendererHuman, PointEnvRendererRgb
+from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRgb
 
 
 class MovePoint(Env):
