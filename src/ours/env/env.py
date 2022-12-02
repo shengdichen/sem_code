@@ -12,11 +12,11 @@ class MovePoint(Env):
         super(MovePoint, self).__init__()
 
         self._side_length = 200
-        self.canvas_shape = self._side_length, self._side_length
         self.observation_space, self.action_space = SpacesGenerator(
             self._side_length
         ).get_spaces()
 
+        self.canvas_shape = self._side_length, self._side_length
         self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
 
@@ -29,6 +29,8 @@ class MovePoint(Env):
         self.shift_x = shift_x
         self.shift_y = shift_y
 
+        self.random_init = random_init
+
         self.agent = self.make_agent()
 
         self.n_tgt = n_targets
@@ -40,9 +42,6 @@ class MovePoint(Env):
         self.agent_and_targets.extend(self.targets)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
-
-        self.random_init = random_init
-
         self.done = False
 
     @property
@@ -79,9 +78,6 @@ class MovePoint(Env):
         return targets
 
     def reset(self):
-        self.done = False
-        self._curr_episode_length = 0
-
         x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
         self.agent.movement.set_position(x, y)
 
@@ -94,6 +90,9 @@ class MovePoint(Env):
         self.draw_elements_on_canvas()
 
         self.curr_tgt_id = 0
+
+        self._curr_episode_length = 0
+        self.done = False
 
         obs = self._get_obs()
         return obs
@@ -111,8 +110,6 @@ class MovePoint(Env):
         return state
 
     def step(self, action: int):
-        self._curr_episode_length += 1
-
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
 
@@ -131,6 +128,7 @@ class MovePoint(Env):
 
         obs = self._get_obs()
 
+        self._curr_episode_length += 1
         if self._curr_episode_length == self._max_episode_length:
             self.done = True
 
