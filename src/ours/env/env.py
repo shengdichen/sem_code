@@ -4,8 +4,8 @@ from gym import Env
 from src.ours.env.canvas import (
     TrajectoryHeatVisualizer,
     AgentTargetsVisualizer,
-    MovementField,
 )
+from src.ours.env.field import MovementField
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
