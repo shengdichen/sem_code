@@ -11,8 +11,7 @@ class Field:
         self._board = EmptyBoard(self._board_shape)
 
         self._x_range, self._y_range = self._board.movement_ranges
-        self._shift_x = shift_x
-        self._shift_y = shift_y
+        self._shift_x, self._shift_y = shift_x, shift_y
 
         self._random_init = random_init
 
