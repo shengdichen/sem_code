@@ -143,9 +143,7 @@ class MovePoint(Env):
 
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
-        self._agent.movement.shift(shift[0], shift[1])
-
-        reward = -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
+        reward = self._field.step(shift)
 
         self._update_target()
 
