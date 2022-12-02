@@ -1,9 +1,9 @@
 import numpy as np
-from gym import Env, spaces
+from gym import Env
 
 from src.ours.env.canvas import TrajectoryHeatVisualizer, AgentTargetsVisualizer
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
-from src.ours.env.space import SpacesGenerator
+from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
@@ -12,11 +12,11 @@ class MovePoint(Env):
         super(MovePoint, self).__init__()
 
         self._side_length = 200
-        self.canvas_shape = self._side_length, self._side_length
         self.observation_space, self.action_space = SpacesGenerator(
             self._side_length
         ).get_spaces()
 
+        self.canvas_shape = self._side_length, self._side_length
         self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
 
@@ -29,24 +29,19 @@ class MovePoint(Env):
         self.shift_x = shift_x
         self.shift_y = shift_y
 
-        self.agent = self.make_agent()
+        self.random_init = random_init
 
-        # Add targets
+        self.agent = self._make_agent()
+
         self.n_tgt = n_targets
         self.curr_tgt_id = 0
-        self.targets = self.make_targets()
+        self.targets = self._make_targets()
 
-        # Define elements present inside the environment
         self.agent_and_targets = []
         self.agent_and_targets.append(self.agent)
         self.agent_and_targets.extend(self.targets)
 
-        # Maximum episode length
-        self.max_time = 1000
-        self.time = self.max_time
-
-        self.random_init = random_init
-
+        self._max_episode_length, self._curr_episode_length = 1000, 0
         self.done = False
 
     @property
@@ -57,16 +52,16 @@ class MovePoint(Env):
             "shift_y": self.shift_y,
         }
 
-    def draw_elements_on_canvas(self):
+    def _draw_elements_on_canvas(self):
         self._agent_targets_visualizer.register(self.agent_and_targets)
         self._trajectory_heat_visualizer.register(self.agent)
 
-    def make_agent(self) -> NamedPointWithIcon:
+    def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
         ).create_agent()
 
-    def make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
+    def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self.n_tgt):
             tgt = PointFactory(
@@ -83,17 +78,8 @@ class MovePoint(Env):
         return targets
 
     def reset(self):
-        # Flag that marks the termination of an episode
-        self.done = False
-        # Reset the fuel consumed
-        self.time = self.max_time
-
-        # Determine a place to intialise the agent in
         x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
         self.agent.movement.set_position(x, y)
-
-        # Set the targets
-        # self.targets = self.generate_targets()
 
         target_positions = self._agent_targets_visualizer.get_reset_targets_pos(
             (self.shift_x, self.shift_y)
@@ -101,11 +87,12 @@ class MovePoint(Env):
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-        # Draw elements on the canvas
-        self.draw_elements_on_canvas()
+        self._draw_elements_on_canvas()
 
-        # Reset the reward
         self.curr_tgt_id = 0
+
+        self._curr_episode_length = 0
+        self.done = False
 
         obs = self._get_obs()
         return obs
@@ -123,14 +110,24 @@ class MovePoint(Env):
         return state
 
     def step(self, action: int):
-        # Decrease the time counter
-        self.time -= 1
-
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
 
         reward = -1 * self.agent.distance_l2(self.targets[self.curr_tgt_id])
 
+        self._update_target()
+
+        self._draw_elements_on_canvas()
+
+        obs = self._get_obs()
+
+        self._curr_episode_length += 1
+        if self._curr_episode_length == self._max_episode_length:
+            self.done = True
+
+        return obs, reward, self.done, {}
+
+    def _update_target(self):
         if self.agent.has_collided(self.targets[self.curr_tgt_id]):
             # reward += 5
             if self.curr_tgt_id == len(self.targets) - 1:
@@ -138,19 +135,7 @@ class MovePoint(Env):
                 # reward += 100
                 self.done = True
             else:
-                # update target
                 self.curr_tgt_id += 1
-
-        # Draw elements on the canvas
-        self.draw_elements_on_canvas()
-
-        obs = self._get_obs()
-
-        # If out of fuel, end the episode.
-        if self.time == 0:
-            self.done = True
-
-        return obs, reward, self.done, {}
 
     def render(self, mode="human") -> None:
         assert mode in [
@@ -170,24 +155,3 @@ class MovePoint(Env):
 
     def close(self):
         PointEnvRendererHuman.clean_up()
-
-
-class ActionConverter:
-    def __init__(self, action: int, action_space: spaces.Space):
-        assert action_space.contains(action), "Invalid Action"
-
-        self._action = action
-
-    def get_shift(self):
-        if self._action == 0:
-            shift = 0, 2
-        elif self._action == 1:
-            shift = 0, -2
-        elif self._action == 2:
-            shift = 2, 0
-        elif self._action == 3:
-            shift = -2, 0
-        else:
-            shift = 0, 0
-
-        return shift
