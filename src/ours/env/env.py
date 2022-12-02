@@ -73,29 +73,21 @@ class MovePoint(Env):
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
         ).create_agent()
 
-    def make_targets(self) -> list[NamedPointWithIcon]:
+    def make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self.n_tgt):
             tgt = PointFactory(
                 "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
             ).create_target()
+
+            # TODO: expand to preferences as random process!
+            if make_random_targets:
+                tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
+                tgt.movement.set_position(tgt_x, tgt_y)
+
             targets.append(tgt)
 
         return targets
-
-    # TODO: expand to preferences as random process!
-    def generate_random_targets(self):
-        tgts = []
-        for i in range(self.n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            ).create_target()
-
-            tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
-            tgt.movement.set_position(tgt_x, tgt_y)
-            tgts.append(tgt)
-
-        return tgts
 
     def reset(self):
         # Flag that marks the termination of an episode
