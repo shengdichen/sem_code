@@ -11,6 +11,48 @@ from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
+class Field:
+    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
+        self._side_length = 200
+        self._board_shape = self._side_length, self._side_length
+        self._board = EmptyBoard(self._board_shape)
+
+        self._x_range, self._y_range = self._board.movement_ranges
+        self._shift_x = shift_x
+        self._shift_y = shift_y
+
+        self._random_init = random_init
+
+        self._agent = self._make_agent()
+
+        self._n_tgt = n_targets
+        self._curr_tgt_id = 0
+        self._targets = self._make_targets()
+
+        self._agent_and_targets = []
+        self._agent_and_targets.append(self._agent)
+        self._agent_and_targets.extend(self._targets)
+
+    def _make_agent(self) -> NamedPointWithIcon:
+        return PointFactory("agent", self._x_range, self._y_range).create_agent()
+
+    def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
+        targets = []
+        for i in range(self._n_tgt):
+            tgt = PointFactory(
+                "tgt_{}".format(i), self._x_range, self._y_range
+            ).create_target()
+
+            # TODO: expand to preferences as random process!
+            if make_random_targets:
+                tgt_x, tgt_y = self._board.get_target_pos_random()
+                tgt.movement.set_position(tgt_x, tgt_y)
+
+            targets.append(tgt)
+
+        return targets
+
+
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
         super(MovePoint, self).__init__()
