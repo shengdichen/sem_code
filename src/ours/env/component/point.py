@@ -41,10 +41,10 @@ class NamedPointWithIcon:
 
 
 class PointFactory:
-    def __init__(self, name: str, x_min_max, y_min_max):
+    def __init__(self, name: str, range_x_without_icon, range_y_without_icon):
         self.name = name
-        self.x_min, self.x_max = x_min_max
-        self.y_min, self.y_max = y_min_max
+        self.x_min, self.x_max = range_x_without_icon
+        self.y_min, self.y_max = range_y_without_icon
 
     def create_agent(self) -> NamedPointWithIcon:
         return NamedPointWithIcon(
