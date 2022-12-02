@@ -30,7 +30,7 @@ class MovePoint(Env):
             self._x_min,
             self._y_max,
             self._x_max,
-        ) = self._field.get_movement_ranges()
+        ) = self._field.movement_ranges
         self._shift_x = shift_x
         self._shift_y = shift_y
 
