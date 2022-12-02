@@ -72,6 +72,16 @@ class Field:
 
         return state
 
+    def _update_target(self):
+        if self._agent.has_collided(self._targets[self._curr_tgt_id]):
+            # reward += 5
+            if self._curr_tgt_id == len(self._targets) - 1:
+                # task solved
+                # reward += 100
+                self._done = True
+            else:
+                self._curr_tgt_id += 1
+
 
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
