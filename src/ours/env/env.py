@@ -5,7 +5,7 @@ from src.ours.env.canvas import (
     TrajectoryHeatVisualizer,
     AgentTargetsVisualizer,
 )
-from src.ours.env.field import MovementField
+from src.ours.env.field import EmptyBoard
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
@@ -21,7 +21,7 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._canvas_shape = self._side_length, self._side_length
-        self._field = MovementField(self._canvas_shape)
+        self._field = EmptyBoard(self._canvas_shape)
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._canvas_shape)
 

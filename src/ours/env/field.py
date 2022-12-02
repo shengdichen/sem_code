@@ -1,7 +1,7 @@
 import random
 
 
-class MovementField:
+class EmptyBoard:
     def __init__(self, shape: tuple[int, int]):
         self._shape = shape[0], shape[1]
 
