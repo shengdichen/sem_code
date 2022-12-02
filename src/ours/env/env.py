@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 from gym import Env, spaces
 
@@ -22,8 +20,12 @@ class MovePoint(Env):
         self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
 
-        # Permissible area of helicper to be
-        self.y_min, self.x_min, self.y_max, self.x_max = self.get_ranges()
+        (
+            self.y_min,
+            self.x_min,
+            self.y_max,
+            self.x_max,
+        ) = self._agent_targets_visualizer.get_movement_ranges()
         self.shift_x = shift_x
         self.shift_y = shift_y
 
@@ -47,14 +49,6 @@ class MovePoint(Env):
 
         self.done = False
 
-    def get_ranges(self):
-        y_min = int(self.canvas_shape[0] * 0.1)
-        x_min = 0
-        y_max = int(self.canvas_shape[0] * 0.9)
-        x_max = self.canvas_shape[1]
-
-        return y_min, x_min, y_max, x_max
-
     @property
     def env_config(self):
         return {
@@ -72,40 +66,21 @@ class MovePoint(Env):
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
         ).create_agent()
 
-    def make_targets(self) -> list[NamedPointWithIcon]:
+    def make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self.n_tgt):
             tgt = PointFactory(
                 "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
             ).create_target()
+
+            # TODO: expand to preferences as random process!
+            if make_random_targets:
+                tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
+                tgt.movement.set_position(tgt_x, tgt_y)
+
             targets.append(tgt)
 
         return targets
-
-    def get_reset_agent_pos(self):
-        if self.random_init:
-            x = random.randrange(
-                int(self.canvas_shape[0] * 0.05), int(self.canvas_shape[0] * 0.10)
-            )
-            y = random.randrange(
-                int(self.canvas_shape[1] * 0.15), int(self.canvas_shape[1] * 0.20)
-            )
-        else:
-            x = 10
-            y = 10
-
-        return x, y
-
-    def get_reset_targets_pos(self):
-        # define two targets to simulate different experts
-        pos = [
-            (
-                int(self.canvas_shape[0] / 2) + self.shift_x,
-                int(self.canvas_shape[1] / 2) + self.shift_y,
-            ),
-            (int(self.canvas_shape[0] * 0.95), int(self.canvas_shape[1] * 0.95)),
-        ]
-        return pos
 
     def reset(self):
         # Flag that marks the termination of an episode
@@ -114,13 +89,15 @@ class MovePoint(Env):
         self.time = self.max_time
 
         # Determine a place to intialise the agent in
-        x, y = self.get_reset_agent_pos()
+        x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
         self.agent.movement.set_position(x, y)
 
         # Set the targets
         # self.targets = self.generate_targets()
 
-        target_positions = self.get_reset_targets_pos()
+        target_positions = self._agent_targets_visualizer.get_reset_targets_pos(
+            (self.shift_x, self.shift_y)
+        )
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
@@ -144,25 +121,6 @@ class MovePoint(Env):
         )
 
         return state
-
-    # TODO: expand to preferences as random process!
-    def generate_random_targets(self):
-        tgts = []
-        for i in range(self.n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            ).create_target()
-
-            tgt_x = random.randrange(
-                self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
-            )
-            tgt_y = random.randrange(
-                self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
-            )
-            tgt.movement.set_position(tgt_x, tgt_y)
-            tgts.append(tgt)
-
-        return tgts
 
     def step(self, action: int):
         # Decrease the time counter
