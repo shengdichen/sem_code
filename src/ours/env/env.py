@@ -82,6 +82,13 @@ class Field:
 
         return state
 
+    def step(self, shift):
+        self._agent.movement.shift(shift[0], shift[1])
+
+        reward = -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
+
+        return reward
+
     def _update_target(self):
         if self._agent.has_collided(self._targets[self._curr_tgt_id]):
             # reward += 5
