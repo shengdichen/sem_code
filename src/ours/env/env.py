@@ -4,7 +4,7 @@ from src.ours.env.canvas import (
     TrajectoryHeatVisualizer,
     AgentTargetsVisualizer,
 )
-from src.ours.env.field import Field
+from src.ours.env.component.field import Field
 from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
