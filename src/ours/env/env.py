@@ -1,6 +1,6 @@
 from gym import Env
 
-from src.ours.env.canvas import (
+from src.ours.env.component.canvas import (
     TrajectoryHeatVisualizer,
     AgentTargetsVisualizer,
 )
