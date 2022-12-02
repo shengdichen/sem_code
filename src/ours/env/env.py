@@ -60,6 +60,18 @@ class Field:
 
         return targets
 
+    def _get_obs(self):
+        state = np.stack(
+            [
+                self._agent.movement.x,
+                self._agent.movement.y,
+                self._targets[self._curr_tgt_id].movement.x,
+                self._targets[self._curr_tgt_id].movement.y,
+            ]
+        )
+
+        return state
+
 
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
