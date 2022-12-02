@@ -10,6 +10,13 @@ class MovementField:
     def __init__(self, shape: tuple[int, int]):
         self._shape = shape[0], shape[1]
 
+        (
+            self._y_min,
+            self._x_min,
+            self._y_max,
+            self._x_max,
+        ) = self.get_movement_ranges()
+
     def get_movement_ranges(self):
         y_min = int(self._shape[0] * 0.1)
         x_min = 0
@@ -55,10 +62,12 @@ class MovementField:
         return pos
 
     def get_target_pos_random(self):
-        y_min, x_min, y_max, x_max = self.get_movement_ranges()
-
-        tgt_x = random.randrange(y_min + int(y_max / 4), y_max - int(y_max / 4))
-        tgt_y = random.randrange(y_min + int(y_max / 4), y_max - int(y_max / 4))
+        tgt_x = random.randrange(
+            self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
+        )
+        tgt_y = random.randrange(
+            self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
+        )
 
         return tgt_x, tgt_y
 
