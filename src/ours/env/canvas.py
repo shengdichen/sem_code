@@ -15,15 +15,19 @@ class MovementField:
             self._x_min,
             self._y_max,
             self._x_max,
-        ) = self.get_movement_ranges()
+        ) = self._get_movement_ranges()
 
-    def get_movement_ranges(self):
+    def _get_movement_ranges(self):
         y_min = int(self._shape[0] * 0.1)
         x_min = 0
         y_max = int(self._shape[0] * 0.9)
         x_max = self._shape[1]
 
         return y_min, x_min, y_max, x_max
+
+    @property
+    def movement_ranges(self):
+        return self._y_min, self._x_min, self._y_max, self._x_max
 
     def get_reset_agent_pos(self, use_random):
         if use_random:
