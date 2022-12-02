@@ -110,25 +110,9 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
-        self._board = EmptyBoard(self._board_shape)
+        self._field = Field(n_targets, shift_x, shift_y, random_init)
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
-
-        self._x_range, self._y_range = self._board.movement_ranges
-        self._shift_x = shift_x
-        self._shift_y = shift_y
-
-        self._random_init = random_init
-
-        self._agent = self._make_agent()
-
-        self._n_tgt = n_targets
-        self._curr_tgt_id = 0
-        self._targets = self._make_targets()
-
-        self._agent_and_targets = []
-        self._agent_and_targets.append(self._agent)
-        self._agent_and_targets.extend(self._targets)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
         self._done = False
