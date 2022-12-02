@@ -139,16 +139,7 @@ class MovePoint(Env):
         return obs
 
     def _get_obs(self):
-        state = np.stack(
-            [
-                self._agent.movement.x,
-                self._agent.movement.y,
-                self._targets[self._curr_tgt_id].movement.x,
-                self._targets[self._curr_tgt_id].movement.y,
-            ]
-        )
-
-        return state
+        return self._field._get_obs()
 
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
