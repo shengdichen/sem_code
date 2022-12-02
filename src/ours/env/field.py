@@ -6,10 +6,10 @@ class EmptyBoard:
         self._shape = shape[0], shape[1]
 
         (
-            self._y_min,
             self._x_min,
-            self._y_max,
             self._x_max,
+            self._y_min,
+            self._y_max,
         ) = self._get_movement_ranges()
 
     def _get_movement_ranges(self) -> tuple[int, int, int, int]:
@@ -18,11 +18,11 @@ class EmptyBoard:
         y_max = int(self._shape[0] * 0.9)
         x_max = self._shape[1]
 
-        return y_min, x_min, y_max, x_max
+        return x_min, x_max, y_min, y_max
 
     @property
     def movement_ranges(self) -> tuple[int, int, int, int]:
-        return self._y_min, self._x_min, self._y_max, self._x_max
+        return self._x_min, self._x_max, self._y_min, self._y_max
 
     def get_reset_agent_pos(self, use_random: bool) -> tuple[int, int]:
         if use_random:
