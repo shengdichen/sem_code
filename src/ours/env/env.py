@@ -33,6 +33,14 @@ class Field:
         self._agent_and_targets.append(self._agent)
         self._agent_and_targets.extend(self._targets)
 
+    @property
+    def env_config(self):
+        return {
+            "n_targets": self._n_tgt,
+            "shift_x": self._shift_x,
+            "shift_y": self._shift_y,
+        }
+
     def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory("agent", self._x_range, self._y_range).create_agent()
 
