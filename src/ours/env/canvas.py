@@ -42,14 +42,16 @@ class MovementField:
     def get_reset_targets_pos(self, shifts):
         shift_x, shift_y = shifts
 
-        # define two targets to simulate different experts
-        pos = [
-            (
-                int(self._colormat_shape[0] / 2) + shift_x,
-                int(self._colormat_shape[1] / 2) + shift_y,
-            ),
-            (int(self._colormat_shape[0] * 0.95), int(self._colormat_shape[1] * 0.95)),
-        ]
+        pos_target_one = (
+            int(self._colormat_shape[0] / 2) + shift_x,
+            int(self._colormat_shape[1] / 2) + shift_y,
+        )
+        pos_target_two = (
+            int(self._colormat_shape[0] * 0.95),
+            int(self._colormat_shape[1] * 0.95),
+        )
+
+        pos = [pos_target_one, pos_target_two]
         return pos
 
     def get_target_pos_random(self):
