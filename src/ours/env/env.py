@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 from gym import Env, spaces
 
@@ -133,12 +131,7 @@ class MovePoint(Env):
                 "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
             ).create_target()
 
-            tgt_x = random.randrange(
-                self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
-            )
-            tgt_y = random.randrange(
-                self.y_min + int(self.y_max / 4), self.y_max - int(self.y_max / 4)
-            )
+            tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
             tgt.movement.set_position(tgt_x, tgt_y)
             tgts.append(tgt)
 
