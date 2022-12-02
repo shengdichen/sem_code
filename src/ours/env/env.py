@@ -51,8 +51,6 @@ class MovePoint(Env):
         shift = ActionConverter(action, self.action_space).get_shift()
         reward = self._field.step(shift)
 
-        self._field._update_target()
-
         self._draw_elements_on_canvas()
 
         obs = self._field._get_obs()

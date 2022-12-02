@@ -79,6 +79,8 @@ class Field:
 
         reward = -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
 
+        self._update_target()
+
         return reward
 
     def _update_target(self):
