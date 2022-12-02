@@ -35,7 +35,8 @@ class MovementField:
 
         return pos_x, pos_y
 
-    def _get_reset_agent_pos_fixed(self) -> tuple[int, int]:
+    @staticmethod
+    def _get_reset_agent_pos_fixed() -> tuple[int, int]:
         pos_x = 10
         pos_y = 10
 
