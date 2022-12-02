@@ -2,7 +2,7 @@ import numpy as np
 
 
 class MovementTwoDim:
-    def __init__(self, x_max_with_icon, x_min, y_max_with_icon, y_min):
+    def __init__(self, x_min, x_max_with_icon, y_min, y_max_with_icon):
         self.x_min, self.x_max_with_icon = x_min, x_max_with_icon
         self.y_min, self.y_max_with_icon = y_min, y_max_with_icon
 

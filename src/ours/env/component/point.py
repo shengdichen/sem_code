@@ -18,7 +18,7 @@ class NamedPointWithIcon:
             self.y_max - self.y_icon,
         )
         self.movement = MovementTwoDim(
-            self._x_max_with_icon, self.x_min, self._y_max_with_icon, self.y_min
+            self.x_min, self._x_max_with_icon, self.y_min, self._y_max_with_icon
         )
         self.icon = Icon(icon_path, icon_size).icon
 
