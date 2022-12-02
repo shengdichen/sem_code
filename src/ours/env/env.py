@@ -31,11 +31,11 @@ class MovePoint(Env):
 
         self.random_init = random_init
 
-        self.agent = self.make_agent()
+        self.agent = self._make_agent()
 
         self.n_tgt = n_targets
         self.curr_tgt_id = 0
-        self.targets = self.make_targets()
+        self.targets = self._make_targets()
 
         self.agent_and_targets = []
         self.agent_and_targets.append(self.agent)
@@ -52,16 +52,16 @@ class MovePoint(Env):
             "shift_y": self.shift_y,
         }
 
-    def draw_elements_on_canvas(self):
+    def _draw_elements_on_canvas(self):
         self._agent_targets_visualizer.register(self.agent_and_targets)
         self._trajectory_heat_visualizer.register(self.agent)
 
-    def make_agent(self) -> NamedPointWithIcon:
+    def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
             "agent", self.x_max, self.x_min, self.y_max, self.y_min
         ).create_agent()
 
-    def make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
+    def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self.n_tgt):
             tgt = PointFactory(
@@ -87,7 +87,7 @@ class MovePoint(Env):
         for target, target_pos in zip(self.targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-        self.draw_elements_on_canvas()
+        self._draw_elements_on_canvas()
 
         self.curr_tgt_id = 0
 
@@ -117,7 +117,7 @@ class MovePoint(Env):
 
         self._update_target()
 
-        self.draw_elements_on_canvas()
+        self._draw_elements_on_canvas()
 
         obs = self._get_obs()
 
