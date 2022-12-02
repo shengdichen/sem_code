@@ -35,20 +35,16 @@ class MovementField:
         return self._get_reset_agent_pos_fixed()
 
     def _get_reset_agent_pos_random(self):
-        x = random.randrange(
-            int(self._shape[0] * 0.05), int(self._shape[0] * 0.10)
-        )
-        y = random.randrange(
-            int(self._shape[1] * 0.15), int(self._shape[1] * 0.20)
-        )
+        pos_x = random.randrange(int(self._shape[0] * 0.05), int(self._shape[0] * 0.10))
+        pos_y = random.randrange(int(self._shape[1] * 0.15), int(self._shape[1] * 0.20))
 
-        return x, y
+        return pos_x, pos_y
 
     def _get_reset_agent_pos_fixed(self):
-        x = 10
-        y = 10
+        pos_x = 10
+        pos_y = 10
 
-        return x, y
+        return pos_x, pos_y
 
     def get_two_targets_pos_fixed(self, shifts):
         shift_x, shift_y = shifts
@@ -66,14 +62,14 @@ class MovementField:
         return pos
 
     def get_target_pos_random(self):
-        tgt_x = random.randrange(
+        pos_x = random.randrange(
             self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
         )
-        tgt_y = random.randrange(
+        pos_y = random.randrange(
             self._y_min + int(self._y_max / 4), self._y_max - int(self._y_max / 4)
         )
 
-        return tgt_x, tgt_y
+        return pos_x, pos_y
 
 
 class VisualizerBase(ABC):
