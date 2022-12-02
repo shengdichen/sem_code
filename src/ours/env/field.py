@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.ours.env.board import EmptyBoard
+from src.ours.env.component.board import EmptyBoard
 from src.ours.env.point.point import NamedPointWithIcon, PointFactory
 
 
