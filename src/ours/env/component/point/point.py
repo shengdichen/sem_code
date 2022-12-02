@@ -1,5 +1,5 @@
-from src.ours.env.point.icon.icon import Icon
-from src.ours.env.point.movement import MovementTwoDim
+from src.ours.env.component.point.icon.icon import Icon
+from src.ours.env.component.point.movement import MovementTwoDim
 
 
 class NamedPointWithIcon:
