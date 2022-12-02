@@ -44,30 +44,24 @@ class MovePoint(Env):
         self._curr_episode_length = 0
         self._done = False
 
-        obs = self._get_obs()
+        obs = self._field._get_obs()
         return obs
-
-    def _get_obs(self):
-        return self._field._get_obs()
 
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
         reward = self._field.step(shift)
 
-        self._update_target()
+        self._field._update_target()
 
         self._draw_elements_on_canvas()
 
-        obs = self._get_obs()
+        obs = self._field._get_obs()
 
         self._curr_episode_length += 1
         if self._curr_episode_length == self._max_episode_length:
             self._done = True
 
         return obs, reward, self._done, {}
-
-    def _update_target(self):
-        self._field._update_target()
 
     def render(self, mode="human") -> None:
         assert mode in [
