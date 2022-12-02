@@ -41,9 +41,8 @@ class MovePoint(Env):
         self.agent_and_targets.append(self.agent)
         self.agent_and_targets.extend(self.targets)
 
-        # Maximum episode length
-        self.max_time = 1000
-        self.time = self.max_time
+        self.max_episode_length = 1000
+        self.max_n_steps_remaining = self.max_episode_length
 
         self.random_init = random_init
 
@@ -85,8 +84,7 @@ class MovePoint(Env):
     def reset(self):
         # Flag that marks the termination of an episode
         self.done = False
-        # Reset the fuel consumed
-        self.time = self.max_time
+        self.max_n_steps_remaining = self.max_episode_length
 
         # Determine a place to intialise the agent in
         x, y = self._agent_targets_visualizer.get_reset_agent_pos(self.random_init)
@@ -123,8 +121,7 @@ class MovePoint(Env):
         return state
 
     def step(self, action: int):
-        # Decrease the time counter
-        self.time -= 1
+        self.max_n_steps_remaining -= 1
 
         shift = ActionConverter(action, self.action_space).get_shift()
         self.agent.movement.shift(shift[0], shift[1])
@@ -146,8 +143,7 @@ class MovePoint(Env):
 
         obs = self._get_obs()
 
-        # If out of fuel, end the episode.
-        if self.time == 0:
+        if self.max_n_steps_remaining == 0:
             self.done = True
 
         return obs, reward, self.done, {}
