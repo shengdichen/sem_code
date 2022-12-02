@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 
 import numpy as np
 
-from src.ours.env.component.point import NamedPointWithIcon
+from src.ours.env.component.point.point import NamedPointWithIcon
 
 
 class VisualizerBase(ABC):
