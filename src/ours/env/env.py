@@ -83,6 +83,20 @@ class MovePoint(Env):
 
         return targets
 
+    # TODO: expand to preferences as random process!
+    def generate_random_targets(self):
+        tgts = []
+        for i in range(self.n_tgt):
+            tgt = PointFactory(
+                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
+            ).create_target()
+
+            tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
+            tgt.movement.set_position(tgt_x, tgt_y)
+            tgts.append(tgt)
+
+        return tgts
+
     def reset(self):
         # Flag that marks the termination of an episode
         self.done = False
@@ -122,20 +136,6 @@ class MovePoint(Env):
         )
 
         return state
-
-    # TODO: expand to preferences as random process!
-    def generate_random_targets(self):
-        tgts = []
-        for i in range(self.n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self.x_max, self.x_min, self.y_max, self.y_min
-            ).create_target()
-
-            tgt_x, tgt_y = self._agent_targets_visualizer.get_target_pos_random()
-            tgt.movement.set_position(tgt_x, tgt_y)
-            tgts.append(tgt)
-
-        return tgts
 
     def step(self, action: int):
         # Decrease the time counter
