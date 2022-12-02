@@ -63,14 +63,16 @@ class MovePoint(Env):
 
     def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory(
-            "agent", self._x_max, self._x_min, self._y_max, self._y_min
+            "agent", (self._x_max, self._x_min), (self._y_max, self._y_min)
         ).create_agent()
 
     def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self._n_tgt):
             tgt = PointFactory(
-                "tgt_{}".format(i), self._x_max, self._x_min, self._y_max, self._y_min
+                "tgt_{}".format(i),
+                (self._x_max, self._x_min),
+                (self._y_max, self._y_min),
             ).create_target()
 
             # TODO: expand to preferences as random process!
