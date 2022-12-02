@@ -20,10 +20,10 @@ class MovePoint(Env):
             self._side_length
         ).get_spaces()
 
-        self._canvas_shape = self._side_length, self._side_length
-        self._board = EmptyBoard(self._canvas_shape)
-        self._agent_targets_visualizer = AgentTargetsVisualizer(self._canvas_shape)
-        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._canvas_shape)
+        self._board_shape = self._side_length, self._side_length
+        self._board = EmptyBoard(self._board_shape)
+        self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
+        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
         (
             self._y_min,
