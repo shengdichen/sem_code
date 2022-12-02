@@ -2,9 +2,9 @@ import numpy as np
 
 
 class MovementTwoDim:
-    def __init__(self, x_min, x_max_with_icon, y_min, y_max_with_icon):
-        self.x_min, self.x_max_with_icon = x_min, x_max_with_icon
-        self.y_min, self.y_max_with_icon = y_min, y_max_with_icon
+    def __init__(self, x_min_max_with_icon, y_min_max_with_icon):
+        self.x_min, self.x_max_with_icon = x_min_max_with_icon
+        self.y_min, self.y_max_with_icon = y_min_max_with_icon
 
         self.x_movement = MovementOneDim((self.x_min, self.x_max_with_icon))
         self.y_movement = MovementOneDim((self.y_min, self.y_max_with_icon))
