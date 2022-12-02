@@ -5,6 +5,7 @@ from gym import Env, spaces
 
 from src.ours.env.canvas import TrajectoryHeatVisualizer, AgentTargetsVisualizer
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
+from src.ours.env.space import SpacesGenerator
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
 
 
@@ -14,17 +15,9 @@ class MovePoint(Env):
 
         self._side_length = 200
         self.canvas_shape = self._side_length, self._side_length
-        self.observation_shape = 4
-        self.observation_space = spaces.Box(
-            low=np.zeros(self.observation_shape, dtype=np.float64),
-            high=np.ones(self.observation_shape, dtype=np.float64) * self._side_length,
-            dtype=np.float64,
-        )
-
-        # Define an action space ranging from 0 to 4
-        self.action_space = spaces.Discrete(
-            5,
-        )
+        self.observation_space, self.action_space = SpacesGenerator(
+            self._side_length
+        ).get_spaces()
 
         self._agent_targets_visualizer = AgentTargetsVisualizer(self.canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self.canvas_shape)
