@@ -158,14 +158,7 @@ class MovePoint(Env):
         return obs, reward, self._done, {}
 
     def _update_target(self):
-        if self._agent.has_collided(self._targets[self._curr_tgt_id]):
-            # reward += 5
-            if self._curr_tgt_id == len(self._targets) - 1:
-                # task solved
-                # reward += 100
-                self._done = True
-            else:
-                self._curr_tgt_id += 1
+        self._field._update_target()
 
     def render(self, mode="human") -> None:
         assert mode in [
