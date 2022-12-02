@@ -129,25 +129,6 @@ class MovePoint(Env):
         self._agent_targets_visualizer.register(self._agent_and_targets)
         self._trajectory_heat_visualizer.register(self._agent)
 
-    def _make_agent(self) -> NamedPointWithIcon:
-        return PointFactory("agent", self._x_range, self._y_range).create_agent()
-
-    def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
-        targets = []
-        for i in range(self._n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self._x_range, self._y_range
-            ).create_target()
-
-            # TODO: expand to preferences as random process!
-            if make_random_targets:
-                tgt_x, tgt_y = self._board.get_target_pos_random()
-                tgt.movement.set_position(tgt_x, tgt_y)
-
-            targets.append(tgt)
-
-        return targets
-
     def reset(self):
         x, y = self._board.get_reset_agent_pos(self._random_init)
         self._agent.movement.set_position(x, y)
