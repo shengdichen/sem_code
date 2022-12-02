@@ -130,7 +130,7 @@ class MovePoint(Env):
 
         self._draw_elements_on_canvas()
 
-        self._curr_tgt_id = 0
+        self._field._curr_tgt_id = 0
 
         self._curr_episode_length = 0
         self._done = False
