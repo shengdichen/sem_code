@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from src.ours.env.component.point import NamedPointWithIcon, PointFactory
+from src.ours.env.point.point import NamedPointWithIcon, PointFactory
 
 
 class EmptyBoard:
