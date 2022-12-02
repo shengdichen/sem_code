@@ -4,8 +4,8 @@ from gym import Env
 from src.ours.env.canvas import (
     TrajectoryHeatVisualizer,
     AgentTargetsVisualizer,
-    MovementField,
 )
+from src.ours.env.field import EmptyBoard
 from src.ours.env.component.point import PointFactory, NamedPointWithIcon
 from src.ours.env.space import SpacesGenerator, ActionConverter
 from src.ours.env.util import PointEnvRendererHuman, PointEnvRendererRgb
@@ -21,7 +21,7 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._canvas_shape = self._side_length, self._side_length
-        self._field = MovementField(self._canvas_shape)
+        self._board = EmptyBoard(self._canvas_shape)
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._canvas_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._canvas_shape)
 
@@ -30,7 +30,7 @@ class MovePoint(Env):
             self._x_min,
             self._y_max,
             self._x_max,
-        ) = self._field.get_movement_ranges()
+        ) = self._board.movement_ranges
         self._shift_x = shift_x
         self._shift_y = shift_y
 
@@ -75,7 +75,7 @@ class MovePoint(Env):
 
             # TODO: expand to preferences as random process!
             if make_random_targets:
-                tgt_x, tgt_y = self._field.get_target_pos_random()
+                tgt_x, tgt_y = self._board.get_target_pos_random()
                 tgt.movement.set_position(tgt_x, tgt_y)
 
             targets.append(tgt)
@@ -83,10 +83,10 @@ class MovePoint(Env):
         return targets
 
     def reset(self):
-        x, y = self._field.get_reset_agent_pos(self._random_init)
+        x, y = self._board.get_reset_agent_pos(self._random_init)
         self._agent.movement.set_position(x, y)
 
-        target_positions = self._field.get_reset_targets_pos(
+        target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
         )
         for target, target_pos in zip(self._targets, target_positions):
