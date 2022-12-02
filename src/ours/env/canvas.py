@@ -50,7 +50,7 @@ class MovementField:
 
         return x, y
 
-    def get_reset_targets_pos(self, shifts):
+    def get_two_targets_pos_fixed(self, shifts):
         shift_x, shift_y = shifts
 
         pos_target_one = (

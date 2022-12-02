@@ -86,7 +86,7 @@ class MovePoint(Env):
         x, y = self._field.get_reset_agent_pos(self._random_init)
         self._agent.movement.set_position(x, y)
 
-        target_positions = self._field.get_reset_targets_pos(
+        target_positions = self._field.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
         )
         for target, target_pos in zip(self._targets, target_positions):
