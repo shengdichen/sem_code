@@ -56,6 +56,14 @@ class VisualizerBase(ABC):
         ]
         return pos
 
+    def get_target_pos_random(self):
+        y_min, x_min, y_max, x_max = self.get_movement_ranges()
+
+        tgt_x = random.randrange(y_min + int(y_max / 4), y_max - int(y_max / 4))
+        tgt_y = random.randrange(y_min + int(y_max / 4), y_max - int(y_max / 4))
+
+        return tgt_x, tgt_y
+
 
 class AgentTargetsVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
