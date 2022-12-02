@@ -8,13 +8,13 @@ from src.ours.env.component.point import NamedPointWithIcon
 
 class MovementField:
     def __init__(self, shape: tuple[int, int]):
-        self._colormat_shape = shape[0], shape[1]
+        self._shape = shape[0], shape[1]
 
     def get_movement_ranges(self):
-        y_min = int(self._colormat_shape[0] * 0.1)
+        y_min = int(self._shape[0] * 0.1)
         x_min = 0
-        y_max = int(self._colormat_shape[0] * 0.9)
-        x_max = self._colormat_shape[1]
+        y_max = int(self._shape[0] * 0.9)
+        x_max = self._shape[1]
 
         return y_min, x_min, y_max, x_max
 
@@ -25,10 +25,10 @@ class MovementField:
 
     def _get_reset_agent_pos_random(self):
         x = random.randrange(
-            int(self._colormat_shape[0] * 0.05), int(self._colormat_shape[0] * 0.10)
+            int(self._shape[0] * 0.05), int(self._shape[0] * 0.10)
         )
         y = random.randrange(
-            int(self._colormat_shape[1] * 0.15), int(self._colormat_shape[1] * 0.20)
+            int(self._shape[1] * 0.15), int(self._shape[1] * 0.20)
         )
 
         return x, y
@@ -43,12 +43,12 @@ class MovementField:
         shift_x, shift_y = shifts
 
         pos_target_one = (
-            int(self._colormat_shape[0] / 2) + shift_x,
-            int(self._colormat_shape[1] / 2) + shift_y,
+            int(self._shape[0] / 2) + shift_x,
+            int(self._shape[1] / 2) + shift_y,
         )
         pos_target_two = (
-            int(self._colormat_shape[0] * 0.95),
-            int(self._colormat_shape[1] * 0.95),
+            int(self._shape[0] * 0.95),
+            int(self._shape[1] * 0.95),
         )
 
         pos = [pos_target_one, pos_target_two]
