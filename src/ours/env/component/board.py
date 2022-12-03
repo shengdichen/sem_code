@@ -8,10 +8,8 @@ class EmptyBoard:
         self._x_range, self._y_range = self._get_movement_ranges()
 
     def _get_movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
-        y_min = int(self._shape[0] * 0.1)
-        x_min = 0
-        y_max = int(self._shape[0] * 0.9)
-        x_max = self._shape[1]
+        x_min, x_max = 0, self._shape[1]
+        y_min, y_max = int(self._shape[0] * 0.1), int(self._shape[0] * 0.9)
 
         return (x_min, x_max), (y_min, y_max)
 
