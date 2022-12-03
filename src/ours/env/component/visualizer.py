@@ -12,7 +12,7 @@ class VisualizerBase(ABC):
         self._colormat_shape = field.shape[0], field.shape[1], 3
 
     @abstractmethod
-    def visualize(self, **kwargs):
+    def visualize(self, **kwargs) -> None:
         pass
 
 
@@ -29,7 +29,7 @@ class PositionVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.ones(self._colormat_shape)
 
-    def visualize(self):
+    def visualize(self) -> None:
         self._colormat = self._make()
 
         self._visualize_one_point(self._field.agent_and_targets[0])
@@ -63,7 +63,7 @@ class TrajectoryHeatVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.zeros(self._colormat_shape)
 
-    def visualize(self):
+    def visualize(self) -> None:
         self._visualize_one_point(self._field.agent_and_targets[0])
 
         # normalize hist canvas
