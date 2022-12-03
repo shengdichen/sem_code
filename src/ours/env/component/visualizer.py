@@ -32,7 +32,8 @@ class PositionVisualizer(VisualizerBase):
     def register_all(self):
         self._colormat = self._make()
 
-        for point in self._field.agent_and_targets:
+        self._register(self._field.agent_and_targets[0])
+        for point in self._field.agent_and_targets[1]:
             self._register(point)
 
     def _register(self, point: NamedPointWithIcon) -> None:

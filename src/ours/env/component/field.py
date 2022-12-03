@@ -22,7 +22,7 @@ class Field:
 
         self._agent_and_targets = []
         self._agent_and_targets.append(self._agent)
-        self._agent_and_targets.extend(self._targets)
+        self._agent_and_targets.append(self._targets)
 
     @property
     def env_config(self):
