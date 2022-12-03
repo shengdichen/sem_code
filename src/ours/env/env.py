@@ -19,7 +19,7 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
-        self._field = Field(n_targets, shift_x, shift_y, random_init)
+        self._field = Field(n_targets, (shift_x, shift_y), random_init)
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
