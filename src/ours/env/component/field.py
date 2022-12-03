@@ -62,6 +62,8 @@ class Field:
         for target, target_pos in zip(self._targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
+        self._curr_tgt_id = 0
+
     def get_pos_agent_target(self):
         state = np.stack(
             [
