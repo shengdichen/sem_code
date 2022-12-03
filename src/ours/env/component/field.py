@@ -32,6 +32,10 @@ class Field:
             "shift_y": self._shift_y,
         }
 
+    @property
+    def shape(self):
+        return self._side_length, self._side_length
+
     def _make_agent(self) -> NamedPointWithIcon:
         return PointFactory("agent", self._x_range, self._y_range).create_agent()
 
