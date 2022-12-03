@@ -88,11 +88,14 @@ class Field:
         return -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
 
     def _update_target(self):
+        has_visited_all_targets = False
         if self._agent.has_collided(self._targets[self._curr_tgt_id]):
             # reward += 5
             if self._curr_tgt_id == len(self._targets) - 1:
                 # task solved
                 # reward += 100
-                self._done = True
+                has_visited_all_targets = True
             else:
                 self._curr_tgt_id += 1
+
+        return has_visited_all_targets
