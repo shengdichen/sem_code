@@ -14,7 +14,7 @@ class VisualizerBase(ABC):
         pass
 
 
-class AgentTargetsVisualizer(VisualizerBase):
+class PositionVisualizer(VisualizerBase):
     def __init__(self, shape: tuple[int, int]):
         super().__init__(shape)
 

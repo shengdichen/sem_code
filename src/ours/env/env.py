@@ -2,7 +2,7 @@ from gym import Env
 
 from src.ours.env.component.visualizer import (
     TrajectoryHeatVisualizer,
-    AgentTargetsVisualizer,
+    PositionVisualizer,
 )
 from src.ours.env.component.field import Field
 from src.ours.env.util.space import SpacesGenerator, ActionConverter
@@ -20,7 +20,7 @@ class MovePoint(Env):
 
         self._board_shape = self._side_length, self._side_length
         self._field = Field(n_targets, (shift_x, shift_y), random_init)
-        self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
+        self._agent_targets_visualizer = PositionVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
