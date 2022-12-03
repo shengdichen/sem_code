@@ -20,9 +20,7 @@ class Field:
         self._curr_target_id = 0
         self._targets = self._make_targets()
 
-        self._agent_and_targets = []
-        self._agent_and_targets.append(self._agent)
-        self._agent_and_targets.append(self._targets)
+        self._agent_and_targets = [self._agent, self._targets]
 
     @property
     def env_config(self):
