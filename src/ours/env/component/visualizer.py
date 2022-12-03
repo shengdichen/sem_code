@@ -32,11 +32,11 @@ class PositionVisualizer(VisualizerBase):
     def visualize(self):
         self._colormat = self._make()
 
-        self._register(self._field.agent_and_targets[0])
+        self._visualize_one_point(self._field.agent_and_targets[0])
         for point in self._field.agent_and_targets[1]:
-            self._register(point)
+            self._visualize_one_point(point)
 
-    def _register(self, point: NamedPointWithIcon) -> None:
+    def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
         self._colormat[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
@@ -64,9 +64,9 @@ class TrajectoryHeatVisualizer(VisualizerBase):
         return np.zeros(self._colormat_shape)
 
     def visualize(self):
-        self._register(self._field.agent_and_targets[0])
+        self._visualize_one_point(self._field.agent_and_targets[0])
 
-    def _register(self, point: NamedPointWithIcon) -> None:
+    def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
         self._colormat[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
