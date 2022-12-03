@@ -52,8 +52,8 @@ class Field:
         return targets
 
     def reset(self):
-        x, y = self._board.get_reset_agent_pos(self._random_init)
-        self._agent.movement.set_position(x, y)
+        pos_x, pos_y = self._board.get_reset_agent_pos(self._random_init)
+        self._agent.movement.set_position(pos_x, pos_y)
 
         target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
