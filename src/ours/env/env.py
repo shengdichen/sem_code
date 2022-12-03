@@ -47,7 +47,7 @@ class MovePoint(Env):
 
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
-        reward = self._field.step(shift)
+        reward, self._done = self._field.step(shift)
 
         self._draw_elements_on_canvas()
 

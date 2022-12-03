@@ -80,9 +80,9 @@ class Field:
 
         reward = self._get_reward()
 
-        self._update_target()
+        has_visited_all_targets = self._update_target()
 
-        return reward
+        return reward, has_visited_all_targets
 
     def _get_reward(self):
         return -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
