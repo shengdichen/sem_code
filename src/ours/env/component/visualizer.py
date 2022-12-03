@@ -30,16 +30,17 @@ class PositionVisualizer(VisualizerBase):
         return np.ones(self._colormat_shape)
 
     def register_all(self):
-        self._register(self._field._agent_and_targets)
-
-    def _register(self, points: list[NamedPointWithIcon]) -> None:
         self._colormat = self._make()
 
-        for point in points:
-            self._colormat[
-                point.movement.y : point.movement.y + point.y_icon,
-                point.movement.x : point.movement.x + point.x_icon,
-            ] = point.icon
+        self._register(self._field.agent_and_targets[0])
+        for point in self._field.agent_and_targets[1]:
+            self._register(point)
+
+    def _register(self, point: NamedPointWithIcon) -> None:
+        self._colormat[
+            point.movement.y : point.movement.y + point.y_icon,
+            point.movement.x : point.movement.x + point.x_icon,
+        ] = point.icon
 
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
@@ -63,7 +64,7 @@ class TrajectoryHeatVisualizer(VisualizerBase):
         return np.zeros(self._colormat_shape)
 
     def register_all(self):
-        self._register(self._field._agent)
+        self._register(self._field.agent_and_targets[0])
 
     def _register(self, point: NamedPointWithIcon) -> None:
         self._colormat[
