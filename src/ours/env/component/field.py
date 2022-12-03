@@ -78,8 +78,8 @@ class Field:
 
         return state
 
-    def step(self, shift) -> tuple[float, bool]:
-        self._agent_and_targets[0].movement.shift(shift[0], shift[1])
+    def step(self, action: tuple[int, int]) -> tuple[float, bool]:
+        self._agent_and_targets[0].movement.shift(action[0], action[1])
 
         reward = self._get_reward()
 
