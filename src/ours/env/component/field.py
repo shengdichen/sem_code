@@ -51,7 +51,7 @@ class Field:
 
         return targets
 
-    def reset(self):
+    def reset(self) -> None:
         pos_x, pos_y = self._board.get_reset_agent_pos(self._random_init)
         self._agent.movement.set_position(pos_x, pos_y)
 
@@ -63,7 +63,7 @@ class Field:
 
         self._curr_target_id = 0
 
-    def get_pos_agent_target(self):
+    def get_pos_agent_target(self) -> np.ndarray:
         state = np.stack(
             [
                 self._agent.movement.x,
@@ -75,7 +75,7 @@ class Field:
 
         return state
 
-    def step(self, shift):
+    def step(self, shift) -> tuple[float, bool]:
         self._agent.movement.shift(shift[0], shift[1])
 
         reward = self._get_reward()
@@ -84,10 +84,10 @@ class Field:
 
         return reward, has_visited_all_targets
 
-    def _get_reward(self):
+    def _get_reward(self) -> float:
         return -1 * self._agent.distance_l2(self._targets[self._curr_target_id])
 
-    def _update_target(self):
+    def _update_target(self) -> bool:
         has_visited_all_targets = False
         if self._agent.has_collided(self._targets[self._curr_target_id]):
             # reward += 5
