@@ -13,6 +13,7 @@ class Field:
         self._shift_x, self._shift_y = shifts
 
         self._random_spawn_agent = random_spawn_agent
+        self._use_random_targets = False
 
         self._n_targets = n_targets
         self._curr_target_id = 0
@@ -42,7 +43,7 @@ class Field:
         )
         return agent
 
-    def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
+    def _make_targets(self) -> list[NamedPointWithIcon]:
         targets = []
         for i in range(self._n_targets):
             target = PointFactory(
@@ -50,7 +51,7 @@ class Field:
             ).create_target()
 
             # TODO: expand to preferences as random process!
-            if make_random_targets:
+            if self._use_random_targets:
                 target.movement.set_position(self._board.get_target_pos_random())
 
             targets.append(target)
