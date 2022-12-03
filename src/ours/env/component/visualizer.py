@@ -30,7 +30,7 @@ class PositionVisualizer(VisualizerBase):
         return np.ones(self._colormat_shape)
 
     def register_all(self):
-        self._register(self._field._agent_and_targets)
+        self._register(self._field.agent_and_targets)
 
     def _register(self, points: list[NamedPointWithIcon]) -> None:
         self._colormat = self._make()
