@@ -37,7 +37,7 @@ class EmptyBoard:
 
     def get_two_targets_pos_fixed(
         self, shifts: tuple[float, float]
-    ) -> list[tuple[int, int]]:
+    ) -> tuple[tuple[float, float], tuple[int, int]]:
         shift_x, shift_y = shifts
 
         pos_target_one = (
@@ -49,8 +49,7 @@ class EmptyBoard:
             int(self._shape[1] * 0.95),
         )
 
-        pos = [pos_target_one, pos_target_two]
-        return pos
+        return pos_target_one, pos_target_two
 
     def get_target_pos_random(self) -> tuple[int, int]:
         pos_x = random.randrange(
