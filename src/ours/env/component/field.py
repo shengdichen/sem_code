@@ -33,6 +33,10 @@ class Field:
         }
 
     @property
+    def agent_and_targets(self):
+        return self._agent_and_targets
+
+    @property
     def shape(self):
         return self._side_length, self._side_length
 
