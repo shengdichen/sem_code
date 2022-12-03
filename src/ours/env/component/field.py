@@ -36,7 +36,11 @@ class Field:
         return self._side_length, self._side_length
 
     def _make_agent(self) -> NamedPointWithIcon:
-        return PointFactory("agent", self._x_range, self._y_range).create_agent()
+        agent = PointFactory("agent", self._x_range, self._y_range).create_agent()
+        agent.movement.set_position(
+            self._board.get_reset_agent_pos(self._random_spawn_agent)
+        )
+        return agent
 
     def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
