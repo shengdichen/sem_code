@@ -66,7 +66,7 @@ class Field:
         target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
         )
-        for target, target_pos in zip(self._targets, target_positions):
+        for target, target_pos in zip(self._agent_and_targets[1], target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
         self._curr_target_id = 0
@@ -76,8 +76,8 @@ class Field:
             [
                 self._agent_and_targets[0].movement.x,
                 self._agent_and_targets[0].movement.y,
-                self._targets[self._curr_target_id].movement.x,
-                self._targets[self._curr_target_id].movement.y,
+                self._agent_and_targets[1][self._curr_target_id].movement.x,
+                self._agent_and_targets[1][self._curr_target_id].movement.y,
             ]
         )
 
@@ -94,14 +94,16 @@ class Field:
 
     def _get_reward(self) -> float:
         return -1 * self._agent_and_targets[0].distance_l2(
-            self._targets[self._curr_target_id]
+            self._agent_and_targets[1][self._curr_target_id]
         )
 
     def _update_target(self) -> bool:
         has_visited_all_targets = False
-        if self._agent_and_targets[0].has_collided(self._targets[self._curr_target_id]):
+        if self._agent_and_targets[0].has_collided(
+            self._agent_and_targets[1][self._curr_target_id]
+        ):
             # reward += 5
-            if self._curr_target_id == len(self._targets) - 1:
+            if self._curr_target_id == len(self._agent_and_targets[1]) - 1:
                 # task solved
                 # reward += 100
                 has_visited_all_targets = True
