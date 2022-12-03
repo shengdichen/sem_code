@@ -31,8 +31,8 @@ class MovePoint(Env):
         return self._field.env_config
 
     def _draw_elements_on_canvas(self):
-        self._position_visualizer.register(self._field._agent_and_targets)
-        self._trajectory_heat_visualizer.register(self._field._agent)
+        self._position_visualizer.register_all()
+        self._trajectory_heat_visualizer.register_all()
 
     def reset(self):
         self._field.reset()
