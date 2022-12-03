@@ -47,22 +47,22 @@ class Field:
 
             # TODO: expand to preferences as random process!
             if make_random_targets:
-                tgt_x, tgt_y = self._board.get_target_pos_random()
-                target.movement.set_position(tgt_x, tgt_y)
+                target.movement.set_position(self._board.get_target_pos_random())
 
             targets.append(target)
 
         return targets
 
     def reset(self) -> None:
-        pos_x, pos_y = self._board.get_reset_agent_pos(self._random_init)
-        self._agent_and_targets[0].movement.set_position(pos_x, pos_y)
+        self._agent_and_targets[0].movement.set_position(
+            self._board.get_reset_agent_pos(self._random_init)
+        )
 
         target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
         )
         for target, target_pos in zip(self._agent_and_targets[1], target_positions):
-            target.movement.set_position(target_pos[0], target_pos[1])
+            target.movement.set_position(target_pos)
 
         self._curr_target_id = 0
 
