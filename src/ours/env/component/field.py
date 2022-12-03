@@ -61,7 +61,7 @@ class Field:
 
     def reset(self) -> None:
         pos_x, pos_y = self._board.get_reset_agent_pos(self._random_init)
-        self._agent.movement.set_position(pos_x, pos_y)
+        self._agent_and_targets[0].movement.set_position(pos_x, pos_y)
 
         target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
@@ -74,8 +74,8 @@ class Field:
     def get_pos_agent_target(self) -> np.ndarray:
         state = np.stack(
             [
-                self._agent.movement.x,
-                self._agent.movement.y,
+                self._agent_and_targets[0].movement.x,
+                self._agent_and_targets[0].movement.y,
                 self._targets[self._curr_target_id].movement.x,
                 self._targets[self._curr_target_id].movement.y,
             ]
@@ -84,7 +84,7 @@ class Field:
         return state
 
     def step(self, shift) -> tuple[float, bool]:
-        self._agent.movement.shift(shift[0], shift[1])
+        self._agent_and_targets[0].movement.shift(shift[0], shift[1])
 
         reward = self._get_reward()
 
@@ -93,11 +93,13 @@ class Field:
         return reward, has_visited_all_targets
 
     def _get_reward(self) -> float:
-        return -1 * self._agent.distance_l2(self._targets[self._curr_target_id])
+        return -1 * self._agent_and_targets[0].distance_l2(
+            self._targets[self._curr_target_id]
+        )
 
     def _update_target(self) -> bool:
         has_visited_all_targets = False
-        if self._agent.has_collided(self._targets[self._curr_target_id]):
+        if self._agent_and_targets[0].has_collided(self._targets[self._curr_target_id]):
             # reward += 5
             if self._curr_target_id == len(self._targets) - 1:
                 # task solved

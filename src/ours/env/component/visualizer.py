@@ -63,7 +63,7 @@ class TrajectoryHeatVisualizer(VisualizerBase):
         return np.zeros(self._colormat_shape)
 
     def register_all(self):
-        self._register(self._field._agent)
+        self._register(self._field.agent_and_targets[0])
 
     def _register(self, point: NamedPointWithIcon) -> None:
         self._colormat[
