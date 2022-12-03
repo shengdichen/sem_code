@@ -14,13 +14,10 @@ class Field:
 
         self._random_init = random_init
 
-        self._agent = self._make_agent()
-
         self._n_targets = n_targets
         self._curr_target_id = 0
-        self._targets = self._make_targets()
 
-        self._agent_and_targets = [self._agent, self._targets]
+        self._agent_and_targets = [self._make_agent(), self._make_targets()]
 
     @property
     def env_config(self):
