@@ -2,7 +2,7 @@ from gym import Env
 
 from src.ours.env.component.visualizer import (
     TrajectoryHeatVisualizer,
-    AgentTargetsVisualizer,
+    PositionVisualizer,
 )
 from src.ours.env.component.field import Field
 from src.ours.env.util.space import SpacesGenerator, ActionConverter
@@ -20,8 +20,8 @@ class MovePoint(Env):
 
         self._board_shape = self._side_length, self._side_length
         self._field = Field(n_targets, (shift_x, shift_y), random_init)
-        self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
-        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
+        self._position_visualizer = PositionVisualizer(self._field)
+        self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._field)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
         self._done = False
@@ -31,8 +31,8 @@ class MovePoint(Env):
         return self._field.env_config
 
     def _draw_elements_on_canvas(self):
-        self._agent_targets_visualizer.register(self._field._agent_and_targets)
-        self._trajectory_heat_visualizer.register(self._field._agent)
+        self._position_visualizer.register_all()
+        self._trajectory_heat_visualizer.register_all()
 
     def reset(self):
         self._field.reset()
@@ -71,11 +71,11 @@ class MovePoint(Env):
 
         if mode == "human":
             renderer = PointEnvRendererHuman(
-                self._agent_targets_visualizer.colormat,
+                self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = PointEnvRendererRgb(self._agent_targets_visualizer.colormat)
+            renderer = PointEnvRendererRgb(self._position_visualizer.colormat)
 
         renderer.render()
 

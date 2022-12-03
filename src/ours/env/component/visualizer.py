@@ -2,21 +2,23 @@ from abc import abstractmethod, ABC
 
 import numpy as np
 
+from src.ours.env.component.field import Field
 from src.ours.env.component.point.point import NamedPointWithIcon
 
 
 class VisualizerBase(ABC):
-    def __init__(self, shape: tuple[int, int]):
-        self._colormat_shape = shape[0], shape[1], 3
+    def __init__(self, field: Field):
+        self._field = field
+        self._colormat_shape = field.shape[0], field.shape[1], 3
 
     @abstractmethod
-    def register(self, **kwargs):
+    def register_all(self, **kwargs):
         pass
 
 
-class AgentTargetsVisualizer(VisualizerBase):
-    def __init__(self, shape: tuple[int, int]):
-        super().__init__(shape)
+class PositionVisualizer(VisualizerBase):
+    def __init__(self, field: Field):
+        super().__init__(field)
 
         self._colormat = self._make()
 
@@ -27,7 +29,10 @@ class AgentTargetsVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.ones(self._colormat_shape)
 
-    def register(self, points: list[NamedPointWithIcon]) -> None:
+    def register_all(self):
+        self._register(self._field._agent_and_targets)
+
+    def _register(self, points: list[NamedPointWithIcon]) -> None:
         self._colormat = self._make()
 
         for point in points:
@@ -45,8 +50,8 @@ class AgentTargetsVisualizer(VisualizerBase):
 
 
 class TrajectoryHeatVisualizer(VisualizerBase):
-    def __init__(self, shape: tuple[int, int]):
-        super().__init__(shape)
+    def __init__(self, field: Field):
+        super().__init__(field)
 
         self._colormat = self._make()
 
@@ -57,7 +62,10 @@ class TrajectoryHeatVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.zeros(self._colormat_shape)
 
-    def register(self, point: NamedPointWithIcon) -> None:
+    def register_all(self):
+        self._register(self._field._agent)
+
+    def _register(self, point: NamedPointWithIcon) -> None:
         self._colormat[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
