@@ -12,7 +12,7 @@ class VisualizerBase(ABC):
         self._colormat_shape = field.shape[0], field.shape[1], 3
 
     @abstractmethod
-    def register(self, **kwargs):
+    def register_all(self, **kwargs):
         pass
 
 
@@ -30,9 +30,9 @@ class PositionVisualizer(VisualizerBase):
         return np.ones(self._colormat_shape)
 
     def register_all(self):
-        self.register(self._field._agent_and_targets)
+        self._register(self._field._agent_and_targets)
 
-    def register(self, points: list[NamedPointWithIcon]) -> None:
+    def _register(self, points: list[NamedPointWithIcon]) -> None:
         self._colormat = self._make()
 
         for point in points:
@@ -63,9 +63,9 @@ class TrajectoryHeatVisualizer(VisualizerBase):
         return np.zeros(self._colormat_shape)
 
     def register_all(self):
-        self.register(self._field._agent)
+        self._register(self._field._agent)
 
-    def register(self, point: NamedPointWithIcon) -> None:
+    def _register(self, point: NamedPointWithIcon) -> None:
         self._colormat[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
