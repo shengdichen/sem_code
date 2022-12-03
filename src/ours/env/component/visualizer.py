@@ -2,12 +2,14 @@ from abc import abstractmethod, ABC
 
 import numpy as np
 
+from src.ours.env.component.field import Field
 from src.ours.env.component.point.point import NamedPointWithIcon
 
 
 class VisualizerBase(ABC):
-    def __init__(self, shape: tuple[int, int]):
-        self._colormat_shape = shape[0], shape[1], 3
+    def __init__(self, field: Field):
+        self._field = field
+        self._colormat_shape = field.shape[0], field.shape[1], 3
 
     @abstractmethod
     def register(self, **kwargs):
@@ -15,8 +17,8 @@ class VisualizerBase(ABC):
 
 
 class PositionVisualizer(VisualizerBase):
-    def __init__(self, shape: tuple[int, int]):
-        super().__init__(shape)
+    def __init__(self, field: Field):
+        super().__init__(field)
 
         self._colormat = self._make()
 
@@ -45,8 +47,8 @@ class PositionVisualizer(VisualizerBase):
 
 
 class TrajectoryHeatVisualizer(VisualizerBase):
-    def __init__(self, shape: tuple[int, int]):
-        super().__init__(shape)
+    def __init__(self, field: Field):
+        super().__init__(field)
 
         self._colormat = self._make()
 
