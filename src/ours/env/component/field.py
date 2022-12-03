@@ -5,21 +5,19 @@ from src.ours.env.component.point.point import NamedPointWithIcon, PointFactory
 
 
 class Field:
-    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
+    def __init__(self, n_targets=2, shifts=(0, 0), random_init=False):
         self._side_length = 200
-        self._board_shape = self._side_length, self._side_length
-        self._board = EmptyBoard(self._board_shape)
+        self._board = EmptyBoard((self._side_length, self._side_length))
 
         self._x_range, self._y_range = self._board.movement_ranges
-        self._shift_x = shift_x
-        self._shift_y = shift_y
+        self._shift_x, self._shift_y = shifts
 
         self._random_init = random_init
 
         self._agent = self._make_agent()
 
-        self._n_tgt = n_targets
-        self._curr_tgt_id = 0
+        self._n_targets = n_targets
+        self._curr_target_id = 0
         self._targets = self._make_targets()
 
         self._agent_and_targets = []
@@ -29,7 +27,7 @@ class Field:
     @property
     def env_config(self):
         return {
-            "n_targets": self._n_tgt,
+            "n_targets": self._n_targets,
             "shift_x": self._shift_x,
             "shift_y": self._shift_y,
         }
@@ -39,23 +37,23 @@ class Field:
 
     def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
-        for i in range(self._n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self._x_range, self._y_range
+        for i in range(self._n_targets):
+            target = PointFactory(
+                "target_{}".format(i), self._x_range, self._y_range
             ).create_target()
 
             # TODO: expand to preferences as random process!
             if make_random_targets:
                 tgt_x, tgt_y = self._board.get_target_pos_random()
-                tgt.movement.set_position(tgt_x, tgt_y)
+                target.movement.set_position(tgt_x, tgt_y)
 
-            targets.append(tgt)
+            targets.append(target)
 
         return targets
 
-    def reset(self):
-        x, y = self._board.get_reset_agent_pos(self._random_init)
-        self._agent.movement.set_position(x, y)
+    def reset(self) -> None:
+        pos_x, pos_y = self._board.get_reset_agent_pos(self._random_init)
+        self._agent.movement.set_position(pos_x, pos_y)
 
         target_positions = self._board.get_two_targets_pos_fixed(
             (self._shift_x, self._shift_y)
@@ -63,31 +61,41 @@ class Field:
         for target, target_pos in zip(self._targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-    def _get_obs(self):
+        self._curr_target_id = 0
+
+    def get_pos_agent_target(self) -> np.ndarray:
         state = np.stack(
             [
                 self._agent.movement.x,
                 self._agent.movement.y,
-                self._targets[self._curr_tgt_id].movement.x,
-                self._targets[self._curr_tgt_id].movement.y,
+                self._targets[self._curr_target_id].movement.x,
+                self._targets[self._curr_target_id].movement.y,
             ]
         )
 
         return state
 
-    def step(self, shift):
+    def step(self, shift) -> tuple[float, bool]:
         self._agent.movement.shift(shift[0], shift[1])
 
-        reward = -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
+        reward = self._get_reward()
 
-        return reward
+        has_visited_all_targets = self._update_target()
 
-    def _update_target(self):
-        if self._agent.has_collided(self._targets[self._curr_tgt_id]):
+        return reward, has_visited_all_targets
+
+    def _get_reward(self) -> float:
+        return -1 * self._agent.distance_l2(self._targets[self._curr_target_id])
+
+    def _update_target(self) -> bool:
+        has_visited_all_targets = False
+        if self._agent.has_collided(self._targets[self._curr_target_id]):
             # reward += 5
-            if self._curr_tgt_id == len(self._targets) - 1:
+            if self._curr_target_id == len(self._targets) - 1:
                 # task solved
                 # reward += 100
-                self._done = True
+                has_visited_all_targets = True
             else:
-                self._curr_tgt_id += 1
+                self._curr_target_id += 1
+
+        return has_visited_all_targets

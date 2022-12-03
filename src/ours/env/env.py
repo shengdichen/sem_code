@@ -19,7 +19,7 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
-        self._field = Field(n_targets, shift_x, shift_y, random_init)
+        self._field = Field(n_targets, (shift_x, shift_y), random_init)
         self._agent_targets_visualizer = AgentTargetsVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
@@ -39,22 +39,15 @@ class MovePoint(Env):
 
         self._draw_elements_on_canvas()
 
-        self._field._curr_tgt_id = 0
-
         self._curr_episode_length = 0
         self._done = False
 
         obs = self._get_obs()
         return obs
 
-    def _get_obs(self):
-        return self._field._get_obs()
-
     def step(self, action: int):
         shift = ActionConverter(action, self.action_space).get_shift()
-        reward = self._field.step(shift)
-
-        self._update_target()
+        reward, self._done = self._field.step(shift)
 
         self._draw_elements_on_canvas()
 
@@ -66,8 +59,9 @@ class MovePoint(Env):
 
         return obs, reward, self._done, {}
 
-    def _update_target(self):
-        self._field._update_target()
+    def _get_obs(self):
+        field_obs = self._field.get_pos_agent_target()
+        return field_obs
 
     def render(self, mode="human") -> None:
         assert mode in [
