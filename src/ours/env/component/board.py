@@ -35,7 +35,9 @@ class EmptyBoard:
 
         return pos_x, pos_y
 
-    def get_two_targets_pos_fixed(self, shifts) -> list[tuple[int, int]]:
+    def get_two_targets_pos_fixed(
+        self, shifts: tuple[float, float]
+    ) -> list[tuple[int, int]]:
         shift_x, shift_y = shifts
 
         pos_target_one = (
