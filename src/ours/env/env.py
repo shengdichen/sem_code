@@ -44,7 +44,7 @@ class MovePoint(Env):
         self._curr_episode_length = 0
         self._done = False
 
-        obs = self._field._get_obs()
+        obs = self._field.get_pos_agent_target()
         return obs
 
     def step(self, action: int):
@@ -53,7 +53,7 @@ class MovePoint(Env):
 
         self._draw_elements_on_canvas()
 
-        obs = self._field._get_obs()
+        obs = self._field.get_pos_agent_target()
 
         self._curr_episode_length += 1
         if self._curr_episode_length == self._max_episode_length:
