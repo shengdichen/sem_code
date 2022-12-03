@@ -10,7 +10,7 @@ class Field:
         self._board = EmptyBoard((self._side_length, self._side_length))
 
         self._x_range, self._y_range = self._board.movement_ranges
-        self._shifts = shifts
+        self._shifts_first_default_target = shifts
 
         self._random_spawn_agent = random_spawn_agent
         self._use_random_targets = False
@@ -24,8 +24,8 @@ class Field:
     def env_config(self):
         return {
             "n_targets": self._n_targets,
-            "shift_x": self._shifts[0],
-            "shift_y": self._shifts[1],
+            "shift_x": self._shifts_first_default_target[0],
+            "shift_y": self._shifts_first_default_target[1],
         }
 
     @property
@@ -63,7 +63,9 @@ class Field:
             self._board.get_reset_agent_pos(self._random_spawn_agent)
         )
 
-        target_positions = self._board.get_two_targets_pos_fixed(self._shifts)
+        target_positions = self._board.get_two_targets_pos_fixed(
+            self._shifts_first_default_target
+        )
         for target, target_pos in zip(self._agent_and_targets[1], target_positions):
             target.movement.set_position(target_pos)
 
