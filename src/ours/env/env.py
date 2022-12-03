@@ -20,7 +20,7 @@ class MovePoint(Env):
 
         self._board_shape = self._side_length, self._side_length
         self._field = Field(n_targets, (shift_x, shift_y), random_init)
-        self._agent_targets_visualizer = PositionVisualizer(self._board_shape)
+        self._position_visualizer = PositionVisualizer(self._board_shape)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._board_shape)
 
         self._max_episode_length, self._curr_episode_length = 1000, 0
@@ -31,7 +31,7 @@ class MovePoint(Env):
         return self._field.env_config
 
     def _draw_elements_on_canvas(self):
-        self._agent_targets_visualizer.register(self._field._agent_and_targets)
+        self._position_visualizer.register(self._field._agent_and_targets)
         self._trajectory_heat_visualizer.register(self._field._agent)
 
     def reset(self):
@@ -71,11 +71,11 @@ class MovePoint(Env):
 
         if mode == "human":
             renderer = PointEnvRendererHuman(
-                self._agent_targets_visualizer.colormat,
+                self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = PointEnvRendererRgb(self._agent_targets_visualizer.colormat)
+            renderer = PointEnvRendererRgb(self._position_visualizer.colormat)
 
         renderer.render()
 
