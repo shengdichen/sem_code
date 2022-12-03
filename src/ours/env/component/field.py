@@ -16,8 +16,8 @@ class Field:
 
         self._agent = self._make_agent()
 
-        self._n_tgt = n_targets
-        self._curr_tgt_id = 0
+        self._n_targets = n_targets
+        self._curr_target_id = 0
         self._targets = self._make_targets()
 
         self._agent_and_targets = []
@@ -27,7 +27,7 @@ class Field:
     @property
     def env_config(self):
         return {
-            "n_targets": self._n_tgt,
+            "n_targets": self._n_targets,
             "shift_x": self._shift_x,
             "shift_y": self._shift_y,
         }
@@ -37,17 +37,17 @@ class Field:
 
     def _make_targets(self, make_random_targets=False) -> list[NamedPointWithIcon]:
         targets = []
-        for i in range(self._n_tgt):
-            tgt = PointFactory(
-                "tgt_{}".format(i), self._x_range, self._y_range
+        for i in range(self._n_targets):
+            target = PointFactory(
+                "target_{}".format(i), self._x_range, self._y_range
             ).create_target()
 
             # TODO: expand to preferences as random process!
             if make_random_targets:
                 tgt_x, tgt_y = self._board.get_target_pos_random()
-                tgt.movement.set_position(tgt_x, tgt_y)
+                target.movement.set_position(tgt_x, tgt_y)
 
-            targets.append(tgt)
+            targets.append(target)
 
         return targets
 
@@ -61,15 +61,15 @@ class Field:
         for target, target_pos in zip(self._targets, target_positions):
             target.movement.set_position(target_pos[0], target_pos[1])
 
-        self._curr_tgt_id = 0
+        self._curr_target_id = 0
 
     def get_pos_agent_target(self):
         state = np.stack(
             [
                 self._agent.movement.x,
                 self._agent.movement.y,
-                self._targets[self._curr_tgt_id].movement.x,
-                self._targets[self._curr_tgt_id].movement.y,
+                self._targets[self._curr_target_id].movement.x,
+                self._targets[self._curr_target_id].movement.y,
             ]
         )
 
@@ -85,17 +85,17 @@ class Field:
         return reward, has_visited_all_targets
 
     def _get_reward(self):
-        return -1 * self._agent.distance_l2(self._targets[self._curr_tgt_id])
+        return -1 * self._agent.distance_l2(self._targets[self._curr_target_id])
 
     def _update_target(self):
         has_visited_all_targets = False
-        if self._agent.has_collided(self._targets[self._curr_tgt_id]):
+        if self._agent.has_collided(self._targets[self._curr_target_id]):
             # reward += 5
-            if self._curr_tgt_id == len(self._targets) - 1:
+            if self._curr_target_id == len(self._targets) - 1:
                 # task solved
                 # reward += 100
                 has_visited_all_targets = True
             else:
-                self._curr_tgt_id += 1
+                self._curr_target_id += 1
 
         return has_visited_all_targets
