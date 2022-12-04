@@ -61,11 +61,7 @@ class Field:
             for target in targets:
                 target.movement.set_position(self._board.get_target_pos_random())
         else:
-            target_positions = self._board.get_two_targets_pos_fixed(
-                self._shifts_first_default_target
-            )
-            for target, target_pos in zip(targets, target_positions):
-                target.movement.set_position(target_pos)
+            self._set_targets_position_fixed(targets)
 
     def reset(self) -> None:
         self._agent_and_targets[0].movement.set_position(
