@@ -77,7 +77,7 @@ class Field:
             self._board.get_reset_agent_pos(self._random_spawn_agent)
         )
 
-        self._set_targets_position_fixed(self._agent_and_targets[1])
+        self._set_targets_pos(self._agent_and_targets[1])
 
         self._curr_target_id = 0
 
