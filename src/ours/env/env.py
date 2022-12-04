@@ -9,6 +9,22 @@ from src.ours.env.util.space import SpacesGenerator, ActionConverter
 from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRgb
 
 
+class EpisodeLengthTimer:
+    def __init__(self, max_episode_length=1000):
+        self._max_episode_length, self._curr_episode_length = max_episode_length, 0
+
+    def tick(self):
+        self._curr_episode_length += 1
+
+    def has_elapsed(self):
+        if self._curr_episode_length > self._max_episode_length:
+            return True
+        return False
+
+    def reset(self):
+        self._curr_episode_length = 0
+
+
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super(MovePoint, self).__init__()
