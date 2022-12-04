@@ -35,13 +35,13 @@ class TrajectoryGenerator:
 
     def get_trajectory(self) -> np.ndarray:
         num_steps = 0
-        expert_traj = []
+        trajectories_expert = []
 
-        for i_episode in range(self._expert_manager_param.nr_trajectories):
+        for __ in range(self._expert_manager_param.nr_trajectories):
             obs = self._env.reset()
             done = False
             total_reward = 0
-            episode_traj = []
+            trajectories_episode = []
 
             while not done:
                 action, _states = self._model.predict(
@@ -51,11 +51,11 @@ class TrajectoryGenerator:
 
                 obs = next_ob
                 total_reward += reward
-                stacked_vec = np.hstack(
+                trajectory_curr_step = np.hstack(
                     [np.squeeze(obs), np.squeeze(action), reward, done]
                 )
-                expert_traj.append(stacked_vec)
-                episode_traj.append(stacked_vec)
+                trajectories_expert.append(trajectory_curr_step)
+                trajectories_episode.append(trajectory_curr_step)
                 num_steps += 1
                 if self._expert_manager_param.render:
                     self._env.render()
@@ -64,4 +64,4 @@ class TrajectoryGenerator:
 
         self._env.close()
 
-        return np.stack(expert_traj)
+        return np.stack(trajectories_expert)
