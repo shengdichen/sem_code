@@ -8,10 +8,8 @@ class EmptyBoard:
         self._x_range, self._y_range = self._get_movement_ranges()
 
     def _get_movement_ranges(self) -> tuple[tuple[int, int], tuple[int, int]]:
-        y_min = int(self._shape[0] * 0.1)
-        x_min = 0
-        y_max = int(self._shape[0] * 0.9)
-        x_max = self._shape[1]
+        x_min, x_max = 0, self._shape[1]
+        y_min, y_max = int(self._shape[0] * 0.1), int(self._shape[0] * 0.9)
 
         return (x_min, x_max), (y_min, y_max)
 
@@ -37,7 +35,9 @@ class EmptyBoard:
 
         return pos_x, pos_y
 
-    def get_two_targets_pos_fixed(self, shifts) -> list[tuple[int, int]]:
+    def get_two_targets_pos_fixed(
+        self, shifts: tuple[float, float]
+    ) -> tuple[tuple[float, float], tuple[int, int]]:
         shift_x, shift_y = shifts
 
         pos_target_one = (
@@ -49,8 +49,7 @@ class EmptyBoard:
             int(self._shape[1] * 0.95),
         )
 
-        pos = [pos_target_one, pos_target_two]
-        return pos
+        return pos_target_one, pos_target_two
 
     def get_target_pos_random(self) -> tuple[int, int]:
         pos_x = random.randrange(
