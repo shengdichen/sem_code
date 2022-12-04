@@ -58,12 +58,15 @@ class Field:
     def _set_targets_pos(self, targets: list[NamedPointWithIcon]) -> None:
         # TODO: expand to preferences as random process!
         if self._use_random_targets:
-            for target in targets:
-                target.movement.set_position(self._board.get_target_pos_random())
+            self._set_targets_position_random(targets)
         elif self._n_targets == 2:
             self._set_targets_position_fixed(targets)
         else:
             exit(1)
+
+    def _set_targets_position_random(self, targets: list[NamedPointWithIcon]) -> None:
+        for target in targets:
+            target.movement.set_position(self._board.get_target_pos_random())
 
     def _set_targets_position_fixed(self, targets: list[NamedPointWithIcon]) -> None:
         target_positions = self._board.get_two_targets_pos_fixed(
