@@ -20,7 +20,7 @@ class MovementTwoDim:
         self.y_movement.set(pos_desired_y)
 
     def get_position(self) -> tuple[float, float]:
-        return self.x, self.y
+        return self.x_movement.pos, self.y_movement.pos
 
     def shift(self, shift_by_x: float, shift_by_y: float) -> None:
         self.x_movement.shift(shift_by_x)
