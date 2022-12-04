@@ -44,13 +44,12 @@ class Field:
         return agent
 
     def _make_targets(self) -> list[NamedPointWithIcon]:
-        targets = []
-        for i in range(self._n_targets):
-            target = PointFactory(
+        targets = [
+            PointFactory(
                 "target_{}".format(i), self._x_range, self._y_range
             ).create_target()
-
-            targets.append(target)
+            for i in range(self._n_targets)
+        ]
 
         self._set_targets_pos(targets)
 
