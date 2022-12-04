@@ -121,7 +121,7 @@ class Field:
             self._agent_and_targets[1][self._curr_target_id]
         ):
             # reward += 5
-            if self._curr_target_id == len(self._agent_and_targets[1]) - 1:
+            if self._curr_target_id == self._n_targets - 1:
                 # task solved
                 # reward += 100
                 has_visited_all_targets = True
