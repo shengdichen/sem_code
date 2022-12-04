@@ -71,6 +71,13 @@ class Field:
 
         self._curr_target_id = 0
 
+    def _set_targets_position_fixed(self):
+        target_positions = self._board.get_two_targets_pos_fixed(
+            self._shifts_first_default_target
+        )
+        for target, target_pos in zip(self._agent_and_targets[1], target_positions):
+            target.movement.set_position(target_pos)
+
     def get_pos_agent_target(self) -> np.ndarray:
         state = np.stack(
             [
