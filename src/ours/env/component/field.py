@@ -60,8 +60,10 @@ class Field:
         if self._use_random_targets:
             for target in targets:
                 target.movement.set_position(self._board.get_target_pos_random())
-        else:
+        elif self._n_targets == 2:
             self._set_targets_position_fixed(targets)
+        else:
+            exit(1)
 
     def reset(self) -> None:
         self._agent_and_targets[0].movement.set_position(
