@@ -44,9 +44,10 @@ class PositionVisualizer(VisualizerBase):
         # )
 
     def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
+        pos_x, pos_y = point.movement.get_position()
         self._colormat[
-            point.movement.y : point.movement.y + point.y_icon,
-            point.movement.x : point.movement.x + point.x_icon,
+            pos_y : pos_y + point.y_icon,
+            pos_x : pos_x + point.x_icon,
         ] = point.icon
 
 
@@ -70,7 +71,8 @@ class TrajectoryHeatVisualizer(VisualizerBase):
         # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
 
     def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
+        pos_x, pos_y = point.movement.get_position()
         self._colormat[
-            point.movement.y : point.movement.y + point.y_icon,
-            point.movement.x : point.movement.x + point.x_icon,
+            pos_y : pos_y + point.y_icon,
+            pos_x : pos_x + point.x_icon,
         ] += 1
