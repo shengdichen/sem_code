@@ -5,12 +5,14 @@ from src.ours.env.component.point.point import NamedPointWithIcon, PointFactory
 
 
 class Field:
-    def __init__(self, n_targets=2, shifts=(0, 0), random_spawn_agent=False):
+    def __init__(
+        self, n_targets=2, shifts_first_default_target=(0, 0), random_spawn_agent=False
+    ):
         self._side_length = 200
         self._board = EmptyBoard((self._side_length, self._side_length))
 
         self._x_range, self._y_range = self._board.movement_ranges
-        self._shifts_first_default_target = shifts
+        self._shifts_first_default_target = shifts_first_default_target
 
         self._random_spawn_agent = random_spawn_agent
         self._use_random_targets = False
