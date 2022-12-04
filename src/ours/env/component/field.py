@@ -63,11 +63,7 @@ class Field:
             self._board.get_reset_agent_pos(self._random_spawn_agent)
         )
 
-        target_positions = self._board.get_two_targets_pos_fixed(
-            self._shifts_first_default_target
-        )
-        for target, target_pos in zip(self._agent_and_targets[1], target_positions):
-            target.movement.set_position(target_pos)
+        self._set_targets_position_fixed()
 
         self._curr_target_id = 0
 
