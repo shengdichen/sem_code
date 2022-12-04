@@ -82,6 +82,8 @@ class Field:
 
         if self._use_random_targets:
             self._set_targets_position_random(self.agent_and_targets[1])
+        else:
+            pass  # pos of fixed targets are already set in c'tor
 
         self._curr_target_id = 0
 
