@@ -38,20 +38,22 @@ class TrajectoryGenerator:
         expert_traj = []
 
         for i_episode in range(self._expert_manager_param.nr_trajectories):
-            ob = self._env.reset()
+            obs = self._env.reset()
             done = False
             total_reward = 0
             episode_traj = []
 
             while not done:
-                ac, _states = self._model.predict(
-                    ob, deterministic=self._expert_manager_param.deterministic
+                action, _states = self._model.predict(
+                    obs, deterministic=self._expert_manager_param.deterministic
                 )
-                next_ob, reward, done, _ = self._env.step(ac)
+                next_ob, reward, done, _ = self._env.step(action)
 
-                ob = next_ob
+                obs = next_ob
                 total_reward += reward
-                stacked_vec = np.hstack([np.squeeze(ob), np.squeeze(ac), reward, done])
+                stacked_vec = np.hstack(
+                    [np.squeeze(obs), np.squeeze(action), reward, done]
+                )
                 expert_traj.append(stacked_vec)
                 episode_traj.append(stacked_vec)
                 num_steps += 1
