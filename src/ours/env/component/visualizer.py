@@ -12,7 +12,7 @@ class VisualizerBase(ABC):
         self._colormat_shape = field.shape[0], field.shape[1], 3
 
     @abstractmethod
-    def register_all(self, **kwargs):
+    def visualize(self, **kwargs) -> None:
         pass
 
 
@@ -29,18 +29,12 @@ class PositionVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.ones(self._colormat_shape)
 
-    def register_all(self):
+    def visualize(self) -> None:
         self._colormat = self._make()
 
-        self._register(self._field.agent_and_targets[0])
+        self._visualize_one_point(self._field.agent_and_targets[0])
         for point in self._field.agent_and_targets[1]:
-            self._register(point)
-
-    def _register(self, point: NamedPointWithIcon) -> None:
-        self._colormat[
-            point.movement.y : point.movement.y + point.y_icon,
-            point.movement.x : point.movement.x + point.x_icon,
-        ] = point.icon
+            self._visualize_one_point(point)
 
         # text = 'Time Left: {} | Rewards: {}'.format(self.time, self.ep_return)
 
@@ -48,6 +42,12 @@ class PositionVisualizer(VisualizerBase):
         # self.canvas = cv2.putText(
         #     self.canvas, text, (10, 20), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA
         # )
+
+    def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
+        self._colormat[
+            point.movement.y : point.movement.y + point.y_icon,
+            point.movement.x : point.movement.x + point.x_icon,
+        ] = point.icon
 
 
 class TrajectoryHeatVisualizer(VisualizerBase):
@@ -63,14 +63,14 @@ class TrajectoryHeatVisualizer(VisualizerBase):
     def _make(self) -> np.ndarray:
         return np.zeros(self._colormat_shape)
 
-    def register_all(self):
-        self._register(self._field.agent_and_targets[0])
+    def visualize(self) -> None:
+        self._visualize_one_point(self._field.agent_and_targets[0])
 
-    def _register(self, point: NamedPointWithIcon) -> None:
+        # normalize hist canvas
+        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
+
+    def _visualize_one_point(self, point: NamedPointWithIcon) -> None:
         self._colormat[
             point.movement.y : point.movement.y + point.y_icon,
             point.movement.x : point.movement.x + point.x_icon,
         ] += 1
-
-        # normalize hist canvas
-        # self.canvas_hist = self.canvas_hist / np.sum(self.canvas_hist)
