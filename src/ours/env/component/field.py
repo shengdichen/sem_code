@@ -65,6 +65,13 @@ class Field:
         else:
             exit(1)
 
+    def _set_targets_position_fixed(self, targets):
+        target_positions = self._board.get_two_targets_pos_fixed(
+            self._shifts_first_default_target
+        )
+        for target, target_pos in zip(targets, target_positions):
+            target.movement.set_position(target_pos)
+
     def reset(self) -> None:
         self._agent_and_targets[0].movement.set_position(
             self._board.get_reset_agent_pos(self._random_spawn_agent)
@@ -73,13 +80,6 @@ class Field:
         self._set_targets_position_fixed(self._agent_and_targets[1])
 
         self._curr_target_id = 0
-
-    def _set_targets_position_fixed(self, targets):
-        target_positions = self._board.get_two_targets_pos_fixed(
-            self._shifts_first_default_target
-        )
-        for target, target_pos in zip(targets, target_positions):
-            target.movement.set_position(target_pos)
 
     def get_pos_agent_target(self) -> np.ndarray:
         state = np.stack(
