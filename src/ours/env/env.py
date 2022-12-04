@@ -10,7 +10,7 @@ from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRg
 
 
 class MovePoint(Env):
-    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_init=False):
+    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super(MovePoint, self).__init__()
 
         self._side_length = 200
@@ -19,7 +19,7 @@ class MovePoint(Env):
         ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
-        self._field = Field(n_targets, (shift_x, shift_y), random_init)
+        self._field = Field(n_targets, (shift_x, shift_y), random_spawn_agent)
         self._position_visualizer = PositionVisualizer(self._field)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._field)
 
