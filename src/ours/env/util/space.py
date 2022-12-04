@@ -25,19 +25,19 @@ class SpacesGenerator:
 
 
 class ActionConverter:
-    def __init__(self, action: int, action_space: spaces.Space):
-        assert action_space.contains(action), "Invalid Action"
+    def __init__(self, action_raw: int, action_space: spaces.Space):
+        assert action_space.contains(action_raw), "Invalid Action"
 
-        self._action = action
+        self._action_raw = action_raw
 
-    def get_shift(self):
-        if self._action == 0:
+    def get_action_converted(self):
+        if self._action_raw == 0:
             shift = 0, 2
-        elif self._action == 1:
+        elif self._action_raw == 1:
             shift = 0, -2
-        elif self._action == 2:
+        elif self._action_raw == 2:
             shift = 2, 0
-        elif self._action == 3:
+        elif self._action_raw == 3:
             shift = -2, 0
         else:
             shift = 0, 0

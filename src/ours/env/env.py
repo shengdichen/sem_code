@@ -46,8 +46,10 @@ class MovePoint(Env):
         return obs
 
     def step(self, action: int):
-        shift = ActionConverter(action, self.action_space).get_shift()
-        reward, self._done = self._field.step(shift)
+        action_converted = ActionConverter(
+            action, self.action_space
+        ).get_action_converted()
+        reward, self._done = self._field.step(action_converted)
 
         self._draw_elements_on_canvas()
 
