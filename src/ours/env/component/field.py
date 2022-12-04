@@ -21,7 +21,7 @@ class Field:
         self._agent_and_targets = [self._make_agent(), self._make_targets()]
 
     @property
-    def env_config(self):
+    def config(self):
         return {
             "n_targets": self._n_targets,
             "shift_x": self._shifts_first_default_target[0],
