@@ -21,6 +21,10 @@ class EpisodeLengthTimer:
             return True
         return False
 
+    def advance(self):
+        self.tick()
+        return self.has_elapsed()
+
     def reset(self):
         self._curr_episode_length = 0
 
