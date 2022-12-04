@@ -88,12 +88,16 @@ class Field:
         self._curr_target_id = 0
 
     def get_pos_agent_target(self) -> np.ndarray:
+        agent_pos_x, agent_pos_y = self._agent_and_targets[0].movement.get_position()
+        curr_target_pos_x, curr_target_pos_y = self._agent_and_targets[1][
+            self._curr_target_id
+        ].movement.get_position()
         state = np.stack(
             [
-                self._agent_and_targets[0].movement.x,
-                self._agent_and_targets[0].movement.y,
-                self._agent_and_targets[1][self._curr_target_id].movement.x,
-                self._agent_and_targets[1][self._curr_target_id].movement.y,
+                agent_pos_x,
+                agent_pos_y,
+                curr_target_pos_x,
+                curr_target_pos_y,
             ]
         )
 
