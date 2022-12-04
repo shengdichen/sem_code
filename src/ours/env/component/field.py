@@ -55,7 +55,7 @@ class Field:
 
         return targets
 
-    def _set_targets_pos(self, targets):
+    def _set_targets_pos(self, targets: list[NamedPointWithIcon]) -> None:
         # TODO: expand to preferences as random process!
         if self._use_random_targets:
             for target in targets:
@@ -65,7 +65,7 @@ class Field:
         else:
             exit(1)
 
-    def _set_targets_position_fixed(self, targets):
+    def _set_targets_position_fixed(self, targets: list[NamedPointWithIcon]) -> None:
         target_positions = self._board.get_two_targets_pos_fixed(
             self._shifts_first_default_target
         )
