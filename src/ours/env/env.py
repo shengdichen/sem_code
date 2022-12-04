@@ -28,7 +28,7 @@ class MovePoint(Env):
 
     @property
     def env_config(self):
-        return self._field.env_config
+        return self._field.config
 
     def _draw_elements_on_canvas(self):
         self._position_visualizer.visualize()
