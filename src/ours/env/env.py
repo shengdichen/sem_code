@@ -43,7 +43,7 @@ class MovePoint(Env):
         self._position_visualizer = PositionVisualizer(self._field)
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._field)
 
-        self._max_episode_length, self._curr_episode_length = 1000, 0
+        self._episode_timer = EpisodeLengthTimer(1000)
         self._done = False
 
     @property
@@ -59,7 +59,7 @@ class MovePoint(Env):
 
         self._draw_elements_on_canvas()
 
-        self._curr_episode_length = 0
+        self._episode_timer.reset()
         self._done = False
 
         obs = self._get_obs()
@@ -75,9 +75,7 @@ class MovePoint(Env):
 
         obs = self._get_obs()
 
-        self._curr_episode_length += 1
-        if self._curr_episode_length == self._max_episode_length:
-            self._done = True
+        self._done = self._episode_timer.advance()
 
         return obs, reward, self._done, {}
 
