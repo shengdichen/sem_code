@@ -6,21 +6,13 @@ class MovementTwoDim:
         self.x_movement = MovementOneDim(x_min_max_with_icon)
         self.y_movement = MovementOneDim(y_min_max_with_icon)
 
-    @property
-    def x(self):
-        return self.x_movement.pos
-
-    @property
-    def y(self):
-        return self.y_movement.pos
-
     def set_position(self, pos_desired: tuple[float, float]) -> None:
         pos_desired_x, pos_desired_y = pos_desired
         self.x_movement.set(pos_desired_x)
         self.y_movement.set(pos_desired_y)
 
     def get_position(self) -> tuple[float, float]:
-        return self.x, self.y
+        return self.x_movement.pos, self.y_movement.pos
 
     def shift(self, shift_by_x: float, shift_by_y: float) -> None:
         self.x_movement.shift(shift_by_x)
