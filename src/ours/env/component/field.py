@@ -50,15 +50,14 @@ class Field:
                 "target_{}".format(i), self._x_range, self._y_range
             ).create_target()
 
-            # TODO: expand to preferences as random process!
-            if self._use_random_targets:
-                target.movement.set_position(self._board.get_target_pos_random())
-
             targets.append(target)
+
+        self._set_targets_pos(targets)
 
         return targets
 
     def _set_targets_pos(self, targets):
+        # TODO: expand to preferences as random process!
         if self._use_random_targets:
             for target in targets:
                 target.movement.set_position(self._board.get_target_pos_random())
