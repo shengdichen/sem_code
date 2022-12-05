@@ -216,6 +216,8 @@ class Plotter:
             # action distribution
             plt.hist(demo[:, 4])
 
+            plt.show()
+
         # reward stats
         num_episodes = np.sum(demo[:, -1])
         rew_avg = np.mean(demo[:, -2])
