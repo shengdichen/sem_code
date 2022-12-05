@@ -252,12 +252,12 @@ class Plotter:
 
     @staticmethod
     def get_hist_data(demo, nr=40, canvas_size=200):
-        x = demo[:, 0]
-        y = demo[:, 1]
+        agent_pos_x = demo[:, 0]
+        agent_pos_y = demo[:, 1]
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
-        return x, y, [x_bins, y_bins]
+        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
     @staticmethod
     def get_np_min_max(vec: np.ndarray):
