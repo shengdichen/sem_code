@@ -208,6 +208,7 @@ class Plotter:
     def plot_traj(demo: np.ndarray, plot=False) -> None:
         # state visitation
         if plot:
+            x, y, [x_bins, y_bins] = Plotter.get_hist_data(demo)
             plt.figure()
             plt.hist2d(x, y, bins=[x_bins, y_bins])
 
