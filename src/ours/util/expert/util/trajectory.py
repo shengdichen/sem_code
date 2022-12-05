@@ -47,9 +47,9 @@ class TrajectoryGenerator:
                 action, _states = self._model.predict(
                     obs, deterministic=self._expert_manager_param.deterministic
                 )
-                next_ob, reward, done, _ = self._env.step(action)
+                next_obs, reward, done, _ = self._env.step(action)
 
-                obs = next_ob
+                obs = next_obs
                 total_reward += reward
                 trajectory_curr_step = np.hstack(
                     [np.squeeze(obs), np.squeeze(action), reward, done]
