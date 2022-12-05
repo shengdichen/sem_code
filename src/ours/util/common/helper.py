@@ -205,9 +205,7 @@ class Plotter:
         plt.scatter(x_tgt, y_tgt, c="r")
 
     @staticmethod
-    def plot_traj(fname, plot=False):
-        demo = np.load(fname)
-
+    def plot_traj(demo: np.ndarray, plot=False) -> None:
         # state visitation
         if plot:
             plt.figure()
@@ -239,7 +237,7 @@ class Plotter:
         ep_rew_max = np.max(ep_rew_list)
 
         print("Demo file stats")
-        print(fname)
+        # print(fname)
         print("-------------")
         print("Number of episodes: ", num_episodes)
         print("Reward stats: ", rew_avg, " +- ", rew_std)
@@ -247,8 +245,6 @@ class Plotter:
         print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
         print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
         print("-------------")
-
-        return demo
 
     @staticmethod
     def get_hist_data(demo, nr=40, canvas_size=200):
