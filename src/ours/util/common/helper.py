@@ -155,8 +155,8 @@ class RewardCheckpointCallback(BaseCallback):
 
 
 class Plotter:
-    def __init__(self):
-        pass  # intentionally left empty
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
 
     @staticmethod
     # TODO:
