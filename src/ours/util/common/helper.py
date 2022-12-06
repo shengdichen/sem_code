@@ -204,10 +204,9 @@ class Plotter:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
 
-    @staticmethod
-    def make_subplot(trajectory: np.ndarray, plot_hist: bool) -> None:
-        agent_pos_x, agent_pos_y, bins = Plotter.get_hist_data(trajectory)
-        target_pos_x, target_pos_y = trajectory[:, 2], trajectory[:, 3]
+    def make_subplot(self, plot_hist: bool) -> None:
+        agent_pos_x, agent_pos_y, bins = self.get_hist_data()
+        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
 
         if plot_hist:
             plt.hist2d(agent_pos_x, agent_pos_y, bins)
@@ -217,30 +216,29 @@ class Plotter:
 
         plt.show()
 
-    @staticmethod
-    def plot_traj(demo: np.ndarray, plot=False) -> None:
+    def plot_traj(self, plot=False) -> None:
         # state visitation
         if plot:
-            x, y, [x_bins, y_bins] = Plotter.get_hist_data(demo)
+            x, y, [x_bins, y_bins] = self.get_hist_data()
             plt.figure()
             plt.hist2d(x, y, bins=[x_bins, y_bins])
 
             plt.figure()
             # action distribution
-            plt.hist(demo[:, 4])
+            plt.hist(self._trajectory[:, 4])
 
             plt.show()
 
         # reward stats
-        num_episodes = np.sum(demo[:, -1])
-        rew_avg = np.mean(demo[:, -2])
-        rew_std = np.std(demo[:, -2])
-        rew_min = np.min(demo[:, -2])
-        rew_max = np.max(demo[:, -2])
+        num_episodes = np.sum(self._trajectory[:, -1])
+        rew_avg = np.mean(self._trajectory[:, -2])
+        rew_std = np.std(self._trajectory[:, -2])
+        rew_min = np.min(self._trajectory[:, -2])
+        rew_max = np.max(self._trajectory[:, -2])
 
         ep_rew_list = []
         ep_rew = 0
-        for sard in demo:
+        for sard in self._trajectory:
             ep_rew += sard[-2]
             if sard[-1] == 1:
                 ep_rew_list.append(ep_rew)
@@ -262,10 +260,9 @@ class Plotter:
         print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
         print("-------------")
 
-    @staticmethod
-    def get_hist_data(demo, nr=40, canvas_size=200):
-        agent_pos_x = demo[:, 0]
-        agent_pos_y = demo[:, 1]
+    def get_hist_data(self, nr=40, canvas_size=200):
+        agent_pos_x = self._trajectory[:, 0]
+        agent_pos_y = self._trajectory[:, 1]
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
