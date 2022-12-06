@@ -206,13 +206,13 @@ class Plotter:
 
     @staticmethod
     def make_subplot(trajectory: np.ndarray, plot_hist: bool) -> None:
-        x, y, bins = Plotter.get_hist_data(trajectory)
-        target_pos_x = trajectory[:, 2]
-        target_pos_y = trajectory[:, 3]
+        agent_pos_x, agent_pos_y, bins = Plotter.get_hist_data(trajectory)
+        target_pos_x, target_pos_y = trajectory[:, 2], trajectory[:, 3]
+
         if plot_hist:
-            plt.hist2d(x, y, bins)
+            plt.hist2d(agent_pos_x, agent_pos_y, bins)
         else:
-            plt.plot(x, y, "m-", alpha=0.3)
+            plt.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
         plt.scatter(target_pos_x, target_pos_y, c="r")
 
     @staticmethod
