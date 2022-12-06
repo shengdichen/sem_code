@@ -205,15 +205,15 @@ class Plotter:
         plt.scatter(x_tgt, y_tgt, c="r")
 
     @staticmethod
-    def make_subplot(demo, hist: bool):
-        x, y, bins = Plotter.get_hist_data(demo)
-        x_tgt = demo[:, 2]
-        y_tgt = demo[:, 3]
-        if hist:
+    def make_subplot(trajectory: np.ndarray, plot_hist: bool) -> None:
+        x, y, bins = Plotter.get_hist_data(trajectory)
+        target_pos_x = trajectory[:, 2]
+        target_pos_y = trajectory[:, 3]
+        if plot_hist:
             plt.hist2d(x, y, bins)
         else:
             plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
+        plt.scatter(target_pos_x, target_pos_y, c="r")
 
     @staticmethod
     def plot_traj(demo: np.ndarray, plot=False) -> None:
