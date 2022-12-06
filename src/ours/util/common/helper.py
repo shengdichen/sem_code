@@ -215,6 +215,8 @@ class Plotter:
             plt.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
         plt.scatter(target_pos_x, target_pos_y, c="r")
 
+        plt.show()
+
     @staticmethod
     def plot_traj(demo: np.ndarray, plot=False) -> None:
         # state visitation
