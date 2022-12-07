@@ -225,15 +225,7 @@ class Plotter:
         # reward stats
         rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
 
-        ep_rew_list = []
-        ep_rew = 0
-        for sard in self._trajectory:
-            ep_rew += sard[-2]
-            if sard[-1] == 1:
-                ep_rew_list.append(ep_rew)
-                # print("episode_reward", ep_rew)
-                ep_rew = 0
-
+        ep_rew_list = self._get_episode_reward_list()
         ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max = self._get_episode_reward_stats(
             ep_rew_list
         )
@@ -276,6 +268,18 @@ class Plotter:
         rew_max = float(np.max(self._trajectory[:, -2]))
 
         return rew_avg, rew_std, rew_min, rew_max
+
+    def _get_episode_reward_list(self) -> list:
+        ep_rew_list = []
+        ep_rew = 0
+        for sard in self._trajectory:
+            ep_rew += sard[-2]
+            if sard[-1] == 1:
+                ep_rew_list.append(ep_rew)
+                # print("episode_reward", ep_rew)
+                ep_rew = 0
+
+        return ep_rew_list
 
     @staticmethod
     def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
