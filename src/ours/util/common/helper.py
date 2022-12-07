@@ -219,13 +219,11 @@ class Plotter:
     def plot_traj(self, plot=False) -> None:
         # state visitation
         if plot:
-            x, y, [x_bins, y_bins] = self.get_hist_data()
             __, axs = plt.subplots(1, 2)
 
-            axs[0].hist2d(x, y, bins=[x_bins, y_bins])
+            self._plot_hist(axs[0])
 
-            # action distribution
-            axs[1].hist(self._trajectory[:, 4])
+            self._plot_action(axs[1])
 
             plt.show()
 
@@ -259,6 +257,14 @@ class Plotter:
         print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
         print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
         print("-------------")
+
+    def _plot_hist(self, ax: plt.Axes) -> None:
+        x, y, [x_bins, y_bins] = self.get_hist_data()
+        ax.hist2d(x, y, bins=[x_bins, y_bins])
+
+    def _plot_action(self, ax: plt.Axes) -> None:
+        # action distribution
+        ax.hist(self._trajectory[:, 4])
 
     def get_hist_data(self, nr=40, canvas_size=200):
         agent_pos_x = self._trajectory[:, 0]
