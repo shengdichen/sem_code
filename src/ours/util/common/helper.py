@@ -205,14 +205,13 @@ class Plotter:
         plt.scatter(x_tgt, y_tgt, c="r")
 
     def make_subplot(self, plot_hist: bool) -> None:
-        agent_pos_x, agent_pos_y, bins = self.get_hist_data()
-        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
+        __, axs = plt.subplots(1, 2)
 
         if plot_hist:
-            plt.hist2d(agent_pos_x, agent_pos_y, bins)
+            self._plot_hist(axs[0])
         else:
-            plt.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
-        plt.scatter(target_pos_x, target_pos_y, c="r")
+            self._plot_agent(axs[0])
+        self._plot_target(axs[1])
 
         plt.show()
 
