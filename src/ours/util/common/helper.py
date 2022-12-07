@@ -178,16 +178,14 @@ class Plotter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
-    def plot_agent_and_target(self, plot_hist: bool) -> None:
-        __, axs = plt.subplots(1, 2)
-
+    def plot_agent_and_target(
+        self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
+    ) -> None:
         if plot_hist:
             self._plot_hist(axs[0])
         else:
             self._plot_agent(axs[0])
         self._plot_target(axs[1])
-
-        plt.show()
 
     def _plot_agent(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y, __ = self.get_hist_data()
