@@ -219,7 +219,6 @@ class Plotter:
     def display_stats(self) -> None:
         num_episodes = self._get_num_episodes()
 
-        # reward stats
         rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
 
         ep_rew_list = self._get_episode_reward_list()
@@ -228,7 +227,6 @@ class Plotter:
         )
 
         print("Demo file stats")
-        # print(fname)
         print("-------------")
         print("Number of episodes: ", num_episodes)
         print("Reward stats: ", rew_avg, " +- ", rew_std)
