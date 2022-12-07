@@ -223,10 +223,7 @@ class Plotter:
         num_episodes = self._get_num_episodes()
 
         # reward stats
-        rew_avg = np.mean(self._trajectory[:, -2])
-        rew_std = np.std(self._trajectory[:, -2])
-        rew_min = np.min(self._trajectory[:, -2])
-        rew_max = np.max(self._trajectory[:, -2])
+        rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
 
         ep_rew_list = []
         ep_rew = 0
@@ -271,6 +268,15 @@ class Plotter:
 
     def _get_num_episodes(self) -> int:
         return int(np.sum(self._trajectory[:, -1]))
+
+    def _get_reward_stats(self) -> tuple[float, float, float, float]:
+        # reward stats
+        rew_avg = float(np.mean(self._trajectory[:, -2]))
+        rew_std = float(np.std(self._trajectory[:, -2]))
+        rew_min = float(np.min(self._trajectory[:, -2]))
+        rew_max = float(np.max(self._trajectory[:, -2]))
+
+        return rew_avg, rew_std, rew_min, rew_max
 
     def get_hist_data(self, nr=40, canvas_size=200):
         agent_pos_x = self._trajectory[:, 0]
