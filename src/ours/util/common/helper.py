@@ -159,7 +159,7 @@ class TrajectoriesPlotter:
         self._trajectories = trajectories
         self._n_trajectories = len(trajectories)
 
-    def plot_experts(self, hist=True):
+    def plot_experts(self, plot_hist=True):
         for trajectory in self._trajectories:
             Plotter(trajectory).display_stats()
 
@@ -168,7 +168,7 @@ class TrajectoriesPlotter:
 
         for trajectory, subfigure in zip(self._trajectories, subfigures):
             axs = subfigure.subplots(1, 2)
-            Plotter(trajectory).plot_agent_and_target(axs, hist)
+            Plotter(trajectory).plot_agent_and_target(axs, plot_hist)
 
         plt.show()
 
