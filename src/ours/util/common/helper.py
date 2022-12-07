@@ -216,6 +216,14 @@ class Plotter:
 
         plt.show()
 
+    def _plot_agent(self, ax: plt.Axes) -> None:
+        agent_pos_x, agent_pos_y, __ = self.get_hist_data()
+        ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
+
+    def _plot_target(self, ax: plt.Axes) -> None:
+        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
+        ax.scatter(target_pos_x, target_pos_y, c="r")
+
     def display_stats(self) -> None:
         num_episodes = self._get_num_episodes()
 
