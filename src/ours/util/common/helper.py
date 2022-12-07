@@ -204,7 +204,7 @@ class Plotter:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
 
-    def make_subplot(self, plot_hist: bool) -> None:
+    def plot_agent_and_target(self, plot_hist: bool) -> None:
         __, axs = plt.subplots(1, 2)
 
         if plot_hist:
