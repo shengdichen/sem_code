@@ -159,8 +159,6 @@ class TrajectoriesPlotter:
         self._trajectories = trajectories
         self._n_trajectories = len(trajectories)
 
-    # TODO:
-    #   name of demo-file should be a parameter, not hard-coded!
     def plot_experts(self, hist=True):
         for trajectory in self._trajectories:
             Plotter(trajectory).display_stats()
