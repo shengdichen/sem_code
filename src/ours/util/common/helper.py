@@ -155,6 +155,9 @@ class RewardCheckpointCallback(BaseCallback):
 
 
 class TrajectoriesPlotter:
+    def __init__(self, trajectories: list[np.ndarray]):
+        self._trajectories = trajectories
+
     @staticmethod
     # TODO:
     #   name of demo-file should be a parameter, not hard-coded!
