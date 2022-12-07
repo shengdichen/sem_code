@@ -234,10 +234,9 @@ class Plotter:
                 # print("episode_reward", ep_rew)
                 ep_rew = 0
 
-        ep_rew_avg = np.mean(ep_rew_list)
-        ep_rew_std = np.std(ep_rew_list)
-        ep_rew_min = np.min(ep_rew_list)
-        ep_rew_max = np.max(ep_rew_list)
+        ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max = self._get_episode_reward_stats(
+            ep_rew_list
+        )
 
         print("Demo file stats")
         # print(fname)
@@ -277,6 +276,15 @@ class Plotter:
         rew_max = float(np.max(self._trajectory[:, -2]))
 
         return rew_avg, rew_std, rew_min, rew_max
+
+    @staticmethod
+    def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
+        ep_rew_avg = float(np.mean(ep_rew_list))
+        ep_rew_std = float(np.std(ep_rew_list))
+        ep_rew_min = float(np.min(ep_rew_list))
+        ep_rew_max = float(np.max(ep_rew_list))
+
+        return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
     def get_hist_data(self, nr=40, canvas_size=200):
         agent_pos_x = self._trajectory[:, 0]
