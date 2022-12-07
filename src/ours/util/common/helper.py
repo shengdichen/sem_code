@@ -227,8 +227,9 @@ class Plotter:
 
             plt.show()
 
+        num_episodes = self._get_num_episodes()
+
         # reward stats
-        num_episodes = np.sum(self._trajectory[:, -1])
         rew_avg = np.mean(self._trajectory[:, -2])
         rew_std = np.std(self._trajectory[:, -2])
         rew_min = np.min(self._trajectory[:, -2])
@@ -265,6 +266,9 @@ class Plotter:
     def _plot_action(self, ax: plt.Axes) -> None:
         # action distribution
         ax.hist(self._trajectory[:, 4])
+
+    def _get_num_episodes(self) -> int:
+        return int(np.sum(self._trajectory[:, -1]))
 
     def get_hist_data(self, nr=40, canvas_size=200):
         agent_pos_x = self._trajectory[:, 0]
