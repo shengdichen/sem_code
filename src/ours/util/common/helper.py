@@ -217,15 +217,8 @@ class Plotter:
         plt.show()
 
     def plot_traj(self, plot=False) -> None:
-        # state visitation
         if plot:
-            __, axs = plt.subplots(1, 2)
-
-            self._plot_hist(axs[0])
-
-            self._plot_action(axs[1])
-
-            plt.show()
+            self._plot_hist_and_action()
 
         num_episodes = self._get_num_episodes()
 
@@ -258,6 +251,15 @@ class Plotter:
         print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
         print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
         print("-------------")
+
+    def _plot_hist_and_action(self) -> None:
+        # state visitation
+        __, axs = plt.subplots(1, 2)
+
+        self._plot_hist(axs[0])
+        self._plot_action(axs[1])
+
+        plt.show()
 
     def _plot_hist(self, ax: plt.Axes) -> None:
         x, y, [x_bins, y_bins] = self.get_hist_data()
