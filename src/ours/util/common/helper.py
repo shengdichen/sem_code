@@ -216,7 +216,7 @@ class Plotter:
 
         plt.show()
 
-    def plot_traj(self) -> None:
+    def display_stats(self) -> None:
         num_episodes = self._get_num_episodes()
 
         # reward stats
