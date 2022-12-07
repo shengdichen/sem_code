@@ -168,8 +168,7 @@ class TrajectoriesPlotter:
 
         for trajectory, subfigure in zip(self._trajectories, subfigures):
             axs = subfigure.subplots(1, 2)
-            Plotter(trajectory)._plot_agent(axs[0])
-            Plotter(trajectory)._plot_target(axs[1])
+            Plotter(trajectory).plot_agent_and_target(axs, hist)
 
         plt.show()
 
