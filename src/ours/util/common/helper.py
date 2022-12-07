@@ -154,6 +154,56 @@ class RewardCheckpointCallback(BaseCallback):
         pass
 
 
+class TrajectoriesPlotter:
+    @staticmethod
+    # TODO:
+    #   name of demo-file should be a parameter, not hard-coded!
+    def plot_experts(n_timesteps=3e5, hist=True):
+        demo1 = Plotter.plot_traj(
+            "demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"
+        )
+        demo2 = Plotter.plot_traj(
+            "demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"
+        )
+        demo3 = Plotter.plot_traj(
+            "demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"
+        )
+
+        plt.figure(figsize=[15, 5])
+
+        plt.subplot(131)
+        x, y, bins = Plotter.get_hist_data(demo1)
+        x_tgt = demo1[:, 2]
+        y_tgt = demo1[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
+        plt.scatter(x_tgt, y_tgt, c="r")
+
+        plt.subplot(132)
+        x, y, bins = Plotter.get_hist_data(demo2)
+        x_tgt = demo2[:, 2]
+        y_tgt = demo2[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
+        plt.scatter(x_tgt, y_tgt, c="r")
+
+        plt.subplot(133)
+        x, y, bins = Plotter.get_hist_data(demo3)
+        x_tgt = demo3[:, 2]
+        y_tgt = demo3[:, 3]
+        if hist:
+            plt.hist2d(x, y, bins)
+        else:
+            plt.plot(x, y, "m-", alpha=0.3)
+        plt.scatter(x_tgt, y_tgt, c="r")
+
+
+
+
 class Plotter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
