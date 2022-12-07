@@ -158,19 +158,11 @@ class TrajectoriesPlotter:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
-    @staticmethod
     # TODO:
     #   name of demo-file should be a parameter, not hard-coded!
-    def plot_experts(n_timesteps=3e5, hist=True):
-        demo1 = Plotter.plot_traj(
-            "demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"
-        )
-        demo2 = Plotter.plot_traj(
-            "demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"
-        )
-        demo3 = Plotter.plot_traj(
-            "demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"
-        )
+    def plot_experts(self, hist=True):
+        for trajectory in self._trajectories:
+            Plotter(trajectory).display_stats()
 
         plt.figure(figsize=[15, 5])
 
