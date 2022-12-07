@@ -216,10 +216,7 @@ class Plotter:
 
         plt.show()
 
-    def plot_traj(self, plot=False) -> None:
-        if plot:
-            self._plot_hist_and_action()
-
+    def plot_traj(self) -> None:
         num_episodes = self._get_num_episodes()
 
         # reward stats
