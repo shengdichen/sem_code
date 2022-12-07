@@ -164,39 +164,15 @@ class TrajectoriesPlotter:
         for trajectory in self._trajectories:
             Plotter(trajectory).display_stats()
 
-        plt.figure(figsize=[15, 5])
+        figure = plt.figure(figsize=[15, 5])
+        subfigures = figure.subfigures(1, self._n_trajectories)
 
-        plt.subplot(131)
-        x, y, bins = Plotter.get_hist_data(demo1)
-        x_tgt = demo1[:, 2]
-        y_tgt = demo1[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
+        for trajectory, subfigure in zip(self._trajectories, subfigures):
+            axs = subfigure.subplots(1, 2)
+            Plotter(trajectory)._plot_agent(axs[0])
+            Plotter(trajectory)._plot_target(axs[1])
 
-        plt.subplot(132)
-        x, y, bins = Plotter.get_hist_data(demo2)
-        x_tgt = demo2[:, 2]
-        y_tgt = demo2[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
-
-        plt.subplot(133)
-        x, y, bins = Plotter.get_hist_data(demo3)
-        x_tgt = demo3[:, 2]
-        y_tgt = demo3[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
-
-
+        plt.show()
 
 
 class Plotter:
