@@ -220,12 +220,12 @@ class Plotter:
         # state visitation
         if plot:
             x, y, [x_bins, y_bins] = self.get_hist_data()
-            plt.figure()
-            plt.hist2d(x, y, bins=[x_bins, y_bins])
+            __, axs = plt.subplots(1, 2)
 
-            plt.figure()
+            axs[0].hist2d(x, y, bins=[x_bins, y_bins])
+
             # action distribution
-            plt.hist(self._trajectory[:, 4])
+            axs[1].hist(self._trajectory[:, 4])
 
             plt.show()
 
