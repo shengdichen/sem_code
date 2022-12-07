@@ -184,6 +184,7 @@ class TrajectoryInspector:
             self._plot_hist(axs[0])
         else:
             self._plot_agent(axs[0])
+
         self._plot_target(axs[1])
 
     def _plot_agent(self, ax: plt.Axes) -> None:
