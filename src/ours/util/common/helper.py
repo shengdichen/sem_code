@@ -154,66 +154,37 @@ class RewardCheckpointCallback(BaseCallback):
         pass
 
 
+class TrajectoriesPlotter:
+    def __init__(self, trajectories: list[np.ndarray]):
+        self._trajectories = trajectories
+        self._n_trajectories = len(trajectories)
+
+    def plot_experts(self, plot_hist=True):
+        for trajectory in self._trajectories:
+            Plotter(trajectory).display_stats()
+
+        figure = plt.figure(figsize=[15, 5])
+        subfigures = figure.subfigures(1, self._n_trajectories)
+
+        for trajectory, subfigure in zip(self._trajectories, subfigures):
+            axs = subfigure.subplots(1, 2)
+            Plotter(trajectory).plot_agent_and_target(axs, plot_hist)
+
+        plt.show()
+
+
 class Plotter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
-    @staticmethod
-    # TODO:
-    #   name of demo-file should be a parameter, not hard-coded!
-    def plot_experts(n_timesteps=3e5, hist=True):
-        demo1 = Plotter.plot_traj(
-            "demos/exp_0_0" + str(n_timesteps) + "_expert_traj.npy"
-        )
-        demo2 = Plotter.plot_traj(
-            "demos/exp_50_0" + str(n_timesteps) + "_expert_traj.npy"
-        )
-        demo3 = Plotter.plot_traj(
-            "demos/exp_0_50" + str(n_timesteps) + "_expert_traj.npy"
-        )
-
-        plt.figure(figsize=[15, 5])
-
-        plt.subplot(131)
-        x, y, bins = Plotter.get_hist_data(demo1)
-        x_tgt = demo1[:, 2]
-        y_tgt = demo1[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
-
-        plt.subplot(132)
-        x, y, bins = Plotter.get_hist_data(demo2)
-        x_tgt = demo2[:, 2]
-        y_tgt = demo2[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
-
-        plt.subplot(133)
-        x, y, bins = Plotter.get_hist_data(demo3)
-        x_tgt = demo3[:, 2]
-        y_tgt = demo3[:, 3]
-        if hist:
-            plt.hist2d(x, y, bins)
-        else:
-            plt.plot(x, y, "m-", alpha=0.3)
-        plt.scatter(x_tgt, y_tgt, c="r")
-
-    def plot_agent_and_target(self, plot_hist: bool) -> None:
-        __, axs = plt.subplots(1, 2)
-
+    def plot_agent_and_target(
+        self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
+    ) -> None:
         if plot_hist:
             self._plot_hist(axs[0])
         else:
             self._plot_agent(axs[0])
         self._plot_target(axs[1])
-
-        plt.show()
 
     def _plot_agent(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y, __ = self.get_hist_data()
