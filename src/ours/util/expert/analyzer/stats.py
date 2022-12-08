@@ -87,6 +87,20 @@ class TrajectoryInterpreter:
 
 
 class MinMaxUtil:
+    def __init__(self, data: np.ndarray):
+        self._data = data
+        self._stats = self._make_stats()
+
+    @property
+    def stats(self):
+        return self._stats
+
+    def _make_stats(self):
+        return float(np.min(self._data)), float(np.max(self._data))
+
+    def __str__(self):
+        return "{0} / {1}".format(self._stats[0], self._stats[1])
+
     @staticmethod
     def get_np_min_max(vec: np.ndarray) -> tuple[float, float]:
         return float(np.min(vec)), float(np.max(vec))
