@@ -297,10 +297,10 @@ class TrajectoryInterpreter:
     def done(self):
         return self._trajectory[:, 6]
 
-    def _get_num_episodes(self) -> int:
+    def get_num_episodes(self) -> int:
         return int(np.sum(self.done))
 
-    def _get_reward_stats(self) -> tuple[float, float, float, float]:
+    def get_reward_stats(self) -> tuple[float, float, float, float]:
         # reward stats
         rew_avg, rew_std = TrajectoryInterpreter._get_avg_std(self.reward)
         rew_min, rew_max = MinMaxUtil.get_np_min_max(self.reward)
@@ -319,7 +319,7 @@ class TrajectoryInterpreter:
 
         return np.array(ep_rew_list)
 
-    def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
+    def get_episode_reward_stats(self) -> tuple[float, float, float, float]:
         ep_rew_list = self._get_episode_reward_list()
 
         ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(ep_rew_list)
