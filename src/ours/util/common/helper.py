@@ -307,7 +307,7 @@ class TrajectoryInterpreter:
 
         return rew_avg, rew_std, rew_min, rew_max
 
-    def _get_episode_reward_list(self) -> list:
+    def _get_episode_reward_list(self) -> np.ndarray:
         ep_rew_list = []
         ep_rew = 0
         for sard in self._trajectory:
@@ -317,7 +317,7 @@ class TrajectoryInterpreter:
                 # print("episode_reward", ep_rew)
                 ep_rew = 0
 
-        return ep_rew_list
+        return np.array(ep_rew_list)
 
     def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
         ep_rew_list = self._get_episode_reward_list()
