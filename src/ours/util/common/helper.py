@@ -175,8 +175,7 @@ class TrajectoriesPlotter:
 
 class TrajectoryInspector:
     def __init__(self, trajectory: np.ndarray):
-        self._trajectory = trajectory
-        self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
+        self._trajectory_interpreter = TrajectoryInterpreter(trajectory)
 
         self._bins_hist = self._make_bins_hist()
 
