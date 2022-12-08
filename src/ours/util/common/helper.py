@@ -210,7 +210,6 @@ class TrajectoryInspector:
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def _plot_hist_and_action(self) -> None:
-        # state visitation
         __, axs = plt.subplots(1, 2)
 
         self._plot_agent_hist(axs[0])
@@ -219,7 +218,6 @@ class TrajectoryInspector:
         plt.show()
 
     def _plot_action(self, ax: plt.Axes) -> None:
-        # action distribution
         ax.hist(self._trajectory_interpreter.action)
 
     def display_stats(self) -> None:
