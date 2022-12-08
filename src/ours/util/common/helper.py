@@ -178,6 +178,15 @@ class TrajectoryInspector:
         self._trajectory = trajectory
         self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
 
+        self._bins_hist = self._make_bins_hist()
+
+    @staticmethod
+    def _make_bins_hist(nr=40, canvas_size=200):
+        x_bins = np.linspace(0, canvas_size, nr)
+        y_bins = np.linspace(0, canvas_size, nr)
+
+        return x_bins, y_bins
+
     def plot_agent_and_target(
         self, axs: tuple[plt.Axes, plt.Axes], plot_agent_with_hist: bool
     ) -> None:
@@ -190,7 +199,7 @@ class TrajectoryInspector:
 
     def _plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
-        __, __, [x_bins, y_bins] = self.get_hist_data()
+        [x_bins, y_bins] = self._bins_hist
         ax.hist2d(agent_pos_x, agent_pos_y, bins=[x_bins, y_bins])
 
     def _plot_agent_direct(self, ax: plt.Axes) -> None:
@@ -213,13 +222,6 @@ class TrajectoryInspector:
     def _plot_action(self, ax: plt.Axes) -> None:
         # action distribution
         ax.hist(self._trajectory_interpreter.action)
-
-    def get_hist_data(self, nr=40, canvas_size=200):
-        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
-        x_bins = np.linspace(0, canvas_size, nr)
-        y_bins = np.linspace(0, canvas_size, nr)
-
-        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
     def display_stats(self) -> None:
         self._trajectory_interpreter.display_stats()
