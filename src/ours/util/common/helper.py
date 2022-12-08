@@ -196,10 +196,10 @@ class TrajectoryInterpreter:
         return self._trajectory[:, 5]
 
     @property
-    def done(self):
+    def done(self) -> np.ndarray:
         return self._trajectory[:, 6]
 
-    def display_stats(self):
+    def display_stats(self) -> None:
         num_episodes = self.get_num_episodes()
 
         (
