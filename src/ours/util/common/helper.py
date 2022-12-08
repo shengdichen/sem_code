@@ -278,4 +278,6 @@ class TrajectoryInspector:
 
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
-        return TrajectoryInspector.get_np_min_max(vec_x), TrajectoryInspector.get_np_min_max(vec_y)
+        return TrajectoryInspector.get_np_min_max(
+            vec_x
+        ), TrajectoryInspector.get_np_min_max(vec_y)
