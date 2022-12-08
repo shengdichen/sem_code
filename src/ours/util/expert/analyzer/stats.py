@@ -107,3 +107,6 @@ class AvgStdUtil:
 
     def _make_stats(self):
         return float(np.mean(self._data)), float(np.std(self._data))
+
+    def __str__(self):
+        return "{0} +- {1}".format(self._stats[0], self._stats[1])
