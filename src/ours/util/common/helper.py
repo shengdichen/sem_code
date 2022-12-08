@@ -189,7 +189,7 @@ class TrajectoryInspector:
         self._plot_target(axs[1])
 
     def _plot_agent(self, ax: plt.Axes) -> None:
-        agent_pos_x, agent_pos_y, __ = self.get_hist_data()
+        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
     def _plot_target(self, ax: plt.Axes) -> None:
