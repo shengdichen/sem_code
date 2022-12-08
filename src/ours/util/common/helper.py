@@ -176,6 +176,7 @@ class TrajectoriesPlotter:
 class TrajectoryInspector:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
+        self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
 
     def plot_agent_and_target(
         self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
