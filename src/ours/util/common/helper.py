@@ -337,8 +337,8 @@ class TrajectoryInterpreter:
 
 class MinMaxUtil:
     @staticmethod
-    def get_np_min_max(vec: np.ndarray):
-        return np.min(vec), np.max(vec)
+    def get_np_min_max(vec: np.ndarray) -> tuple[float, float]:
+        return float(np.min(vec)), float(np.max(vec))
 
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
