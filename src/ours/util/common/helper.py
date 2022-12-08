@@ -155,8 +155,8 @@ class RewardCheckpointCallback(BaseCallback):
 
 
 class Plotter:
-    def __init__(self):
-        pass  # intentionally left empty
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
 
     @staticmethod
     # TODO:
@@ -204,42 +204,36 @@ class Plotter:
             plt.plot(x, y, "m-", alpha=0.3)
         plt.scatter(x_tgt, y_tgt, c="r")
 
-    @staticmethod
-    def plot_traj(fname, plot=False):
-        demo = np.load(fname)
+    def plot_agent_and_target(self, plot_hist: bool) -> None:
+        __, axs = plt.subplots(1, 2)
 
-        # state visitation
-        if plot:
-            plt.figure()
-            plt.hist2d(x, y, bins=[x_bins, y_bins])
+        if plot_hist:
+            self._plot_hist(axs[0])
+        else:
+            self._plot_agent(axs[0])
+        self._plot_target(axs[1])
 
-            plt.figure()
-            # action distribution
-            plt.hist(demo[:, 4])
+        plt.show()
 
-        # reward stats
-        num_episodes = np.sum(demo[:, -1])
-        rew_avg = np.mean(demo[:, -2])
-        rew_std = np.std(demo[:, -2])
-        rew_min = np.min(demo[:, -2])
-        rew_max = np.max(demo[:, -2])
+    def _plot_agent(self, ax: plt.Axes) -> None:
+        agent_pos_x, agent_pos_y, __ = self.get_hist_data()
+        ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
-        ep_rew_list = []
-        ep_rew = 0
-        for sard in demo:
-            ep_rew += sard[-2]
-            if sard[-1] == 1:
-                ep_rew_list.append(ep_rew)
-                # print("episode_reward", ep_rew)
-                ep_rew = 0
+    def _plot_target(self, ax: plt.Axes) -> None:
+        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
+        ax.scatter(target_pos_x, target_pos_y, c="r")
 
-        ep_rew_avg = np.mean(ep_rew_list)
-        ep_rew_std = np.std(ep_rew_list)
-        ep_rew_min = np.min(ep_rew_list)
-        ep_rew_max = np.max(ep_rew_list)
+    def display_stats(self) -> None:
+        num_episodes = self._get_num_episodes()
+
+        rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
+
+        ep_rew_list = self._get_episode_reward_list()
+        ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max = self._get_episode_reward_stats(
+            ep_rew_list
+        )
 
         print("Demo file stats")
-        print(fname)
         print("-------------")
         print("Number of episodes: ", num_episodes)
         print("Reward stats: ", rew_avg, " +- ", rew_std)
@@ -248,16 +242,63 @@ class Plotter:
         print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
         print("-------------")
 
-        return demo
+    def _plot_hist_and_action(self) -> None:
+        # state visitation
+        __, axs = plt.subplots(1, 2)
+
+        self._plot_hist(axs[0])
+        self._plot_action(axs[1])
+
+        plt.show()
+
+    def _plot_hist(self, ax: plt.Axes) -> None:
+        x, y, [x_bins, y_bins] = self.get_hist_data()
+        ax.hist2d(x, y, bins=[x_bins, y_bins])
+
+    def _plot_action(self, ax: plt.Axes) -> None:
+        # action distribution
+        ax.hist(self._trajectory[:, 4])
+
+    def _get_num_episodes(self) -> int:
+        return int(np.sum(self._trajectory[:, -1]))
+
+    def _get_reward_stats(self) -> tuple[float, float, float, float]:
+        # reward stats
+        rew_avg = float(np.mean(self._trajectory[:, -2]))
+        rew_std = float(np.std(self._trajectory[:, -2]))
+        rew_min = float(np.min(self._trajectory[:, -2]))
+        rew_max = float(np.max(self._trajectory[:, -2]))
+
+        return rew_avg, rew_std, rew_min, rew_max
+
+    def _get_episode_reward_list(self) -> list:
+        ep_rew_list = []
+        ep_rew = 0
+        for sard in self._trajectory:
+            ep_rew += sard[-2]
+            if sard[-1] == 1:
+                ep_rew_list.append(ep_rew)
+                # print("episode_reward", ep_rew)
+                ep_rew = 0
+
+        return ep_rew_list
 
     @staticmethod
-    def get_hist_data(demo, nr=40, canvas_size=200):
-        x = demo[:, 0]
-        y = demo[:, 1]
+    def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
+        ep_rew_avg = float(np.mean(ep_rew_list))
+        ep_rew_std = float(np.std(ep_rew_list))
+        ep_rew_min = float(np.min(ep_rew_list))
+        ep_rew_max = float(np.max(ep_rew_list))
+
+        return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
+
+    def get_hist_data(self, nr=40, canvas_size=200):
+        agent_pos_x = self._trajectory[:, 0]
+        agent_pos_y = self._trajectory[:, 1]
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
-        return x, y, [x_bins, y_bins]
+        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
     @staticmethod
     def get_np_min_max(vec: np.ndarray):
