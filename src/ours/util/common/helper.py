@@ -193,7 +193,7 @@ class TrajectoryInspector:
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
     def _plot_target(self, ax: plt.Axes) -> None:
-        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
+        target_pos_x, target_pos_y = self._trajectory_interpreter.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def display_stats(self) -> None:
@@ -230,19 +230,13 @@ class TrajectoryInspector:
 
     def _plot_action(self, ax: plt.Axes) -> None:
         # action distribution
-        ax.hist(self._trajectory[:, 4])
+        ax.hist(self._trajectory_interpreter.action)
 
     def _get_num_episodes(self) -> int:
-        return int(np.sum(self._trajectory[:, -1]))
+        return self._trajectory_interpreter.get_num_episodes()
 
     def _get_reward_stats(self) -> tuple[float, float, float, float]:
-        # reward stats
-        rew_avg = float(np.mean(self._trajectory[:, -2]))
-        rew_std = float(np.std(self._trajectory[:, -2]))
-        rew_min = float(np.min(self._trajectory[:, -2]))
-        rew_max = float(np.max(self._trajectory[:, -2]))
-
-        return rew_avg, rew_std, rew_min, rew_max
+        return self._trajectory_interpreter.get_reward_stats()
 
     def _get_episode_reward_list(self) -> list:
         ep_rew_list = []
@@ -266,8 +260,7 @@ class TrajectoryInspector:
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
     def get_hist_data(self, nr=40, canvas_size=200):
-        agent_pos_x = self._trajectory[:, 0]
-        agent_pos_y = self._trajectory[:, 1]
+        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
