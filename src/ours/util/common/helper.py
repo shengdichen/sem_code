@@ -272,12 +272,12 @@ class TrajectoryInspector:
 
         return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
+
+class MinMaxUtil:
     @staticmethod
     def get_np_min_max(vec: np.ndarray):
         return np.min(vec), np.max(vec)
 
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
-        return TrajectoryInspector.get_np_min_max(
-            vec_x
-        ), TrajectoryInspector.get_np_min_max(vec_y)
+        return MinMaxUtil.get_np_min_max(vec_x), MinMaxUtil.get_np_min_max(vec_y)
