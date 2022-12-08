@@ -179,9 +179,9 @@ class TrajectoryInspector:
         self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
 
     def plot_agent_and_target(
-        self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
+        self, axs: tuple[plt.Axes, plt.Axes], plot_agent_with_hist: bool
     ) -> None:
-        if plot_hist:
+        if plot_agent_with_hist:
             self._plot_agent_hist(axs[0])
         else:
             self._plot_agent_direct(axs[0])
