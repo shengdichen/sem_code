@@ -50,14 +50,15 @@ class MovePoint(Env):
         action_converted = ActionConverter(
             action, self.action_space
         ).get_action_converted()
-        reward, self._done = self._field.step(action_converted)
+        reward, has_visited_all_targets = self._field.step(action_converted)
 
         self._draw_elements_on_canvas()
 
         obs = self._get_obs()
 
-        self._done = self._episode_timer.advance()
+        has_elapsed = self._episode_timer.advance()
 
+        self._done = has_visited_all_targets and has_elapsed
         return obs, reward, self._done, {}
 
     def _get_obs(self):
