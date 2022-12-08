@@ -14,7 +14,6 @@ class TrajectoryInterpreter:
             ep_rew += sard[-2]
             if sard[-1] == 1:
                 ep_rew_list.append(ep_rew)
-                # print("episode_reward", ep_rew)
                 ep_rew = 0
 
         return np.array(ep_rew_list)
@@ -62,7 +61,6 @@ class TrajectoryInterpreter:
         return int(np.sum(self.done))
 
     def _get_reward_stats(self) -> tuple[float, float, float, float]:
-        # reward stats
         rew_avg, rew_std = TrajectoryInterpreter._get_avg_std(self.reward)
         rew_min, rew_max = MinMaxUtil.get_np_min_max(self.reward)
 
