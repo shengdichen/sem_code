@@ -319,8 +319,9 @@ class TrajectoryInterpreter:
 
         return ep_rew_list
 
-    @staticmethod
-    def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
+    def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
+        ep_rew_list = self._get_episode_reward_list()
+
         ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(ep_rew_list)
         ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(ep_rew_list)
 
