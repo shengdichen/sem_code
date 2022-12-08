@@ -94,3 +94,16 @@ class MinMaxUtil:
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
         return MinMaxUtil.get_np_min_max(vec_x), MinMaxUtil.get_np_min_max(vec_y)
+
+
+class AvgStdUtil:
+    def __init__(self, data: np.ndarray):
+        self._data = data
+        self._stats = self._make_stats()
+
+    @property
+    def stats(self):
+        return self._stats
+
+    def _make_stats(self):
+        return float(np.mean(self._data)), float(np.std(self._data))
