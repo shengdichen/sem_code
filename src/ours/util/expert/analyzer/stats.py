@@ -5,6 +5,8 @@ class TrajectoryInterpreter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
+        self._episode_reward_list = self._get_episode_reward_list()
+
     @property
     def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
         return self._trajectory[:, 0], self._trajectory[:, 1]
@@ -67,10 +69,10 @@ class TrajectoryInterpreter:
         return np.array(ep_rew_list)
 
     def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
-        ep_rew_list = self._get_episode_reward_list()
-
-        ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(ep_rew_list)
-        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(ep_rew_list)
+        ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(
+            self._episode_reward_list
+        )
+        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(self._episode_reward_list)
 
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
