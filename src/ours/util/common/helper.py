@@ -297,6 +297,9 @@ class TrajectoryInterpreter:
     def done(self):
         return self._trajectory[:, 6]
 
+    def _get_num_episodes(self) -> int:
+        return int(np.sum(self.done))
+
 
 class MinMaxUtil:
     @staticmethod
