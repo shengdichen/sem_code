@@ -197,30 +197,7 @@ class TrajectoryInspector:
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def display_stats(self) -> None:
-        num_episodes = self._trajectory_interpreter.get_num_episodes()
-
-        (
-            rew_avg,
-            rew_std,
-            rew_min,
-            rew_max,
-        ) = self._trajectory_interpreter.get_reward_stats()
-
-        (
-            ep_rew_avg,
-            ep_rew_std,
-            ep_rew_min,
-            ep_rew_max,
-        ) = self._trajectory_interpreter.get_episode_reward_stats()
-
-        print("Demo file stats")
-        print("-------------")
-        print("Number of episodes: ", num_episodes)
-        print("Reward stats: ", rew_avg, " +- ", rew_std)
-        print("Reward min / max", rew_min, " / ", rew_max)
-        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
-        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
-        print("-------------")
+        self._trajectory_interpreter.display_stats()
 
     def _plot_hist_and_action(self) -> None:
         # state visitation
@@ -270,6 +247,32 @@ class TrajectoryInterpreter:
     @property
     def done(self):
         return self._trajectory[:, 6]
+
+    def display_stats(self):
+        num_episodes = self.get_num_episodes()
+
+        (
+            rew_avg,
+            rew_std,
+            rew_min,
+            rew_max,
+        ) = self.get_reward_stats()
+
+        (
+            ep_rew_avg,
+            ep_rew_std,
+            ep_rew_min,
+            ep_rew_max,
+        ) = self.get_episode_reward_stats()
+
+        print("Demo file stats")
+        print("-------------")
+        print("Number of episodes: ", num_episodes)
+        print("Reward stats: ", rew_avg, " +- ", rew_std)
+        print("Reward min / max", rew_min, " / ", rew_max)
+        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
+        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
+        print("-------------")
 
     def get_num_episodes(self) -> int:
         return int(np.sum(self.done))
