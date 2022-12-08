@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.util.common.helper import TrajectoryInterpreter
+from src.ours.util.expert.analyzer.stats import TrajectoryInterpreter
 
 
 class TrajectoryInspector:
