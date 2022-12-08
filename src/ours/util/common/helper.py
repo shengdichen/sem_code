@@ -189,8 +189,9 @@ class TrajectoryInspector:
         self._plot_target(axs[1])
 
     def _plot_agent_hist(self, ax: plt.Axes) -> None:
-        x, y, [x_bins, y_bins] = self.get_hist_data()
-        ax.hist2d(x, y, bins=[x_bins, y_bins])
+        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
+        __, __, [x_bins, y_bins] = self.get_hist_data()
+        ax.hist2d(agent_pos_x, agent_pos_y, bins=[x_bins, y_bins])
 
     def _plot_agent_direct(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
