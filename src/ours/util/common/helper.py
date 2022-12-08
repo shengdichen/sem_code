@@ -196,9 +196,6 @@ class TrajectoryInspector:
         target_pos_x, target_pos_y = self._trajectory_interpreter.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
-    def display_stats(self) -> None:
-        self._trajectory_interpreter.display_stats()
-
     def _plot_hist_and_action(self) -> None:
         # state visitation
         __, axs = plt.subplots(1, 2)
@@ -222,6 +219,9 @@ class TrajectoryInspector:
         y_bins = np.linspace(0, canvas_size, nr)
 
         return agent_pos_x, agent_pos_y, [x_bins, y_bins]
+
+    def display_stats(self) -> None:
+        self._trajectory_interpreter.display_stats()
 
 
 class TrajectoryInterpreter:
