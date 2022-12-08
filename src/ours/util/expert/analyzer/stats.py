@@ -41,20 +41,17 @@ class TrajectoryInterpreter:
     def display_stats(self) -> None:
         num_episodes = self._get_num_episodes()
 
-        (
-            ep_rew_avg,
-            ep_rew_std,
-            ep_rew_min,
-            ep_rew_max,
-        ) = self._get_episode_reward_stats()
-
         print("Demo file stats")
         print("-------------")
         print("Number of episodes: ", num_episodes)
         print("Reward (global): {0}".format(AvgStdUtil(self.reward)))
         print("Reward (global): {0}".format(MinMaxUtil(self.reward)))
-        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
-        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
+        print("Episode reward stats: {0}".format(AvgStdUtil(self._episode_reward_list)))
+        print(
+            "Episode reward min / max: {0}".format(
+                MinMaxUtil(self._episode_reward_list)
+            )
+        )
         print("-------------")
 
     def _get_num_episodes(self) -> int:
