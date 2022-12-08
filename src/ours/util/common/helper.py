@@ -197,16 +197,21 @@ class TrajectoryInspector:
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def display_stats(self) -> None:
-        num_episodes = self._get_num_episodes()
+        num_episodes = self._trajectory_interpreter.get_num_episodes()
 
-        rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
+        (
+            rew_avg,
+            rew_std,
+            rew_min,
+            rew_max,
+        ) = self._trajectory_interpreter.get_reward_stats()
 
         (
             ep_rew_avg,
             ep_rew_std,
             ep_rew_min,
             ep_rew_max,
-        ) = self._get_episode_reward_stats()
+        ) = self._trajectory_interpreter.get_episode_reward_stats()
 
         print("Demo file stats")
         print("-------------")
@@ -233,15 +238,6 @@ class TrajectoryInspector:
     def _plot_action(self, ax: plt.Axes) -> None:
         # action distribution
         ax.hist(self._trajectory_interpreter.action)
-
-    def _get_num_episodes(self) -> int:
-        return self._trajectory_interpreter.get_num_episodes()
-
-    def _get_reward_stats(self) -> tuple[float, float, float, float]:
-        return self._trajectory_interpreter.get_reward_stats()
-
-    def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
-        return self._trajectory_interpreter.get_episode_reward_stats()
 
     def get_hist_data(self, nr=40, canvas_size=200):
         agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
