@@ -330,6 +330,10 @@ class TrajectoryInterpreter:
 
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
+    @staticmethod
+    def _get_avg_std(data: np.ndarray) -> tuple[float, float]:
+        return float(np.mean(data)), float(np.std(data))
+
 
 class MinMaxUtil:
     @staticmethod
