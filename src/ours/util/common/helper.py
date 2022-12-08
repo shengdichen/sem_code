@@ -302,10 +302,8 @@ class TrajectoryInterpreter:
 
     def _get_reward_stats(self) -> tuple[float, float, float, float]:
         # reward stats
-        rew_avg = float(np.mean(self.reward))
-        rew_std = float(np.std(self.reward))
-        rew_min = float(np.min(self.reward))
-        rew_max = float(np.max(self.reward))
+        rew_avg, rew_std = TrajectoryInterpreter._get_avg_std(self.reward)
+        rew_min, rew_max = MinMaxUtil.get_np_min_max(self.reward)
 
         return rew_avg, rew_std, rew_min, rew_max
 
@@ -323,10 +321,8 @@ class TrajectoryInterpreter:
 
     @staticmethod
     def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
-        ep_rew_avg = float(np.mean(ep_rew_list))
-        ep_rew_std = float(np.std(ep_rew_list))
-        ep_rew_min = float(np.min(ep_rew_list))
-        ep_rew_max = float(np.max(ep_rew_list))
+        ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(ep_rew_list)
+        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(ep_rew_list)
 
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
