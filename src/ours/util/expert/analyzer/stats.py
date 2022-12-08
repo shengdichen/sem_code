@@ -99,7 +99,7 @@ class MinMaxUtil:
         return float(np.min(self._data)), float(np.max(self._data))
 
     def __str__(self):
-        return "{0} / {1}".format(self._stats[0], self._stats[1])
+        return "[<min> / <max>] | {0} / {1}".format(self._stats[0], self._stats[1])
 
     @staticmethod
     def get_np_min_max(vec: np.ndarray) -> tuple[float, float]:
@@ -123,4 +123,4 @@ class AvgStdUtil:
         return float(np.mean(self._data)), float(np.std(self._data))
 
     def __str__(self):
-        return "{0} +- {1}".format(self._stats[0], self._stats[1])
+        return "[<avg> +- <std>] | {0} +- {1}".format(self._stats[0], self._stats[1])
