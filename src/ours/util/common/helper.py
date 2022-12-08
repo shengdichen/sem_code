@@ -273,6 +273,31 @@ class TrajectoryInspector:
         return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
 
+class TrajectoryInterpreter:
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
+
+    @property
+    def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 0], self._trajectory[:, 1]
+
+    @property
+    def target_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 2], self._trajectory[:, 3]
+
+    @property
+    def action(self) -> np.ndarray:
+        return self._trajectory[:, 4]
+
+    @property
+    def reward(self) -> np.ndarray:
+        return self._trajectory[:, 5]
+
+    @property
+    def done(self):
+        return self._trajectory[:, 6]
+
+
 class MinMaxUtil:
     @staticmethod
     def get_np_min_max(vec: np.ndarray):
