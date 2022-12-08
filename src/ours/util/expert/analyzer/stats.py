@@ -7,6 +7,18 @@ class TrajectoryInterpreter:
 
         self._episode_reward_list = self._get_episode_reward_list()
 
+    def _get_episode_reward_list(self) -> np.ndarray:
+        ep_rew_list = []
+        ep_rew = 0
+        for sard in self._trajectory:
+            ep_rew += sard[-2]
+            if sard[-1] == 1:
+                ep_rew_list.append(ep_rew)
+                # print("episode_reward", ep_rew)
+                ep_rew = 0
+
+        return np.array(ep_rew_list)
+
     @property
     def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
         return self._trajectory[:, 0], self._trajectory[:, 1]
@@ -55,18 +67,6 @@ class TrajectoryInterpreter:
         rew_min, rew_max = MinMaxUtil.get_np_min_max(self.reward)
 
         return rew_avg, rew_std, rew_min, rew_max
-
-    def _get_episode_reward_list(self) -> np.ndarray:
-        ep_rew_list = []
-        ep_rew = 0
-        for sard in self._trajectory:
-            ep_rew += sard[-2]
-            if sard[-1] == 1:
-                ep_rew_list.append(ep_rew)
-                # print("episode_reward", ep_rew)
-                ep_rew = 0
-
-        return np.array(ep_rew_list)
 
     def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
         ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(
