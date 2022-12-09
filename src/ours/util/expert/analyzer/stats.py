@@ -75,6 +75,24 @@ class TrajectoryInterpreter:
         return float(np.mean(data)), float(np.std(data))
 
 
+class AvgStdUtil:
+    def __init__(self, data: np.ndarray):
+        self._data = data
+        self._stats = self._make_stats()
+
+    @property
+    def stats(self):
+        return self._stats
+
+    def _make_stats(self):
+        return float(np.mean(self._data)), float(np.std(self._data))
+
+    def __str__(self):
+        return "[<avg> +- <std>] | {0:.4} +- {1:.4}".format(
+            self._stats[0], self._stats[1]
+        )
+
+
 class MinMaxUtil:
     def __init__(self, data: np.ndarray):
         self._data = data
@@ -99,21 +117,3 @@ class MinMaxUtil:
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
         return MinMaxUtil.get_np_min_max(vec_x), MinMaxUtil.get_np_min_max(vec_y)
-
-
-class AvgStdUtil:
-    def __init__(self, data: np.ndarray):
-        self._data = data
-        self._stats = self._make_stats()
-
-    @property
-    def stats(self):
-        return self._stats
-
-    def _make_stats(self):
-        return float(np.mean(self._data)), float(np.std(self._data))
-
-    def __str__(self):
-        return "[<avg> +- <std>] | {0:.4} +- {1:.4}".format(
-            self._stats[0], self._stats[1]
-        )
