@@ -5,18 +5,18 @@ class TrajectoryInterpreter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
-        self._episode_reward_list = self._get_episode_reward_list()
+        self._rewards_per_episode = self._get_rewards_per_episode()
 
-    def _get_episode_reward_list(self) -> np.ndarray:
-        ep_rew_list = []
-        ep_rew = 0
+    def _get_rewards_per_episode(self) -> np.ndarray:
+        rewards_per_episode = []
+        reward_current_episode = 0
         for sard in self._trajectory:
-            ep_rew += sard[-2]
+            reward_current_episode += sard[-2]
             if sard[-1] == 1:
-                ep_rew_list.append(ep_rew)
-                ep_rew = 0
+                rewards_per_episode.append(reward_current_episode)
+                reward_current_episode = 0
 
-        return np.array(ep_rew_list)
+        return np.array(rewards_per_episode)
 
     @property
     def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
@@ -46,8 +46,8 @@ class TrajectoryInterpreter:
         print("Reward (global): {0}".format(AvgStdUtil(self.reward)))
         print("Reward (global): {0}".format(MinMaxUtil(self.reward)))
 
-        print("Reward (episode): {0}".format(AvgStdUtil(self._episode_reward_list)))
-        print("Reward (episode): {0}".format(MinMaxUtil(self._episode_reward_list)))
+        print("Reward (episode): {0}".format(AvgStdUtil(self._rewards_per_episode)))
+        print("Reward (episode): {0}".format(MinMaxUtil(self._rewards_per_episode)))
         print("-------------")
 
     def _get_num_episodes(self) -> int:
@@ -61,9 +61,9 @@ class TrajectoryInterpreter:
 
     def _get_episode_reward_stats(self) -> tuple[float, float, float, float]:
         ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(
-            self._episode_reward_list
+            self._rewards_per_episode
         )
-        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(self._episode_reward_list)
+        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(self._rewards_per_episode)
 
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
