@@ -10,9 +10,10 @@ class TrajectoryInterpreter:
     def _get_rewards_per_episode(self) -> np.ndarray:
         rewards_per_episode = []
         reward_current_episode = 0
-        for sard in self._trajectory:
-            reward_current_episode += sard[-2]
-            if sard[-1] == 1:
+
+        for data_current_step in self._trajectory:
+            reward_current_episode += data_current_step[-2]
+            if data_current_step[-1]:  # current episode is over at this step
                 rewards_per_episode.append(reward_current_episode)
                 reward_current_episode = 0
 
