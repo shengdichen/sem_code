@@ -46,12 +46,8 @@ class TrajectoryInterpreter:
         print("Number of episodes: ", num_episodes)
         print("Reward (global): {0}".format(AvgStdUtil(self.reward)))
         print("Reward (global): {0}".format(MinMaxUtil(self.reward)))
-        print("Episode reward stats: {0}".format(AvgStdUtil(self._episode_reward_list)))
-        print(
-            "Episode reward min / max: {0}".format(
-                MinMaxUtil(self._episode_reward_list)
-            )
-        )
+        print("Reward (episode): {0}".format(AvgStdUtil(self._episode_reward_list)))
+        print("Reward (episode): {0}".format(MinMaxUtil(self._episode_reward_list)))
         print("-------------")
 
     def _get_num_episodes(self) -> int:
