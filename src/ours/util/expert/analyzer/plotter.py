@@ -1,12 +1,12 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.util.expert.analyzer.stats import TrajectoryInterpreter
+from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
 class TrajectoryInspector:
     def __init__(self, trajectory: np.ndarray):
-        self._trajectory_interpreter = TrajectoryInterpreter(trajectory)
+        self._trajectory_stats = TrajectoryStats(trajectory)
 
         self._bins_hist = self._make_bins_hist()
 
@@ -28,15 +28,15 @@ class TrajectoryInspector:
         self._plot_target(axs[1])
 
     def _plot_agent_hist(self, ax: plt.Axes) -> None:
-        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
+        agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
     def _plot_agent_direct(self, ax: plt.Axes) -> None:
-        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
+        agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
     def _plot_target(self, ax: plt.Axes) -> None:
-        target_pos_x, target_pos_y = self._trajectory_interpreter.target_pos
+        target_pos_x, target_pos_y = self._trajectory_stats.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def _plot_hist_and_action(self) -> None:
@@ -48,7 +48,7 @@ class TrajectoryInspector:
         plt.show()
 
     def _plot_action(self, ax: plt.Axes) -> None:
-        ax.hist(self._trajectory_interpreter.action)
+        ax.hist(self._trajectory_stats.action)
 
     def display_stats(self) -> None:
-        self._trajectory_interpreter.display_stats()
+        self._trajectory_stats.display_stats()

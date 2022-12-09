@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class TrajectoryInterpreter:
+class TrajectoryStats:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
