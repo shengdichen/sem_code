@@ -81,10 +81,10 @@ class AvgStdUtil:
         self._stats = self._make_stats()
 
     @property
-    def stats(self):
+    def stats(self) -> tuple[float, float]:
         return self._stats
 
-    def _make_stats(self):
+    def _make_stats(self) -> tuple[float, float]:
         return float(np.mean(self._data)), float(np.std(self._data))
 
     def __str__(self):
@@ -99,10 +99,10 @@ class MinMaxUtil:
         self._stats = self._make_stats()
 
     @property
-    def stats(self):
+    def stats(self) -> tuple[float, float]:
         return self._stats
 
-    def _make_stats(self):
+    def _make_stats(self) -> tuple[float, float]:
         return float(np.min(self._data)), float(np.max(self._data))
 
     def __str__(self):
@@ -115,5 +115,7 @@ class MinMaxUtil:
         return float(np.min(vec)), float(np.max(vec))
 
     @staticmethod
-    def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
+    def get_np_min_max_x_y(
+        vec_x: np.ndarray, vec_y: np.ndarray
+    ) -> tuple[tuple[float, float], tuple[float, float]]:
         return MinMaxUtil.get_np_min_max(vec_x), MinMaxUtil.get_np_min_max(vec_y)
