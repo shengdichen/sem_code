@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
-class TrajectoryInspector:
+class TrajectoryPlotter:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory_stats = TrajectoryStats(trajectory)
 
