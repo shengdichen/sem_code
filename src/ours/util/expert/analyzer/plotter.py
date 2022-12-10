@@ -27,6 +27,14 @@ class TrajectoryPlotter:
 
         self._plot_target(axs[1])
 
+    def _plot_hist_and_action(self) -> None:
+        __, axs = plt.subplots(1, 2)
+
+        self._plot_agent_hist(axs[0])
+        self._plot_action(axs[1])
+
+        plt.show()
+
     def _plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
@@ -38,14 +46,6 @@ class TrajectoryPlotter:
     def _plot_target(self, ax: plt.Axes) -> None:
         target_pos_x, target_pos_y = self._trajectory_stats.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
-
-    def _plot_hist_and_action(self) -> None:
-        __, axs = plt.subplots(1, 2)
-
-        self._plot_agent_hist(axs[0])
-        self._plot_action(axs[1])
-
-        plt.show()
 
     def _plot_action(self, ax: plt.Axes) -> None:
         ax.hist(self._trajectory_stats.action)
