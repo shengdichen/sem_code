@@ -9,13 +9,12 @@ from src.ours.util.expert.analyzer.stats import TrajectoryStats
 class TrajectoriesAnalyzer:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
-        self._n_trajectories = len(trajectories)
 
         self._figures = self._get_configured_figures()
 
     def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
         figure = plt.figure(figsize=[15, 5])
-        subfigures = figure.subfigures(1, self._n_trajectories)
+        subfigures = figure.subfigures(1, len(self._trajectories))
 
         return subfigures
 
