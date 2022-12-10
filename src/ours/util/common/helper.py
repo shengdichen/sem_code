@@ -7,6 +7,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
 from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
+from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
 class RewardPlotter:
@@ -175,7 +176,7 @@ class TrajectoriesPlotter:
 
     def plot_experts(self, plot_hist=True):
         for trajectory in self._trajectories:
-            TrajectoryPlotter(trajectory).display_stats()
+            TrajectoryStats(trajectory).display_stats()
 
         for trajectory, subfigure in zip(self._trajectories, self._figures):
             axs = subfigure.subplots(1, 2)
