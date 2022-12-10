@@ -5,7 +5,7 @@ from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
 from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
-class TrajectoriesPlotter:
+class TrajectoriesAnalyzer:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
         self._n_trajectories = len(trajectories)
