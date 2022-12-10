@@ -1,3 +1,4 @@
+import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -12,17 +13,17 @@ class TrajectoriesAnalyzer:
 
         self._figures = self._get_configured_figures()
 
-    def _get_configured_figures(self):
+    def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
         figure = plt.figure(figsize=[15, 5])
         subfigures = figure.subfigures(1, self._n_trajectories)
 
         return subfigures
 
     @staticmethod
-    def _show_figures():
+    def _show_figures() -> None:
         plt.show()
 
-    def analyze(self, plot_hist=True):
+    def analyze(self, plot_hist: bool = True) -> None:
         for trajectory in self._trajectories:
             TrajectoryStats(trajectory).display_stats()
 
