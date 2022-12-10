@@ -18,7 +18,7 @@ class TrajectoryPlotter:
 
         return x_bins, y_bins
 
-    def plot_agent(self, ax: plt.Axes, plot_hist: bool = True) -> None:
+    def plot_agent(self, ax: plt.Axes, plot_hist: bool) -> None:
         if plot_hist:
             self._plot_agent_hist(ax)
         else:
