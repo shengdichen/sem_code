@@ -18,6 +18,12 @@ class TrajectoryPlotter:
 
         return x_bins, y_bins
 
+    def plot_agent(self, ax: plt.Axes, plot_hist: bool = True) -> None:
+        if plot_hist:
+            self.plot_agent_hist(ax)
+        else:
+            self.plot_agent_direct(ax)
+
     def plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
