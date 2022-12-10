@@ -1,3 +1,4 @@
+import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -52,3 +53,29 @@ class TrajectoryPlotter:
 
     def display_stats(self) -> None:
         self._trajectory_stats.display_stats()
+
+
+class TrajectoryMultiPlotter:
+    def __init__(
+        self,
+        trajectory_plotter: TrajectoryPlotter,
+        figure: matplotlib.figure.Figure | matplotlib.figure.SubFigure,
+    ):
+        self._trajectory_plotter = trajectory_plotter
+        self._figure = figure
+
+    def plot_agent_and_target(self, plot_agent_with_hist: bool) -> None:
+        axs = self._figure.subplots(1, 2)
+
+        if plot_agent_with_hist:
+            self._trajectory_plotter.plot_agent_hist(axs[0])
+        else:
+            self._trajectory_plotter.plot_agent_direct(axs[0])
+
+        self._trajectory_plotter.plot_target(axs[1])
+
+    def plot_hist_and_action(self) -> None:
+        axs = self._figure.subplots(1, 2)
+
+        self._trajectory_plotter.plot_agent_hist(axs[0])
+        self._trajectory_plotter.plot_action(axs[1])
