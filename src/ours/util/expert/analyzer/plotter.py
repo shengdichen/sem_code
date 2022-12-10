@@ -18,29 +18,17 @@ class TrajectoryPlotter:
 
         return x_bins, y_bins
 
-    def plot_agent_and_target(
-        self, axs: tuple[plt.Axes, plt.Axes], plot_agent_with_hist: bool
-    ) -> None:
-        if plot_agent_with_hist:
-            self.plot_agent_hist(axs[0])
+    def plot_agent(self, ax: plt.Axes, plot_hist: bool) -> None:
+        if plot_hist:
+            self._plot_agent_hist(ax)
         else:
-            self.plot_agent_direct(axs[0])
+            self._plot_agent_direct(ax)
 
-        self.plot_target(axs[1])
-
-    def plot_hist_and_action(self) -> None:
-        __, axs = plt.subplots(1, 2)
-
-        self.plot_agent_hist(axs[0])
-        self.plot_action(axs[1])
-
-        plt.show()
-
-    def plot_agent_hist(self, ax: plt.Axes) -> None:
+    def _plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
-    def plot_agent_direct(self, ax: plt.Axes) -> None:
+    def _plot_agent_direct(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
@@ -50,9 +38,6 @@ class TrajectoryPlotter:
 
     def plot_action(self, ax: plt.Axes) -> None:
         ax.hist(self._trajectory_stats.action)
-
-    def display_stats(self) -> None:
-        self._trajectory_stats.display_stats()
 
 
 class TrajectoryMultiPlotter:
@@ -64,18 +49,14 @@ class TrajectoryMultiPlotter:
         self._trajectory_plotter = trajectory_plotter
         self._figure = figure
 
-    def plot_agent_and_target(self, plot_agent_with_hist: bool) -> None:
+    def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        if plot_agent_with_hist:
-            self._trajectory_plotter.plot_agent_hist(axs[0])
-        else:
-            self._trajectory_plotter.plot_agent_direct(axs[0])
-
+        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
         self._trajectory_plotter.plot_target(axs[1])
 
-    def plot_hist_and_action(self) -> None:
+    def plot_agent_and_action(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent_hist(axs[0])
+        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
         self._trajectory_plotter.plot_action(axs[1])

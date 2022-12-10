@@ -25,13 +25,13 @@ class TrajectoriesAnalyzer:
     def _show_figures() -> None:
         plt.show()
 
-    def analyze(self, plot_hist: bool = True) -> None:
+    def analyze(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory in self._trajectories:
             TrajectoryStats(trajectory).display_stats()
 
         for trajectory, subfigure in zip(self._trajectories, self._figures):
             TrajectoryMultiPlotter(
                 TrajectoryPlotter(trajectory), subfigure
-            ).plot_agent_and_target(plot_hist)
+            ).plot_agent_and_target(plot_agent_as_hist)
 
         self._show_figures()
