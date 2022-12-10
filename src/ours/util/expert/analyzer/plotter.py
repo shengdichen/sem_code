@@ -11,7 +11,7 @@ class TrajectoryInspector:
         self._bins_hist = self._make_bins_hist()
 
     @staticmethod
-    def _make_bins_hist(nr=40, canvas_size=200):
+    def _make_bins_hist(nr=40, canvas_size=200) -> tuple[np.ndarray, np.ndarray]:
         x_bins = np.linspace(0, canvas_size, nr)
         y_bins = np.linspace(0, canvas_size, nr)
 
