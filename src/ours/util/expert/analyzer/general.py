@@ -26,10 +26,6 @@ class TrajectoriesAnalyzer:
 
         return subfigures
 
-    @staticmethod
-    def _show_figures() -> None:
-        plt.show()
-
     def analyze(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory_stats in self._trajectories_stats:
             trajectory_stats.display_stats()
@@ -38,3 +34,7 @@ class TrajectoriesAnalyzer:
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
 
         self._show_figures()
+
+    @staticmethod
+    def _show_figures() -> None:
+        plt.show()
