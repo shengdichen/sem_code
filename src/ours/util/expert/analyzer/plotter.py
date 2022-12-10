@@ -49,10 +49,10 @@ class TrajectoryMultiPlotter:
         self._trajectory_plotter = trajectory_plotter
         self._figure = figure
 
-    def plot_agent_and_target(self, plot_agent_with_hist: bool) -> None:
+    def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent(axs[0], plot_agent_with_hist)
+        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
         self._trajectory_plotter.plot_target(axs[1])
 
     def plot_hist_and_action(self) -> None:
