@@ -33,9 +33,6 @@ class TrajectoryPlotter:
     def plot_action(self, ax: plt.Axes) -> None:
         ax.hist(self._trajectory_stats.action)
 
-    def display_stats(self) -> None:
-        self._trajectory_stats.display_stats()
-
 
 class TrajectoryMultiPlotter:
     def __init__(
