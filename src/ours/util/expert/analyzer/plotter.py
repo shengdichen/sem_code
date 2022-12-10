@@ -40,7 +40,7 @@ class TrajectorySinglePlotPlotter:
         self._ax.hist(self._trajectory_stats.action)
 
 
-class TrajectoryMultiPlotter:
+class TrajectoryPlotter:
     def __init__(
         self,
         trajectory: np.ndarray,
