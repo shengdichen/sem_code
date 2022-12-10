@@ -1,12 +1,11 @@
 import matplotlib
 import numpy as np
-from matplotlib import pyplot as plt
 
 from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
 class TrajectoryPlotter:
-    def __init__(self, trajectory: np.ndarray, ax: plt.Axes):
+    def __init__(self, trajectory: np.ndarray, ax: matplotlib.axes.Axes):
         self._trajectory_stats = TrajectoryStats(trajectory)
 
         self._ax = ax
