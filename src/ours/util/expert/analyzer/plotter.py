@@ -21,33 +21,33 @@ class TrajectoryPlotter:
         self, axs: tuple[plt.Axes, plt.Axes], plot_agent_with_hist: bool
     ) -> None:
         if plot_agent_with_hist:
-            self._plot_agent_hist(axs[0])
+            self.plot_agent_hist(axs[0])
         else:
-            self._plot_agent_direct(axs[0])
+            self.plot_agent_direct(axs[0])
 
-        self._plot_target(axs[1])
+        self.plot_target(axs[1])
 
-    def _plot_hist_and_action(self) -> None:
+    def plot_hist_and_action(self) -> None:
         __, axs = plt.subplots(1, 2)
 
-        self._plot_agent_hist(axs[0])
-        self._plot_action(axs[1])
+        self.plot_agent_hist(axs[0])
+        self.plot_action(axs[1])
 
         plt.show()
 
-    def _plot_agent_hist(self, ax: plt.Axes) -> None:
+    def plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
-    def _plot_agent_direct(self, ax: plt.Axes) -> None:
+    def plot_agent_direct(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
-    def _plot_target(self, ax: plt.Axes) -> None:
+    def plot_target(self, ax: plt.Axes) -> None:
         target_pos_x, target_pos_y = self._trajectory_stats.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
-    def _plot_action(self, ax: plt.Axes) -> None:
+    def plot_action(self, ax: plt.Axes) -> None:
         ax.hist(self._trajectory_stats.action)
 
     def display_stats(self) -> None:
