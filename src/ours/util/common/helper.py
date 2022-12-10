@@ -161,19 +161,19 @@ class TrajectoriesPlotter:
 
     def plot_experts(self, plot_hist=True):
         for trajectory in self._trajectories:
-            Plotter(trajectory).display_stats()
+            TrajectoryInspector(trajectory).display_stats()
 
         figure = plt.figure(figsize=[15, 5])
         subfigures = figure.subfigures(1, self._n_trajectories)
 
         for trajectory, subfigure in zip(self._trajectories, subfigures):
             axs = subfigure.subplots(1, 2)
-            Plotter(trajectory).plot_agent_and_target(axs, plot_hist)
+            TrajectoryInspector(trajectory).plot_agent_and_target(axs, plot_hist)
 
         plt.show()
 
 
-class Plotter:
+class TrajectoryInspector:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
@@ -184,6 +184,7 @@ class Plotter:
             self._plot_hist(axs[0])
         else:
             self._plot_agent(axs[0])
+
         self._plot_target(axs[1])
 
     def _plot_agent(self, ax: plt.Axes) -> None:
@@ -271,10 +272,12 @@ class Plotter:
 
         return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
+
+class MinMaxUtil:
     @staticmethod
     def get_np_min_max(vec: np.ndarray):
         return np.min(vec), np.max(vec)
 
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
-        return Plotter.get_np_min_max(vec_x), Plotter.get_np_min_max(vec_y)
+        return MinMaxUtil.get_np_min_max(vec_x), MinMaxUtil.get_np_min_max(vec_y)
