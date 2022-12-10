@@ -1,14 +1,14 @@
 import matplotlib
 import numpy as np
-from matplotlib import pyplot as plt
 
 from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
-class TrajectoryPlotter:
-    def __init__(self, trajectory: np.ndarray):
+class TrajectorySinglePlotPlotter:
+    def __init__(self, trajectory: np.ndarray, ax: matplotlib.axes.Axes):
         self._trajectory_stats = TrajectoryStats(trajectory)
 
+        self._ax = ax
         self._bins_hist = self._make_bins_hist()
 
     @staticmethod
@@ -18,45 +18,49 @@ class TrajectoryPlotter:
 
         return x_bins, y_bins
 
-    def plot_agent(self, ax: plt.Axes, plot_hist: bool) -> None:
+    def plot_agent(self, plot_hist: bool) -> None:
         if plot_hist:
-            self._plot_agent_hist(ax)
+            self._plot_agent_hist()
         else:
-            self._plot_agent_direct(ax)
+            self._plot_agent_direct()
 
-    def _plot_agent_hist(self, ax: plt.Axes) -> None:
+    def _plot_agent_hist(self) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
-        ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
+        self._ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
-    def _plot_agent_direct(self, ax: plt.Axes) -> None:
+    def _plot_agent_direct(self) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
-        ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
+        self._ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
-    def plot_target(self, ax: plt.Axes) -> None:
+    def plot_target(self) -> None:
         target_pos_x, target_pos_y = self._trajectory_stats.target_pos
-        ax.scatter(target_pos_x, target_pos_y, c="r")
+        self._ax.scatter(target_pos_x, target_pos_y, c="r")
 
-    def plot_action(self, ax: plt.Axes) -> None:
-        ax.hist(self._trajectory_stats.action)
+    def plot_action(self) -> None:
+        self._ax.hist(self._trajectory_stats.action)
 
 
-class TrajectoryMultiPlotter:
+class TrajectoryPlotter:
     def __init__(
         self,
-        trajectory_plotter: TrajectoryPlotter,
+        trajectory: np.ndarray,
         figure: matplotlib.figure.Figure | matplotlib.figure.SubFigure,
     ):
-        self._trajectory_plotter = trajectory_plotter
+        self._trajectory = trajectory
         self._figure = figure
 
     def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
-        self._trajectory_plotter.plot_target(axs[1])
+        TrajectorySinglePlotPlotter(self._trajectory, axs[0]).plot_agent(
+            plot_agent_as_hist
+        )
+        TrajectorySinglePlotPlotter(self._trajectory, axs[1]).plot_target()
 
     def plot_agent_and_action(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
-        self._trajectory_plotter.plot_action(axs[1])
+        TrajectorySinglePlotPlotter(self._trajectory, axs[0]).plot_agent(
+            plot_agent_as_hist
+        )
+        TrajectorySinglePlotPlotter(self._trajectory, axs[1]).plot_action()
