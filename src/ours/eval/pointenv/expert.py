@@ -10,7 +10,7 @@ from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.client import ClientExpert
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.util.train import TrainerExpert
-from src.ours.util.common.helper import Plotter
+from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 
 
 class PointEnvExpertSingle:
