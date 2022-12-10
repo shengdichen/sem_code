@@ -2,7 +2,10 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
+from src.ours.util.expert.analyzer.plotter import (
+    TrajectoryPlotter,
+    TrajectoryMultiPlotter,
+)
 from src.ours.util.expert.analyzer.stats import TrajectoryStats
 
 
@@ -27,7 +30,8 @@ class TrajectoriesAnalyzer:
             TrajectoryStats(trajectory).display_stats()
 
         for trajectory, subfigure in zip(self._trajectories, self._figures):
-            axs = subfigure.subplots(1, 2)
-            TrajectoryPlotter(trajectory).plot_agent_and_target(axs, plot_hist)
+            TrajectoryMultiPlotter(
+                TrajectoryPlotter(trajectory), subfigure
+            ).plot_agent_and_target(plot_hist)
 
         self._show_figures()
