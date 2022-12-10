@@ -43,20 +43,20 @@ class TrajectoryPlotter:
 class TrajectoryMultiPlotter:
     def __init__(
         self,
-        trajectory_plotter: TrajectoryPlotter,
+        trajectory: np.ndarray,
         figure: matplotlib.figure.Figure | matplotlib.figure.SubFigure,
     ):
-        self._trajectory_plotter = trajectory_plotter
+        self._trajectory = trajectory
         self._figure = figure
 
     def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
-        self._trajectory_plotter.plot_target(axs[1])
+        TrajectoryPlotter(self._trajectory).plot_agent(axs[0], plot_agent_as_hist)
+        TrajectoryPlotter(self._trajectory).plot_target(axs[1])
 
     def plot_agent_and_action(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent(axs[0], plot_agent_as_hist)
-        self._trajectory_plotter.plot_action(axs[1])
+        TrajectoryPlotter(self._trajectory).plot_agent(axs[0], plot_agent_as_hist)
+        TrajectoryPlotter(self._trajectory).plot_action(axs[1])
