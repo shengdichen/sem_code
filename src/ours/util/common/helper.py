@@ -6,6 +6,8 @@ import torch
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
+from src.ours.util.expert.analyzer.plotter import TrajectoryInspector
+
 
 class RewardPlotter:
     @staticmethod
@@ -171,57 +173,6 @@ class TrajectoriesPlotter:
             TrajectoryInspector(trajectory).plot_agent_and_target(axs, plot_hist)
 
         plt.show()
-
-
-class TrajectoryInspector:
-    def __init__(self, trajectory: np.ndarray):
-        self._trajectory = trajectory
-        self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
-
-    def plot_agent_and_target(
-        self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
-    ) -> None:
-        if plot_hist:
-            self._plot_hist(axs[0])
-        else:
-            self._plot_agent(axs[0])
-
-        self._plot_target(axs[1])
-
-    def _plot_agent(self, ax: plt.Axes) -> None:
-        agent_pos_x, agent_pos_y, __ = self.get_hist_data()
-        ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
-
-    def _plot_target(self, ax: plt.Axes) -> None:
-        target_pos_x, target_pos_y = self._trajectory_interpreter.target_pos
-        ax.scatter(target_pos_x, target_pos_y, c="r")
-
-    def display_stats(self) -> None:
-        self._trajectory_interpreter.display_stats()
-
-    def _plot_hist_and_action(self) -> None:
-        # state visitation
-        __, axs = plt.subplots(1, 2)
-
-        self._plot_hist(axs[0])
-        self._plot_action(axs[1])
-
-        plt.show()
-
-    def _plot_hist(self, ax: plt.Axes) -> None:
-        x, y, [x_bins, y_bins] = self.get_hist_data()
-        ax.hist2d(x, y, bins=[x_bins, y_bins])
-
-    def _plot_action(self, ax: plt.Axes) -> None:
-        # action distribution
-        ax.hist(self._trajectory_interpreter.action)
-
-    def get_hist_data(self, nr=40, canvas_size=200):
-        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
-        x_bins = np.linspace(0, canvas_size, nr)
-        y_bins = np.linspace(0, canvas_size, nr)
-
-        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
 
 
 class TrajectoryInterpreter:
