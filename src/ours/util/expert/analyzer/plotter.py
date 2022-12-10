@@ -20,15 +20,15 @@ class TrajectoryPlotter:
 
     def plot_agent(self, ax: plt.Axes, plot_hist: bool = True) -> None:
         if plot_hist:
-            self.plot_agent_hist(ax)
+            self._plot_agent_hist(ax)
         else:
-            self.plot_agent_direct(ax)
+            self._plot_agent_direct(ax)
 
-    def plot_agent_hist(self, ax: plt.Axes) -> None:
+    def _plot_agent_hist(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
-    def plot_agent_direct(self, ax: plt.Axes) -> None:
+    def _plot_agent_direct(self, ax: plt.Axes) -> None:
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
@@ -58,5 +58,5 @@ class TrajectoryMultiPlotter:
     def plot_hist_and_action(self) -> None:
         axs = self._figure.subplots(1, 2)
 
-        self._trajectory_plotter.plot_agent_hist(axs[0])
+        self._trajectory_plotter._plot_agent_hist(axs[0])
         self._trajectory_plotter.plot_action(axs[1])
