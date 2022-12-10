@@ -174,7 +174,7 @@ class TrajectoriesPlotter:
     def _show_figures():
         plt.show()
 
-    def plot_experts(self, plot_hist=True):
+    def analyze(self, plot_hist=True):
         for trajectory in self._trajectories:
             TrajectoryStats(trajectory).display_stats()
 
