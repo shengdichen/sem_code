@@ -176,6 +176,7 @@ class TrajectoriesPlotter:
 class TrajectoryInspector:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
+        self._trajectory_interpreter = TrajectoryInterpreter(self._trajectory)
 
     def plot_agent_and_target(
         self, axs: tuple[plt.Axes, plt.Axes], plot_hist: bool
@@ -192,27 +193,11 @@ class TrajectoryInspector:
         ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
     def _plot_target(self, ax: plt.Axes) -> None:
-        target_pos_x, target_pos_y = self._trajectory[:, 2], self._trajectory[:, 3]
+        target_pos_x, target_pos_y = self._trajectory_interpreter.target_pos
         ax.scatter(target_pos_x, target_pos_y, c="r")
 
     def display_stats(self) -> None:
-        num_episodes = self._get_num_episodes()
-
-        rew_avg, rew_std, rew_min, rew_max = self._get_reward_stats()
-
-        ep_rew_list = self._get_episode_reward_list()
-        ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max = self._get_episode_reward_stats(
-            ep_rew_list
-        )
-
-        print("Demo file stats")
-        print("-------------")
-        print("Number of episodes: ", num_episodes)
-        print("Reward stats: ", rew_avg, " +- ", rew_std)
-        print("Reward min / max", rew_min, " / ", rew_max)
-        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
-        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
-        print("-------------")
+        self._trajectory_interpreter.display_stats()
 
     def _plot_hist_and_action(self) -> None:
         # state visitation
@@ -229,21 +214,77 @@ class TrajectoryInspector:
 
     def _plot_action(self, ax: plt.Axes) -> None:
         # action distribution
-        ax.hist(self._trajectory[:, 4])
+        ax.hist(self._trajectory_interpreter.action)
 
-    def _get_num_episodes(self) -> int:
-        return int(np.sum(self._trajectory[:, -1]))
+    def get_hist_data(self, nr=40, canvas_size=200):
+        agent_pos_x, agent_pos_y = self._trajectory_interpreter.agent_pos
+        x_bins = np.linspace(0, canvas_size, nr)
+        y_bins = np.linspace(0, canvas_size, nr)
 
-    def _get_reward_stats(self) -> tuple[float, float, float, float]:
+        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
+
+
+class TrajectoryInterpreter:
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
+
+    @property
+    def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 0], self._trajectory[:, 1]
+
+    @property
+    def target_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 2], self._trajectory[:, 3]
+
+    @property
+    def action(self) -> np.ndarray:
+        return self._trajectory[:, 4]
+
+    @property
+    def reward(self) -> np.ndarray:
+        return self._trajectory[:, 5]
+
+    @property
+    def done(self):
+        return self._trajectory[:, 6]
+
+    def display_stats(self):
+        num_episodes = self.get_num_episodes()
+
+        (
+            rew_avg,
+            rew_std,
+            rew_min,
+            rew_max,
+        ) = self.get_reward_stats()
+
+        (
+            ep_rew_avg,
+            ep_rew_std,
+            ep_rew_min,
+            ep_rew_max,
+        ) = self.get_episode_reward_stats()
+
+        print("Demo file stats")
+        print("-------------")
+        print("Number of episodes: ", num_episodes)
+        print("Reward stats: ", rew_avg, " +- ", rew_std)
+        print("Reward min / max", rew_min, " / ", rew_max)
+        print("Episode reward stats: ", ep_rew_avg, " +- ", ep_rew_std)
+        print("Episode reward min / max", ep_rew_min, " / ", ep_rew_max)
+        print("-------------")
+
+    def get_num_episodes(self) -> int:
+        return int(np.sum(self.done))
+
+    def get_reward_stats(self) -> tuple[float, float, float, float]:
         # reward stats
-        rew_avg = float(np.mean(self._trajectory[:, -2]))
-        rew_std = float(np.std(self._trajectory[:, -2]))
-        rew_min = float(np.min(self._trajectory[:, -2]))
-        rew_max = float(np.max(self._trajectory[:, -2]))
+        rew_avg, rew_std = TrajectoryInterpreter._get_avg_std(self.reward)
+        rew_min, rew_max = MinMaxUtil.get_np_min_max(self.reward)
 
         return rew_avg, rew_std, rew_min, rew_max
 
-    def _get_episode_reward_list(self) -> list:
+    def _get_episode_reward_list(self) -> np.ndarray:
         ep_rew_list = []
         ep_rew = 0
         for sard in self._trajectory:
@@ -253,30 +294,25 @@ class TrajectoryInspector:
                 # print("episode_reward", ep_rew)
                 ep_rew = 0
 
-        return ep_rew_list
+        return np.array(ep_rew_list)
 
-    @staticmethod
-    def _get_episode_reward_stats(ep_rew_list) -> tuple[float, float, float, float]:
-        ep_rew_avg = float(np.mean(ep_rew_list))
-        ep_rew_std = float(np.std(ep_rew_list))
-        ep_rew_min = float(np.min(ep_rew_list))
-        ep_rew_max = float(np.max(ep_rew_list))
+    def get_episode_reward_stats(self) -> tuple[float, float, float, float]:
+        ep_rew_list = self._get_episode_reward_list()
+
+        ep_rew_avg, ep_rew_std = TrajectoryInterpreter._get_avg_std(ep_rew_list)
+        ep_rew_min, ep_rew_max = MinMaxUtil.get_np_min_max(ep_rew_list)
 
         return ep_rew_avg, ep_rew_std, ep_rew_min, ep_rew_max
 
-    def get_hist_data(self, nr=40, canvas_size=200):
-        agent_pos_x = self._trajectory[:, 0]
-        agent_pos_y = self._trajectory[:, 1]
-        x_bins = np.linspace(0, canvas_size, nr)
-        y_bins = np.linspace(0, canvas_size, nr)
-
-        return agent_pos_x, agent_pos_y, [x_bins, y_bins]
+    @staticmethod
+    def _get_avg_std(data: np.ndarray) -> tuple[float, float]:
+        return float(np.mean(data)), float(np.std(data))
 
 
 class MinMaxUtil:
     @staticmethod
-    def get_np_min_max(vec: np.ndarray):
-        return np.min(vec), np.max(vec)
+    def get_np_min_max(vec: np.ndarray) -> tuple[float, float]:
+        return float(np.min(vec)), float(np.max(vec))
 
     @staticmethod
     def get_np_min_max_x_y(vec_x: np.ndarray, vec_y: np.ndarray):
