@@ -6,7 +6,7 @@ import torch
 from stable_baselines3.common.callbacks import BaseCallback
 from tqdm import tqdm
 
-from src.ours.util.expert.analyzer.plotter import TrajectoryInspector
+from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
 
 
 class RewardPlotter:
@@ -175,10 +175,10 @@ class TrajectoriesPlotter:
 
     def plot_experts(self, plot_hist=True):
         for trajectory in self._trajectories:
-            TrajectoryInspector(trajectory).display_stats()
+            TrajectoryPlotter(trajectory).display_stats()
 
         for trajectory, subfigure in zip(self._trajectories, self._figures):
             axs = subfigure.subplots(1, 2)
-            TrajectoryInspector(trajectory).plot_agent_and_target(axs, plot_hist)
+            TrajectoryPlotter(trajectory).plot_agent_and_target(axs, plot_hist)
 
         self._show_figures()
