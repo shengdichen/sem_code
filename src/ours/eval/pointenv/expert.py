@@ -81,7 +81,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.train_and_analyze()
+    trainer.analyze()
 
 
 if __name__ == "__main__":
