@@ -192,12 +192,16 @@ class PWILRewarder(object):
 
     def filter_demonstrations(self, demonstrations):
         filtered_demonstrations = []
+        print("Number of demonstrations: ", len(demonstrations))
         np.random.shuffle(demonstrations)
         for episode in demonstrations[: self.num_demonstrations]:
             # Random episode start.
             random_offset = np.random.randint(0, self.subsampling)
+            print("Random offset: ", random_offset)
             # Subsampling.
+            print("Full episode length", len(episode))
             subsampled_episode = episode[random_offset :: self.subsampling]
+            print("Subsampled episode length", len(subsampled_episode))
             # Specify step types of demonstrations.
             # for transition in subsampled_episode:
             #     transition['step_type'] = dm_env.StepType.MID
@@ -304,6 +308,8 @@ class PWILReward(gym.Wrapper):
         else:
             obs = self.obs
         info["gt_reward"] = gt_reward
+        # reset the pwil because the atoms are exhausted
+        self.pwil.reset()
         if self.use_actions:
             reward = self.pwil.compute_reward(obs, action)
         else:
