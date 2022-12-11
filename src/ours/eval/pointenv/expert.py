@@ -63,10 +63,6 @@ class PointEnvExpertDefault:
         self.plot()
 
     def train_and_save(self) -> None:
-        """
-        # Train experts with different shifts representing their waypoint preferences
-        """
-
         for pointenv_expert in self._pointenv_experts:
             pointenv_expert.train_and_save()
 
