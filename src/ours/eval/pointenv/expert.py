@@ -62,14 +62,14 @@ class PointEnvExpertDefault:
 
     def train_and_plot(self) -> None:
         self.train_and_save_all()
-        self.plot()
+        self.analyze_all_trajectories()
 
     def train_and_save_all(self) -> None:
         for pointenv_expert in self._pointenv_experts:
             pointenv_expert.train()
             pointenv_expert.save()
 
-    def plot(self) -> None:
+    def analyze_all_trajectories(self) -> None:
         TrajectoriesAnalyzer(self.load_all()).analyze()
 
     def load_all(self) -> list[np.ndarray]:
