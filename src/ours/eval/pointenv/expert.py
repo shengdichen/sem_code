@@ -71,8 +71,7 @@ class PointEnvExpertDefault:
             pointenv_expert.train_and_save()
 
     def plot(self) -> None:
-        Plotter.plot_experts(self._n_timesteps)
-        Plotter.plot_experts(self._n_timesteps, hist=False)
+        TrajectoriesAnalyzer(self.load()).analyze()
 
     def load(self) -> list[np.ndarray]:
         expert_demos = []
