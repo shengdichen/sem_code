@@ -72,10 +72,9 @@ class PointEnvExpertDefault:
         TrajectoriesAnalyzer(self.load_all()).analyze()
 
     def load_all(self) -> list[np.ndarray]:
-        trajectories = []
-        for pointenv_expert in self._pointenv_experts:
-            trajectory = pointenv_expert.load()
-            trajectories.append(trajectory)
+        trajectories = [
+            pointenv_expert.load() for pointenv_expert in self._pointenv_experts
+        ]
 
         return trajectories
 
