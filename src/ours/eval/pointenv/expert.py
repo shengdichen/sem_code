@@ -52,11 +52,10 @@ class PointEnvExpertDefault:
         self._pointenv_experts = self._make_pointenv_experts()
 
     def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
-        pointenv_experts = []
-        for env_config in self._env_configs:
-            pointenv_experts.append(
-                PointEnvExpertSingle(self._training_param, env_config)
-            )
+        pointenv_experts = [
+            PointEnvExpertSingle(self._training_param, env_config)
+            for env_config in self._env_configs
+        ]
 
         return pointenv_experts
 
