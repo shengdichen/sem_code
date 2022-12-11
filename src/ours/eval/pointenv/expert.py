@@ -6,11 +6,11 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
 )
 from src.ours.util.common.param import ExpertParam
-from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 from src.ours.util.expert.client import ClientExpert
 from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.sb3.util.train import TrainerExpert
-from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 
 
 class PointEnvExpertSingle:
