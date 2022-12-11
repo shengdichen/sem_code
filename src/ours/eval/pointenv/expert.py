@@ -59,7 +59,7 @@ class PointEnvExpertDefault:
 
         return pointenv_experts
 
-    def train_and_plot(self) -> None:
+    def train_and_analyze_all(self) -> None:
         self.train_and_save_all()
         self.analyze_all_trajectories()
 
@@ -81,7 +81,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.train_and_plot()
+    trainer.train_and_analyze()
 
 
 if __name__ == "__main__":
