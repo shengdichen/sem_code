@@ -59,19 +59,19 @@ class PointEnvExpertDefault:
 
         return pointenv_experts
 
-    def train_and_analyze_all(self) -> None:
-        self.train_and_save_all()
-        self.analyze_all_trajectories()
+    def train_and_analyze(self) -> None:
+        self.train_and_save()
+        self.analyze()
 
-    def train_and_save_all(self) -> None:
+    def train_and_save(self) -> None:
         for pointenv_expert in self._pointenv_experts:
             pointenv_expert.train()
             pointenv_expert.save()
 
-    def analyze_all_trajectories(self) -> None:
-        TrajectoriesAnalyzer(self.load_all()).analyze()
+    def analyze(self) -> None:
+        TrajectoriesAnalyzer(self.load()).analyze()
 
-    def load_all(self) -> list[np.ndarray]:
+    def load(self) -> list[np.ndarray]:
         trajectories = [
             pointenv_expert.load() for pointenv_expert in self._pointenv_experts
         ]
