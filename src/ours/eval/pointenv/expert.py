@@ -6,11 +6,11 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
 )
 from src.ours.util.common.param import ExpertParam
-from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 from src.ours.util.expert.client import ClientExpert
 from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.sb3.util.train import TrainerExpert
-from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 
 
 class PointEnvExpertSingle:
@@ -33,8 +33,10 @@ class PointEnvExpertSingle:
             env_identifier,
         )
 
-    def train_and_save(self) -> None:
+    def train(self) -> None:
         self._expert_client.train()
+
+    def save(self) -> None:
         self._expert_client.save()
 
     def load(self) -> np.ndarray:
@@ -50,42 +52,36 @@ class PointEnvExpertDefault:
         self._pointenv_experts = self._make_pointenv_experts()
 
     def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
-        pointenv_experts = []
-        for env_config in self._env_configs:
-            pointenv_experts.append(
-                PointEnvExpertSingle(self._training_param, env_config)
-            )
+        pointenv_experts = [
+            PointEnvExpertSingle(self._training_param, env_config)
+            for env_config in self._env_configs
+        ]
 
         return pointenv_experts
 
-    def train_and_plot(self) -> None:
+    def train_and_analyze(self) -> None:
         self.train_and_save()
-        self.plot()
+        self.analyze()
 
     def train_and_save(self) -> None:
-        """
-        # Train experts with different shifts representing their waypoint preferences
-        """
-
         for pointenv_expert in self._pointenv_experts:
-            pointenv_expert.train_and_save()
+            pointenv_expert.train()
+            pointenv_expert.save()
 
-    def plot(self) -> None:
-        Plotter.plot_experts(self._n_timesteps)
-        Plotter.plot_experts(self._n_timesteps, hist=False)
+    def analyze(self) -> None:
+        TrajectoriesAnalyzer(self._load()).analyze()
 
-    def load(self) -> list[np.ndarray]:
-        expert_demos = []
-        for pointenv_expert in self._pointenv_experts:
-            demo = pointenv_expert.load()
-            expert_demos.append(demo)
+    def _load(self) -> list[np.ndarray]:
+        trajectories = [
+            pointenv_expert.load() for pointenv_expert in self._pointenv_experts
+        ]
 
-        return expert_demos
+        return trajectories
 
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.train_and_plot()
+    trainer.analyze()
 
 
 if __name__ == "__main__":
