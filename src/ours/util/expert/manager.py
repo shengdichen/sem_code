@@ -17,9 +17,11 @@ class ExpertManager:
         self,
         env_model: tuple[Env, Any],
         training_param: CommonParam,
-        expert_manager_param=TrajectoryGeneratorConfig(),
+        trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
-        self._expert_generator = TrajectoryGenerator(env_model, expert_manager_param)
+        self._expert_generator = TrajectoryGenerator(
+            env_model, trajectory_generator_config
+        )
         self._path_generator = ExpertSaveLoadPathGenerator(training_param)
 
     def save_expert_traj(self, env_identifier: str) -> None:
