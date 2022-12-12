@@ -17,7 +17,7 @@ class ExpertManager:
         self._sb3_manager.train()
 
     def save(self) -> None:
-        self._sb3_manager.save(self._env_identifier)
+        self._sb3_manager.save()
         self._trajectory_manager.save_trajectory(self._env_identifier)
 
     def load(self) -> np.ndarray:
