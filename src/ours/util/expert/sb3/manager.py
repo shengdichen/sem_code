@@ -12,6 +12,10 @@ class Sb3Manager:
         self._trainer = Sb3Trainer(env, training_param)
         self._path_generator = Sb3SaveLoadPathGenerator(training_param)
 
+    @property
+    def model(self):
+        return self._trainer.model
+
     def train(self) -> None:
         self._trainer.train()
 
