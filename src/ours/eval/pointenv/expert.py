@@ -12,14 +12,15 @@ from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesAnalyze
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
-class PointEnvExpertSingle:
+class PointEnvExpertManagerFactory:
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         self._training_param = training_param
+        self._env_config = env_config
 
-        self._expert_client = self._make_expert_client(env_config)
+        self._expert_client = self.create()
 
-    def _make_expert_client(self, env_config: dict[str:int]) -> ExpertManager:
-        env = PointEnvFactory(env_config).create()
+    def create(self) -> ExpertManager:
+        env = PointEnvFactory(self._env_config).create()
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
         sb3_manager = Sb3Manager((env, env_identifier), self._training_param)
@@ -51,9 +52,9 @@ class PointEnvExpertDefault:
         self._env_configs = PointEnvConfigFactory().env_configs
         self._pointenv_experts = self._make_pointenv_experts()
 
-    def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
+    def _make_pointenv_experts(self) -> list[PointEnvExpertManagerFactory]:
         pointenv_experts = [
-            PointEnvExpertSingle(self._training_param, env_config)
+            PointEnvExpertManagerFactory(self._training_param, env_config)
             for env_config in self._env_configs
         ]
 
