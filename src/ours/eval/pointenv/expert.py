@@ -42,12 +42,10 @@ class PointEnvExpertDefault:
         training_param = ExpertParam()
         env_configs = PointEnvConfigFactory().env_configs
 
-        expert_managers = [
+        return [
             PointEnvExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
-
-        return expert_managers
 
     def train_and_analyze(self) -> None:
         self.train_and_save()
