@@ -28,16 +28,16 @@ class TrajectoryGenerator:
     def __init__(
         self,
         env_model: tuple[Env, Any],
-        expert_manager_param=TrajectoryGeneratorConfig(),
+        trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
         self._env, self._model = env_model
-        self._expert_manager_param = expert_manager_param
+        self._trajectory_generator_config = trajectory_generator_config
 
     def get_trajectory(self) -> np.ndarray:
         num_steps = 0
         trajectories_expert = []
 
-        for __ in range(self._expert_manager_param.nr_trajectories):
+        for __ in range(self._trajectory_generator_config.nr_trajectories):
             obs = self._env.reset()
             done = False
             total_reward = 0
@@ -45,7 +45,7 @@ class TrajectoryGenerator:
 
             while not done:
                 action, _states = self._model.predict(
-                    obs, deterministic=self._expert_manager_param.deterministic
+                    obs, deterministic=self._trajectory_generator_config.deterministic
                 )
                 next_obs, reward, done, _ = self._env.step(action)
 
@@ -57,7 +57,7 @@ class TrajectoryGenerator:
                 trajectories_expert.append(trajectory_curr_step)
                 trajectories_episode.append(trajectory_curr_step)
                 num_steps += 1
-                if self._expert_manager_param.render:
+                if self._trajectory_generator_config.render:
                     self._env.render()
 
             print("Episode reward: ", total_reward)
