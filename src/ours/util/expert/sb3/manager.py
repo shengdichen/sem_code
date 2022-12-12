@@ -20,6 +20,6 @@ class Sb3Manager:
         saver = Sb3Saver(self._trainer.model, path_saveload)
         saver.save_model()
 
-    def load(self, env_identifier: str, env: gym.Env = None) -> BaseAlgorithm:
+    def load(self, env_identifier: str, new_env: gym.Env = None) -> BaseAlgorithm:
         path_saveload = self._path_generator.get_path(env_identifier)
-        return Sb3Loader(self._trainer.model, path_saveload).load_model(env)
+        return Sb3Loader(self._trainer.model, path_saveload).load_model(new_env)
