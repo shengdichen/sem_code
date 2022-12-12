@@ -5,7 +5,7 @@ from gym import Env
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
-from src.ours.util.expert.util.saveload import ExpertSaveLoad
+from src.ours.util.expert.util.saveload import TrajectorySaveLoad
 from src.ours.util.expert.util.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
@@ -28,8 +28,8 @@ class ExpertManager:
         trajectory = self._trajectory_generator.get_trajectory()
         path_saveload = self._path_generator.get_path(env_identifier)
 
-        ExpertSaveLoad(path_saveload).save(trajectory)
+        TrajectorySaveLoad(path_saveload).save(trajectory)
 
     def load_trajectory(self, env_identifier: str) -> np.ndarray:
         path_saveload = self._path_generator.get_path(env_identifier)
-        return ExpertSaveLoad(path_saveload).load()
+        return TrajectorySaveLoad(path_saveload).load()

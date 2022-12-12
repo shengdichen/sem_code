@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 
 
-class ExpertSaveLoad:
+class TrajectorySaveLoad:
     def __init__(self, path: Path):
         self._path = str(path)
 
