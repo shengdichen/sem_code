@@ -4,7 +4,7 @@ from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
-class ClientExpert:
+class ExpertManager:
     def __init__(
         self,
         managers: tuple[Sb3Manager, TrajectoryManager],
