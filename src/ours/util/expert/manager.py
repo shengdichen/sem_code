@@ -3,14 +3,13 @@ from typing import Any
 import numpy as np
 from gym import Env
 
-from src.ours.env.creation import PointEnvIdentifierGenerator, PointEnvConfigFactory
 from src.ours.util.common.param import CommonParam
+from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 from src.ours.util.expert.util.saveload import ExpertSaveLoad
 from src.ours.util.expert.util.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 
 
 class ExpertManager:
@@ -32,12 +31,3 @@ class ExpertManager:
     def load_one_demo(self, env_identifier: str) -> np.ndarray:
         path_saveload = self._path_generator.get_path(env_identifier)
         return ExpertSaveLoad(path_saveload).load()
-
-    def load_default_demos(self) -> list[np.ndarray]:
-        expert_demos = []
-        for env_config in PointEnvConfigFactory().env_configs:
-            env_identifier = PointEnvIdentifierGenerator().get_identifier(env_config)
-            demo = self.load_one_demo(env_identifier)
-            expert_demos.append(demo)
-
-        return expert_demos
