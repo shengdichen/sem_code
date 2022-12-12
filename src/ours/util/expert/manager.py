@@ -4,12 +4,12 @@ import numpy as np
 from gym import Env
 
 from src.ours.util.common.param import CommonParam
+from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 from src.ours.util.expert.util.saveload import ExpertSaveLoad
 from src.ours.util.expert.util.trajectory import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 
 
 class ExpertManager:
