@@ -34,15 +34,6 @@ class PointEnvExpertManagerFactory:
             env_identifier,
         )
 
-    def train(self) -> None:
-        self._expert_client.train()
-
-    def save(self) -> None:
-        self._expert_client.save()
-
-    def load(self) -> np.ndarray:
-        return self._expert_client.load()
-
 
 class PointEnvExpertDefault:
     def __init__(self):
