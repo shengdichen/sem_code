@@ -2,13 +2,13 @@ import numpy as np
 
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
-from src.ours.util.expert.sb3.util.train import TrainerExpert
+from src.ours.util.expert.sb3.util.train import Sb3Trainer
 
 
 class ClientExpert:
     def __init__(
         self,
-        trainer: TrainerExpert,
+        trainer: Sb3Trainer,
         managers: tuple[Sb3Manager, TrajectoryManager],
         env_identifier: str,
     ):

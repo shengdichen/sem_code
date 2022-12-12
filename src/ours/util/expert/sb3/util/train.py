@@ -6,7 +6,7 @@ from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.train import Trainer
 
 
-class TrainerExpert(Trainer):
+class Sb3Trainer(Trainer):
     def __init__(self, env: Env, training_param: CommonParam):
         super().__init__(training_param)
 
