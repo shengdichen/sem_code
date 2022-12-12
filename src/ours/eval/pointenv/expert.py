@@ -8,7 +8,7 @@ from src.ours.env.creation import (
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
 from src.ours.util.expert.client import ClientExpert
-from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.manager import TrajectoryManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.sb3.util.train import TrainerExpert
 
@@ -28,7 +28,7 @@ class PointEnvExpertSingle:
             trainer,
             (
                 Sb3Manager(trainer.model, self._training_param),
-                ExpertManager((env, trainer.model), self._training_param),
+                TrajectoryManager((env, trainer.model), self._training_param),
             ),
             env_identifier,
         )

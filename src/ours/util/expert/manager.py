@@ -12,7 +12,7 @@ from src.ours.util.expert.util.trajectory import (
 )
 
 
-class ExpertManager:
+class TrajectoryManager:
     def __init__(
         self,
         env_model: tuple[Env, Any],
