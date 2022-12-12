@@ -15,21 +15,23 @@ from src.ours.util.expert.trajectory.util.generator import (
 class TrajectoryManager:
     def __init__(
         self,
-        env_model: tuple[Env, Any],
-        training_param: CommonParam,
+        env_and_identifier: tuple[Env, str],
+        model_and_training_param: tuple[Any, CommonParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
+        env, self._env_identifier = env_and_identifier
+        model, training_param = model_and_training_param
         self._trajectory_generator = TrajectoryGenerator(
-            env_model, trajectory_generator_config
+            (env, model), trajectory_generator_config
         )
         self._path_generator = TrajectorySaveLoadPathGenerator(training_param)
 
-    def save_trajectory(self, env_identifier: str) -> None:
+    def save_trajectory(self) -> None:
         trajectory = self._trajectory_generator.get_trajectory()
-        path_saveload = self._path_generator.get_path(env_identifier)
+        path_saveload = self._path_generator.get_path(self._env_identifier)
 
         TrajectorySaveLoad(path_saveload).save(trajectory)
 
-    def load_trajectory(self, env_identifier: str) -> np.ndarray:
-        path_saveload = self._path_generator.get_path(env_identifier)
+    def load_trajectory(self) -> np.ndarray:
+        path_saveload = self._path_generator.get_path(self._env_identifier)
         return TrajectorySaveLoad(path_saveload).load()
