@@ -5,7 +5,7 @@ from gym import Env
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import TrajectorySaveLoadPathGenerator
-from src.ours.util.expert.trajectory.util import TrajectorySaveLoad
+from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
 from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
