@@ -2,8 +2,8 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
-from src.ours.util.expert.analyzer.stats import TrajectoryStats
+from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlotter
+from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
 class TrajectoriesAnalyzer:

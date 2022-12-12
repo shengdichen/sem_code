@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.manager import TrajectoryManager
+from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.ours.util.expert.sb3.util.train import TrainerExpert
 
 

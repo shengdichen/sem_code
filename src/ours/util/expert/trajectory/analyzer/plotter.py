@@ -1,7 +1,7 @@
 import matplotlib
 import numpy as np
 
-from src.ours.util.expert.analyzer.stats import TrajectoryStats
+from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
 class TrajectorySinglePlotPlotter:
