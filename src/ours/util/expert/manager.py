@@ -4,7 +4,7 @@ import numpy as np
 from gym import Env
 
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
+from src.ours.util.common.pathprovider import TrajectorySaveLoadPathGenerator
 from src.ours.util.expert.util.saveload import TrajectorySaveLoad
 from src.ours.util.expert.util.trajectory import (
     TrajectoryGeneratorConfig,
@@ -22,7 +22,7 @@ class ExpertManager:
         self._trajectory_generator = TrajectoryGenerator(
             env_model, trajectory_generator_config
         )
-        self._path_generator = ExpertSaveLoadPathGenerator(training_param)
+        self._path_generator = TrajectorySaveLoadPathGenerator(training_param)
 
     def save_trajectory(self, env_identifier: str) -> None:
         trajectory = self._trajectory_generator.get_trajectory()

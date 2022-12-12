@@ -3,7 +3,7 @@ from pathlib import Path
 from src.ours.util.common.param import CommonParam
 
 
-class ExpertSaveLoadPathGenerator:
+class TrajectorySaveLoadPathGenerator:
     def __init__(self, training_param: CommonParam):
         self._training_param = training_param
         self._np_postfix = ".npy"
