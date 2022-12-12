@@ -24,7 +24,7 @@ class ExpertManager:
         )
         self._path_generator = ExpertSaveLoadPathGenerator(training_param)
 
-    def save_expert_traj(self, env_identifier: str) -> None:
+    def save_trajectory(self, env_identifier: str) -> None:
         trajectory = self._trajectory_generator.get_trajectory()
         path_saveload = self._path_generator.get_path(env_identifier)
 

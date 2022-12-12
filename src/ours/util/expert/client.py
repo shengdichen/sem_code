@@ -21,7 +21,7 @@ class ClientExpert:
 
     def save(self) -> None:
         self._saver_manager.save(self._env_identifier)
-        self._expert_manager.save_expert_traj(self._env_identifier)
+        self._expert_manager.save_trajectory(self._env_identifier)
 
     def load(self) -> np.ndarray:
         return self._expert_manager.load_trajectory(self._env_identifier)
