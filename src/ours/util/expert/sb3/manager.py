@@ -24,7 +24,7 @@ class Sb3Manager:
     def train(self) -> None:
         self._trainer.train()
 
-    def save(self):
+    def save(self) -> None:
         saver = Sb3Saver(self._trainer.model, self._path_saveload)
         saver.save_model()
 

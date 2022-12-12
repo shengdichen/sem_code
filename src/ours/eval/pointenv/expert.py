@@ -6,11 +6,10 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
 )
 from src.ours.util.common.param import ExpertParam
-from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
-from src.ours.util.expert.client import ClientExpert
-from src.ours.util.expert.manager import TrajectoryManager
+from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesAnalyzer
+from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.sb3.util.train import TrainerExpert
 
 
 class PointEnvExpertSingle:
@@ -19,17 +18,18 @@ class PointEnvExpertSingle:
 
         self._expert_client = self._make_expert_client(env_config)
 
-    def _make_expert_client(self, env_config: dict[str:int]) -> ClientExpert:
+    def _make_expert_client(self, env_config: dict[str:int]) -> ExpertManager:
         env = PointEnvFactory(env_config).create()
-        trainer = TrainerExpert(env, self._training_param)
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
-        return ClientExpert(
-            trainer,
-            (
-                Sb3Manager(trainer.model, self._training_param),
-                TrajectoryManager((env, trainer.model), self._training_param),
-            ),
+        sb3_manager = Sb3Manager((env, env_identifier), self._training_param)
+        trajectory_manager = TrajectoryManager(
+            (env, env_identifier),
+            (sb3_manager.model, self._training_param),
+        )
+
+        return ExpertManager(
+            (sb3_manager, trajectory_manager),
             env_identifier,
         )
 
