@@ -30,6 +30,6 @@ class ExpertManager:
 
         ExpertSaveLoad(path_saveload).save(trajectory)
 
-    def load_one_demo(self, env_identifier: str) -> np.ndarray:
+    def load_trajectory(self, env_identifier: str) -> np.ndarray:
         path_saveload = self._path_generator.get_path(env_identifier)
         return ExpertSaveLoad(path_saveload).load()

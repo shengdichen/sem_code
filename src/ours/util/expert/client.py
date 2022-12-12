@@ -24,4 +24,4 @@ class ClientExpert:
         self._expert_manager.save_expert_traj(self._env_identifier)
 
     def load(self) -> np.ndarray:
-        return self._expert_manager.load_one_demo(self._env_identifier)
+        return self._expert_manager.load_trajectory(self._env_identifier)
