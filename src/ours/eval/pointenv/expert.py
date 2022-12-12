@@ -17,8 +17,6 @@ class PointEnvExpertManagerFactory:
         self._training_param = training_param
         self._env_config = env_config
 
-        self._expert_client = self.create()
-
     def create(self) -> ExpertManager:
         env = PointEnvFactory(self._env_config).create()
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
