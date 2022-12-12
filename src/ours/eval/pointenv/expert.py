@@ -52,9 +52,9 @@ class PointEnvExpertDefault:
         self._env_configs = PointEnvConfigFactory().env_configs
         self._pointenv_experts = self._make_pointenv_experts()
 
-    def _make_pointenv_experts(self) -> list[PointEnvExpertManagerFactory]:
+    def _make_pointenv_experts(self) -> list[ExpertManager]:
         pointenv_experts = [
-            PointEnvExpertManagerFactory(self._training_param, env_config)
+            PointEnvExpertManagerFactory(self._training_param, env_config).create()
             for env_config in self._env_configs
         ]
 
