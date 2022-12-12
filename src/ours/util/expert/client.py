@@ -13,14 +13,14 @@ class ClientExpert:
         env_identifier: str,
     ):
         self._trainer = trainer
-        self._saver_manager, self._trajectory_manager = managers
+        self._sb3_manager, self._trajectory_manager = managers
         self._env_identifier = env_identifier
 
     def train(self) -> None:
         self._trainer.train()
 
     def save(self) -> None:
-        self._saver_manager.save(self._env_identifier)
+        self._sb3_manager.save(self._env_identifier)
         self._trajectory_manager.save_trajectory(self._env_identifier)
 
     def load(self) -> np.ndarray:
