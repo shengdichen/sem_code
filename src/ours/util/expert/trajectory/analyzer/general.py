@@ -22,9 +22,12 @@ class TrajectoriesAnalyzer:
 
     def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
         figure = plt.figure(figsize=[15, 5])
-        subfigures = figure.subfigures(1, len(self._trajectories))
 
-        return subfigures
+        n_trajectories = len(self._trajectories)
+        if n_trajectories == 1:
+            return [figure]
+        else:
+            return figure.subfigures(1, n_trajectories)
 
     def analyze(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory_stats in self._trajectories_stats:
