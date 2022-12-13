@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 import matplotlib
 import numpy as np
 
@@ -6,7 +8,7 @@ from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 from src.ours.util.expert.trajectory.analyzer.util import MplUtil
 
 
-class TrajectoriesAnalyzerBase:
+class TrajectoriesAnalyzerBase(ABC):
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
@@ -31,6 +33,7 @@ class TrajectoriesAnalyzerBase:
             )
         ]
 
+    @abstractmethod
     def _get_configured_figures(self) -> list[matplotlib.figure.FigureBase]:
         pass
 
