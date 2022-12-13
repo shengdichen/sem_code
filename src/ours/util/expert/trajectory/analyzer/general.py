@@ -6,6 +6,26 @@ from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlotter
 from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
+class MplUtil:
+    def __init__(self, n_trajectories: int):
+        self._n_trajectories = n_trajectories
+
+    def get_parallel_figures(self):
+        figure = plt.figure(figsize=[15, 5])
+
+        if self._n_trajectories == 1:
+            return [figure]
+        else:
+            return figure.subfigures(1, self._n_trajectories)
+
+    def get_separate_figures(self):
+        return [plt.figure(figsize=[15, 5]) for __ in range(self._n_trajectories)]
+
+    @staticmethod
+    def _show_figures() -> None:
+        plt.show()
+
+
 class TrajectoriesAnalyzerBase:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
