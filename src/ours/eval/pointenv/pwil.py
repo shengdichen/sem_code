@@ -7,8 +7,13 @@ from gym import Env
 from stable_baselines3 import PPO, PPO as PPOSB
 from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
-from src.ours.env.creation import PointEnvFactory
+from src.ours.env.creation import (
+    PointEnvFactory,
+    PointEnvIdentifierGenerator,
+    PointEnvConfigFactory,
+)
 from src.ours.env.env import MovePoint
+from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
@@ -94,9 +99,15 @@ class ClientTrainerPwil:
         self._training_param = PwilParam()
         self._n_timesteps = int(3e5)
 
+        env_config = PointEnvConfigFactory().env_configs[0]
+        env = PointEnvFactory(env_config).create()
+        self._env_identifier = PointEnvIdentifierGenerator().from_env(env)
+
     def training(self):
         # train imitation learning / IRL policy
-        demos = ExpertManager.load_default_demos(self._n_timesteps)
+        pointenv_expert_default = PointEnvExpertDefault()
+        demos = pointenv_expert_default._load()
+
         flat_demos = [item for sublist in demos for item in sublist]
 
         env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -104,7 +115,9 @@ class ClientTrainerPwil:
             PointEnvFactory(env_config).create(),
             PointEnvFactory(env_config).create(),
         )
-        trainer = TrainerPwil(self._training_param, (env_raw, env_raw_testing))
+        trainer = TrainerPwil(
+            self._training_param, ((env_raw, env_raw_testing), self._env_identifier)
+        )
         model_pwil, plot = trainer.train(
             flat_demos,
             n_demos=3,
