@@ -60,13 +60,7 @@ class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
         super().__init__(trajectories)
 
     def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
-        figure = plt.figure(figsize=[15, 5])
-
-        n_trajectories = len(self._trajectories)
-        if n_trajectories == 1:
-            return [figure]
-        else:
-            return figure.subfigures(1, n_trajectories)
+        return MplUtil(len(self._trajectories)).get_parallel_figures()
 
 
 class TrajectoriesAnalyzerSeparate(TrajectoriesAnalyzerBase):
@@ -74,4 +68,4 @@ class TrajectoriesAnalyzerSeparate(TrajectoriesAnalyzerBase):
         super().__init__(trajectories)
 
     def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
-        return [plt.figure(figsize=[15, 5]) for __ in range(len(self._trajectories))]
+        return MplUtil(len(self._trajectories)).get_separate_figures()
