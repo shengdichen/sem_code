@@ -11,7 +11,7 @@ from src.ours.env.creation import PointEnvFactory
 from src.ours.env.env import MovePoint
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
-from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.ours.util.common.test import PolicyTester
 from src.ours.util.common.train import Trainer
 from src.upstream.env_utils import PWILReward
@@ -19,13 +19,20 @@ from src.upstream.utils import CustomCallback
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: PwilParam, envs: tuple[Env, Env]):
+    def __init__(
+        self,
+        training_param: PwilParam,
+        envs_and_identifier: tuple[tuple[Env, Env], str],
+    ):
         super().__init__(training_param)
 
-        self._model_dir = "./models_pwil"
+        self._model_dir = self._training_param.model_dir
         self._save_deterministic = False
 
-        self._env_raw, self._env_raw_testing = envs
+        (
+            self._env_raw,
+            self._env_raw_testing,
+        ), self._env_identifier = envs_and_identifier
 
     def train(
         self,
@@ -75,14 +82,9 @@ class TrainerPwil(Trainer):
         model.learn(total_timesteps=n_timesteps, callback=callback_list)
 
         model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
-        ExpertManager.save_expert_traj(
-            env,
-            model,
-            nr_trajectories=10,
-            render=False,
-            env_identifier=fname + str(n_timesteps),
-            deterministic=self._save_deterministic,
-        )
+        TrajectoryManager(
+            (env, self._env_identifier), (model, self._training_param)
+        ).save_trajectory()
 
         return model, plot
 
