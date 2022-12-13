@@ -24,7 +24,7 @@ class MplUtil:
         return [plt.figure(figsize=[15, 5]) for __ in range(self._n_trajectories)]
 
     @staticmethod
-    def _show_figures() -> None:
+    def show_figures() -> None:
         plt.show()
 
 
@@ -43,7 +43,7 @@ class TrajectoriesAnalyzerBase:
         for trajectory_plotter in self._get_trajectories_plotter():
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
 
-        MplUtil._show_figures()
+        MplUtil.show_figures()
 
     def _get_trajectories_plotter(self) -> list[TrajectoryPlotter]:
         return [
