@@ -38,7 +38,7 @@ class TrajectoriesAnalyzerBase(ABC):
         pass
 
 
-class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
+class TrajectoriesAnalyzerParallel(TrajectoriesAnalyzerBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
