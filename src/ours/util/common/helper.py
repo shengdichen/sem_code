@@ -69,36 +69,36 @@ class RewardPlotter:
             title = "value"
 
         fig = plt.gcf()
-        fig.set_size_inches(24, 5)
-
-        plt.subplot(141)
+        fig.set_size_inches(28, 5)
+        ax1 = plt.subplot(151)
+        for demo in env.pwil.demonstrations:
+            plt.scatter(demo[:, 0], demo[:, 1], s=0.2, alpha=0.3)
+        plt.title(title)
+        plt.axis("equal")
+        ax1 = plt.subplot(152)
         plt.pcolor(x, y, r_1.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
-
-        plt.subplot(142)
+        ax2 = plt.subplot(153)
         plt.pcolor(x, y, r_gt_1)
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
-
-        plt.subplot(143)
+        ax3 = plt.subplot(154)
         plt.pcolor(x, y, r_2.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.title(title)
         plt.axis("equal")
-
-        plt.subplot(144)
+        ax4 = plt.subplot(155)
         plt.pcolor(x, y, r_gt_2)
         plt.colorbar()
         plt.title(title)
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.axis("equal")
-
         fig.canvas.draw()
         data = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
         image_from_plot = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
