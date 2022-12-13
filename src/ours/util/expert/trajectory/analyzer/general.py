@@ -51,7 +51,7 @@ class TrajectoriesAnalyzerBase:
             )
         ]
 
-    def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
+    def _get_configured_figures(self) -> list[matplotlib.figure.FigureBase]:
         pass
 
 
