@@ -55,8 +55,10 @@ class RewardPlotter:
             r2 = []
             for pos in grid_pos1:
                 r1.append(env.pwil.compute_reward(pos))
+                env.pwil.reset()
             for pos in grid_pos2:
                 r2.append(env.pwil.compute_reward(pos))
+                env.pwil.reset()
             r_1 = np.stack(r1)
             r_2 = np.stack(r2)
 
