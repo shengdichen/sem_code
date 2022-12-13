@@ -51,3 +51,11 @@ class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
             return [figure]
         else:
             return figure.subfigures(1, n_trajectories)
+
+
+class TrajectoriesAnalyzerSeparate(TrajectoriesAnalyzerBase):
+    def __init__(self, trajectories: list[np.ndarray]):
+        super().__init__(trajectories)
+
+    def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
+        return [plt.figure(figsize=[15, 5]) for __ in range(len(self._trajectories))]
