@@ -10,7 +10,9 @@ class MplUtil:
     def __init__(self, n_trajectories: int):
         self._n_trajectories = n_trajectories
 
-    def get_parallel_figures(self):
+    def get_parallel_figures(
+        self,
+    ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
         figure = plt.figure(figsize=[15, 5])
 
         if self._n_trajectories == 1:
@@ -18,7 +20,7 @@ class MplUtil:
         else:
             return figure.subfigures(1, self._n_trajectories)
 
-    def get_separate_figures(self):
+    def get_separate_figures(self) -> list[matplotlib.figure.Figure]:
         return [plt.figure(figsize=[15, 5]) for __ in range(self._n_trajectories)]
 
     @staticmethod
@@ -59,7 +61,9 @@ class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
-    def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
+    def _get_configured_figures(
+        self,
+    ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
         return MplUtil(len(self._trajectories)).get_parallel_figures()
 
 
@@ -67,5 +71,5 @@ class TrajectoriesAnalyzerSeparate(TrajectoriesAnalyzerBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
-    def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
+    def _get_configured_figures(self) -> list[matplotlib.figure.Figure]:
         return MplUtil(len(self._trajectories)).get_separate_figures()
