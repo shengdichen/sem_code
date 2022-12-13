@@ -34,6 +34,15 @@ class TrajectoriesAnalyzerBase:
             TrajectoryStats(trajectory) for trajectory in self._trajectories
         ]
 
+    def analyze(self, plot_agent_as_hist: bool = True) -> None:
+        for trajectory_stats in self._trajectories_stats:
+            trajectory_stats.display_stats()
+
+        for trajectory_plotter in self._get_trajectories_plotter():
+            trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
+
+        MplUtil._show_figures()
+
     def _get_trajectories_plotter(self) -> list[TrajectoryPlotter]:
         return [
             TrajectoryPlotter(trajectory, figure)
@@ -44,15 +53,6 @@ class TrajectoriesAnalyzerBase:
 
     def _get_configured_figures(self) -> list[matplotlib.figure.SubFigure]:
         pass
-
-    def analyze(self, plot_agent_as_hist: bool = True) -> None:
-        for trajectory_stats in self._trajectories_stats:
-            trajectory_stats.display_stats()
-
-        for trajectory_plotter in self._get_trajectories_plotter():
-            trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
-
-        MplUtil._show_figures()
 
 
 class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
