@@ -14,8 +14,8 @@ class TrajectoriesAnalyzer:
             TrajectoryStats(trajectory) for trajectory in self._trajectories
         ]
         self._trajectories_plotter = [
-            TrajectoryPlotter(trajectory, subfigure)
-            for trajectory, subfigure in zip(
+            TrajectoryPlotter(trajectory, figure)
+            for trajectory, figure in zip(
                 self._trajectories, self._get_configured_figures()
             )
         ]
