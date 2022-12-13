@@ -52,11 +52,7 @@ class TrajectoriesAnalyzerBase:
         for trajectory_plotter in self._get_trajectories_plotter():
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
 
-        self._show_figures()
-
-    @staticmethod
-    def _show_figures() -> None:
-        plt.show()
+        MplUtil._show_figures()
 
 
 class TrajectoriesAnalyzer(TrajectoriesAnalyzerBase):
