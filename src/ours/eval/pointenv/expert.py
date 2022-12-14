@@ -6,74 +6,62 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
 )
 from src.ours.util.common.param import ExpertParam
-from src.ours.util.expert.analyzer.general import TrajectoriesAnalyzer
-from src.ours.util.expert.client import ClientExpert
-from src.ours.util.expert.manager import TrajectoryManager
+from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.sb3.util.train import TrainerExpert
+from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesAnalyzer
+from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
-class PointEnvExpertSingle:
+class PointEnvExpertManagerFactory:
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         self._training_param = training_param
+        self._env_config = env_config
 
-        self._expert_client = self._make_expert_client(env_config)
-
-    def _make_expert_client(self, env_config: dict[str:int]) -> ClientExpert:
-        env = PointEnvFactory(env_config).create()
-        trainer = TrainerExpert(env, self._training_param)
+    def create(self) -> ExpertManager:
+        env = PointEnvFactory(self._env_config).create()
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
-        return ClientExpert(
-            trainer,
-            (
-                Sb3Manager(trainer.model, self._training_param),
-                TrajectoryManager((env, trainer.model), self._training_param),
-            ),
-            env_identifier,
+        sb3_manager = Sb3Manager((env, env_identifier), self._training_param)
+        trajectory_manager = TrajectoryManager(
+            (env, env_identifier),
+            (sb3_manager.model, self._training_param),
         )
 
-    def train(self) -> None:
-        self._expert_client.train()
-
-    def save(self) -> None:
-        self._expert_client.save()
-
-    def load(self) -> np.ndarray:
-        return self._expert_client.load()
+        return ExpertManager(
+            (sb3_manager, trajectory_manager),
+            env_identifier,
+        )
 
 
 class PointEnvExpertDefault:
     def __init__(self):
-        self._training_param = ExpertParam()
-        self._n_timesteps = self._training_param.n_steps_expert_train
+        self._expert_managers = self._make_expert_managers()
 
-        self._env_configs = PointEnvConfigFactory().env_configs
-        self._pointenv_experts = self._make_pointenv_experts()
+    @staticmethod
+    def _make_expert_managers() -> list[ExpertManager]:
+        training_param = ExpertParam()
+        env_configs = PointEnvConfigFactory().env_configs
 
-    def _make_pointenv_experts(self) -> list[PointEnvExpertSingle]:
-        pointenv_experts = [
-            PointEnvExpertSingle(self._training_param, env_config)
-            for env_config in self._env_configs
+        return [
+            PointEnvExpertManagerFactory(training_param, env_config).create()
+            for env_config in env_configs
         ]
-
-        return pointenv_experts
 
     def train_and_analyze(self) -> None:
         self.train_and_save()
         self.analyze()
 
     def train_and_save(self) -> None:
-        for pointenv_expert in self._pointenv_experts:
-            pointenv_expert.train()
-            pointenv_expert.save()
+        for expert_manager in self._expert_managers:
+            expert_manager.train()
+            expert_manager.save()
 
     def analyze(self) -> None:
         TrajectoriesAnalyzer(self._load()).analyze()
 
     def _load(self) -> list[np.ndarray]:
         trajectories = [
-            pointenv_expert.load() for pointenv_expert in self._pointenv_experts
+            expert_manager.load() for expert_manager in self._expert_managers
         ]
 
         return trajectories
