@@ -2,16 +2,22 @@ import os
 
 import PIL.Image as Image
 import matplotlib.pyplot as plt
+import numpy as np
 import torchvision
 from gym import Env
 from stable_baselines3 import PPO, PPO as PPOSB
 from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
-from src.ours.env.creation import PointEnvFactory
+from src.ours.env.creation import (
+    PointEnvFactory,
+    PointEnvIdentifierGenerator,
+    PointEnvConfigFactory,
+)
 from src.ours.env.env import MovePoint
+from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
-from src.ours.util.expert.manager import ExpertManager
+from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.ours.util.common.test import PolicyTester
 from src.ours.util.common.train import Trainer
 from src.upstream.env_utils import PWILReward
@@ -19,13 +25,20 @@ from src.upstream.utils import CustomCallback
 
 
 class TrainerPwil(Trainer):
-    def __init__(self, training_param: PwilParam, envs: tuple[Env, Env]):
+    def __init__(
+        self,
+        training_param: PwilParam,
+        envs_and_identifier: tuple[tuple[Env, Env], str],
+    ):
         super().__init__(training_param)
 
-        self._model_dir = "./models_pwil"
+        self._model_dir = self._training_param.model_dir
         self._save_deterministic = False
 
-        self._env_raw, self._env_raw_testing = envs
+        (
+            self._env_raw,
+            self._env_raw_testing,
+        ), self._env_identifier = envs_and_identifier
 
     def train(
         self,
@@ -74,19 +87,12 @@ class TrainerPwil(Trainer):
 
         model.learn(total_timesteps=n_timesteps, callback=callback_list)
 
-        # save model
-        if not os.path.exists(self._model_dir):
-            os.mkdir(self._model_dir)
-
-        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
-        ExpertManager.save_expert_traj(
-            env,
-            model,
-            nr_trajectories=10,
-            render=False,
-            env_identifier=fname + str(n_timesteps),
-            deterministic=self._save_deterministic,
+        model.save(
+            os.path.join(self._model_dir, "model_" + fname + str(int(n_timesteps)))
         )
+        TrajectoryManager(
+            (env, self._env_identifier), (model, self._training_param)
+        ).save_trajectory()
 
         return model, plot
 
@@ -94,11 +100,16 @@ class TrainerPwil(Trainer):
 class ClientTrainerPwil:
     def __init__(self):
         self._training_param = PwilParam()
-        self._n_timesteps = int(3e5)
+
+        env_config = PointEnvConfigFactory().env_configs[0]
+        env = PointEnvFactory(env_config).create()
+        self._env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
     def training(self):
         # train imitation learning / IRL policy
-        demos = ExpertManager.load_default_demos(self._n_timesteps)
+        pointenv_expert_default = PointEnvExpertDefault()
+        demos = pointenv_expert_default._load()
+
         flat_demos = [item for sublist in demos for item in sublist]
 
         env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
@@ -106,13 +117,15 @@ class ClientTrainerPwil:
             PointEnvFactory(env_config).create(),
             PointEnvFactory(env_config).create(),
         )
-        trainer = TrainerPwil(self._training_param, (env_raw, env_raw_testing))
+        trainer = TrainerPwil(
+            self._training_param, ((env_raw, env_raw_testing), self._env_identifier)
+        )
         model_pwil, plot = trainer.train(
             flat_demos,
             n_demos=3,
             subsampling=10,
             use_actions=False,
-            n_timesteps=1e3,
+            n_timesteps=self._training_param.n_steps_expert_train,
             fname="pwil_0",
         )
         PolicyTester.test_policy("", model=model_pwil)
@@ -124,7 +137,8 @@ class ClientTrainerPwil:
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
-        demos = ExpertManager.load_default_demos(self._n_timesteps)
+        pointenv_expert_default = PointEnvExpertDefault()
+        demos = pointenv_expert_default._load()
         flat_demos_0 = [item for sublist in demos for item in sublist]
         flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
         flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
@@ -143,19 +157,25 @@ class ClientTrainerPwil:
                         use_actions=False,
                     )
                     plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+                    np.save(
+                        self._training_param.plot_dir
+                        + "pwil_ss{}_demoidx{}_n_demos{}".format(ss, j, n_demos),
+                        plot,
+                    )
+
                     plots.append(plot)
                     im = Image.fromarray(plot)
                     im.save(
-                        "pwil_plots/pwil_ss{}_demoidx{}_n_demos{}.png".format(
-                            ss, j, n_demos
-                        )
+                        self._training_param.plot_dir
+                        + "pwil_ss{}_demoidx{}_n_demos{}.png".format(ss, j, n_demos)
                     )
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    @staticmethod
-    def test():
-        save_dir = "models_pwil/model_pwil_0{}".format(1e3)
+    def test(self):
+        save_dir = self._training_param.model_dir + "model_pwil_0{}".format(
+            self._training_param.n_steps_expert_train
+        )
         model = PPO.load(save_dir)
         PolicyTester.test_policy("", model=model)
 
