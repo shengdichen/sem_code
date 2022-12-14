@@ -5,6 +5,7 @@ from gym import Env
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import TrajectorySaveLoadPathGenerator
+from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesAnalyzer
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
 from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
@@ -15,21 +16,23 @@ from src.ours.util.expert.trajectory.util.generator import (
 class TrajectoryManager:
     def __init__(
         self,
-        env_model: tuple[Env, Any],
-        training_param: CommonParam,
+        env_and_identifier: tuple[Env, str],
+        model_and_training_param: tuple[Any, CommonParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
+        env, env_identifier = env_and_identifier
+        model, training_param = model_and_training_param
         self._trajectory_generator = TrajectoryGenerator(
-            env_model, trajectory_generator_config
+            (env, model), trajectory_generator_config
         )
-        self._path_generator = TrajectorySaveLoadPathGenerator(training_param)
+        self._path_saveload = TrajectorySaveLoadPathGenerator(training_param).get_path(
+            env_identifier
+        )
 
-    def save_trajectory(self, env_identifier: str) -> None:
+    def save_trajectory(self) -> None:
         trajectory = self._trajectory_generator.get_trajectory()
-        path_saveload = self._path_generator.get_path(env_identifier)
 
-        TrajectorySaveLoad(path_saveload).save(trajectory)
+        TrajectorySaveLoad(self._path_saveload).save(trajectory)
 
-    def load_trajectory(self, env_identifier: str) -> np.ndarray:
-        path_saveload = self._path_generator.get_path(env_identifier)
-        return TrajectorySaveLoad(path_saveload).load()
+    def load_trajectory(self) -> np.ndarray:
+        return TrajectorySaveLoad(self._path_saveload).load()
