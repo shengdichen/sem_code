@@ -128,7 +128,7 @@ class ClientTrainerPwil:
             n_timesteps=self._training_param.n_steps_expert_train,
             fname="pwil_0",
         )
-        PolicyTester.test_policy("", model=model_pwil)
+        PolicyTester.test_policy(model_pwil)
         im = Image.fromarray(plot)
         im.save("pwil.png")
         plt.figure()
@@ -177,7 +177,7 @@ class ClientTrainerPwil:
             self._training_param.n_steps_expert_train
         )
         model = PPO.load(save_dir)
-        PolicyTester.test_policy("", model=model)
+        PolicyTester.test_policy(model)
 
 
 def client_code():

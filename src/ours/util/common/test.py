@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from stable_baselines3 import PPO as PPOSB
 
 from src.ours.env.env import MovePoint
 from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
@@ -9,16 +8,13 @@ from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
 class PolicyTester:
     @staticmethod
     def test_policy(
-        fname,
-        model=None,
+        model,
         rm="ERM",
         shift_x=0,
         shift_y=0,
         n_timesteps=2000,
         deterministic=True,
     ):
-        if model is None:
-            model = PPOSB.load(fname)
         testing_env = MovePoint(2, shift_x=shift_x, shift_y=shift_y)
 
         obs_list = []
