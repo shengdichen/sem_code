@@ -86,7 +86,9 @@ class TrainerPwil(Trainer):
 
         model.learn(total_timesteps=n_timesteps, callback=callback_list)
 
-        model.save(os.path.join(self._model_dir, "model_" + fname + str(n_timesteps)))
+        model.save(
+            os.path.join(self._model_dir, "model_" + fname + str(int(n_timesteps)))
+        )
         TrajectoryManager(
             (env, self._env_identifier), (model, self._training_param)
         ).save_trajectory()
@@ -167,7 +169,7 @@ class ClientTrainerPwil:
 
     @staticmethod
     def test():
-        save_dir = "models_pwil/model_pwil_0{}".format(1e3)
+        save_dir = "models_pwil/model_pwil_0{}".format(int(1e3))
         model = PPO.load(save_dir)
         PolicyTester.test_policy("", model=model)
 
