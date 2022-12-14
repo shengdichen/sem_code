@@ -55,8 +55,10 @@ class RewardPlotter:
             r2 = []
             for pos in grid_pos1:
                 r1.append(env.pwil.compute_reward(pos))
+                env.pwil.reset()
             for pos in grid_pos2:
                 r2.append(env.pwil.compute_reward(pos))
+                env.pwil.reset()
             r_1 = np.stack(r1)
             r_2 = np.stack(r2)
 
@@ -67,30 +69,36 @@ class RewardPlotter:
             title = "value"
 
         fig = plt.gcf()
-        fig.set_size_inches(24, 5)
+        fig.set_size_inches(28, 5)
 
-        plt.subplot(141)
+        plt.subplot(151)
+        for demo in env.pwil.demonstrations:
+            plt.scatter(demo[:, 0], demo[:, 1], s=0.2, alpha=0.3)
+        plt.title(title)
+        plt.axis("equal")
+
+        plt.subplot(152)
         plt.pcolor(x, y, r_1.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
 
-        plt.subplot(142)
+        plt.subplot(153)
         plt.pcolor(x, y, r_gt_1)
         plt.colorbar()
         plt.scatter(tgt_pos_1[0], tgt_pos_1[1], c="r")
         plt.title(title)
         plt.axis("equal")
 
-        plt.subplot(143)
+        plt.subplot(154)
         plt.pcolor(x, y, r_2.reshape((200, 200)))
         plt.colorbar()
         plt.scatter(tgt_pos_2[0], tgt_pos_2[1], c="r")
         plt.title(title)
         plt.axis("equal")
 
-        plt.subplot(144)
+        plt.subplot(155)
         plt.pcolor(x, y, r_gt_2)
         plt.colorbar()
         plt.title(title)
