@@ -159,9 +159,8 @@ class ClientTrainerPwil:
                     plots.append(plot)
                     im = Image.fromarray(plot)
                     im.save(
-                        "pwil_plots/pwil_ss{}_demoidx{}_n_demos{}.png".format(
-                            ss, j, n_demos
-                        )
+                        self._training_param.plot_dir
+                        + "pwil_ss{}_demoidx{}_n_demos{}.png".format(ss, j, n_demos)
                     )
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
