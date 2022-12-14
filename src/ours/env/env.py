@@ -58,7 +58,7 @@ class MovePoint(Env):
 
         has_elapsed = self._episode_timer.advance()
 
-        self._done = has_visited_all_targets and has_elapsed
+        self._done = has_visited_all_targets or has_elapsed
         return obs, reward, self._done, {}
 
     def _get_obs(self):
