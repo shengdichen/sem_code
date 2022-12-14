@@ -125,7 +125,7 @@ class ClientTrainerPwil:
             n_demos=3,
             subsampling=10,
             use_actions=False,
-            n_timesteps=1e3,
+            n_timesteps=self._training_param.n_steps_expert_train,
             fname="pwil_0",
         )
         PolicyTester.test_policy("", model=model_pwil)
@@ -167,9 +167,10 @@ class ClientTrainerPwil:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    @staticmethod
-    def test():
-        save_dir = "models_pwil/model_pwil_0{}".format(int(1e3))
+    def test(self):
+        save_dir = self._training_param.model_dir + "model_pwil_0{}".format(
+            self._training_param.n_steps_expert_train
+        )
         model = PPO.load(save_dir)
         PolicyTester.test_policy("", model=model)
 
