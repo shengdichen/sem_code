@@ -2,6 +2,7 @@ import os
 
 import PIL.Image as Image
 import matplotlib.pyplot as plt
+import numpy as np
 import torchvision
 from gym import Env
 from stable_baselines3 import PPO, PPO as PPOSB
@@ -156,6 +157,12 @@ class ClientTrainerPwil:
                         use_actions=False,
                     )
                     plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+                    np.save(
+                        self._training_param.plot_dir
+                        + "pwil_ss{}_demoidx{}_n_demos{}".format(ss, j, n_demos),
+                        plot,
+                    )
+
                     plots.append(plot)
                     im = Image.fromarray(plot)
                     im.save(
