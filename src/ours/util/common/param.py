@@ -89,5 +89,13 @@ class PwilParam(CommonParam):
     def __init__(self):
         super().__init__()
 
-        self._model_dir, self._demo_dir = "./pwil/models/", "./pwil/demos/"
-        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
+        self._model_dir, self._demo_dir, self._plot_dir = (
+            "./pwil/models/",
+            "./pwil/demos/",
+            "./pwil/plot/",
+        )
+        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir, self._plot_dir])
+
+    @property
+    def plot_dir(self):
+        return self._plot_dir
