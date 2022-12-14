@@ -99,7 +99,6 @@ class TrainerPwil(Trainer):
 class ClientTrainerPwil:
     def __init__(self):
         self._training_param = PwilParam()
-        self._n_timesteps = int(3e5)
 
         env_config = PointEnvConfigFactory().env_configs[0]
         env = PointEnvFactory(env_config).create()
