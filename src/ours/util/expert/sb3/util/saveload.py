@@ -18,5 +18,5 @@ class Sb3Loader:
         self._alg = alg
         self._savepath_rel = savepath_rel
 
-    def load_model(self, env: gym.Env = None) -> BaseAlgorithm:
-        return self._alg.load(self._savepath_rel, env)
+    def load_model(self, new_env: gym.Env = None) -> BaseAlgorithm:
+        return self._alg.load(self._savepath_rel, new_env)
