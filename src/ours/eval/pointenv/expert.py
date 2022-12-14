@@ -8,7 +8,10 @@ from src.ours.env.creation import (
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesAnalyzer
+from src.ours.util.expert.trajectory.analyzer.general import (
+    TrajectoriesAnalyzerParallel,
+    TrajectoriesAnalyzerSeparate,
+)
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
@@ -49,15 +52,18 @@ class PointEnvExpertDefault:
 
     def train_and_analyze(self) -> None:
         self.train_and_save()
-        self.analyze()
+        self.analyze_parallel()
 
     def train_and_save(self) -> None:
         for expert_manager in self._expert_managers:
             expert_manager.train()
             expert_manager.save()
 
-    def analyze(self) -> None:
-        TrajectoriesAnalyzer(self._load()).analyze()
+    def analyze_parallel(self) -> None:
+        TrajectoriesAnalyzerParallel(self._load()).analyze()
+
+    def analyze_separate(self):
+        TrajectoriesAnalyzerSeparate(self._load()).analyze()
 
     def _load(self) -> list[np.ndarray]:
         trajectories = [
@@ -69,7 +75,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.analyze()
+    trainer.analyze_parallel()
 
 
 if __name__ == "__main__":
