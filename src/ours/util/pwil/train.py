@@ -29,6 +29,7 @@ class TrainerPwil(Trainer):
         ), self._env_identifier = envs_and_identifier
 
         self._eval_callback = self._make_eval_callback()
+        self._callback_list = self._make_callback_list()
 
     def _make_eval_callback(self) -> EvalCallback:
         eval_callback = EvalCallback(
@@ -42,6 +43,17 @@ class TrainerPwil(Trainer):
 
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
+
+    def _make_callback_list(self) -> CallbackList:
+        callback_list = CallbackList(
+            [
+                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
+                self._eval_callback,
+                TqdmCallback(),
+            ]
+        )
+
+        return callback_list
 
     def train(
         self,
