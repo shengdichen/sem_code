@@ -31,7 +31,7 @@ class TrainerPwil(Trainer):
             env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-        self._env = self._make_env(trajectories)
+        self._env = self._make_env(self._env_raw, trajectories)
         self._model = self._make_model()
 
         self._callback_list = self._make_callback_list(env_raw_testing)
@@ -64,9 +64,9 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
 
-    def _make_env(self, trajectories: list[np.ndarray]) -> Env:
+    def _make_env(self, env_raw: Env, trajectories: list[np.ndarray]) -> Env:
         env = PWILReward(
-            env=self._env_raw,
+            env=env_raw,
             demos=trajectories,
             **self._training_param.pwil_training_param,
         )
