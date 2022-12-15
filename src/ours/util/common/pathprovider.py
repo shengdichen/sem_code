@@ -52,11 +52,8 @@ class PwilSaveLoadPathGenerator:
         Util.mkdir_if_not_existent([curr_model_dir])
 
         return Path(
-            "{0}/{1}{2}{3:07}/{4}_{5:02}_{6:03}".format(
-                self._training_param.model_dir,
-                env_identifier,
-                "_",
-                self._training_param.n_steps_expert_train,
+            "{0}/{1}_{2:02}_{3:03}".format(
+                curr_model_dir,
                 trajectory_num,
                 n_demos,
                 subsampling,
