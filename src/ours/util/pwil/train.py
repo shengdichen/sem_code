@@ -67,6 +67,11 @@ class TrainerPwil(Trainer):
 
         return env
 
+    def get_reward_plot(self) -> np.ndarray:
+        plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
+
+        return plot
+
     def train(self, fname):
         plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
 
