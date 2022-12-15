@@ -66,9 +66,7 @@ class TrainerPwil(Trainer):
         env = PWILReward(
             env=self._env_raw,
             demos=demos,
-            n_demos=n_demos,
-            subsampling=subsampling,
-            use_actions=use_actions,
+            **self._training_param.pwil_training_param,
         )
 
         plot = RewardPlotter.plot_reward(discriminator=None, env=env)
