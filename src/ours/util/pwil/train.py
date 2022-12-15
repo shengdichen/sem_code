@@ -1,5 +1,3 @@
-import os
-
 import numpy as np
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
@@ -8,6 +6,7 @@ from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.common.param import PwilParam
+from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.upstream.env_utils import PWILReward
@@ -88,18 +87,16 @@ class TrainerPwil(Trainer):
 
         return plot
 
-    def train(self, fname) -> None:
+    def train(self) -> None:
         self._model.learn(
             total_timesteps=self._training_param.n_steps_expert_train,
             callback=self._callback_list,
         )
 
-        self._model.save(
-            os.path.join(
-                self._training_param.model_dir,
-                "model_" + fname + str(int(self._training_param.n_steps_expert_train)),
-            )
+        path = PwilSaveLoadPathGenerator(self._training_param).get_path(
+            self._env_identifier
         )
+        self._model.save(path)
 
     def save_trajectory(self) -> None:
         TrajectoryManager(
