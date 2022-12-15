@@ -13,7 +13,7 @@ from src.upstream.env_utils import PWILReward
 from src.upstream.utils import CustomCallback
 
 
-class TrainerPwil(Trainer):
+class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
         training_param: PwilParam,
