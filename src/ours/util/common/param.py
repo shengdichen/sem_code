@@ -96,6 +96,20 @@ class PwilParam(CommonParam):
         )
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir, self._plot_dir])
 
+        self._pwil_training_param = {
+            "n_demos": 5,
+            "subsampling": 10,
+            "use_actions": False,
+        }
+
     @property
     def plot_dir(self):
         return self._plot_dir
+
+    @property
+    def pwil_training_param(self):
+        return self._pwil_training_param
+
+    @pwil_training_param.setter
+    def pwil_training_param(self, value):
+        self._pwil_training_param = value
