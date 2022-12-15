@@ -22,8 +22,6 @@ class TrainerPwil(Trainer):
     ):
         self._training_param = training_param
 
-        self._save_deterministic = False
-
         (
             env_raw,
             env_raw_testing,
