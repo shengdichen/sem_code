@@ -18,7 +18,7 @@ class TrainerPwil(Trainer):
         training_param: PwilParam,
         envs_and_identifier: tuple[tuple[Env, Env], str],
     ):
-        super().__init__(training_param)
+        self._training_param = training_param
 
         self._model_dir = self._training_param.model_dir
         self._save_deterministic = False
