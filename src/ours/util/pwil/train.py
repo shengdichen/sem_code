@@ -82,15 +82,7 @@ class TrainerPwil(Trainer):
             tensorboard_log=self._training_param.sb3_tblog_dir
         )
 
-        callback_list = CallbackList(
-            [
-                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
-                self._eval_callback,
-                TqdmCallback(),
-            ]
-        )
-
-        model.learn(total_timesteps=n_timesteps, callback=callback_list)
+        model.learn(total_timesteps=n_timesteps, callback=self._callback_list)
 
         model.save(
             os.path.join(self._model_dir, "model_" + fname + str(int(n_timesteps)))
