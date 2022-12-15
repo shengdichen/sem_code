@@ -28,7 +28,6 @@ class TrainerPwil(Trainer):
             self._env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-        self._eval_callback = self._make_eval_callback()
         self._callback_list = self._make_callback_list()
 
     def _make_eval_callback(self) -> EvalCallback:
@@ -48,7 +47,7 @@ class TrainerPwil(Trainer):
         callback_list = CallbackList(
             [
                 CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
-                self._eval_callback,
+                self._make_eval_callback(),
                 TqdmCallback(),
             ]
         )
