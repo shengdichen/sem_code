@@ -86,27 +86,19 @@ class TrainerPwil(Trainer):
         return plot
 
     def train(self, fname):
-        model = PPOSB(
-            "MlpPolicy",
-            self._env,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir,
-        )
-
-        model.learn(
+        self._model.learn(
             total_timesteps=self._training_param.n_steps_expert_train,
             callback=self._callback_list,
         )
 
-        model.save(
+        self._model.save(
             os.path.join(
                 self._model_dir,
                 "model_" + fname + str(int(self._training_param.n_steps_expert_train)),
             )
         )
         TrajectoryManager(
-            (self._env, self._env_identifier), (model, self._training_param)
+            (self._env, self._env_identifier), (self._model, self._training_param)
         ).save_trajectory()
 
-        return model
+        return self._model
