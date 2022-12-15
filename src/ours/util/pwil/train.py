@@ -23,7 +23,6 @@ class TrainerPwil(Trainer):
     ):
         self._training_param = training_param
 
-        self._model_dir = self._training_param.model_dir
         self._save_deterministic = False
 
         (
@@ -97,7 +96,7 @@ class TrainerPwil(Trainer):
 
         self._model.save(
             os.path.join(
-                self._model_dir,
+                self._training_param.model_dir,
                 "model_" + fname + str(int(self._training_param.n_steps_expert_train)),
             )
         )
