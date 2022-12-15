@@ -82,10 +82,16 @@ class TrainerPwil(Trainer):
             tensorboard_log=self._training_param.sb3_tblog_dir
         )
 
-        model.learn(total_timesteps=n_timesteps, callback=self._callback_list)
+        model.learn(
+            total_timesteps=self._training_param.n_steps_expert_train,
+            callback=self._callback_list,
+        )
 
         model.save(
-            os.path.join(self._model_dir, "model_" + fname + str(int(n_timesteps)))
+            os.path.join(
+                self._model_dir,
+                "model_" + fname + str(int(self._training_param.n_steps_expert_train)),
+            )
         )
         TrajectoryManager(
             (env, self._env_identifier), (model, self._training_param)
