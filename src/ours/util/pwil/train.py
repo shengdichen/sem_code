@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 from stable_baselines3.common.callbacks import EvalCallback, CallbackList
@@ -17,6 +18,7 @@ class TrainerPwil(Trainer):
         self,
         training_param: PwilParam,
         envs_and_identifier: tuple[tuple[Env, Env], str],
+        trajectories: list[np.ndarray],
     ):
         self._training_param = training_param
 
@@ -27,6 +29,7 @@ class TrainerPwil(Trainer):
             self._env_raw,
             self._env_raw_testing,
         ), self._env_identifier = envs_and_identifier
+        self._trajectories = trajectories
 
         self._callback_list = self._make_callback_list()
 
