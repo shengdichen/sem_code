@@ -31,6 +31,8 @@ class TrainerPwil(Trainer):
         ), self._env_identifier = envs_and_identifier
         self._trajectories = trajectories
 
+        self._env = self._make_env()
+
         self._callback_list = self._make_callback_list()
 
     def _make_callback_list(self) -> CallbackList:
@@ -57,21 +59,24 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
 
-    def train(self, fname):
+    def _make_env(self) -> Env:
         env = PWILReward(
             env=self._env_raw,
             demos=self._trajectories,
             **self._training_param.pwil_training_param,
         )
 
-        plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+        return env
+
+    def train(self, fname):
+        plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
 
         model = PPOSB(
             "MlpPolicy",
-            env,
+            self._env,
             verbose=0,
             **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir
+            tensorboard_log=self._training_param.sb3_tblog_dir,
         )
 
         model.learn(
@@ -86,7 +91,7 @@ class TrainerPwil(Trainer):
             )
         )
         TrajectoryManager(
-            (env, self._env_identifier), (model, self._training_param)
+            (self._env, self._env_identifier), (model, self._training_param)
         ).save_trajectory()
 
         return model, plot
