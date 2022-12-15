@@ -27,11 +27,11 @@ class TrainerPwil(Trainer):
         self._save_deterministic = False
 
         (
-            self._env_raw,
+            env_raw,
             env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-        self._env = self._make_env(self._env_raw, trajectories)
+        self._env = self._make_env(env_raw, trajectories)
         self._model = self._make_model()
 
         self._callback_list = self._make_callback_list(env_raw_testing)
