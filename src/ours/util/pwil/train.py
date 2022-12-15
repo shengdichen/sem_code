@@ -34,26 +34,26 @@ class TrainerPwil(Trainer):
         self._env = self._make_env(trajectories)
         self._model = self._make_model()
 
-        self._callback_list = self._make_callback_list()
+        self._callback_list = self._make_callback_list(self._env_raw_testing)
 
     @property
     def model(self):
         return self._model
 
-    def _make_callback_list(self) -> CallbackList:
+    def _make_callback_list(self, env_raw_testing) -> CallbackList:
         callback_list = CallbackList(
             [
                 CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
-                self._make_eval_callback(),
+                self._make_eval_callback(env_raw_testing),
                 TqdmCallback(),
             ]
         )
 
         return callback_list
 
-    def _make_eval_callback(self) -> EvalCallback:
+    def _make_eval_callback(self, env_raw_testing) -> EvalCallback:
         eval_callback = EvalCallback(
-            self._env_raw_testing,
+            env_raw_testing,
             best_model_save_path=self._training_param.sb3_tblog_dir,
             log_path=self._training_param.sb3_tblog_dir,
             eval_freq=10000,
