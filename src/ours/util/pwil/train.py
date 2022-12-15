@@ -3,6 +3,7 @@ import os
 import numpy as np
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
+from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
@@ -31,6 +32,7 @@ class TrainerPwil(Trainer):
         ), self._env_identifier = envs_and_identifier
 
         self._env = self._make_env(trajectories)
+        self._model = self._make_model()
 
         self._callback_list = self._make_callback_list()
 
@@ -66,6 +68,17 @@ class TrainerPwil(Trainer):
         )
 
         return env
+
+    def _make_model(self) -> BaseAlgorithm:
+        model = PPOSB(
+            "MlpPolicy",
+            self._env,
+            verbose=0,
+            **self._training_param.kwargs_ppo,
+            tensorboard_log=self._training_param.sb3_tblog_dir,
+        )
+
+        return model
 
     def get_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
