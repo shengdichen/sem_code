@@ -36,6 +36,10 @@ class TrainerPwil(Trainer):
 
         self._callback_list = self._make_callback_list()
 
+    @property
+    def model(self):
+        return self._model
+
     def _make_callback_list(self) -> CallbackList:
         callback_list = CallbackList(
             [
@@ -85,7 +89,7 @@ class TrainerPwil(Trainer):
 
         return plot
 
-    def train(self, fname):
+    def train(self, fname) -> None:
         self._model.learn(
             total_timesteps=self._training_param.n_steps_expert_train,
             callback=self._callback_list,
@@ -100,5 +104,3 @@ class TrainerPwil(Trainer):
         TrajectoryManager(
             (self._env, self._env_identifier), (self._model, self._training_param)
         ).save_trajectory()
-
-        return self._model
