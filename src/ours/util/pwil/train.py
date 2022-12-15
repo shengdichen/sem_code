@@ -101,6 +101,8 @@ class TrainerPwil(Trainer):
                 "model_" + fname + str(int(self._training_param.n_steps_expert_train)),
             )
         )
+
+    def save_trajectory(self) -> None:
         TrajectoryManager(
             (self._env, self._env_identifier), (self._model, self._training_param)
         ).save_trajectory()
