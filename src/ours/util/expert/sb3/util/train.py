@@ -8,7 +8,7 @@ from src.ours.util.common.train import Trainer
 
 class Sb3Trainer(Trainer):
     def __init__(self, env: Env, training_param: CommonParam):
-        super().__init__(training_param)
+        self._training_param = training_param
 
         self._env = env
 

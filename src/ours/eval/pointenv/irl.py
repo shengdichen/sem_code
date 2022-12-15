@@ -36,7 +36,7 @@ from src.upstream.utils import CustomCallback, prepare_update_airl
 
 class TrainerIrl(Trainer):
     def __init__(self, training_param: CommonParam):
-        super().__init__(training_param)
+        self._training_param = training_param
 
         self._log_root_dir, self._demo_root_dir = "./logs/", "./demos/"
         Path(self._log_root_dir).mkdir(exist_ok=True)
