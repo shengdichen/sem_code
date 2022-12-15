@@ -93,6 +93,7 @@ class TrainerPwil(Trainer):
             callback=self._callback_list,
         )
 
+    def save_model(self) -> None:
         path = PwilSaveLoadPathGenerator(self._training_param).get_path(
             self._env_identifier
         )
