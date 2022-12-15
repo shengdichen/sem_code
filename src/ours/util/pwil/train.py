@@ -57,15 +57,7 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
 
-    def train(
-        self,
-        demos,
-        n_demos,
-        subsampling,
-        use_actions,
-        n_timesteps,
-        fname,
-    ):
+    def train(self, fname):
         env = PWILReward(
             env=self._env_raw,
             demos=self._trajectories,
