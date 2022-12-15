@@ -68,7 +68,7 @@ class TrainerPwil(Trainer):
     ):
         env = PWILReward(
             env=self._env_raw,
-            demos=demos,
+            demos=self._trajectories,
             **self._training_param.pwil_training_param,
         )
 
