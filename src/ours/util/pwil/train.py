@@ -8,6 +8,7 @@ from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
+from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.upstream.env_utils import PWILReward
 from src.upstream.utils import CustomCallback
@@ -106,3 +107,34 @@ class Sb3PwilTrainer(Trainer):
             (self._env_pwil_rewarded, self._env_identifier),
             (self._model, self._training_param),
         ).save_trajectory()
+
+
+class Sb3PwilManager:
+    def __init__(
+        self,
+        training_param: PwilParam,
+        envs_and_identifier: tuple[tuple[Env, Env], str],
+        trajectories: list[np.ndarray],
+    ):
+        self._trainer = Sb3PwilTrainer(
+            training_param, envs_and_identifier, trajectories
+        )
+
+        env_identifier = envs_and_identifier[1]
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_path(
+            env_identifier
+        )
+
+    @property
+    def model(self):
+        return self._trainer.model
+
+    def train(self) -> None:
+        self._trainer.train()
+
+    def save(self) -> None:
+        saver = Sb3Saver(self._trainer.model, self._path_saveload)
+        saver.save_model()
+
+    def load(self, new_env: Env = None) -> BaseAlgorithm:
+        return Sb3Loader(self._trainer.model, self._path_saveload).load_model(new_env)
