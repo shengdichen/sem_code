@@ -73,8 +73,6 @@ class TrainerPwil(Trainer):
         return plot
 
     def train(self, fname):
-        plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
-
         model = PPOSB(
             "MlpPolicy",
             self._env,
@@ -98,4 +96,4 @@ class TrainerPwil(Trainer):
             (self._env, self._env_identifier), (model, self._training_param)
         ).save_trajectory()
 
-        return model, plot
+        return model
