@@ -207,3 +207,38 @@ class PwilManager:
 
     def get_reward_plot(self) -> np.ndarray:
         return self._reward_plot_manager.get_reward_plot()
+
+
+class PwilComponentsFactory:
+    def __init__(
+        self,
+        training_param: PwilParam,
+        envs_and_identifier: tuple[tuple[Env, Env], str],
+        trajectories: list[np.ndarray],
+    ):
+        (
+            env_raw,
+            env_raw_testing,
+        ), env_identifier = envs_and_identifier
+
+        env_pwil_rewarded = PwilEnvFactory(
+            training_param, env_raw, trajectories
+        ).env_pwil_rewarded
+
+        self._sb3_pwil_manager = Sb3PwilManager(
+            training_param,
+            ((env_pwil_rewarded, env_raw_testing), env_identifier),
+        )
+        self._trajectory_manager = TrajectoryManager(
+            (env_pwil_rewarded, env_identifier),
+            (self._sb3_pwil_manager.model, training_param),
+        )
+        self._reward_plot_manager = RewardPlotManager(env_pwil_rewarded)
+
+    @property
+    def managers(self) -> tuple[Sb3PwilManager, TrajectoryManager, RewardPlotManager]:
+        return (
+            self._sb3_pwil_manager,
+            self._trajectory_manager,
+            self._reward_plot_manager,
+        )
