@@ -13,9 +13,40 @@ from src.ours.env.env import MovePoint
 from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.helper import RewardPlotter
-from src.ours.util.common.test import PolicyTester
-from src.ours.util.pwil.train import TrainerPwil
+from src.ours.util.pwil.train import (
+    PwilManagerFactory,
+    PwilManager,
+)
 from src.upstream.env_utils import PWILReward
+
+
+class PointEnvPwilManagerFactory:
+    def __init__(self):
+        self._training_param = PwilParam()
+
+        env_config = PointEnvConfigFactory().env_configs[0]
+        self._env_raw, self._env_raw_testing = (
+            PointEnvFactory(env_config).create(),
+            PointEnvFactory(env_config).create(),
+        )
+        self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
+
+        self._demos_all = self._get_all_demos()
+
+    @staticmethod
+    def _get_all_demos():
+        pointenv_expert_default = PointEnvExpertDefault()
+
+        demos = pointenv_expert_default._load()
+        flat_demos = [item for sublist in demos for item in sublist]
+        return flat_demos
+
+    def get_manager_default(self) -> PwilManager:
+        return PwilManagerFactory(
+            self._training_param,
+            ((self._env_raw, self._env_raw_testing), self._env_identifier),
+            self._demos_all,
+        ).pwil_manager
 
 
 class ClientTrainerPwil:
