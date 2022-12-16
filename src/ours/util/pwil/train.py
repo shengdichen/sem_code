@@ -150,14 +150,12 @@ class Sb3PwilManager:
     def __init__(
         self,
         training_param: PwilParam,
-        envs_and_identifier: tuple[tuple[Env, Env], str],
-        trajectories: list[np.ndarray],
+        env_pwil_and_identifier: tuple[tuple[Env, Env], str],
     ):
-        self._trainer = Sb3PwilTrainer(
-            training_param, envs_and_identifier, trajectories
-        )
+        env_pwil_and_testing, env_identifier = env_pwil_and_identifier
 
-        env_identifier = envs_and_identifier[1]
+        self._trainer = Sb3PwilTrainer(training_param, env_pwil_and_testing)
+
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_path(
             env_identifier
         )
