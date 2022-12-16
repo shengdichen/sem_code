@@ -209,7 +209,7 @@ class PwilManager:
         return self._reward_plot_manager.get_reward_plot()
 
 
-class PwilComponentsFactory:
+class PwilManagerFactory:
     def __init__(
         self,
         training_param: PwilParam,
@@ -236,9 +236,11 @@ class PwilComponentsFactory:
         self._reward_plot_manager = RewardPlotManager(env_pwil_rewarded)
 
     @property
-    def managers(self) -> tuple[Sb3PwilManager, TrajectoryManager, RewardPlotManager]:
-        return (
-            self._sb3_pwil_manager,
-            self._trajectory_manager,
-            self._reward_plot_manager,
+    def pwil_manager(self) -> PwilManager:
+        return PwilManager(
+            (
+                self._sb3_pwil_manager,
+                self._trajectory_manager,
+                self._reward_plot_manager,
+            )
         )
