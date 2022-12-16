@@ -147,13 +147,6 @@ class Sb3PwilTrainer(Trainer):
     def model(self):
         return self._model
 
-    def get_reward_plot(self) -> np.ndarray:
-        plot = RewardPlotter.plot_reward(
-            discriminator=None, env=self._env_pwil_rewarded
-        )
-
-        return plot
-
     def train(self) -> None:
         self._model.learn(
             total_timesteps=self._training_param.n_steps_expert_train,
