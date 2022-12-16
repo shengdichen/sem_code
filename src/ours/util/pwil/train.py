@@ -7,6 +7,7 @@ from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
+from src.ours.util.common.test import PolicyTester
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
@@ -155,3 +156,7 @@ class Sb3PwilManager:
 
     def load(self, new_env: Env = None) -> BaseAlgorithm:
         return Sb3Loader(self._trainer.model, self._path_saveload).load_model(new_env)
+
+    def test(self):
+        model = self.load()
+        PolicyTester.test_policy(model)
