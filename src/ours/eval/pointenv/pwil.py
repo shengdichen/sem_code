@@ -54,25 +54,9 @@ class ClientTrainerPwil:
         self._manager = PointEnvPwilManagerFactory().get_manager_default()
 
     def training(self):
-        # train imitation learning / IRL policy
-        pointenv_expert_default = PointEnvExpertDefault()
-        demos = pointenv_expert_default._load()
+        self._manager.train_model()
 
-        flat_demos = [item for sublist in demos for item in sublist]
-
-        trainer = TrainerPwil(
-            self._training_param,
-            ((self._env_raw, self._env_raw_testing), self._env_identifier),
-        )
-        model_pwil, plot = trainer.train(
-            flat_demos,
-            n_demos=3,
-            subsampling=10,
-            use_actions=False,
-            n_timesteps=self._training_param.n_steps_expert_train,
-            fname="pwil_0",
-        )
-        PolicyTester.test_policy(model_pwil)
+        plot = self._manager.get_reward_plot()
         im = Image.fromarray(plot)
         im.save("pwil.png")
         plt.figure()
