@@ -41,6 +41,46 @@ class PwilEnvFactory:
         return env_pwil_rewarded
 
 
+class CallbackListFactory:
+    def __init__(
+        self,
+        training_param: PwilParam,
+        env_raw_testing: Env,
+    ):
+        self._training_param = training_param
+        self._env_raw_testing = env_raw_testing
+
+        self._callback_list = self._make_callback_list()
+
+    @property
+    def callback_list(self):
+        return self._callback_list
+
+    def _make_callback_list(self) -> CallbackList:
+        callback_list = CallbackList(
+            [
+                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
+                self._make_eval_callback(),
+                TqdmCallback(),
+            ]
+        )
+
+        return callback_list
+
+    def _make_eval_callback(self) -> EvalCallback:
+        eval_callback = EvalCallback(
+            self._env_raw_testing,
+            best_model_save_path=self._training_param.sb3_tblog_dir,
+            log_path=self._training_param.sb3_tblog_dir,
+            eval_freq=10000,
+            deterministic=True,
+            render=False,
+        )
+
+        # eval_callback.init_callback(ppo_dict[k])
+        return eval_callback
+
+
 class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
