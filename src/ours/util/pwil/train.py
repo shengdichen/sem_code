@@ -108,6 +108,18 @@ class PwilModelFactory:
         return model
 
 
+class RewardPlotManager:
+    def __init__(self, env_pwil_rewarded: Env):
+        self._env_pwil_rewarded = env_pwil_rewarded
+
+    def get_reward_plot(self) -> np.ndarray:
+        plot = RewardPlotter.plot_reward(
+            discriminator=None, env=self._env_pwil_rewarded
+        )
+
+        return plot
+
+
 class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
