@@ -153,12 +153,6 @@ class Sb3PwilTrainer(Trainer):
             callback=self._callback_list,
         )
 
-    def save_trajectory(self) -> None:
-        TrajectoryManager(
-            (self._env_pwil_rewarded, self._env_identifier),
-            (self._model, self._training_param),
-        ).save_trajectory()
-
 
 class Sb3PwilManager:
     def __init__(
