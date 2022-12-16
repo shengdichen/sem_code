@@ -14,6 +14,32 @@ from src.upstream.env_utils import PWILReward
 from src.upstream.utils import CustomCallback
 
 
+class PwilEnvFactory:
+    def __init__(
+        self,
+        training_param: PwilParam,
+        env_raw: Env,
+        trajectories: list[np.ndarray],
+    ):
+        self._training_param = training_param
+        self._env_raw = env_raw
+
+        self._env_pwil_rewarded = self._make_env_pwil_rewarded(trajectories)
+
+    @property
+    def env_pwil_rewarded(self) -> Env:
+        return self._env_pwil_rewarded
+
+    def _make_env_pwil_rewarded(self, trajectories: list[np.ndarray]) -> Env:
+        env_pwil_rewarded = PWILReward(
+            env=self._env_raw,
+            demos=trajectories,
+            **self._training_param.pwil_training_param,
+        )
+
+        return env_pwil_rewarded
+
+
 class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
@@ -28,7 +54,9 @@ class Sb3PwilTrainer(Trainer):
             env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-        self._env_pwil_rewarded = self._make_env_pwil_rewarded(env_raw, trajectories)
+        self._env_pwil_rewarded = PwilEnvFactory(
+            training_param, env_raw, trajectories
+        ).env_pwil_rewarded
         self._model = self._make_model()
 
         self._callback_list = self._make_callback_list(env_raw_testing)
@@ -60,17 +88,6 @@ class Sb3PwilTrainer(Trainer):
 
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
-
-    def _make_env_pwil_rewarded(
-        self, env_raw: Env, trajectories: list[np.ndarray]
-    ) -> Env:
-        env_pwil_rewarded = PWILReward(
-            env=env_raw,
-            demos=trajectories,
-            **self._training_param.pwil_training_param,
-        )
-
-        return env_pwil_rewarded
 
     def _make_model(self) -> BaseAlgorithm:
         model = PPOSB(
