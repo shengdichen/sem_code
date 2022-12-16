@@ -132,12 +132,6 @@ class Sb3PwilTrainer(Trainer):
             callback=self._callback_list,
         )
 
-    def save_model(self) -> None:
-        path = PwilSaveLoadPathGenerator(self._training_param).get_path(
-            self._env_identifier
-        )
-        self._model.save(path)
-
     def save_trajectory(self) -> None:
         TrajectoryManager(
             (self._env_pwil_rewarded, self._env_identifier),
