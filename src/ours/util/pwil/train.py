@@ -125,7 +125,7 @@ class Sb3PwilTrainer(Trainer):
         self._env_pwil_rewarded = PwilEnvFactory(
             training_param, env_raw, trajectories
         ).env_pwil_rewarded
-        self._model = self._make_model()
+        self._model = PwilModelFactory(training_param, self._env_pwil_rewarded).model
 
         self._callback_list = CallbackListFactory(
             training_param, env_raw_testing
@@ -134,17 +134,6 @@ class Sb3PwilTrainer(Trainer):
     @property
     def model(self):
         return self._model
-
-    def _make_model(self) -> BaseAlgorithm:
-        model = PPOSB(
-            "MlpPolicy",
-            self._env_pwil_rewarded,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir,
-        )
-
-        return model
 
     def get_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(
