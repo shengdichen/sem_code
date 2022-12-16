@@ -124,20 +124,12 @@ class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
         training_param: PwilParam,
-        envs_and_identifier: tuple[tuple[Env, Env], str],
-        trajectories: list[np.ndarray],
+        env_pwil_and_testing: tuple[Env, Env],
     ):
         self._training_param = training_param
+        env_pwil_rewarded, env_raw_testing = env_pwil_and_testing
 
-        (
-            env_raw,
-            env_raw_testing,
-        ), self._env_identifier = envs_and_identifier
-
-        self._env_pwil_rewarded = PwilEnvFactory(
-            training_param, env_raw, trajectories
-        ).env_pwil_rewarded
-        self._model = PwilModelFactory(training_param, self._env_pwil_rewarded).model
+        self._model = PwilModelFactory(training_param, env_pwil_rewarded).model
 
         self._callback_list = CallbackListFactory(
             training_param, env_raw_testing
