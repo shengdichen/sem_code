@@ -51,14 +51,7 @@ class PointEnvPwilManagerFactory:
 
 class ClientTrainerPwil:
     def __init__(self):
-        self._training_param = PwilParam()
-
-        env_config = PointEnvConfigFactory().env_configs[0]
-        self._env_raw, self._env_raw_testing = (
-            PointEnvFactory(env_config).create(),
-            PointEnvFactory(env_config).create(),
-        )
-        self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
+        self._manager = PointEnvPwilManagerFactory().get_manager_default()
 
     def training(self):
         # train imitation learning / IRL policy
