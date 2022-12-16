@@ -193,3 +193,33 @@ class Sb3PwilManager:
     def test(self):
         model = self.load()
         PolicyTester.test_policy(model)
+
+
+class PwilManager:
+    def __init__(
+        self,
+        managers: tuple[Sb3PwilManager, TrajectoryManager, RewardPlotManager],
+    ):
+        (
+            self._sb3_pwil_manager,
+            self._trajectory_manager,
+            self._reward_plot_manager,
+        ) = managers
+
+    def train_model(self) -> None:
+        self._sb3_pwil_manager.train()
+
+    def save_model(self) -> None:
+        self._sb3_pwil_manager.save()
+
+    def test_model(self) -> None:
+        self._sb3_pwil_manager.test()
+
+    def save_trajectory(self) -> None:
+        self._trajectory_manager.save_trajectory()
+
+    def load_trajectory(self) -> np.ndarray:
+        return self._trajectory_manager.load_trajectory()
+
+    def get_reward_plot(self) -> np.ndarray:
+        return self._reward_plot_manager.get_reward_plot()
