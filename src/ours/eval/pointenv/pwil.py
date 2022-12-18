@@ -102,12 +102,8 @@ class ClientTrainerPwil:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    def test(self):
-        save_dir = self._training_param.model_dir + "model_pwil_0{}".format(
-            self._training_param.n_steps_expert_train
-        )
-        model = PPO.load(save_dir)
-        PolicyTester.test_policy(model)
+    def test(self) -> None:
+        self._manager.test_model()
 
 
 def client_code():
