@@ -114,6 +114,8 @@ class RewardPlotManager:
     def __init__(self, env_pwil_rewarded: Env):
         self._env_pwil_rewarded = env_pwil_rewarded
 
+        self._reward_plot = self.get_reward_plot()
+
     def get_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(
             discriminator=None, env=self._env_pwil_rewarded
@@ -122,16 +124,12 @@ class RewardPlotManager:
         return plot
 
     def save_reward_plot(self) -> None:
-        plot = self.get_reward_plot()
-
-        im = Image.fromarray(plot)
+        im = Image.fromarray(self._reward_plot)
         im.save("pwil.png")
 
     def show_reward_plot(self) -> None:
-        plot = self.get_reward_plot()
-
         ax = plt.figure().subplots()
-        ax.imshow(plot)
+        ax.imshow(self._reward_plot)
         plt.show()
 
 
