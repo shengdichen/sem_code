@@ -114,9 +114,13 @@ class RewardPlotManager:
     def __init__(self, env_pwil_rewarded: Env):
         self._env_pwil_rewarded = env_pwil_rewarded
 
-        self._reward_plot = self.get_reward_plot()
+        self._reward_plot = self._make_reward_plot()
 
-    def get_reward_plot(self) -> np.ndarray:
+    @property
+    def reward_plot(self) -> np.ndarray:
+        return self._reward_plot
+
+    def _make_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(
             discriminator=None, env=self._env_pwil_rewarded
         )
@@ -219,7 +223,7 @@ class PwilManager:
         return self._trajectory_manager.load_trajectory()
 
     def get_reward_plot(self) -> np.ndarray:
-        return self._reward_plot_manager.get_reward_plot()
+        return self._reward_plot_manager.reward_plot
 
 
 class PwilManagerFactory:
