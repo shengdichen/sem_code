@@ -111,10 +111,17 @@ class PwilModelFactory:
 
 
 class RewardPlotManager:
-    def __init__(self, env_pwil_rewarded: Env):
-        self._env_pwil_rewarded = env_pwil_rewarded
+    def __init__(
+        self,
+        training_param: PwilParam,
+        env_pwil_rewarded_and_identifier: tuple[Env, str],
+    ):
+        self._env_pwil_rewarded, env_identifier = env_pwil_rewarded_and_identifier
 
         self._reward_plot = self._make_reward_plot()
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_path(
+            env_identifier
+        )
 
     @property
     def reward_plot(self) -> np.ndarray:
