@@ -136,7 +136,9 @@ class RewardPlotManager:
 
     def save_reward_plot(self) -> None:
         im = Image.fromarray(self._reward_plot)
-        im.save("pwil.png")
+
+        save_path = str(self._path_saveload) + ".png"
+        im.save(save_path)
 
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
