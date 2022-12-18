@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 from stable_baselines3.common.base_class import BaseAlgorithm
@@ -118,6 +120,19 @@ class RewardPlotManager:
         )
 
         return plot
+
+    def save_reward_plot(self) -> None:
+        plot = self.get_reward_plot()
+
+        im = Image.fromarray(plot)
+        im.save("pwil.png")
+
+    def show_reward_plot(self) -> None:
+        plot = self.get_reward_plot()
+
+        ax = plt.figure().subplots()
+        ax.imshow(plot)
+        plt.show()
 
 
 class Sb3PwilTrainer(Trainer):
