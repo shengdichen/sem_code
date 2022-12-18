@@ -61,11 +61,8 @@ class ClientTrainerPwil:
     def training(self):
         self._manager.train_model()
 
-        plot = self._manager.get_reward_plot()
-        im = Image.fromarray(plot)
-        im.save("pwil.png")
-        plt.figure()
-        plt.imshow(im)
+    def get_reward_plot(self) -> np.ndarray:
+        return self._manager.get_reward_plot()
 
     def plot_grid(self):
         # plot grid of PWIL rewards
