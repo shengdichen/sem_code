@@ -32,7 +32,7 @@ class PointEnvPwilManagerFactory:
         self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
         self._demos_all = self._get_all_demos()
-        self._demos_selected = self._demos_all[0]
+        self._demos_selected = self._demos_all[training_param.trajectory_num]
 
         self._manager_factory = self._make_manager_factory()
 
