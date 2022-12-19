@@ -32,6 +32,7 @@ class PointEnvPwilManagerFactory:
         self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
         self._demos_all = self._get_all_demos()
+        self._demos_selected = self._demos_all[0]
 
         self._manager_factory = self._make_manager_factory()
 
@@ -41,13 +42,17 @@ class PointEnvPwilManagerFactory:
 
         demos = pointenv_expert_default._load()
         flat_demos = [item for sublist in demos for item in sublist]
-        return flat_demos
+        flat_demos_0 = [item for sublist in demos for item in sublist]
+        flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
+        flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
+
+        return flat_demos, flat_demos_0, flat_demos_01, flat_demos_12
 
     def _make_manager_factory(self) -> PwilManagerFactory:
         return PwilManagerFactory(
             self._training_param,
             ((self._env_raw, self._env_raw_testing), self._env_identifier),
-            self._demos_all,
+            self._demos_selected,
         )
 
     def get_manager_default(self) -> PwilManager:
