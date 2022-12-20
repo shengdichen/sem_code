@@ -34,6 +34,10 @@ class PointEnvPwilManagerFactory:
         self._demos_all = self._get_all_demos()
         self._demos_selected = self._demos_all[training_param.trajectory_num]
 
+    @property
+    def pwil_manager(self) -> PwilManager:
+        return self._make_manager_factory().pwil_manager
+
     @staticmethod
     def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
@@ -71,10 +75,6 @@ class PointEnvPwilManagerFactory:
         if trajectories_num is not None:
             self._demos_selected = self._demos_all[trajectories_num]
             self._training_param.trajectory_num = trajectories_num
-
-    @property
-    def pwil_manager(self) -> PwilManager:
-        return self._make_manager_factory().pwil_manager
 
 
 class ClientTrainerPwil:
