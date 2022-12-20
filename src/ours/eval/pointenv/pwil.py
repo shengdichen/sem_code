@@ -87,11 +87,6 @@ class ClientTrainerPwil:
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
-        pointenv_expert_default = PointEnvExpertDefault()
-        demos = pointenv_expert_default._load()
-        flat_demos_0 = [item for sublist in demos for item in sublist]
-        flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
-        flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
 
         for ss in [1, 2, 3, 5, 10, 20]:
             for j, dem in enumerate(
