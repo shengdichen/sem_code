@@ -56,7 +56,7 @@ class PointEnvPwilManagerFactory:
 
     def set_pwil_training_param(
         self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
-    ) -> None:
+    ) -> "PointEnvPwilManagerFactory":
         pwil_training_param = self._training_param.pwil_training_param
 
         if n_demos is not None:
@@ -68,10 +68,16 @@ class PointEnvPwilManagerFactory:
         if use_actions is not None:
             pwil_training_param["use_actions"] = use_actions
 
-    def set_trajectories(self, trajectories_num: int = None) -> None:
+        return self
+
+    def set_trajectories(
+        self, trajectories_num: int = None
+    ) -> "PointEnvPwilManagerFactory":
         if trajectories_num is not None:
             self._demos_selected = self._demos_all[trajectories_num]
             self._training_param.trajectory_num = trajectories_num
+
+        return self
 
 
 class ClientTrainerPwil:
