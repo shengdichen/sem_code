@@ -34,8 +34,6 @@ class PointEnvPwilManagerFactory:
         self._demos_all = self._get_all_demos()
         self._demos_selected = self._demos_all[training_param.trajectory_num]
 
-        self._manager_factory = self._make_manager_factory()
-
     @staticmethod
     def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
