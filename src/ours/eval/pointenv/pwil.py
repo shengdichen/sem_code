@@ -36,7 +36,11 @@ class PointEnvPwilManagerFactory:
 
     @property
     def pwil_manager(self) -> PwilManager:
-        return self._make_manager_factory().pwil_manager
+        return PwilManagerFactory(
+            self._training_param,
+            ((self._env_raw, self._env_raw_testing), self._env_identifier),
+            self._demos_selected,
+        ).pwil_manager
 
     @staticmethod
     def _get_all_demos():
@@ -49,13 +53,6 @@ class PointEnvPwilManagerFactory:
         flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
 
         return flat_demos, flat_demos_0, flat_demos_01, flat_demos_12
-
-    def _make_manager_factory(self) -> PwilManagerFactory:
-        return PwilManagerFactory(
-            self._training_param,
-            ((self._env_raw, self._env_raw_testing), self._env_identifier),
-            self._demos_selected,
-        )
 
     def set_pwil_training_param(
         self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
