@@ -76,7 +76,7 @@ class PointEnvPwilManagerFactory:
 
 class ClientTrainerPwil:
     def __init__(self):
-        self._manager = PointEnvPwilManagerFactory().get_manager_default()
+        self._manager = PointEnvPwilManagerFactory().pwil_manager
 
     def training(self):
         self._manager.train_model()
