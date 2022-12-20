@@ -21,8 +21,8 @@ from src.upstream.env_utils import PWILReward
 
 
 class PointEnvPwilManagerFactory:
-    def __init__(self):
-        self._training_param = PwilParam()
+    def __init__(self, training_param: PwilParam = PwilParam()):
+        self._training_param = training_param
 
         env_config = PointEnvConfigFactory().env_configs[0]
         self._env_raw, self._env_raw_testing = (
