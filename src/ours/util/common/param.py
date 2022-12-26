@@ -102,6 +102,8 @@ class PwilParam(CommonParam):
             "use_actions": False,
         }
 
+        self._trajectory_num = 0
+
     @property
     def plot_dir(self):
         return self._plot_dir
@@ -113,3 +115,11 @@ class PwilParam(CommonParam):
     @pwil_training_param.setter
     def pwil_training_param(self, value):
         self._pwil_training_param = value
+
+    @property
+    def trajectory_num(self):
+        return self._trajectory_num
+
+    @trajectory_num.setter
+    def trajectory_num(self, value: int):
+        self._trajectory_num = value
