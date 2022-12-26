@@ -1,11 +1,12 @@
-import os
-
+import numpy as np
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
+from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import EvalCallback, CallbackList
 
 from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.common.param import PwilParam
+from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 from src.upstream.env_utils import PWILReward
@@ -17,46 +18,40 @@ class TrainerPwil(Trainer):
         self,
         training_param: PwilParam,
         envs_and_identifier: tuple[tuple[Env, Env], str],
+        trajectories: list[np.ndarray],
     ):
         self._training_param = training_param
 
-        self._model_dir = self._training_param.model_dir
         self._save_deterministic = False
 
         (
-            self._env_raw,
-            self._env_raw_testing,
+            env_raw,
+            env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-    def train(
-        self,
-        demos,
-        n_demos,
-        subsampling,
-        use_actions,
-        n_timesteps,
-        fname,
-    ):
-        env = PWILReward(
-            env=self._env_raw,
-            demos=demos,
-            n_demos=n_demos,
-            subsampling=subsampling,
-            use_actions=use_actions,
+        self._env = self._make_env(env_raw, trajectories)
+        self._model = self._make_model()
+
+        self._callback_list = self._make_callback_list(env_raw_testing)
+
+    @property
+    def model(self):
+        return self._model
+
+    def _make_callback_list(self, env_raw_testing) -> CallbackList:
+        callback_list = CallbackList(
+            [
+                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
+                self._make_eval_callback(env_raw_testing),
+                TqdmCallback(),
+            ]
         )
 
-        plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+        return callback_list
 
-        model = PPOSB(
-            "MlpPolicy",
-            env,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir
-        )
-
+    def _make_eval_callback(self, env_raw_testing) -> EvalCallback:
         eval_callback = EvalCallback(
-            self._env_raw_testing,
+            env_raw_testing,
             best_model_save_path=self._training_param.sb3_tblog_dir,
             log_path=self._training_param.sb3_tblog_dir,
             eval_freq=10000,
@@ -65,21 +60,46 @@ class TrainerPwil(Trainer):
         )
 
         # eval_callback.init_callback(ppo_dict[k])
-        callback_list = CallbackList(
-            [
-                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
-                eval_callback,
-                TqdmCallback(),
-            ]
+        return eval_callback
+
+    def _make_env(self, env_raw: Env, trajectories: list[np.ndarray]) -> Env:
+        env = PWILReward(
+            env=env_raw,
+            demos=trajectories,
+            **self._training_param.pwil_training_param,
         )
 
-        model.learn(total_timesteps=n_timesteps, callback=callback_list)
+        return env
 
-        model.save(
-            os.path.join(self._model_dir, "model_" + fname + str(int(n_timesteps)))
+    def _make_model(self) -> BaseAlgorithm:
+        model = PPOSB(
+            "MlpPolicy",
+            self._env,
+            verbose=0,
+            **self._training_param.kwargs_ppo,
+            tensorboard_log=self._training_param.sb3_tblog_dir,
         )
+
+        return model
+
+    def get_reward_plot(self) -> np.ndarray:
+        plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
+
+        return plot
+
+    def train(self) -> None:
+        self._model.learn(
+            total_timesteps=self._training_param.n_steps_expert_train,
+            callback=self._callback_list,
+        )
+
+    def save_model(self) -> None:
+        path = PwilSaveLoadPathGenerator(self._training_param).get_path(
+            self._env_identifier
+        )
+        self._model.save(path)
+
+    def save_trajectory(self) -> None:
         TrajectoryManager(
-            (env, self._env_identifier), (model, self._training_param)
+            (self._env, self._env_identifier), (self._model, self._training_param)
         ).save_trajectory()
-
-        return model, plot

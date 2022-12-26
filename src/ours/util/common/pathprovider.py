@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.ours.util.common.param import CommonParam
+from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
 class TrajectorySaveLoadPathGenerator:
@@ -33,3 +33,32 @@ class Sb3SaveLoadPathGenerator:
                 self._training_param.n_steps_expert_train,
             )
         )
+
+
+class PwilSaveLoadPathGenerator:
+    def __init__(self, training_param: PwilParam):
+        self._training_param = training_param
+
+    def get_path(self, env_identifier: str, trajectory_num: int = 0) -> Path:
+        n_demos = self._training_param.pwil_training_param["n_demos"]
+        subsampling = self._training_param.pwil_training_param["subsampling"]
+
+        return Path(
+            "{0}/{1}_{2:02}_{3:03}".format(
+                self._get_curr_model_dir(env_identifier),
+                trajectory_num,
+                n_demos,
+                subsampling,
+            )
+        )
+
+    def _get_curr_model_dir(self, env_identifier: str) -> str:
+        curr_model_dir = "{0}/{1}{2}{3:07}/".format(
+            self._training_param.model_dir,
+            env_identifier,
+            "_",
+            self._training_param.n_steps_expert_train,
+        )
+        Util.mkdir_if_not_existent([curr_model_dir])
+
+        return curr_model_dir
