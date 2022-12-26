@@ -13,12 +13,14 @@ from src.ours.env.env import MovePoint
 from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.helper import RewardPlotter
-from src.ours.util.common.test import PolicyTester
-from src.ours.util.pwil.train import TrainerPwil
+from src.ours.util.pwil.train import (
+    PwilManagerFactory,
+    PwilManager,
+)
 from src.upstream.env_utils import PWILReward
 
 
-class ClientTrainerPwil:
+class PointEnvPwilManagerFactory:
     def __init__(self):
         self._training_param = PwilParam()
 
@@ -29,26 +31,37 @@ class ClientTrainerPwil:
         )
         self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
-    def training(self):
-        # train imitation learning / IRL policy
+        self._demos_all = self._get_all_demos()
+
+        self._manager_factory = self._make_manager_factory()
+
+    @staticmethod
+    def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
+
         demos = pointenv_expert_default._load()
-
         flat_demos = [item for sublist in demos for item in sublist]
+        return flat_demos
 
-        trainer = TrainerPwil(
+    def _make_manager_factory(self) -> PwilManagerFactory:
+        return PwilManagerFactory(
             self._training_param,
             ((self._env_raw, self._env_raw_testing), self._env_identifier),
+            self._demos_all,
         )
-        model_pwil, plot = trainer.train(
-            flat_demos,
-            n_demos=3,
-            subsampling=10,
-            use_actions=False,
-            n_timesteps=self._training_param.n_steps_expert_train,
-            fname="pwil_0",
-        )
-        PolicyTester.test_policy(model_pwil)
+
+    def get_manager_default(self) -> PwilManager:
+        return self._manager_factory.pwil_manager
+
+
+class ClientTrainerPwil:
+    def __init__(self):
+        self._manager = PointEnvPwilManagerFactory().get_manager_default()
+
+    def training(self):
+        self._manager.train_model()
+
+        plot = self._manager.get_reward_plot()
         im = Image.fromarray(plot)
         im.save("pwil.png")
         plt.figure()
