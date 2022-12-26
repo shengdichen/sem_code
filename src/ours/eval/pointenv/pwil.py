@@ -61,11 +61,8 @@ class ClientTrainerPwil:
     def training(self):
         self._manager.train_model()
 
-        plot = self._manager.get_reward_plot()
-        im = Image.fromarray(plot)
-        im.save("pwil.png")
-        plt.figure()
-        plt.imshow(im)
+    def get_reward_plot(self) -> np.ndarray:
+        return self._manager.get_reward_plot()
 
     def plot_grid(self):
         # plot grid of PWIL rewards
@@ -105,12 +102,8 @@ class ClientTrainerPwil:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    def test(self):
-        save_dir = self._training_param.model_dir + "model_pwil_0{}".format(
-            self._training_param.n_steps_expert_train
-        )
-        model = PPO.load(save_dir)
-        PolicyTester.test_policy(model)
+    def test(self) -> None:
+        self._manager.test_model()
 
 
 def client_code():

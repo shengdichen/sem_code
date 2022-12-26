@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 from gym import Env
 from stable_baselines3 import PPO as PPOSB
 from stable_baselines3.common.base_class import BaseAlgorithm
@@ -112,12 +114,27 @@ class RewardPlotManager:
     def __init__(self, env_pwil_rewarded: Env):
         self._env_pwil_rewarded = env_pwil_rewarded
 
-    def get_reward_plot(self) -> np.ndarray:
+        self._reward_plot = self._make_reward_plot()
+
+    @property
+    def reward_plot(self) -> np.ndarray:
+        return self._reward_plot
+
+    def _make_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(
             discriminator=None, env=self._env_pwil_rewarded
         )
 
         return plot
+
+    def save_reward_plot(self) -> None:
+        im = Image.fromarray(self._reward_plot)
+        im.save("pwil.png")
+
+    def show_reward_plot(self) -> None:
+        ax = plt.figure().subplots()
+        ax.imshow(self._reward_plot)
+        plt.show()
 
 
 class Sb3PwilTrainer(Trainer):
@@ -206,7 +223,7 @@ class PwilManager:
         return self._trajectory_manager.load_trajectory()
 
     def get_reward_plot(self) -> np.ndarray:
-        return self._reward_plot_manager.get_reward_plot()
+        return self._reward_plot_manager.reward_plot
 
 
 class PwilManagerFactory:
