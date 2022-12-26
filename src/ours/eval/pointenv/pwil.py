@@ -23,8 +23,11 @@ class ClientTrainerPwil:
         self._training_param = PwilParam()
 
         env_config = PointEnvConfigFactory().env_configs[0]
-        env = PointEnvFactory(env_config).create()
-        self._env_identifier = PointEnvIdentifierGenerator().from_env(env)
+        self._env_raw, self._env_raw_testing = (
+            PointEnvFactory(env_config).create(),
+            PointEnvFactory(env_config).create(),
+        )
+        self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
     def training(self):
         # train imitation learning / IRL policy
@@ -33,13 +36,9 @@ class ClientTrainerPwil:
 
         flat_demos = [item for sublist in demos for item in sublist]
 
-        env_config = {"n_targets": 2, "shift_x": 0, "shift_y": 0}
-        env_raw, env_raw_testing = (
-            PointEnvFactory(env_config).create(),
-            PointEnvFactory(env_config).create(),
-        )
         trainer = TrainerPwil(
-            self._training_param, ((env_raw, env_raw_testing), self._env_identifier)
+            self._training_param,
+            ((self._env_raw, self._env_raw_testing), self._env_identifier),
         )
         model_pwil, plot = trainer.train(
             flat_demos,
