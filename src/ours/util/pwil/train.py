@@ -22,14 +22,12 @@ class TrainerPwil(Trainer):
     ):
         self._training_param = training_param
 
-        self._save_deterministic = False
-
         (
             env_raw,
             env_raw_testing,
         ), self._env_identifier = envs_and_identifier
 
-        self._env = self._make_env(env_raw, trajectories)
+        self._env_pwil_rewarded = self._make_env_pwil_rewarded(env_raw, trajectories)
         self._model = self._make_model()
 
         self._callback_list = self._make_callback_list(env_raw_testing)
@@ -62,19 +60,21 @@ class TrainerPwil(Trainer):
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
 
-    def _make_env(self, env_raw: Env, trajectories: list[np.ndarray]) -> Env:
-        env = PWILReward(
+    def _make_env_pwil_rewarded(
+        self, env_raw: Env, trajectories: list[np.ndarray]
+    ) -> Env:
+        env_pwil_rewarded = PWILReward(
             env=env_raw,
             demos=trajectories,
             **self._training_param.pwil_training_param,
         )
 
-        return env
+        return env_pwil_rewarded
 
     def _make_model(self) -> BaseAlgorithm:
         model = PPOSB(
             "MlpPolicy",
-            self._env,
+            self._env_pwil_rewarded,
             verbose=0,
             **self._training_param.kwargs_ppo,
             tensorboard_log=self._training_param.sb3_tblog_dir,
@@ -83,7 +83,9 @@ class TrainerPwil(Trainer):
         return model
 
     def get_reward_plot(self) -> np.ndarray:
-        plot = RewardPlotter.plot_reward(discriminator=None, env=self._env)
+        plot = RewardPlotter.plot_reward(
+            discriminator=None, env=self._env_pwil_rewarded
+        )
 
         return plot
 
@@ -101,5 +103,6 @@ class TrainerPwil(Trainer):
 
     def save_trajectory(self) -> None:
         TrajectoryManager(
-            (self._env, self._env_identifier), (self._model, self._training_param)
+            (self._env_pwil_rewarded, self._env_identifier),
+            (self._model, self._training_param),
         ).save_trajectory()
