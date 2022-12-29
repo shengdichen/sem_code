@@ -88,8 +88,8 @@ class ClientTrainerPwil:
             .set_trajectories(2)
         ).pwil_manager
 
-    def training(self):
-        self._manager.train_model()
+    def train_model(self):
+        self._manager.train_and_save()
 
     def get_reward_plot(self) -> np.ndarray:
         return self._manager.get_reward_plot()
