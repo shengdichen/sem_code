@@ -99,9 +99,7 @@ class ClientTrainerPwil:
         plots = []
 
         for ss in [1, 2, 3, 5, 10, 20]:
-            for j, dem in enumerate(
-                [demos[0], flat_demos_01, flat_demos_12, flat_demos_0]
-            ):
+            for j in [0, 1, 2, 3]:
                 for n_demos in [1, 2, 3]:
                     print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
                     env = PWILReward(
