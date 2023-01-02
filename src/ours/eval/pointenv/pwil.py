@@ -112,7 +112,7 @@ class ClientTrainerPwil:
                     manager.train_model()
                     manager.save_model()
 
-                    plot = RewardPlotter.plot_reward(discriminator=None, env=env)
+                    plot = manager.get_reward_plot()
                     np.save(
                         self._training_param.plot_dir
                         + "pwil_ss{}_demoidx{}_n_demos{}".format(ss, j, n_demos),
