@@ -102,6 +102,13 @@ class ClientTrainerPwil:
             for j in [0, 1, 2, 3]:
                 for n_demos in [1, 2, 3]:
                     print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
+                    manager_factory = (
+                        PointEnvPwilManagerFactory()
+                        .set_pwil_training_param(n_demos=n_demos, subsampling=ss)
+                        .set_trajectories(j)
+                    )
+                    manager = manager_factory.pwil_manager
+
                     env = PWILReward(
                         env=MovePoint(2, 0, 0),
                         demos=dem,
