@@ -109,13 +109,6 @@ class ClientTrainerPwil:
                     )
                     manager = manager_factory.pwil_manager
 
-                    env = PWILReward(
-                        env=MovePoint(2, 0, 0),
-                        demos=dem,
-                        n_demos=n_demos,
-                        subsampling=ss,
-                        use_actions=False,
-                    )
                     plot = RewardPlotter.plot_reward(discriminator=None, env=env)
                     np.save(
                         self._training_param.plot_dir
