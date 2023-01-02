@@ -109,6 +109,9 @@ class ClientTrainerPwil:
                     )
                     manager = manager_factory.pwil_manager
 
+                    manager.train_model()
+                    manager.save_model()
+
                     plot = RewardPlotter.plot_reward(discriminator=None, env=env)
                     np.save(
                         self._training_param.plot_dir
