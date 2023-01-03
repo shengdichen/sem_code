@@ -113,11 +113,6 @@ class ClientTrainerPwil:
                     manager.save_model()
 
                     plot = manager.get_reward_plot()
-                    np.save(
-                        self._training_param.plot_dir
-                        + "pwil_ss{}_demoidx{}_n_demos{}".format(ss, j, n_demos),
-                        plot,
-                    )
 
                     plots.append(plot)
 
