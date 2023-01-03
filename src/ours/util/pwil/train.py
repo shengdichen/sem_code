@@ -134,7 +134,7 @@ class RewardPlotManager:
 
         return plot
 
-    def save_reward_plot(self, save_np: bool) -> None:
+    def save_reward_plot(self, save_np: bool = True) -> None:
         im = Image.fromarray(self._reward_plot)
 
         save_path = str(self._path_saveload) + ".png"
