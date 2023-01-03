@@ -40,15 +40,15 @@ class PwilSaveLoadPathGenerator:
         self._training_param = training_param
 
     def get_model_path(self, env_identifier: str) -> Path:
-        return self.get_path(self._training_param.model_dir, env_identifier)
+        return self._get_path(self._training_param.model_dir, env_identifier)
 
     def get_trajectory_path(self, env_identifier: str) -> Path:
-        return self.get_path(self._training_param.demo_dir, env_identifier)
+        return self._get_path(self._training_param.demo_dir, env_identifier)
 
     def get_plot_path(self, env_identifier: str) -> Path:
-        return self.get_path(self._training_param.plot_dir, env_identifier)
+        return self._get_path(self._training_param.plot_dir, env_identifier)
 
-    def get_path(self, raw_dir: str, env_identifier: str) -> Path:
+    def _get_path(self, raw_dir: str, env_identifier: str) -> Path:
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
