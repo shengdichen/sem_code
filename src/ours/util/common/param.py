@@ -96,6 +96,8 @@ class PwilParam(CommonParam):
         )
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir, self._plot_dir])
 
+        self._n_steps_pwil_train = int(3e5)
+
         self._pwil_training_param = {
             "n_demos": 5,
             "subsampling": 10,
