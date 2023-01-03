@@ -111,6 +111,10 @@ class PwilParam(CommonParam):
         return self._plot_dir
 
     @property
+    def n_steps_pwil_train(self):
+        return self._n_steps_pwil_train
+
+    @property
     def pwil_training_param(self):
         return self._pwil_training_param
 
