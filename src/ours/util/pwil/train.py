@@ -134,11 +134,14 @@ class RewardPlotManager:
 
         return plot
 
-    def save_reward_plot(self) -> None:
+    def save_reward_plot(self, save_np: bool) -> None:
         im = Image.fromarray(self._reward_plot)
 
         save_path = str(self._path_saveload) + ".png"
         im.save(save_path)
+
+        if save_np:
+            self.save_reward_plot_np()
 
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
