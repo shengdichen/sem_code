@@ -231,6 +231,9 @@ class PwilManager:
     def test_model(self) -> None:
         self._sb3_pwil_manager.test()
 
+    def load_model(self) -> BaseAlgorithm:
+        return self._sb3_pwil_manager.load()
+
     def save_trajectory(self) -> None:
         self._trajectory_manager.save_trajectory()
 
