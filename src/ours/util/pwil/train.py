@@ -240,6 +240,13 @@ class PwilManager:
     def get_reward_plot(self) -> np.ndarray:
         return self._reward_plot_manager.reward_plot
 
+    def train_and_save(self) -> None:
+        self._sb3_pwil_manager.train()
+
+        self._sb3_pwil_manager.save()
+        self._trajectory_manager.save_trajectory()
+        self._reward_plot_manager.save_reward_plot()
+
 
 class PwilManagerFactory:
     def __init__(
