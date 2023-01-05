@@ -188,7 +188,7 @@ class Sb3PwilManager:
 
         self._trainer = Sb3PwilTrainer(training_param, env_pwil_and_testing)
 
-        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_path(
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
             env_identifier
         )
 
