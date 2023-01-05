@@ -71,7 +71,7 @@ class PointEnvExpertDefault:
 
     def load_trajectories(self) -> list[np.ndarray]:
         trajectories = [
-            expert_manager.load() for expert_manager in self._expert_managers
+            expert_manager.load_trajectory() for expert_manager in self._expert_managers
         ]
 
         return trajectories
