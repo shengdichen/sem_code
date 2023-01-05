@@ -109,8 +109,7 @@ class ClientTrainerPwil:
                     )
                     manager = manager_factory.pwil_manager
 
-                    manager.train_model()
-                    manager.save_model()
+                    manager.train_and_save()
 
                     plot = manager.get_reward_plot()
 
