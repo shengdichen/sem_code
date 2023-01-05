@@ -2,7 +2,7 @@ from gym import Env
 
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.train import Trainer
-from src.ours.util.pwil.train import PwilModelFactory, CallbackListFactory
+from src.ours.util.pwil.sb3.util import CallbackListFactory, PwilModelFactory
 
 
 class Sb3PwilTrainer(Trainer):
