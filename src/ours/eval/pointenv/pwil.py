@@ -39,7 +39,7 @@ class PointEnvPwilManagerFactory:
     def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
 
-        demos = pointenv_expert_default._load()
+        demos = pointenv_expert_default.load_trajectories()
         flat_demos = [item for sublist in demos for item in sublist]
         flat_demos_0 = [item for sublist in demos for item in sublist]
         flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
