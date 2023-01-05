@@ -102,8 +102,6 @@ class ClientTrainerPwil:
         plots = []
 
         for manager in self._managers:
-            manager.train_and_save()
-
             plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
