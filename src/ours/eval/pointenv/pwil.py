@@ -82,10 +82,14 @@ class PointEnvPwilManagerFactory:
 
 class ClientTrainerPwil:
     def __init__(self):
-        self._manager = PointEnvPwilManagerFactory().pwil_manager
+        self._manager = (
+            PointEnvPwilManagerFactory()
+            .set_pwil_training_param(n_demos=1, subsampling=10)
+            .set_trajectories(2)
+        ).pwil_manager
 
-    def training(self):
-        self._manager.train_model()
+    def train_model(self):
+        self._manager.train_and_save()
 
     def get_reward_plot(self) -> np.ndarray:
         return self._manager.get_reward_plot()
@@ -95,31 +99,19 @@ class ClientTrainerPwil:
         plots = []
 
         for ss in [1, 2, 3, 5, 10, 20]:
-            for j, dem in enumerate(
-                [demos[0], flat_demos_01, flat_demos_12, flat_demos_0]
-            ):
+            for j in [0, 1, 2, 3]:
                 for n_demos in [1, 2, 3]:
                     print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
-                    env = PWILReward(
-                        env=MovePoint(2, 0, 0),
-                        demos=dem,
-                        n_demos=n_demos,
-                        subsampling=ss,
-                        use_actions=False,
+                    manager_factory = (
+                        PointEnvPwilManagerFactory()
+                        .set_pwil_training_param(n_demos=n_demos, subsampling=ss)
+                        .set_trajectories(j)
                     )
-                    plot = RewardPlotter.plot_reward(discriminator=None, env=env)
-                    np.save(
-                        self._training_param.plot_dir
-                        + "pwil_ss{}_demoidx{}_n_demos{}".format(ss, j, n_demos),
-                        plot,
-                    )
+                    manager = manager_factory.pwil_manager
 
-                    plots.append(plot)
-                    im = Image.fromarray(plot)
-                    im.save(
-                        self._training_param.plot_dir
-                        + "pwil_ss{}_demoidx{}_n_demos{}.png".format(ss, j, n_demos)
-                    )
+                    manager.train_and_save()
+
+                    plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
