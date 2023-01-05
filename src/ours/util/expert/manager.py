@@ -16,7 +16,7 @@ class ExpertManager:
     def train_model(self) -> None:
         self._sb3_manager.train()
 
-    def save(self) -> None:
+    def save_model_and_trajectory(self) -> None:
         self._sb3_manager.save()
         self._trajectory_manager.save_trajectory()
 
