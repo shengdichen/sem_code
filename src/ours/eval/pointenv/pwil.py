@@ -118,7 +118,8 @@ class ClientTrainerPwil:
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
     def test(self) -> None:
-        self._manager.test_model()
+        for manager in self._managers:
+            manager.test_model()
 
 
 def client_code():
