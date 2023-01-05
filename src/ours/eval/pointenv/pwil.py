@@ -103,9 +103,6 @@ class ClientTrainerPwil:
     def train_model(self):
         self._manager.train_and_save()
 
-    def get_reward_plot(self) -> np.ndarray:
-        return self._manager.get_reward_plot()
-
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
