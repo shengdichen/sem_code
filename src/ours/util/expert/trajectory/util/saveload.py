@@ -16,11 +16,10 @@ class NumpySaveLoad:
 
 class TrajectorySaveLoad:
     def __init__(self, path: Path):
-        self._path = str(path)
         self._saveloader = NumpySaveLoad(path)
 
     def save(self, target: np.ndarray) -> None:
-        np.save(self._path, target)
+        self._saveloader.save(target)
 
     def load(self) -> np.ndarray:
-        return np.load(self._path)
+        return self._saveloader.load()
