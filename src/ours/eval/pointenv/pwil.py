@@ -94,6 +94,10 @@ class ClientTrainerPwil:
                     )
                     self._managers.append(manager_factory.pwil_manager)
 
+    def train_and_save(self) -> None:
+        for manager in self._managers:
+            manager.train_and_save()
+
     def plot_grid(self) -> None:
         plots = []
 
