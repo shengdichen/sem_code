@@ -10,9 +10,9 @@ from src.ours.util.common.helper import RewardPlotter, TqdmCallback
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.test import PolicyTester
-from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
+from src.ours.util.pwil.sb3.train import Sb3PwilTrainer
 from src.upstream.env_utils import PWILReward
 from src.upstream.utils import CustomCallback
 
@@ -150,32 +150,6 @@ class RewardPlotManager:
 
     def save_reward_plot_np(self) -> None:
         np.save(str(self._path_saveload), self._reward_plot)
-
-
-class Sb3PwilTrainer(Trainer):
-    def __init__(
-        self,
-        training_param: PwilParam,
-        env_pwil_and_testing: tuple[Env, Env],
-    ):
-        self._training_param = training_param
-        env_pwil_rewarded, env_raw_testing = env_pwil_and_testing
-
-        self._model = PwilModelFactory(training_param, env_pwil_rewarded).model
-
-        self._callback_list = CallbackListFactory(
-            training_param, env_raw_testing
-        ).callback_list
-
-    @property
-    def model(self):
-        return self._model
-
-    def train(self) -> None:
-        self._model.learn(
-            total_timesteps=self._training_param.n_steps_pwil_train,
-            callback=self._callback_list,
-        )
 
 
 class Sb3PwilManager:
