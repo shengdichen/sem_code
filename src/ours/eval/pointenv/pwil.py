@@ -7,7 +7,7 @@ from src.ours.env.creation import (
 )
 from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
-from src.ours.util.pwil.train import (
+from src.ours.util.pwil.manager import (
     PwilManagerFactory,
     PwilManager,
 )
