@@ -95,7 +95,6 @@ class ClientTrainerPwil:
                     self._managers.append(manager_factory.pwil_manager)
 
     def plot_grid(self) -> None:
-        # plot grid of PWIL rewards
         plots = []
 
         for manager in self._managers:
