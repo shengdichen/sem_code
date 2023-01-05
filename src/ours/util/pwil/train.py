@@ -119,7 +119,7 @@ class RewardPlotManager:
         self._env_pwil_rewarded, env_identifier = env_pwil_rewarded_and_identifier
 
         self._reward_plot = self._make_reward_plot()
-        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_path(
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_plot_path(
             env_identifier
         )
 
@@ -134,16 +134,22 @@ class RewardPlotManager:
 
         return plot
 
-    def save_reward_plot(self) -> None:
+    def save_reward_plot(self, save_np: bool = True) -> None:
         im = Image.fromarray(self._reward_plot)
 
         save_path = str(self._path_saveload) + ".png"
         im.save(save_path)
 
+        if save_np:
+            self.save_reward_plot_np()
+
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
         ax.imshow(self._reward_plot)
         plt.show()
+
+    def save_reward_plot_np(self) -> None:
+        np.save(str(self._path_saveload), self._reward_plot)
 
 
 class Sb3PwilTrainer(Trainer):
