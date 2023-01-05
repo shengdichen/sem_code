@@ -238,7 +238,7 @@ class PwilManager:
         self._trajectory_manager.save()
 
     def load_trajectory(self) -> np.ndarray:
-        return self._trajectory_manager.load_trajectory()
+        return self._trajectory_manager.load()
 
     def save_reward_plot(self) -> None:
         self._reward_plot_manager.save_reward_plot()

@@ -34,5 +34,5 @@ class TrajectoryManager:
 
         TrajectorySaveLoad(self._path_saveload).save(trajectory)
 
-    def load_trajectory(self) -> np.ndarray:
+    def load(self) -> np.ndarray:
         return TrajectorySaveLoad(self._path_saveload).load()

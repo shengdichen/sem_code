@@ -21,4 +21,4 @@ class ExpertManager:
         self._trajectory_manager.save()
 
     def load(self) -> np.ndarray:
-        return self._trajectory_manager.load_trajectory()
+        return self._trajectory_manager.load()
