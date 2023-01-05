@@ -281,7 +281,9 @@ class PwilManagerFactory:
             (env_pwil_rewarded, env_identifier),
             (self._sb3_pwil_manager.model, training_param),
         )
-        self._reward_plot_manager = RewardPlotManager(env_pwil_rewarded)
+        self._reward_plot_manager = RewardPlotManager(
+            training_param, (env_pwil_rewarded, env_identifier)
+        )
 
     @property
     def pwil_manager(self) -> PwilManager:
