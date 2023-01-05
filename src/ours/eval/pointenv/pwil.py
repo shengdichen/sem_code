@@ -110,20 +110,10 @@ class ClientTrainerPwil:
         # plot grid of PWIL rewards
         plots = []
 
-        for ss in [1, 2, 3, 5, 10, 20]:
-            for j in [0, 1, 2, 3]:
-                for n_demos in [1, 2, 3]:
-                    print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
-                    manager_factory = (
-                        PointEnvPwilManagerFactory()
-                        .set_pwil_training_param(n_demos=n_demos, subsampling=ss)
-                        .set_trajectories(j)
-                    )
-                    manager = manager_factory.pwil_manager
+        for manager in self._managers:
+            manager.train_and_save()
 
-                    manager.train_and_save()
-
-                    plots.append(manager.get_reward_plot())
+            plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
