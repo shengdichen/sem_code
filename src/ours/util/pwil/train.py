@@ -231,14 +231,30 @@ class PwilManager:
     def test_model(self) -> None:
         self._sb3_pwil_manager.test()
 
+    def load_model(self) -> BaseAlgorithm:
+        return self._sb3_pwil_manager.load()
+
     def save_trajectory(self) -> None:
         self._trajectory_manager.save_trajectory()
 
     def load_trajectory(self) -> np.ndarray:
         return self._trajectory_manager.load_trajectory()
 
+    def save_reward_plot(self) -> None:
+        self._reward_plot_manager.save_reward_plot()
+
+    def show_reward_plot(self) -> None:
+        self._reward_plot_manager.show_reward_plot()
+
     def get_reward_plot(self) -> np.ndarray:
         return self._reward_plot_manager.reward_plot
+
+    def train_and_save(self) -> None:
+        self._sb3_pwil_manager.train()
+
+        self._sb3_pwil_manager.save()
+        self._trajectory_manager.save_trajectory()
+        self._reward_plot_manager.save_reward_plot()
 
 
 class PwilManagerFactory:
