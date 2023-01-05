@@ -111,9 +111,7 @@ class ClientTrainerPwil:
 
                     manager.train_and_save()
 
-                    plot = manager.get_reward_plot()
-
-                    plots.append(plot)
+                    plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
