@@ -98,7 +98,7 @@ class ClientTrainerPwil:
         for manager in self._managers:
             manager.train_and_save()
 
-    def plot_grid(self) -> None:
+    def save_plot_with_torch(self) -> None:
         plots = []
 
         for manager in self._managers:
