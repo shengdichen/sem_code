@@ -84,13 +84,13 @@ class ClientTrainerPwil:
     def __init__(self):
         self._managers = []
         for ss in [1, 2, 3, 5, 10, 20]:
-            for j in [0, 1, 2, 3]:
+            for demo_id in [0, 1, 2, 3]:
                 for n_demos in [1, 2, 3]:
-                    print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
+                    print("subsampling: ", ss, " dem: ", demo_id, " n_demos: ", n_demos)
                     manager_factory = (
                         PointEnvPwilManagerFactory()
                         .set_pwil_training_param(n_demos=n_demos, subsampling=ss)
-                        .set_trajectories(j)
+                        .set_trajectories(demo_id)
                     )
                     self._managers.append(manager_factory.pwil_manager)
 
