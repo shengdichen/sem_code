@@ -1,23 +1,16 @@
-import PIL.Image as Image
-import matplotlib.pyplot as plt
-import numpy as np
 import torchvision
-from stable_baselines3 import PPO
 
 from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
 )
-from src.ours.env.env import MovePoint
 from src.ours.eval.pointenv.expert import PointEnvExpertDefault
 from src.ours.util.common.param import PwilParam
-from src.ours.util.common.helper import RewardPlotter
 from src.ours.util.pwil.train import (
     PwilManagerFactory,
     PwilManager,
 )
-from src.upstream.env_utils import PWILReward
 
 
 class PointEnvPwilManagerFactory:
@@ -82,37 +75,39 @@ class PointEnvPwilManagerFactory:
 
 class ClientTrainerPwil:
     def __init__(self):
+        demo_id_pool = [0, 1, 2, 3]
+        n_demos_pool = [1, 2, 3]
+        subsampling_pool = [1, 2, 3, 5, 10, 20]
+
         self._managers = []
-        for ss in [1, 2, 3, 5, 10, 20]:
-            for j in [0, 1, 2, 3]:
-                for n_demos in [1, 2, 3]:
-                    print("subsampling: ", ss, " dem: ", j, " n_demos: ", n_demos)
+        for demo_id in demo_id_pool:
+            for n_demos in n_demos_pool:
+                for subsampling in subsampling_pool:
+                    print(
+                        "subsampling: ",
+                        subsampling,
+                        " dem: ",
+                        demo_id,
+                        " n_demos: ",
+                        n_demos,
+                    )
                     manager_factory = (
                         PointEnvPwilManagerFactory()
-                        .set_pwil_training_param(n_demos=n_demos, subsampling=ss)
-                        .set_trajectories(j)
+                        .set_pwil_training_param(
+                            n_demos=n_demos, subsampling=subsampling
+                        )
+                        .set_trajectories(demo_id)
                     )
                     self._managers.append(manager_factory.pwil_manager)
 
-        self._manager = (
-            PointEnvPwilManagerFactory()
-            .set_pwil_training_param(n_demos=1, subsampling=10)
-            .set_trajectories(2)
-        ).pwil_manager
-
-    def train_model(self):
-        self._manager.train_and_save()
-
-    def get_reward_plot(self) -> np.ndarray:
-        return self._manager.get_reward_plot()
-
-    def plot_grid(self):
-        # plot grid of PWIL rewards
-        plots = []
-
+    def train_and_save(self) -> None:
         for manager in self._managers:
             manager.train_and_save()
 
+    def save_plot_with_torch(self) -> None:
+        plots = []
+
+        for manager in self._managers:
             plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
