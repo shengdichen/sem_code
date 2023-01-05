@@ -56,7 +56,7 @@ class PointEnvExpertDefault:
 
     def train_and_save(self) -> None:
         for expert_manager in self._expert_managers:
-            expert_manager.train()
+            expert_manager.train_model()
             expert_manager.save()
 
     def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:

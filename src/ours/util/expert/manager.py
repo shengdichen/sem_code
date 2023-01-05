@@ -13,7 +13,7 @@ class ExpertManager:
         self._sb3_manager, self._trajectory_manager = managers
         self._env_identifier = env_identifier
 
-    def train(self) -> None:
+    def train_model(self) -> None:
         self._sb3_manager.train()
 
     def save(self) -> None:
