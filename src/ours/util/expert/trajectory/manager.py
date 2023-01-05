@@ -29,10 +29,10 @@ class TrajectoryManager:
             env_identifier
         )
 
-    def save_trajectory(self) -> None:
+    def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectory()
 
         TrajectorySaveLoad(self._path_saveload).save(trajectory)
 
-    def load_trajectory(self) -> np.ndarray:
+    def load(self) -> np.ndarray:
         return TrajectorySaveLoad(self._path_saveload).load()

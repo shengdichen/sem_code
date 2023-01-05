@@ -56,8 +56,8 @@ class PointEnvExpertDefault:
 
     def train_and_save(self) -> None:
         for expert_manager in self._expert_managers:
-            expert_manager.train()
-            expert_manager.save()
+            expert_manager.train_model()
+            expert_manager.save_model_and_trajectory()
 
     def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:
         TrajectoriesAnalyzerParallel(self.load_trajectories()).analyze(
@@ -71,7 +71,7 @@ class PointEnvExpertDefault:
 
     def load_trajectories(self) -> list[np.ndarray]:
         trajectories = [
-            expert_manager.load() for expert_manager in self._expert_managers
+            expert_manager.load_trajectory() for expert_manager in self._expert_managers
         ]
 
         return trajectories
