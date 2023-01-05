@@ -83,9 +83,9 @@ class PointEnvPwilManagerFactory:
 class ClientTrainerPwil:
     def __init__(self):
         self._managers = []
-        for subsampling in [1, 2, 3, 5, 10, 20]:
-            for demo_id in [0, 1, 2, 3]:
-                for n_demos in [1, 2, 3]:
+        for demo_id in [0, 1, 2, 3]:
+            for n_demos in [1, 2, 3]:
+                for subsampling in [1, 2, 3, 5, 10, 20]:
                     print(
                         "subsampling: ",
                         subsampling,
