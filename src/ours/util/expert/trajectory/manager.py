@@ -29,7 +29,7 @@ class TrajectoryManager:
             env_identifier
         )
 
-    def save_trajectory(self) -> None:
+    def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectory()
 
         TrajectorySaveLoad(self._path_saveload).save(trajectory)
