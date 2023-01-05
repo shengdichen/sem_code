@@ -94,12 +94,6 @@ class ClientTrainerPwil:
                     )
                     self._managers.append(manager_factory.pwil_manager)
 
-        self._manager = (
-            PointEnvPwilManagerFactory()
-            .set_pwil_training_param(n_demos=1, subsampling=10)
-            .set_trajectories(2)
-        ).pwil_manager
-
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
