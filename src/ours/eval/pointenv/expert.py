@@ -60,16 +60,16 @@ class PointEnvExpertDefault:
             expert_manager.save()
 
     def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:
-        TrajectoriesAnalyzerParallel(self._load()).analyze(
+        TrajectoriesAnalyzerParallel(self.load()).analyze(
             plot_agent_as_hist=plot_agent_as_hist
         )
 
     def analyze_separate(self, plot_agent_as_hist: bool = False) -> None:
-        TrajectoriesAnalyzerSeparate(self._load()).analyze(
+        TrajectoriesAnalyzerSeparate(self.load()).analyze(
             plot_agent_as_hist=plot_agent_as_hist
         )
 
-    def _load(self) -> list[np.ndarray]:
+    def load(self) -> list[np.ndarray]:
         trajectories = [
             expert_manager.load() for expert_manager in self._expert_managers
         ]
