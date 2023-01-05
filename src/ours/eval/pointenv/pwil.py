@@ -100,9 +100,6 @@ class ClientTrainerPwil:
             .set_trajectories(2)
         ).pwil_manager
 
-    def train_model(self):
-        self._manager.train_and_save()
-
     def plot_grid(self):
         # plot grid of PWIL rewards
         plots = []
