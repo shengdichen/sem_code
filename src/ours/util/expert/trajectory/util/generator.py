@@ -52,7 +52,7 @@ class TrajectoryGenerator:
                 obs_curr = obs_next
                 reward_curr_episode += reward
                 snapshot_curr_step = np.hstack(
-                    [np.squeeze(obs_curr), np.squeeze(action), reward, done]
+                    [np.squeeze(obs_next), np.squeeze(action), reward, done]
                 )
 
                 self._trajectory.append(snapshot_curr_step)
