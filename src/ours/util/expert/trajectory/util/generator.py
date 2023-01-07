@@ -57,9 +57,9 @@ class TrajectoryGenerator:
                 self._trajectory.append(snapshot_curr_step)
                 snapshots_curr_episode.append(snapshot_curr_step)
 
-                obs_curr = obs_next
                 reward_curr_episode += reward
                 self._num_steps += 1
+                obs_curr = obs_next
 
             print("Episode reward: ", reward_curr_episode)
 
