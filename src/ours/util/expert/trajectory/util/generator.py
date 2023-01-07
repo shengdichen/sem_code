@@ -40,8 +40,7 @@ class TrajectoryGenerator:
         for __ in range(self._trajectory_generator_config.nr_trajectories):
             obs_curr = self._env.reset()
             done = False
-            reward_curr_episode = 0
-            snapshots_curr_episode = []
+            reward_curr_episode, snapshots_curr_episode = 0, []
 
             while not done:
                 action, __ = self._model.predict(
