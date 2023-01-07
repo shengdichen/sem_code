@@ -2,6 +2,7 @@ from typing import Any
 
 import numpy as np
 from gym import Env
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 
 class TrajectoryGeneratorConfig:
@@ -27,7 +28,7 @@ class TrajectoryGeneratorConfig:
 class TrajectoryGenerator:
     def __init__(
         self,
-        env_model: tuple[Env, Any],
+        env_model: tuple[Env, BaseAlgorithm | Any],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
         self._env, self._model = env_model
