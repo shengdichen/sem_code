@@ -41,7 +41,7 @@ class TrajectoryGenerator:
             obs = self._env.reset()
             done = False
             total_reward = 0
-            trajectories_episode = []
+            snapshots_curr_episode = []
 
             while not done:
                 action, _states = self._model.predict(
@@ -56,7 +56,7 @@ class TrajectoryGenerator:
                 )
 
                 trajectory.append(snapshot_curr_step)
-                trajectories_episode.append(snapshot_curr_step)
+                snapshots_curr_episode.append(snapshot_curr_step)
                 num_steps += 1
 
                 if self._trajectory_generator_config.render:
