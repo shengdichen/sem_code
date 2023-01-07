@@ -54,9 +54,11 @@ class TrajectoryGenerator:
                 snapshot_curr_step = np.hstack(
                     [np.squeeze(obs), np.squeeze(action), reward, done]
                 )
+
                 trajectory.append(snapshot_curr_step)
                 trajectories_episode.append(snapshot_curr_step)
                 num_steps += 1
+
                 if self._trajectory_generator_config.render:
                     self._env.render()
 
