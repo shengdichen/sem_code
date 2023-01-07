@@ -40,7 +40,7 @@ class TrajectoryGenerator:
         for __ in range(self._trajectory_generator_config.nr_trajectories):
             obs = self._env.reset()
             done = False
-            total_reward = 0
+            reward_curr_episode = 0
             snapshots_curr_episode = []
 
             while not done:
@@ -50,7 +50,7 @@ class TrajectoryGenerator:
                 next_obs, reward, done, _ = self._env.step(action)
 
                 obs = next_obs
-                total_reward += reward
+                reward_curr_episode += reward
                 snapshot_curr_step = np.hstack(
                     [np.squeeze(obs), np.squeeze(action), reward, done]
                 )
@@ -62,7 +62,7 @@ class TrajectoryGenerator:
                 if self._trajectory_generator_config.render:
                     self._env.render()
 
-            print("Episode reward: ", total_reward)
+            print("Episode reward: ", reward_curr_episode)
 
         self._env.close()
 
