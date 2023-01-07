@@ -34,11 +34,11 @@ class TrajectoryGenerator:
         self._env, self._model = env_model
         self._trajectory_generator_config = trajectory_generator_config
 
-        self._trajectory, self._num_steps = [], 0
+        self._trajectories, self._num_steps = [], 0
 
-    def get_trajectory(self) -> np.ndarray:
+    def get_trajectories(self) -> np.ndarray:
         self._make_trajectories()
-        return np.stack(self._trajectory)
+        return np.stack(self._trajectories)
 
     def _make_trajectories(self) -> None:
         for __ in range(self._trajectory_generator_config.nr_trajectories):
@@ -63,7 +63,7 @@ class TrajectoryGenerator:
             snapshot_curr_step = np.hstack(
                 [np.squeeze(obs_next), np.squeeze(action), reward, done]
             )
-            self._trajectory.append(snapshot_curr_step)
+            self._trajectories.append(snapshot_curr_step)
             snapshots_curr_episode.append(snapshot_curr_step)
 
             reward_curr_episode += reward
