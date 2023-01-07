@@ -38,21 +38,21 @@ class TrajectoryGenerator:
 
     def get_trajectory(self) -> np.ndarray:
         for __ in range(self._trajectory_generator_config.nr_trajectories):
-            obs = self._env.reset()
+            obs_curr = self._env.reset()
             done = False
             reward_curr_episode = 0
             snapshots_curr_episode = []
 
             while not done:
                 action, _states = self._model.predict(
-                    obs, deterministic=self._trajectory_generator_config.deterministic
+                    obs_curr, deterministic=self._trajectory_generator_config.deterministic
                 )
-                next_obs, reward, done, _ = self._env.step(action)
+                obs_next, reward, done, _ = self._env.step(action)
 
-                obs = next_obs
+                obs_curr = obs_next
                 reward_curr_episode += reward
                 snapshot_curr_step = np.hstack(
-                    [np.squeeze(obs), np.squeeze(action), reward, done]
+                    [np.squeeze(obs_curr), np.squeeze(action), reward, done]
                 )
 
                 self._trajectory.append(snapshot_curr_step)
