@@ -44,6 +44,12 @@ class TrajectoryGenerator:
 
         return np.stack(self._trajectory)
 
+    def _make_trajectories(self) -> None:
+        for __ in range(self._trajectory_generator_config.nr_trajectories):
+            self._append_one_trajectory()
+
+        self._env.close()
+
     def _append_one_trajectory(self) -> None:
         obs_curr = self._env.reset()
         done = False
