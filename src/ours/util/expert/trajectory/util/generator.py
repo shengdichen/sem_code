@@ -35,7 +35,7 @@ class TrajectoryGenerator:
 
     def get_trajectory(self) -> np.ndarray:
         num_steps = 0
-        trajectories_expert = []
+        trajectory = []
 
         for __ in range(self._trajectory_generator_config.nr_trajectories):
             obs = self._env.reset()
@@ -54,7 +54,7 @@ class TrajectoryGenerator:
                 snapshot_curr_step = np.hstack(
                     [np.squeeze(obs), np.squeeze(action), reward, done]
                 )
-                trajectories_expert.append(snapshot_curr_step)
+                trajectory.append(snapshot_curr_step)
                 trajectories_episode.append(snapshot_curr_step)
                 num_steps += 1
                 if self._trajectory_generator_config.render:
@@ -64,4 +64,4 @@ class TrajectoryGenerator:
 
         self._env.close()
 
-        return np.stack(trajectories_expert)
+        return np.stack(trajectory)
