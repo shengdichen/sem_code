@@ -30,7 +30,7 @@ class TrajectoryManager:
         )
 
     def save(self) -> None:
-        trajectory = self._trajectory_generator.get_trajectory()
+        trajectory = self._trajectory_generator.get_trajectories()
 
         TrajectorySaveLoad(self._path_saveload).save(trajectory)
 
