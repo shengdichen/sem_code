@@ -45,7 +45,8 @@ class TrajectoryGenerator:
 
             while not done:
                 action, __ = self._model.predict(
-                    obs_curr, deterministic=self._trajectory_generator_config.deterministic
+                    obs_curr,
+                    deterministic=self._trajectory_generator_config.deterministic,
                 )
                 obs_next, reward, done, __ = self._env.step(action)
                 if self._trajectory_generator_config.render:
