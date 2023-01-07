@@ -48,6 +48,8 @@ class TrajectoryGenerator:
                     obs_curr, deterministic=self._trajectory_generator_config.deterministic
                 )
                 obs_next, reward, done, _ = self._env.step(action)
+                if self._trajectory_generator_config.render:
+                    self._env.render()
 
                 snapshot_curr_step = np.hstack(
                     [np.squeeze(obs_next), np.squeeze(action), reward, done]
@@ -58,9 +60,6 @@ class TrajectoryGenerator:
                 obs_curr = obs_next
                 reward_curr_episode += reward
                 self._num_steps += 1
-
-                if self._trajectory_generator_config.render:
-                    self._env.render()
 
             print("Episode reward: ", reward_curr_episode)
 
