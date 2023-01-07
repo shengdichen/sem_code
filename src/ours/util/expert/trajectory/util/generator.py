@@ -44,10 +44,10 @@ class TrajectoryGenerator:
             snapshots_curr_episode = []
 
             while not done:
-                action, _states = self._model.predict(
+                action, __ = self._model.predict(
                     obs_curr, deterministic=self._trajectory_generator_config.deterministic
                 )
-                obs_next, reward, done, _ = self._env.step(action)
+                obs_next, reward, done, __ = self._env.step(action)
                 if self._trajectory_generator_config.render:
                     self._env.render()
 
