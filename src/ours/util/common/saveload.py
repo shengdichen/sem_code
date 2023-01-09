@@ -6,7 +6,9 @@ import numpy as np
 class NumpySaveLoad:
     def __init__(self, path: Path):
         self._path = str(path)
+        self._make_path_numpy_usable()
 
+    def _make_path_numpy_usable(self) -> None:
         suffix = self._path[-4:]
         if suffix != ".npy":
             self._path += ".npy"
