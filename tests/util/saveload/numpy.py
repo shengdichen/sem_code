@@ -18,7 +18,7 @@ class TestNumpySaveLoad:
     def remove_file(filename: Path) -> None:
         Path.unlink(filename)
 
-    def test_save(self):
+    def test_save(self) -> None:
         target, path_raw, path_numpy = self.setup()
 
         NumpySaveLoad(path_raw).save(target)
@@ -29,7 +29,7 @@ class TestNumpySaveLoad:
         assert Path.exists(path_numpy)
         self.remove_file(path_numpy)
 
-    def test_should_exist(self):
+    def test_should_exist(self) -> None:
         target, path_raw, path_numpy = self.setup()
 
         saveloader = NumpySaveLoad(path_raw)
@@ -42,7 +42,7 @@ class TestNumpySaveLoad:
         assert saveloader.exists()
         self.remove_file(path_numpy)
 
-    def test_should_not_exist(self):
+    def test_should_not_exist(self) -> None:
         target, path_raw, path_numpy = self.setup()
 
         NumpySaveLoad(path_raw).save(target)
@@ -55,7 +55,7 @@ class TestNumpySaveLoad:
 
         self.remove_file(path_numpy)
 
-    def test_load(self):
+    def test_load(self) -> None:
         target, path_raw, path_numpy = self.setup()
 
         saveloader = NumpySaveLoad(path_raw)
