@@ -12,3 +12,11 @@ class NumpySaveLoad:
 
     def load(self) -> np.ndarray:
         return np.load(self._path)
+
+    def exists(self) -> bool:
+        try:
+            self.load()
+        except FileNotFoundError:
+            return False
+        else:
+            return True
