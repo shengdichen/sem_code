@@ -54,3 +54,11 @@ class TestNumpySaveLoad:
         assert not NumpySaveLoad(wrong_path_numpy).exists()
 
         self.remove_file(path_numpy)
+
+    def test_load(self):
+        target, path_raw, path_numpy = self.setup()
+
+        saveloader = NumpySaveLoad(path_raw)
+        saveloader.save(target)
+        assert np.all(saveloader.load() == target)
+        self.remove_file(path_numpy)
