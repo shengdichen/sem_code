@@ -28,3 +28,29 @@ class TestNumpySaveLoad:
         NumpySaveLoad(path_numpy).save(target)
         assert Path.exists(path_numpy)
         self.remove_file(path_numpy)
+
+    def test_should_exist(self):
+        target, path_raw, path_numpy = self.setup()
+
+        saveloader = NumpySaveLoad(path_raw)
+        saveloader.save(target)
+        assert saveloader.exists()
+        self.remove_file(path_numpy)
+
+        saveloader = NumpySaveLoad(path_numpy)
+        saveloader.save(target)
+        assert saveloader.exists()
+        self.remove_file(path_numpy)
+
+    def test_should_not_exist(self):
+        target, path_raw, path_numpy = self.setup()
+
+        NumpySaveLoad(path_raw).save(target)
+
+        wrong_path_raw, wrong_path_numpy = Path("wrong_file_name"), Path(
+            "wrong_file_name.npy"
+        )
+        assert not NumpySaveLoad(wrong_path_raw).exists()
+        assert not NumpySaveLoad(wrong_path_numpy).exists()
+
+        self.remove_file(path_numpy)
