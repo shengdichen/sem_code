@@ -9,9 +9,9 @@ class NumpySaveLoad:
         self._make_path_numpy_usable()
 
     def _make_path_numpy_usable(self) -> None:
-        suffix = self._path[-4:]
-        if suffix != ".npy":
-            self._path += ".npy"
+        actual_suffix, numpy_suffix = self._path[-4:], ".npy"
+        if actual_suffix != numpy_suffix:
+            self._path += numpy_suffix
 
     def save(self, target: np.ndarray) -> None:
         np.save(self._path, target)
