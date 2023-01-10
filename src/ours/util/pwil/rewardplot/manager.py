@@ -17,11 +17,12 @@ class RewardPlotManager:
     ):
         self._env_pwil_rewarded, env_identifier = env_pwil_rewarded_and_identifier
 
-        self._reward_plot = self._make_reward_plot()
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_plot_path(
             env_identifier
         )
         self._saveloader_numpy = NumpySaveLoad(self._path_saveload)
+
+        self._reward_plot = self._make_reward_plot()
 
     @property
     def reward_plot(self) -> np.ndarray:
