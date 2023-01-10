@@ -9,6 +9,19 @@ from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 
 
+class RewardPlotConfig:
+    def __init__(self):
+        self._force_regenerate: bool = False
+
+    @property
+    def force_regenerate(self) -> bool:
+        return self._force_regenerate
+
+    @force_regenerate.setter
+    def force_regenerate(self, value: bool) -> None:
+        self._force_regenerate = value
+
+
 class RewardPlotManager:
     def __init__(
         self,
