@@ -13,6 +13,9 @@ class RewardPlotConfig:
     def __init__(self):
         self._force_regenerate: bool = False
 
+        self._save_as_image: bool = True
+        self._save_as_numpy: bool = True
+
     @property
     def force_regenerate(self) -> bool:
         return self._force_regenerate
@@ -20,6 +23,22 @@ class RewardPlotConfig:
     @force_regenerate.setter
     def force_regenerate(self, value: bool) -> None:
         self._force_regenerate = value
+
+    @property
+    def save_as_image(self) -> bool:
+        return self._save_as_image
+
+    @save_as_image.setter
+    def save_as_image(self, value: bool) -> None:
+        self._save_as_image = value
+
+    @property
+    def save_as_numpy(self) -> bool:
+        return self._save_as_numpy
+
+    @save_as_numpy.setter
+    def save_as_numpy(self, value: bool) -> None:
+        self._save_as_numpy = value
 
 
 class RewardPlotManager:
