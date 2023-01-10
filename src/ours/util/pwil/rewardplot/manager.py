@@ -27,7 +27,10 @@ class RewardPlotManager:
         self,
         training_param: PwilParam,
         env_pwil_rewarded_and_identifier: tuple[Env, str],
+        reward_plot_config: RewardPlotConfig = RewardPlotConfig(),
     ):
+        self._config = reward_plot_config
+
         self._env_pwil_rewarded, env_identifier = env_pwil_rewarded_and_identifier
 
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_plot_path(
