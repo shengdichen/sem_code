@@ -95,10 +95,10 @@ class RewardPlotManager:
         if save_np:
             self._save_as_numpy()
 
+    def _save_as_numpy(self) -> None:
+        self._saveloader_numpy.save(self._reward_plot)
+
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
         ax.imshow(self._reward_plot)
         plt.show()
-
-    def _save_as_numpy(self) -> None:
-        self._saveloader_numpy.save(self._reward_plot)
