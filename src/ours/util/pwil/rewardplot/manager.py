@@ -80,6 +80,12 @@ class RewardPlotManager:
 
         return plot
 
+    def save(self) -> None:
+        if self._config.save_as_image:
+            self.save_reward_plot()
+        if self._config.save_as_numpy:
+            self.save_reward_plot_np()
+
     def save_reward_plot(self, save_np: bool = True) -> None:
         im = Image.fromarray(self._reward_plot)
 
