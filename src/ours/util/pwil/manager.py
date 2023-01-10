@@ -39,7 +39,7 @@ class PwilManager:
         return self._trajectory_manager.load()
 
     def save_reward_plot(self) -> None:
-        self._reward_plot_manager.save_reward_plot()
+        self._reward_plot_manager.save()
 
     def show_reward_plot(self) -> None:
         self._reward_plot_manager.show_reward_plot()
@@ -52,7 +52,7 @@ class PwilManager:
 
         self._sb3_pwil_manager.save()
         self._trajectory_manager.save()
-        self._reward_plot_manager.save_reward_plot()
+        self._reward_plot_manager.save()
 
 
 class PwilManagerFactory:
