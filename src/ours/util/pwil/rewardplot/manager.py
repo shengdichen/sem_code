@@ -45,9 +45,16 @@ class RewardPlotManager:
         return self._reward_plot
 
     def _make_reward_plot(self) -> np.ndarray:
-        if self._saveloader_numpy.exists():
-            return self._saveloader_numpy.load()
+        if self._config.force_regenerate:
+            reward_plot = self._get_reward_plot()
+        elif self._saveloader_numpy.exists():
+            reward_plot = self._saveloader_numpy.load()
+        else:
+            reward_plot = self._get_reward_plot()
 
+        return reward_plot
+
+    def _get_reward_plot(self) -> np.ndarray:
         plot = RewardPlotter.plot_reward(
             discriminator=None, env=self._env_pwil_rewarded
         )
