@@ -49,4 +49,4 @@ class RewardPlotManager:
         plt.show()
 
     def save_reward_plot_np(self) -> None:
-        np.save(str(self._path_saveload), self._reward_plot)
+        self._saveloader_numpy.save(self._reward_plot)
