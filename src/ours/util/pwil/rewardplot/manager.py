@@ -82,23 +82,23 @@ class RewardPlotManager:
 
     def save(self) -> None:
         if self._config.save_as_image:
-            self.save_reward_plot()
+            self._save_as_image()
         if self._config.save_as_numpy:
-            self.save_reward_plot_np()
+            self._save_as_numpy()
 
-    def save_reward_plot(self, save_np: bool = True) -> None:
+    def _save_as_image(self, save_np: bool = True) -> None:
         im = Image.fromarray(self._reward_plot)
 
         save_path = str(self._path_saveload) + ".png"
         im.save(save_path)
 
         if save_np:
-            self.save_reward_plot_np()
+            self._save_as_numpy()
 
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
         ax.imshow(self._reward_plot)
         plt.show()
 
-    def save_reward_plot_np(self) -> None:
+    def _save_as_numpy(self) -> None:
         self._saveloader_numpy.save(self._reward_plot)
