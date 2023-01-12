@@ -44,22 +44,19 @@ class PointEnvPwilManagerFactory:
         trajectory_0 = PointEnvPwilManagerFactory.make_selected_trajectories(
             trajectories, [0]
         )
-        trajectory_01 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            trajectories, [0, 1]
+
+        (trajectory_01, trajectory_02, trajectory_012) = (
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [0, 1]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [0, 2]),
+            PointEnvPwilManagerFactory.make_all_tractories(trajectories),
         )
-        trajectory_02 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            trajectories, [0, 2]
+
+        trajectory_1, trajectory_2, trajectory_12 = (
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [1]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [2]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [1, 2]),
         )
-        trajectory_012 = PointEnvPwilManagerFactory.make_all_tractories(trajectories)
-        trajectory_1 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            trajectories, [1]
-        )
-        trajectory_2 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            trajectories, [2]
-        )
-        trajectory_12 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            trajectories, [1, 2]
-        )
+
         return (
             trajectory_0,
             trajectory_01,
