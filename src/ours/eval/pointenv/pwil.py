@@ -132,12 +132,12 @@ class PointEnvPwilManager:
         self._managers = []
         for demo_id, n_demos, subsampling in PointEnvPwilConfig.get_configs():
             print(
-                "subsampling: ",
-                subsampling,
                 " dem: ",
                 demo_id,
                 " n_demos: ",
                 n_demos,
+                "subsampling: ",
+                subsampling,
             )
             manager_factory = (
                 PointEnvPwilManagerFactory()
