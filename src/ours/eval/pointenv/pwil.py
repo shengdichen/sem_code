@@ -39,19 +39,20 @@ class PointEnvPwilManagerFactory:
     def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
 
-        demos = pointenv_expert_default.load_trajectories()
-        flat_demos = [item for sublist in demos for item in sublist]
-        flat_demos_0 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            demos, [0, 1, 2]
+        trajectories = pointenv_expert_default.load_trajectories()
+
+        trajectory = [item for sublist in trajectories for item in sublist]
+        trajectory_0 = PointEnvPwilManagerFactory.make_selected_trajectories(
+            trajectories, [0, 1, 2]
         )
-        flat_demos_01 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            demos, [0]
+        trajectory_01 = PointEnvPwilManagerFactory.make_selected_trajectories(
+            trajectories, [0]
         )
-        flat_demos_12 = PointEnvPwilManagerFactory.make_selected_trajectories(
-            demos, [1, 2]
+        trajectory_12 = PointEnvPwilManagerFactory.make_selected_trajectories(
+            trajectories, [1, 2]
         )
 
-        return flat_demos, flat_demos_0, flat_demos_01, flat_demos_12
+        return trajectory, trajectory_0, trajectory_01, trajectory_12
 
     @staticmethod
     def make_selected_trajectories(
