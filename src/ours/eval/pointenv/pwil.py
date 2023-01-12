@@ -50,12 +50,11 @@ class PointEnvPwilManagerFactory:
         trajectory_02 = PointEnvPwilManagerFactory.make_selected_trajectories(
             trajectories, [0, 2]
         )
+        trajectory_012 = PointEnvPwilManagerFactory.make_all_tractories(trajectories)
         trajectory_12 = PointEnvPwilManagerFactory.make_selected_trajectories(
             trajectories, [1, 2]
         )
-        trajectory_all = PointEnvPwilManagerFactory.make_all_tractories(trajectories)
-
-        return trajectory_0, trajectory_01, trajectory_02, trajectory_12, trajectory_all
+        return trajectory_0, trajectory_01, trajectory_02, trajectory_012, trajectory_12
 
     @staticmethod
     def make_selected_trajectories(
