@@ -41,7 +41,7 @@ class PointEnvPwilManagerFactory:
 
         trajectories = pointenv_expert_default.load_trajectories()
 
-        trajectory = [item for sublist in trajectories for item in sublist]
+        trajectory_all = PointEnvPwilManagerFactory.make_all_tractories(trajectories)
         trajectory_0 = PointEnvPwilManagerFactory.make_selected_trajectories(
             trajectories, [0, 1, 2]
         )
@@ -52,7 +52,7 @@ class PointEnvPwilManagerFactory:
             trajectories, [1, 2]
         )
 
-        return trajectory, trajectory_0, trajectory_01, trajectory_12
+        return trajectory_all, trajectory_0, trajectory_01, trajectory_12
 
     @staticmethod
     def make_selected_trajectories(
@@ -62,6 +62,14 @@ class PointEnvPwilManagerFactory:
         selected_trajectories = []
         for index in selected_indexes:
             selected_trajectories.extend(trajectories[index])
+
+        return selected_trajectories
+
+    @staticmethod
+    def make_all_tractories(trajectories: list[np.ndarray]) -> list[np.ndarray]:
+        selected_trajectories = []
+        for trajectory in trajectories:
+            selected_trajectories.extend(trajectory)
 
         return selected_trajectories
 
