@@ -47,6 +47,17 @@ class PointEnvPwilManagerFactory:
 
         return flat_demos, flat_demos_0, flat_demos_01, flat_demos_12
 
+    @staticmethod
+    def make_selected_trajectories(
+        trajectories: list[np.ndarray],
+        selected_indexes: list[int],
+    ) -> list[np.ndarray]:
+        selected_trajectories = []
+        for index in selected_indexes:
+            selected_trajectories.extend(trajectories[index])
+
+        return selected_trajectories
+
     def set_pwil_training_param(
         self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
     ) -> "PointEnvPwilManagerFactory":
