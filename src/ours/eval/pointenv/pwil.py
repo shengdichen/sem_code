@@ -73,7 +73,7 @@ class PointEnvPwilManagerFactory:
         return self
 
 
-class ClientTrainerPwil:
+class PointEnvPwilManager:
     def __init__(self):
         demo_id_pool = [0, 1, 2, 3]
         n_demos_pool = [1, 2, 3]
@@ -118,7 +118,7 @@ class ClientTrainerPwil:
 
 
 def client_code():
-    trainer = ClientTrainerPwil()
+    trainer = PointEnvPwilManager()
     trainer.test()
 
 
