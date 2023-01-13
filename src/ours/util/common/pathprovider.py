@@ -49,10 +49,8 @@ class PwilSaveLoadPathGenerator:
             self._training_param.demo_dir, env_identifier
         )
 
-    def get_rewardplot_path(self, env_identifier: str) -> Path:
-        return self._get_model_dependent_path(
-            self._training_param.rewardplot_dir, env_identifier
-        )
+    def get_rewardplot_path(self) -> Path:
+        return self._get_model_independent_path(self._training_param.rewardplot_dir)
 
     def _get_model_dependent_path(self, raw_dir: str, env_identifier: str) -> Path:
         n_demos = self._training_param.pwil_training_param["n_demos"]

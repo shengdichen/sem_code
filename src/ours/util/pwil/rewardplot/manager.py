@@ -53,7 +53,7 @@ class RewardPlotManager:
 
         self._path_saveload = PwilSaveLoadPathGenerator(
             training_param
-        ).get_rewardplot_path(env_identifier)
+        ).get_rewardplot_path()
         self._saveloader_numpy = NumpySaveLoad(self._path_saveload)
         self._saveloader_image = ImageSaveLoad(self._path_saveload)
 
