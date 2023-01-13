@@ -115,7 +115,7 @@ class PointEnvPwilManagerFactory:
 class PointEnvPwilConfig:
     @staticmethod
     def get_configs():
-        demo_id_pool = [0, 1, 2, 3]
+        demo_id_pool = [0, 1, 2, 3, 4, 5, 6]
         n_demos_pool = [1, 2, 3]
         subsampling_pool = [1, 2, 3, 5, 10, 20]
 
