@@ -5,12 +5,12 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.ours.util.common.param import CommonParam
 
 
-class ModelFactory:
+class AlgorithmFactory:
     def __init__(self, env: Env, training_param: CommonParam):
         self._env = env
         self._training_param = training_param
 
-    def get_model(self) -> BaseAlgorithm:
+    def get_algorithm(self) -> BaseAlgorithm:
         return PPO(
             "MlpPolicy",
             self._env,
