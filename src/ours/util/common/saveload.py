@@ -39,6 +39,10 @@ class ImageSaveLoad:
         if actual_suffix != image_suffix:
             self._path += image_suffix
 
+    def save_from_np(self, target: np.ndarray) -> None:
+        im = Image.fromarray(target)
+        self.save(im)
+
     def save(self, target: Image.Image) -> None:
         target.save(self._path)
 
