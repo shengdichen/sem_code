@@ -14,10 +14,18 @@ class Sb3Manager:
     ):
         env, env_identifier = env_and_identifier
         self._algorithm = AlgorithmFactory(env, training_param).get_algorithm()
+        self._model = self._get_model()
         self._trainer = Sb3Trainer(env, training_param)
         self._path_saveload = Sb3SaveLoadPathGenerator(training_param).get_path(
             env_identifier
         )
+
+    def _get_model(self):
+        sb3_loader = Sb3Loader(self._algorithm, self._path_saveload)
+        if sb3_loader.exists():
+            return sb3_loader.load_model()
+        else:
+            return self._algorithm
 
     @property
     def model(self):
