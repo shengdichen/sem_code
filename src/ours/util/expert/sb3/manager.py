@@ -15,7 +15,7 @@ class Sb3Manager:
         env, env_identifier = env_and_identifier
         self._algorithm = AlgorithmFactory(env, training_param).get_algorithm()
         self._model = self._get_model()
-        self._trainer = Sb3Trainer(env, training_param)
+        self._trainer = Sb3Trainer(self._model, training_param)
         self._path_saveload = Sb3SaveLoadPathGenerator(training_param).get_path(
             env_identifier
         )
