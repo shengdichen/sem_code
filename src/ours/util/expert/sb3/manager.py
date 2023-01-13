@@ -1,5 +1,4 @@
 import gym
-from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import Sb3SaveLoadPathGenerator
@@ -37,6 +36,3 @@ class Sb3Manager:
     def save(self) -> None:
         saver = Sb3Saver(self._trainer.model, self._path_saveload)
         saver.save_model()
-
-    def load(self, new_env: gym.Env = None) -> BaseAlgorithm:
-        return Sb3Loader(self._trainer.model, self._path_saveload).load_model(new_env)
