@@ -126,8 +126,7 @@ class PointEnvPwilConfig:
         return configs
 
     def get_configs(self) -> list[tuple[int, int, int]]:
-        demo_id_pool = [0, 1, 2, 3, 4, 5, 6]
-        return self._get_configs(demo_id_pool)
+        return self._get_configs([0, 1, 2, 3, 4, 5, 6])
 
 
 class PointEnvPwilManager:
