@@ -125,18 +125,9 @@ class PointEnvPwilConfig:
                     configs.append((demo_id, n_demos, subsampling))
         return configs
 
-    @staticmethod
-    def get_configs():
+    def get_configs(self) -> list[tuple[int, int, int]]:
         demo_id_pool = [0, 1, 2, 3, 4, 5, 6]
-        n_demos_pool = [1, 2, 3]
-        subsampling_pool = [1, 2, 3, 5, 10, 20]
-
-        configs = []
-        for demo_id in demo_id_pool:
-            for n_demos in n_demos_pool:
-                for subsampling in subsampling_pool:
-                    configs.append((demo_id, n_demos, subsampling))
-        return configs
+        return self._get_configs(demo_id_pool)
 
 
 class PointEnvPwilManager:
