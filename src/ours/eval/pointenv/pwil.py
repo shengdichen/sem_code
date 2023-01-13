@@ -39,13 +39,52 @@ class PointEnvPwilManagerFactory:
     def _get_all_demos():
         pointenv_expert_default = PointEnvExpertDefault()
 
-        demos = pointenv_expert_default.load_trajectories()
-        flat_demos = [item for sublist in demos for item in sublist]
-        flat_demos_0 = [item for sublist in demos for item in sublist]
-        flat_demos_01 = [item for sublist in demos[:1] for item in sublist]
-        flat_demos_12 = [item for sublist in demos[1:] for item in sublist]
+        trajectories = pointenv_expert_default.load_trajectories()
 
-        return flat_demos, flat_demos_0, flat_demos_01, flat_demos_12
+        trajectory_0 = PointEnvPwilManagerFactory.make_selected_trajectories(
+            trajectories, [0]
+        )
+
+        (trajectory_01, trajectory_02, trajectory_012) = (
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [0, 1]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [0, 2]),
+            PointEnvPwilManagerFactory.make_all_tractories(trajectories),
+        )
+
+        trajectory_1, trajectory_2, trajectory_12 = (
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [1]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [2]),
+            PointEnvPwilManagerFactory.make_selected_trajectories(trajectories, [1, 2]),
+        )
+
+        return (
+            trajectory_0,
+            trajectory_01,
+            trajectory_02,
+            trajectory_012,
+            trajectory_1,
+            trajectory_2,
+            trajectory_12,
+        )
+
+    @staticmethod
+    def make_selected_trajectories(
+        trajectories: list[np.ndarray],
+        selected_indexes: list[int],
+    ) -> list[np.ndarray]:
+        selected_trajectories = []
+        for index in selected_indexes:
+            selected_trajectories.extend(trajectories[index])
+
+        return selected_trajectories
+
+    @staticmethod
+    def make_all_tractories(trajectories: list[np.ndarray]) -> list[np.ndarray]:
+        selected_trajectories = []
+        for trajectory in trajectories:
+            selected_trajectories.extend(trajectory)
+
+        return selected_trajectories
 
     def set_pwil_training_param(
         self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
