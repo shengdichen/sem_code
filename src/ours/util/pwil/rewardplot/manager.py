@@ -1,5 +1,4 @@
 import numpy as np
-from PIL import Image
 from gym import Env
 from matplotlib import pyplot as plt
 
@@ -86,12 +85,6 @@ class RewardPlotManager:
             self._saveloader_image.save_from_np(self._reward_plot)
         if self._config.save_as_numpy:
             self._saveloader_numpy.save(self._reward_plot)
-
-    def _save_as_image(self) -> None:
-        im = Image.fromarray(self._reward_plot)
-
-        save_path = str(self._path_saveload) + ".png"
-        im.save(save_path)
 
     def show_reward_plot(self) -> None:
         ax = plt.figure().subplots()
