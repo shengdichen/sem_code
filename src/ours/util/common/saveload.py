@@ -14,8 +14,13 @@ class NumpySaveLoad:
         if actual_suffix != numpy_suffix:
             self._path += numpy_suffix
 
-    def save(self, target: np.ndarray) -> None:
-        np.save(self._path, target)
+    def save(self, target: np.ndarray, force_resave: bool = False) -> None:
+        if force_resave:
+            np.save(self._path, target)
+        elif not Path.exists(Path(self._path)):
+            np.save(self._path, target)
+        else:
+            return
 
     def load(self) -> np.ndarray:
         return np.load(self._path)
