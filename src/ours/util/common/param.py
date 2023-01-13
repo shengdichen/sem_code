@@ -89,12 +89,14 @@ class PwilParam(CommonParam):
     def __init__(self):
         super().__init__()
 
-        self._model_dir, self._demo_dir, self._plot_dir = (
+        self._model_dir, self._demo_dir, self._rewardplot_dir = (
             "./pwil/models/",
             "./pwil/demos/",
-            "./pwil/plot/",
+            "./pwil/rewardplot/",
         )
-        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir, self._plot_dir])
+        Util.mkdir_if_not_existent(
+            [self._model_dir, self._demo_dir, self._rewardplot_dir]
+        )
 
         self._n_steps_pwil_train = int(3e5)
 
@@ -107,8 +109,8 @@ class PwilParam(CommonParam):
         self._trajectory_num = 0
 
     @property
-    def plot_dir(self):
-        return self._plot_dir
+    def rewardplot_dir(self):
+        return self._rewardplot_dir
 
     @property
     def n_steps_pwil_train(self):
