@@ -128,6 +128,15 @@ class PointEnvPwilConfig:
     def get_configs(self) -> list[tuple[int, int, int]]:
         return self._get_configs([0, 1, 2, 3, 4, 5, 6])
 
+    def get_optimal_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([0])
+
+    def get_mixed_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([1, 2, 3])
+
+    def get_distant_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([4, 5, 6])
+
 
 class PointEnvPwilManager:
     def __init__(self):
