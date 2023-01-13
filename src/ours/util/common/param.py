@@ -92,7 +92,7 @@ class PwilParam(CommonParam):
         self._model_dir, self._demo_dir, self._plot_dir = (
             "./pwil/models/",
             "./pwil/demos/",
-            "./pwil/plot/",
+            "./pwil/rewardplot/",
         )
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir, self._plot_dir])
 
