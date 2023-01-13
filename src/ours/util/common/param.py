@@ -109,7 +109,7 @@ class PwilParam(CommonParam):
         self._trajectory_num = 0
 
     @property
-    def plot_dir(self):
+    def rewardplot_dir(self):
         return self._rewardplot_dir
 
     @property
