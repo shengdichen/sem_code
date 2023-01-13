@@ -14,8 +14,13 @@ class NumpySaveLoad:
         if actual_suffix != numpy_suffix:
             self._path += numpy_suffix
 
-    def save(self, target: np.ndarray) -> None:
-        np.save(self._path, target)
+    def save(self, target: np.ndarray, force_resave: bool = False) -> None:
+        if force_resave:
+            np.save(self._path, target)
+        elif not Path.exists(Path(self._path)):
+            np.save(self._path, target)
+        else:
+            return
 
     def load(self) -> np.ndarray:
         return np.load(self._path)
@@ -39,12 +44,17 @@ class ImageSaveLoad:
         if actual_suffix != image_suffix:
             self._path += image_suffix
 
-    def save_from_np(self, target: np.ndarray) -> None:
+    def save_from_np(self, target: np.ndarray, force_resave: bool = False) -> None:
         im = Image.fromarray(target)
-        self.save(im)
+        self.save(im, force_resave)
 
-    def save(self, target: Image.Image) -> None:
-        target.save(self._path)
+    def save(self, target: Image.Image, force_resave: bool = False) -> None:
+        if force_resave:
+            target.save(self._path)
+        elif not Path.exists(Path(self._path)):
+            target.save(self._path)
+        else:
+            return
 
     def load(self) -> Image.Image:
         return Image.open(self._path)
