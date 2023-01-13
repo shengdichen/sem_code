@@ -1,5 +1,5 @@
 from gym import Env
-from stable_baselines3 import PPO as PPOSB
+from stable_baselines3 import PPO
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
@@ -11,7 +11,7 @@ class ModelFactory:
         self._training_param = training_param
 
     def get_model(self) -> BaseAlgorithm:
-        return PPOSB(
+        return PPO(
             "MlpPolicy",
             self._env,
             verbose=0,
