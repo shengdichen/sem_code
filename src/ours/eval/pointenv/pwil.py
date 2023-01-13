@@ -113,6 +113,10 @@ class PointEnvPwilManagerFactory:
 
 
 class PointEnvPwilConfig:
+    def __init__(self):
+        self._n_demos_pool = [1, 2, 3]
+        self._subsampling_pool = [1, 2, 3, 5, 10, 20]
+
     @staticmethod
     def get_configs():
         demo_id_pool = [0, 1, 2, 3, 4, 5, 6]
@@ -130,7 +134,7 @@ class PointEnvPwilConfig:
 class PointEnvPwilManager:
     def __init__(self):
         self._managers = []
-        for demo_id, n_demos, subsampling in PointEnvPwilConfig.get_configs():
+        for demo_id, n_demos, subsampling in PointEnvPwilConfig().get_configs():
             print(
                 " dem: ",
                 demo_id,
