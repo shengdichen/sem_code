@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
-from src.ours.util.common.saveload import NumpySaveLoad
+from src.ours.util.common.saveload import NumpySaveLoad, ImageSaveLoad
 from src.ours.util.pwil.rewardplot.rewardplotter import RewardPlotter
 
 
@@ -56,6 +56,7 @@ class RewardPlotManager:
             env_identifier
         )
         self._saveloader_numpy = NumpySaveLoad(self._path_saveload)
+        self._saveloader_image = ImageSaveLoad(self._path_saveload)
 
         self._reward_plot = self._make_reward_plot()
 
@@ -82,7 +83,7 @@ class RewardPlotManager:
 
     def save(self) -> None:
         if self._config.save_as_image:
-            self._save_as_image()
+            self._saveloader_image.save_from_np(self._reward_plot)
         if self._config.save_as_numpy:
             self._saveloader_numpy.save(self._reward_plot)
 
