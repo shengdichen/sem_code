@@ -4,7 +4,7 @@ import numpy as np
 from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
-class TrajectorySinglePlotPlotter:
+class TrajectoryPlotAtom:
     def __init__(self, trajectory: np.ndarray, ax: matplotlib.axes.Axes):
         self._trajectory_stats = TrajectoryStats(trajectory)
 
@@ -40,7 +40,7 @@ class TrajectorySinglePlotPlotter:
         self._ax.hist(self._trajectory_stats.action)
 
 
-class TrajectoryPlotter:
+class TrajectoryPlot:
     def __init__(
         self,
         trajectory: np.ndarray,
@@ -52,26 +52,26 @@ class TrajectoryPlotter:
     def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        TrajectorySinglePlotPlotter(self._trajectory, axs[0]).plot_agent(
+        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(
             plot_agent_as_hist
         )
-        TrajectorySinglePlotPlotter(self._trajectory, axs[1]).plot_target()
+        TrajectoryPlotAtom(self._trajectory, axs[1]).plot_target()
 
     def plot_agent_and_action(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        TrajectorySinglePlotPlotter(self._trajectory, axs[0]).plot_agent(
+        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(
             plot_agent_as_hist
         )
-        TrajectorySinglePlotPlotter(self._trajectory, axs[1]).plot_action()
+        TrajectoryPlotAtom(self._trajectory, axs[1]).plot_action()
 
     def plot_agent_target_action(self) -> None:
         subfigure_upper, subfigure_lower = self._figure.subfigures(2, 1)
 
         axes_upper = subfigure_upper.subplots(1, 2)
-        TrajectorySinglePlotPlotter(self._trajectory, axes_upper[0]).plot_agent(False)
-        TrajectorySinglePlotPlotter(self._trajectory, axes_upper[1]).plot_target()
+        TrajectoryPlotAtom(self._trajectory, axes_upper[0]).plot_agent(False)
+        TrajectoryPlotAtom(self._trajectory, axes_upper[1]).plot_target()
 
         axes_lower = subfigure_lower.subplots(1, 2)
-        TrajectorySinglePlotPlotter(self._trajectory, axes_lower[0]).plot_agent(True)
-        TrajectorySinglePlotPlotter(self._trajectory, axes_lower[1]).plot_action()
+        TrajectoryPlotAtom(self._trajectory, axes_lower[0]).plot_agent(True)
+        TrajectoryPlotAtom(self._trajectory, axes_lower[1]).plot_action()

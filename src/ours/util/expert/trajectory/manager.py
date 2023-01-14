@@ -6,16 +6,13 @@ from matplotlib import pyplot as plt
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
-from src.ours.util.expert.trajectory.analyzer.general import (
-    TrajectoriesAnalyzerParallel,
-)
+from src.ours.util.expert.trajectory.analyzer.plot import TrajectoryPlot
+from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlotter
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
-from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
 class TrajectoryManager:
@@ -49,6 +46,6 @@ class TrajectoryManager:
     def save_plot(self) -> None:
         figure = plt.figure(figsize=(15, 12), dpi=200)
 
-        TrajectoryPlotter(self.load(), figure).plot_agent_target_action()
+        TrajectoryPlot(self.load(), figure).plot_agent_target_action()
 
         figure.savefig(self._path_saveload)

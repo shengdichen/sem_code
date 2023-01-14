@@ -51,10 +51,6 @@ class PointEnvExpertDefault:
             for env_config in env_configs
         ]
 
-    def train_and_analyze(self) -> None:
-        self.train_and_save()
-        self.analyze_parallel()
-
     def train_and_save(self) -> None:
         for expert_manager in self._expert_managers:
             expert_manager.train_model()

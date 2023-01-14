@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import matplotlib
 import numpy as np
 
-from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlotter
+from src.ours.util.expert.trajectory.analyzer.plot import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 from src.ours.util.expert.trajectory.analyzer.util import MplUtil
 
@@ -31,9 +31,9 @@ class TrajectoriesPlotBase(ABC):
 
         MplUtil.show_figures()
 
-    def _get_trajectories_plotter(self) -> list[TrajectoryPlotter]:
+    def _get_trajectories_plotter(self) -> list[TrajectoryPlot]:
         return [
-            TrajectoryPlotter(trajectory, figure)
+            TrajectoryPlot(trajectory, figure)
             for trajectory, figure in zip(
                 self._trajectories, self._get_configured_figures()
             )
