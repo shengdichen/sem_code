@@ -67,6 +67,10 @@ class PointEnvExpertDefault:
         for expert_manager in self._expert_managers:
             expert_manager.save_trajectory_stats()
 
+    def save_trajectories_plot(self):
+        for expert_manager in self._expert_managers:
+            expert_manager.save_trajectory_plot()
+
     def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:
         TrajectoriesAnalyzerParallel(self.load_trajectories()).analyze(
             plot_agent_as_hist=plot_agent_as_hist

@@ -64,3 +64,14 @@ class TrajectoryPlotter:
             plot_agent_as_hist
         )
         TrajectorySinglePlotPlotter(self._trajectory, axs[1]).plot_action()
+
+    def plot_agent_target_action(self) -> None:
+        subfigure_upper, subfigure_lower = self._figure.subfigures(2, 1)
+
+        axes_upper = subfigure_upper.subplots(1, 2)
+        TrajectorySinglePlotPlotter(self._trajectory, axes_upper[0]).plot_agent(False)
+        TrajectorySinglePlotPlotter(self._trajectory, axes_upper[1]).plot_target()
+
+        axes_lower = subfigure_lower.subplots(1, 2)
+        TrajectorySinglePlotPlotter(self._trajectory, axes_lower[0]).plot_agent(True)
+        TrajectorySinglePlotPlotter(self._trajectory, axes_lower[1]).plot_action()
