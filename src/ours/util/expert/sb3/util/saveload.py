@@ -17,11 +17,14 @@ class Sb3Saver:
 
     def save_model(self, force_resave: bool = False):
         if force_resave:
-            self._model.save(self._savepath_rel)
+            self._save()
         elif not Path.exists(Path(self._savepath_rel)):
-            self._model.save(self._savepath_rel)
+            self._save()
         else:
             return
+
+    def _save(self):
+        self._model.save(self._savepath_rel)
 
 
 class Sb3Loader:
