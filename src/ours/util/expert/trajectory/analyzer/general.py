@@ -16,9 +16,13 @@ class TrajectoriesAnalyzerBase(ABC):
             TrajectoryStats(trajectory) for trajectory in self._trajectories
         ]
 
+    def show_stats(self) -> None:
+        for trajectory_stats in self._trajectories_stats:
+            print(trajectory_stats.get_stats())
+
     def analyze(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory_stats in self._trajectories_stats:
-            trajectory_stats.display_stats()
+            print(trajectory_stats.get_stats())
 
         for trajectory_plotter in self._get_trajectories_plotter():
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
