@@ -25,14 +25,7 @@ class TrajectoriesPlotBase(ABC):
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
-        self._trajectories_stats = [
-            TrajectoryStats(trajectory) for trajectory in self._trajectories
-        ]
-
     def analyze(self, plot_agent_as_hist: bool = True) -> None:
-        for trajectory_stats in self._trajectories_stats:
-            print(trajectory_stats.get_stats())
-
         for trajectory_plotter in self._get_trajectories_plotter():
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
 
