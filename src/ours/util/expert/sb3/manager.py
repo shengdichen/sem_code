@@ -22,7 +22,7 @@ class Sb3Manager:
 
         self._training_param = training_param
 
-    def _get_model(self, algorithm: BaseAlgorithm):
+    def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
         if sb3_loader.exists():
             return sb3_loader.load_model()
@@ -30,7 +30,7 @@ class Sb3Manager:
             return algorithm
 
     @property
-    def model(self):
+    def model(self) -> BaseAlgorithm:
         return self._model
 
     def train(self) -> None:
