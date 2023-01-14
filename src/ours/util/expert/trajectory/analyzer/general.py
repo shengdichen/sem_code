@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import matplotlib
 import numpy as np
 
-from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlot
+from src.ours.util.expert.trajectory.analyzer.plot import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 from src.ours.util.expert.trajectory.analyzer.util import MplUtil
 

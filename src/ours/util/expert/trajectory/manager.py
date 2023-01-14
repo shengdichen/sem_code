@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
-from src.ours.util.expert.trajectory.analyzer.plotter import TrajectoryPlot
+from src.ours.util.expert.trajectory.analyzer.plot import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
