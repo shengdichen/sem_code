@@ -26,7 +26,7 @@ class TrajectoriesPlotBase(ABC):
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
-    def analyze(self, plot_agent_as_hist: bool = True) -> None:
+    def show_plot(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory_plotter in self._get_trajectories_plotter():
             trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
 
