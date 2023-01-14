@@ -51,8 +51,7 @@ class TrajectoryStats:
         stats += "Reward (episode): {0}\n".format(AvgStdUtil(self._rewards_per_episode))
         stats += "Reward (episode): {0}\n".format(MinMaxUtil(self._rewards_per_episode))
 
-        stats += "{0:*^60}".format(" Trajectory Statistics [END] ")
-        stats += "\n"
+        stats += "{0:*^60}\n".format(" Trajectory Statistics [END] ")
 
         return stats
 
