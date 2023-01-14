@@ -28,7 +28,7 @@ class Sb3PwilManager:
 
     @property
     def model(self):
-        return self._trainer.model
+        return self._model
 
     def train(self) -> None:
         self._trainer.train()
