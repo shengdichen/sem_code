@@ -8,9 +8,10 @@ class MplUtil:
 
     def get_horizontal_figures(
         self,
-        figure: matplotlib.figure.Figure
-        | matplotlib.figure.SubFigure = plt.figure(figsize=[15, 5]),
+        figure: matplotlib.figure.Figure | matplotlib.figure.SubFigure = None,
     ) -> list[matplotlib.figure.SubFigure]:
+        if figure is None:
+            figure = plt.figure(figsize=[15, 5])
         if self._n_trajectories == 1:
             return [figure.subfigures(1, 1)]
         else:
