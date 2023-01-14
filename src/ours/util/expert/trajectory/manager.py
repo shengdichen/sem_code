@@ -47,7 +47,7 @@ class TrajectoryManager:
             f.write(TrajectoryStats(self.load()).get_stats())
 
     def save_plot(self) -> None:
-        figure = plt.figure(figsize=(15, 12))
+        figure = plt.figure(figsize=(15, 12), dpi=200)
 
         TrajectoryPlotter(self.load(), figure).plot_agent_target_action()
 
