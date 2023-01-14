@@ -13,12 +13,12 @@ class Sb3Manager:
         self, env_and_identifier: tuple[gym.Env, str], training_param: CommonParam
     ):
         env, env_identifier = env_and_identifier
-        algorithm = AlgorithmFactory(env, training_param).get_algorithm()
-
         self._path_saveload = Sb3SaveLoadPathGenerator(training_param).get_path(
             env_identifier
         )
-        self._model = self._get_model(algorithm)
+        self._model = self._get_model(
+            AlgorithmFactory(env, training_param).get_algorithm()
+        )
 
         self._training_param = training_param
 
