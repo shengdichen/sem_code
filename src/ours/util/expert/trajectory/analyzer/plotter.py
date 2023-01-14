@@ -40,7 +40,7 @@ class TrajectoryPlotAtom:
         self._ax.hist(self._trajectory_stats.action)
 
 
-class TrajectoryPlotter:
+class TrajectoryPlot:
     def __init__(
         self,
         trajectory: np.ndarray,
