@@ -23,5 +23,8 @@ class ExpertManager:
     def save_trajectory_stats(self):
         self._trajectory_manager.save_stats()
 
+    def save_trajectory_plot(self):
+        self._trajectory_manager.save_plot()
+
     def load_trajectory(self) -> np.ndarray:
         return self._trajectory_manager.load()
