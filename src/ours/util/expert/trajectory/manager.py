@@ -13,6 +13,7 @@ from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGenerator,
 )
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
+from src.ours.util.expert.trajectory.analyzer.stats import TrajectoryStats
 
 
 class TrajectoryManager:
@@ -38,3 +39,7 @@ class TrajectoryManager:
 
     def load(self) -> np.ndarray:
         return TrajectorySaveLoad(self._path_saveload).load()
+
+    def save_stats(self) -> None:
+        with open(self._path_saveload, "w") as f:
+            f.write(TrajectoryStats(self.load()).get_stats())
