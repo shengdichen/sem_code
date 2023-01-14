@@ -3,6 +3,31 @@ from pathlib import Path
 from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
+class ExpertSaveLoadPathGenerator:
+    def __init__(self, training_param: CommonParam):
+        self._training_param = training_param
+
+    def get_model_path(self, env_identifier: str) -> Path:
+        return self._get_model_dependent_path(
+            self._training_param.model_dir, env_identifier
+        )
+
+    def get_trajectory_path(self, env_identifier: str) -> Path:
+        return self._get_model_dependent_path(
+            self._training_param.demo_dir, env_identifier
+        )
+
+    def _get_model_dependent_path(self, raw_dir: str, env_identifier: str) -> Path:
+        return Path(
+            "{0}/{1}{2}{3:07}".format(
+                raw_dir,
+                env_identifier,
+                "_",
+                self._training_param.n_steps_expert_train,
+            )
+        )
+
+
 class TrajectorySaveLoadPathGenerator:
     def __init__(self, training_param: CommonParam):
         self._training_param = training_param
