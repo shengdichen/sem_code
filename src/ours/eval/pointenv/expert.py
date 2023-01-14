@@ -8,7 +8,7 @@ from src.ours.env.creation import (
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.trajectory.analyzer.general import (
+from src.ours.util.expert.trajectory.analyzer.plot.general import (
     TrajectoriesPlotParallel,
     TrajectoriesPlotSeparate,
 )
