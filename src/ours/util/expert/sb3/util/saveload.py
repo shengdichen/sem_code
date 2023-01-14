@@ -35,9 +35,6 @@ class Sb3Loader:
         if actual_suffix != image_suffix:
             self._savepath_rel += image_suffix
 
-    def load_model(self, new_env: gym.Env = None) -> BaseAlgorithm:
-        return self._alg.load(self._savepath_rel, new_env)
-
     def exists(self) -> bool:
         try:
             self.load_model()
@@ -45,3 +42,6 @@ class Sb3Loader:
             return False
         else:
             return True
+
+    def load_model(self, new_env: gym.Env = None) -> BaseAlgorithm:
+        return self._alg.load(self._savepath_rel, new_env)
