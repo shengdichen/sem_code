@@ -32,3 +32,11 @@ class Sb3Loader:
 
     def load_model(self, new_env: gym.Env = None) -> BaseAlgorithm:
         return self._alg.load(self._savepath_rel, new_env)
+
+    def exists(self) -> bool:
+        try:
+            self.load_model()
+        except FileNotFoundError:
+            return False
+        else:
+            return True
