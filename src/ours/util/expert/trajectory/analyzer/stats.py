@@ -39,19 +39,22 @@ class TrajectoryStats:
     def done(self) -> np.ndarray:
         return self._trajectory[:, 6]
 
-    def display_stats(self) -> None:
-        print("{0:*^60}".format(" Trajectory Statistics [START] "))
+    def display_stats(self) -> str:
+        stats = ""
+        stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
 
-        print("Number of episodes: {0}".format(self._get_num_episodes()))
+        stats += "Number of episodes: {0}\n".format(self._get_num_episodes())
 
-        print("Reward (global): {0}".format(AvgStdUtil(self.reward)))
-        print("Reward (global): {0}".format(MinMaxUtil(self.reward)))
+        stats += "Reward (global): {0}\n".format(AvgStdUtil(self.reward))
+        stats += "Reward (global): {0}\n".format(MinMaxUtil(self.reward))
 
-        print("Reward (episode): {0}".format(AvgStdUtil(self._rewards_per_episode)))
-        print("Reward (episode): {0}".format(MinMaxUtil(self._rewards_per_episode)))
+        stats += "Reward (episode): {0}\n".format(AvgStdUtil(self._rewards_per_episode))
+        stats += "Reward (episode): {0}\n".format(MinMaxUtil(self._rewards_per_episode))
 
-        print("{0:*^60}".format(" Trajectory Statistics [END] "))
-        print()
+        stats += "{0:*^60}".format(" Trajectory Statistics [END] ")
+        stats += "\n"
+
+        return stats
 
     def _get_num_episodes(self) -> int:
         return int(np.sum(self.done))
