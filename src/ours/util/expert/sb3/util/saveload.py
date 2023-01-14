@@ -15,7 +15,7 @@ class Sb3Saver:
         if actual_suffix != image_suffix:
             self._savepath_rel += image_suffix
 
-    def save_model(self, force_resave: bool = False) -> None:
+    def save(self, force_resave: bool = False) -> None:
         if force_resave:
             self._save()
         elif not Path.exists(Path(self._savepath_rel)):
@@ -40,11 +40,11 @@ class Sb3Loader:
 
     def exists(self) -> bool:
         try:
-            self.load_model()
+            self.load()
         except FileNotFoundError:
             return False
         else:
             return True
 
-    def load_model(self, new_env: gym.Env = None) -> BaseAlgorithm:
+    def load(self, new_env: gym.Env = None) -> BaseAlgorithm:
         return self._alg.load(self._savepath_rel, new_env)
