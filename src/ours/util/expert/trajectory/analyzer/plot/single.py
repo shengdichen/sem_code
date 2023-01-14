@@ -52,17 +52,13 @@ class TrajectoryPlot:
     def plot_agent_and_target(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(
-            plot_agent_as_hist
-        )
+        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(plot_agent_as_hist)
         TrajectoryPlotAtom(self._trajectory, axs[1]).plot_target()
 
     def plot_agent_and_action(self, plot_agent_as_hist: bool) -> None:
         axs = self._figure.subplots(1, 2)
 
-        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(
-            plot_agent_as_hist
-        )
+        TrajectoryPlotAtom(self._trajectory, axs[0]).plot_agent(plot_agent_as_hist)
         TrajectoryPlotAtom(self._trajectory, axs[1]).plot_action()
 
     def plot_agent_target_action(self) -> None:
