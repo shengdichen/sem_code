@@ -12,7 +12,7 @@ from src.ours.util.expert.trajectory.analyzer.general import (
     TrajectoriesPlotParallel,
     TrajectoriesPlotSeparate,
 )
-from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesStats
+from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
