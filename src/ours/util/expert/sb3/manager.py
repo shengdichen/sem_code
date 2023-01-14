@@ -25,7 +25,7 @@ class Sb3Manager:
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
         if sb3_loader.exists():
-            return sb3_loader.load_model()
+            return sb3_loader.load()
         else:
             return algorithm
 
