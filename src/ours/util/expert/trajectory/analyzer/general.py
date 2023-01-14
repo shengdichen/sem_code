@@ -61,5 +61,7 @@ class TrajectoriesAnalyzerSeparate(TrajectoriesPlotBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
+        self._figures = MplUtil(len(self._trajectories)).get_separate_figures()
+
     def _get_configured_figures(self) -> list[matplotlib.figure.Figure]:
-        return MplUtil(len(self._trajectories)).get_separate_figures()
+        return self._figures
