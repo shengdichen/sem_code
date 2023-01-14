@@ -67,12 +67,12 @@ class PointEnvExpertDefault:
         for expert_manager in self._expert_managers:
             expert_manager.save_trajectory_plot()
 
-    def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:
+    def show_trajectories_plot_parallel(self, plot_agent_as_hist: bool = False) -> None:
         TrajectoriesPlotParallel(self.load_trajectories()).show_plot(
             plot_agent_as_hist=plot_agent_as_hist
         )
 
-    def analyze_separate(self, plot_agent_as_hist: bool = False) -> None:
+    def show_trajectories_plot_separate(self, plot_agent_as_hist: bool = False) -> None:
         TrajectoriesPlotSeparate(self.load_trajectories()).show_plot(
             plot_agent_as_hist=plot_agent_as_hist
         )
@@ -87,7 +87,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.analyze_parallel()
+    trainer.show_trajectories_plot_parallel()
 
 
 if __name__ == "__main__":
