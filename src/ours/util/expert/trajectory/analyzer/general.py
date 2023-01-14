@@ -45,7 +45,7 @@ class TrajectoriesPlotBase(ABC):
         pass
 
 
-class TrajectoriesAnalyzerParallel(TrajectoriesPlotBase):
+class TrajectoriesPlotParallel(TrajectoriesPlotBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
@@ -57,7 +57,7 @@ class TrajectoriesAnalyzerParallel(TrajectoriesPlotBase):
         return MplUtil(len(self._trajectories)).get_horizontal_figures(self._figure)
 
 
-class TrajectoriesAnalyzerSeparate(TrajectoriesPlotBase):
+class TrajectoriesPlotSeparate(TrajectoriesPlotBase):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
