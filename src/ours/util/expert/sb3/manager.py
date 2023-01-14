@@ -39,4 +39,4 @@ class Sb3Manager:
 
     def save(self) -> None:
         saver = Sb3Saver(self._model, self._path_saveload)
-        saver.save_model()
+        saver.save()
