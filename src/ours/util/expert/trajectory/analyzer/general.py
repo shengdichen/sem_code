@@ -29,10 +29,6 @@ class TrajectoriesPlotBase(ABC):
             TrajectoryStats(trajectory) for trajectory in self._trajectories
         ]
 
-    def show_stats(self) -> None:
-        for trajectory_stats in self._trajectories_stats:
-            print(trajectory_stats.get_stats())
-
     def analyze(self, plot_agent_as_hist: bool = True) -> None:
         for trajectory_stats in self._trajectories_stats:
             print(trajectory_stats.get_stats())
