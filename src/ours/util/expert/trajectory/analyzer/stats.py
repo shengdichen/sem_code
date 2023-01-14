@@ -39,7 +39,7 @@ class TrajectoryStats:
     def done(self) -> np.ndarray:
         return self._trajectory[:, 6]
 
-    def display_stats(self) -> str:
+    def get_stats(self) -> str:
         stats = ""
         stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
 
