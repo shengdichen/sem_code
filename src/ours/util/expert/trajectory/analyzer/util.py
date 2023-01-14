@@ -10,9 +10,9 @@ class MplUtil:
         self,
         figure: matplotlib.figure.Figure
         | matplotlib.figure.SubFigure = plt.figure(figsize=[15, 5]),
-    ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
+    ) -> list[matplotlib.figure.SubFigure]:
         if self._n_trajectories == 1:
-            return [figure]
+            return [figure.subfigures(1, 1)]
         else:
             return figure.subfigures(1, self._n_trajectories)
 
