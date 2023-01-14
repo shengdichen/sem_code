@@ -4,7 +4,7 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.util.expert.trajectory.analyzer.plot import TrajectoryPlot
+from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.util import MplUtil
 
 
