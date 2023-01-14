@@ -51,7 +51,7 @@ class TrajectoriesAnalyzerParallel(TrajectoriesPlotBase):
     def _get_configured_figures(
         self,
     ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
-        return MplUtil(len(self._trajectories)).get_parallel_figures()
+        return MplUtil(len(self._trajectories)).get_horizontal_figures()
 
 
 class TrajectoriesAnalyzerSeparate(TrajectoriesPlotBase):

@@ -6,7 +6,7 @@ class MplUtil:
     def __init__(self, n_trajectories: int):
         self._n_trajectories = n_trajectories
 
-    def get_parallel_figures(
+    def get_horizontal_figures(
         self,
         figure: matplotlib.figure.Figure
         | matplotlib.figure.SubFigure = plt.figure(figsize=[15, 5]),
