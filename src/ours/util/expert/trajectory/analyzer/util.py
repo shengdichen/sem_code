@@ -8,9 +8,9 @@ class MplUtil:
 
     def get_parallel_figures(
         self,
+        figure: matplotlib.figure.Figure
+        | matplotlib.figure.SubFigure = plt.figure(figsize=[15, 5]),
     ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
-        figure = plt.figure(figsize=[15, 5])
-
         if self._n_trajectories == 1:
             return [figure]
         else:
