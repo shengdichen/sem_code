@@ -12,6 +12,7 @@ from src.ours.util.expert.trajectory.analyzer.general import (
     TrajectoriesAnalyzerParallel,
     TrajectoriesAnalyzerSeparate,
 )
+from src.ours.util.expert.trajectory.analyzer.general import TrajectoriesStats
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
@@ -58,6 +59,9 @@ class PointEnvExpertDefault:
         for expert_manager in self._expert_managers:
             expert_manager.train_model()
             expert_manager.save_model_and_trajectory()
+
+    def show_trajectories_stats(self) -> None:
+        TrajectoriesStats(self.load_trajectories()).show_stats()
 
     def analyze_parallel(self, plot_agent_as_hist: bool = False) -> None:
         TrajectoriesAnalyzerParallel(self.load_trajectories()).analyze(
