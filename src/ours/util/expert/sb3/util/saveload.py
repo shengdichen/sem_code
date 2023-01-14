@@ -15,8 +15,13 @@ class Sb3Saver:
         if actual_suffix != image_suffix:
             self._savepath_rel += image_suffix
 
-    def save_model(self):
-        self._model.save(self._savepath_rel)
+    def save_model(self, force_resave: bool = False):
+        if force_resave:
+            self._model.save(self._savepath_rel)
+        elif not Path.exists(Path(self._savepath_rel)):
+            self._model.save(self._savepath_rel)
+        else:
+            return
 
 
 class Sb3Loader:
