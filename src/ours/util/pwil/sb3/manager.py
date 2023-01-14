@@ -4,6 +4,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.test import PolicyTester
+from src.ours.util.expert.sb3.util.model import AlgorithmFactory
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.pwil.sb3.train import Sb3PwilTrainer
 
@@ -14,9 +15,12 @@ class Sb3PwilManager:
         training_param: PwilParam,
         env_pwil_and_identifier: tuple[tuple[Env, Env], str],
     ):
-        env_pwil_and_testing, env_identifier = env_pwil_and_identifier
+        (env_pwil_rewarded, env_raw_testing), env_identifier = env_pwil_and_identifier
+        self._model = AlgorithmFactory(
+            env_pwil_rewarded, training_param
+        ).get_algorithm()
 
-        self._trainer = Sb3PwilTrainer(training_param, env_pwil_and_testing)
+        self._trainer = Sb3PwilTrainer(self._model, training_param, env_raw_testing)
 
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
             env_identifier
