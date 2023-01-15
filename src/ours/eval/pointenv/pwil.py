@@ -160,10 +160,6 @@ class PointEnvPwilManager:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    def test(self) -> None:
-        for manager in self._managers:
-            manager.test_model()
-
     def save_trajectories_and_stats_and_plot(self):
         self.save_trajectories()
         self.save_trajectories_stats_and_plot()
@@ -175,6 +171,10 @@ class PointEnvPwilManager:
     def save_trajectories_stats_and_plot(self):
         for manager in self._managers:
             manager.save_trajectory_stats_and_plot()
+
+    def test(self) -> None:
+        for manager in self._managers:
+            manager.test_model()
 
 
 def client_code():
