@@ -1,0 +1,7 @@
+************** Trajectory Statistics [START] ***************
+Number of episodes: 10
+Reward (global): [<avg> +- <std>] | 0.008842 +- 3.119e-05
+Reward (global): [<min> / <max>] | 0.008535 / 0.008862
+Reward (episode): [<avg> +- <std>] | 8.851 +- 0.002821
+Reward (episode): [<min> / <max>] | 8.844 / 8.854
+*************** Trajectory Statistics [END] ****************
