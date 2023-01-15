@@ -26,6 +26,13 @@ class Sb3PwilManager:
             env_identifier
         )
 
+    def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
+        sb3_loader = Sb3Loader(algorithm, self._path_saveload)
+        if sb3_loader.exists():
+            return sb3_loader.load()
+        else:
+            return algorithm
+
     @property
     def model(self):
         return self._model
