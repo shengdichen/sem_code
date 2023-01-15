@@ -33,7 +33,7 @@ class Sb3PwilManager:
             return algorithm
 
     @property
-    def model(self):
+    def model(self) -> BaseAlgorithm:
         return self._model
 
     def train(self) -> None:
@@ -46,6 +46,6 @@ class Sb3PwilManager:
     def load(self, new_env: Env = None) -> BaseAlgorithm:
         return Sb3Loader(self._model, self._path_saveload).load(new_env)
 
-    def test(self):
+    def test(self) -> None:
         model = self.load()
         PolicyTester.test_policy(model)
