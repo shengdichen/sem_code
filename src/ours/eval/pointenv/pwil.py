@@ -143,6 +143,11 @@ class PointEnvPwilManager:
         for manager in self._managers:
             manager.train_and_save()
 
+    def train_and_save_models(self) -> None:
+        for manager in self._managers:
+            manager.train_model()
+            manager.save_model()
+
     def save_plot_with_torch(self) -> None:
         plots = []
 
