@@ -1,3 +1,4 @@
+import numpy as np
 import torchvision
 
 from src.ours.env.creation import (
