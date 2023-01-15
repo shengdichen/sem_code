@@ -1,6 +1,4 @@
 from gym import Env
-from stable_baselines3 import PPO as PPOSB
-from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 
 from src.ours.util.common.helper import TqdmCallback
@@ -46,30 +44,3 @@ class CallbackListFactory:
 
         # eval_callback.init_callback(ppo_dict[k])
         return eval_callback
-
-
-class PwilModelFactory:
-    def __init__(
-        self,
-        training_param: PwilParam,
-        env_pwil_rewarded: Env,
-    ):
-        self._training_param = training_param
-        self._env_pwil_rewarded = env_pwil_rewarded
-
-        self._model = self._make_model()
-
-    @property
-    def model(self):
-        return self._model
-
-    def _make_model(self) -> BaseAlgorithm:
-        model = PPOSB(
-            "MlpPolicy",
-            self._env_pwil_rewarded,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=self._training_param.sb3_tblog_dir,
-        )
-
-        return model

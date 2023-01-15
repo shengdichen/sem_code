@@ -1,20 +1,20 @@
 from gym import Env
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.train import Trainer
-from src.ours.util.pwil.sb3.util import CallbackListFactory, PwilModelFactory
+from src.ours.util.pwil.sb3.util import CallbackListFactory
 
 
 class Sb3PwilTrainer(Trainer):
     def __init__(
         self,
+        model: BaseAlgorithm,
         training_param: PwilParam,
-        env_pwil_and_testing: tuple[Env, Env],
+        env_raw_testing: Env,
     ):
+        self._model = model
         self._training_param = training_param
-        env_pwil_rewarded, env_raw_testing = env_pwil_and_testing
-
-        self._model = PwilModelFactory(training_param, env_pwil_rewarded).model
 
         self._callback_list = CallbackListFactory(
             training_param, env_raw_testing
