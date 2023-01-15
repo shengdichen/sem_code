@@ -72,8 +72,8 @@ class PwilManagerFactory:
         ).env_pwil_rewarded
 
         self._sb3_pwil_manager = Sb3PwilManager(
-            training_param,
             ((env_pwil_rewarded, env_raw_testing), env_identifier),
+            training_param,
         )
         self._trajectory_manager = TrajectoryManager(
             (env_pwil_rewarded, env_identifier),

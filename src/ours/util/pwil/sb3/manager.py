@@ -12,8 +12,8 @@ from src.ours.util.pwil.sb3.train import Sb3PwilTrainer
 class Sb3PwilManager:
     def __init__(
         self,
-        training_param: PwilParam,
         env_pwil_and_identifier: tuple[tuple[Env, Env], str],
+        training_param: PwilParam,
     ):
         (env_pwil_rewarded, env_raw_testing), env_identifier = env_pwil_and_identifier
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
