@@ -54,6 +54,10 @@ class PwilManager:
         self._trajectory_manager.save()
         self._reward_plot_manager.save()
 
+    def save_trajectory_stats_and_plot(self) -> None:
+        self._trajectory_manager.save_stats()
+        self._trajectory_manager.save_plot()
+
 
 class PwilManagerFactory:
     def __init__(
