@@ -139,10 +139,6 @@ class PointEnvPwilManager:
                     )
                     self._managers.append(manager_factory.pwil_manager)
 
-    def train_and_save(self) -> None:
-        for manager in self._managers:
-            manager.train_and_save()
-
     def train_and_save_models(self) -> None:
         for manager in self._managers:
             manager.train_model()
