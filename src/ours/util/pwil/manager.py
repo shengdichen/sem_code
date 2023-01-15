@@ -75,10 +75,16 @@ class PwilManagerFactory:
             ((env_pwil_rewarded, env_raw_testing), env_identifier),
             training_param,
         )
-        self._trajectory_manager = TrajectoryManager(
-            (env_raw, env_identifier),
-            (self._sb3_pwil_manager.model, training_param),
-        )
+        if PwilManagerFactoryConfig.use_raw_env_for_trajectory:
+            self._trajectory_manager = TrajectoryManager(
+                (env_raw, env_identifier),
+                (self._sb3_pwil_manager.model, training_param),
+            )
+        else:
+            self._trajectory_manager = TrajectoryManager(
+                (env_pwil_rewarded, env_identifier),
+                (self._sb3_pwil_manager.model, training_param),
+            )
 
     @property
     def pwil_manager(self) -> PwilManager:
