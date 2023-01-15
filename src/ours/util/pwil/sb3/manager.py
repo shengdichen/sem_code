@@ -16,15 +16,14 @@ class Sb3PwilManager:
         env_pwil_and_identifier: tuple[tuple[Env, Env], str],
     ):
         (env_pwil_rewarded, env_raw_testing), env_identifier = env_pwil_and_identifier
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
+            env_identifier
+        )
         self._model = self._get_model(
             AlgorithmFactory(env_pwil_rewarded, training_param).get_algorithm()
         )
 
         self._trainer = Sb3PwilTrainer(self._model, training_param, env_raw_testing)
-
-        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
-            env_identifier
-        )
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
