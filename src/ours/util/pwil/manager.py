@@ -71,6 +71,9 @@ class PwilManagerFactory:
             training_param, env_raw, trajectories
         ).env_pwil_rewarded
 
+        self._reward_plot_manager = RewardPlotManager(
+            training_param, (env_pwil_rewarded, env_identifier)
+        )
         self._sb3_pwil_manager = Sb3PwilManager(
             ((env_pwil_rewarded, env_raw_testing), env_identifier),
             training_param,
@@ -78,9 +81,6 @@ class PwilManagerFactory:
         self._trajectory_manager = TrajectoryManager(
             (env_pwil_rewarded, env_identifier),
             (self._sb3_pwil_manager.model, training_param),
-        )
-        self._reward_plot_manager = RewardPlotManager(
-            training_param, (env_pwil_rewarded, env_identifier)
         )
 
     @property
