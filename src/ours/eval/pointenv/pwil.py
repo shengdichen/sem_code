@@ -148,6 +148,10 @@ class PointEnvPwilManager:
             manager.train_model()
             manager.save_model()
 
+    def save_rewardplots(self) -> None:
+        for manager in self._managers:
+            manager.save_reward_plot()
+
     def save_plot_with_torch(self) -> None:
         plots = []
 
