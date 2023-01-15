@@ -155,6 +155,14 @@ class PointEnvPwilManager:
         for manager in self._managers:
             manager.test_model()
 
+    def save_trajectories(self):
+        for manager in self._managers:
+            manager.save_trajectory()
+
+    def save_trajectories_stats_and_plot(self):
+        for manager in self._managers:
+            manager.save_trajectory_stats_and_plot()
+
 
 def client_code():
     trainer = PointEnvPwilManager()
