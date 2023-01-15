@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from src.ours.env.env import MovePoint
-from src.ours.util.expert.analyzer.plotter import TrajectoryPlotter
+from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlotAtom
 
 
 class PolicyTester:
