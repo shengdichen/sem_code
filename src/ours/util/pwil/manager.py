@@ -11,12 +11,12 @@ from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
 class PwilManager:
     def __init__(
         self,
-        managers: tuple[Sb3PwilManager, TrajectoryManager, RewardPlotManager],
+        managers: tuple[RewardPlotManager, Sb3PwilManager, TrajectoryManager],
     ):
         (
+            self._reward_plot_manager,
             self._sb3_pwil_manager,
             self._trajectory_manager,
-            self._reward_plot_manager,
         ) = managers
 
     def train_model(self) -> None:
@@ -87,8 +87,8 @@ class PwilManagerFactory:
     def pwil_manager(self) -> PwilManager:
         return PwilManager(
             (
+                self._reward_plot_manager,
                 self._sb3_pwil_manager,
                 self._trajectory_manager,
-                self._reward_plot_manager,
             )
         )
