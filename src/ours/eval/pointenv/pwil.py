@@ -1,3 +1,4 @@
+import numpy as np
 import torchvision
 
 from src.ours.env.creation import (
@@ -165,11 +166,16 @@ class PointEnvPwilManager:
             )
             self._managers.append(manager_factory.pwil_manager)
 
-    def train_and_save(self) -> None:
+    def train_and_save_models(self) -> None:
         for manager in self._managers:
-            manager.train_and_save()
+            manager.train_model()
+            manager.save_model()
 
-    def save_plot_with_torch(self) -> None:
+    def save_rewardplots(self) -> None:
+        for manager in self._managers:
+            manager.save_reward_plot()
+
+    def save_rewardplots_with_torch(self) -> None:
         plots = []
 
         for manager in self._managers:
@@ -177,14 +183,26 @@ class PointEnvPwilManager:
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
 
-    def test(self) -> None:
+    def save_trajectories_and_stats_and_plot(self):
+        self.save_trajectories()
+        self.save_trajectories_stats_and_plot()
+
+    def save_trajectories(self):
+        for manager in self._managers:
+            manager.save_trajectory()
+
+    def save_trajectories_stats_and_plot(self):
+        for manager in self._managers:
+            manager.save_trajectory_stats_and_plot()
+
+    def test_models(self) -> None:
         for manager in self._managers:
             manager.test_model()
 
 
 def client_code():
     trainer = PointEnvPwilManager()
-    trainer.test()
+    trainer.test_models()
 
 
 if __name__ == "__main__":
