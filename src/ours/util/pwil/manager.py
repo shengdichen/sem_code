@@ -48,6 +48,10 @@ class PwilManager:
         self._trajectory_manager.save_plot()
 
 
+class PwilManagerFactoryConfig:
+    use_raw_env_for_trajectory: bool = True
+
+
 class PwilManagerFactory:
     def __init__(
         self,
