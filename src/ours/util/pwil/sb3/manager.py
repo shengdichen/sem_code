@@ -43,9 +43,5 @@ class Sb3PwilManager:
         saver = Sb3Saver(self._model, self._path_saveload)
         saver.save()
 
-    def load(self, new_env: Env = None) -> BaseAlgorithm:
-        return Sb3Loader(self._model, self._path_saveload).load(new_env)
-
     def test(self) -> None:
-        model = self.load()
-        PolicyTester.test_policy(model)
+        PolicyTester.test_policy(self._model)
