@@ -2,7 +2,7 @@ import numpy as np
 from gym import Env
 
 from src.ours.util.common.param import PwilParam
-from src.ours.util.expert.trajectory.manager import TrajectoryManager
+from src.ours.util.pwil.trajectory.manager import TrajectoryManager
 from src.ours.util.pwil.rewardplot.manager import RewardPlotManager
 from src.ours.util.pwil.sb3.manager import Sb3PwilManager
 from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
@@ -49,6 +49,10 @@ class PwilManager:
         self._sb3_pwil_manager.save()
         self._trajectory_manager.save()
         self._reward_plot_manager.save()
+
+    def save_trajectory_stats_and_plot(self) -> None:
+        self._trajectory_manager.save_stats()
+        self._trajectory_manager.save_plot()
 
 
 class PwilManagerFactory:
