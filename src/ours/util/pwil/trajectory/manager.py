@@ -49,3 +49,5 @@ class TrajectoryManager:
         TrajectoryPlot(self.load(), figure).plot_agent_target_action()
 
         figure.savefig(self._path_saveload)
+
+        plt.close()
