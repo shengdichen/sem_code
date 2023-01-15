@@ -172,14 +172,14 @@ class PointEnvPwilManager:
         for manager in self._managers:
             manager.save_trajectory_stats_and_plot()
 
-    def test(self) -> None:
+    def test_models(self) -> None:
         for manager in self._managers:
             manager.test_model()
 
 
 def client_code():
     trainer = PointEnvPwilManager()
-    trainer.test()
+    trainer.test_models()
 
 
 if __name__ == "__main__":
