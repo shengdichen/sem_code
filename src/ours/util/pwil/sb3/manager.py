@@ -42,10 +42,10 @@ class Sb3PwilManager:
 
     def save(self) -> None:
         saver = Sb3Saver(self._trainer.model, self._path_saveload)
-        saver.save_model()
+        saver.save()
 
     def load(self, new_env: Env = None) -> BaseAlgorithm:
-        return Sb3Loader(self._trainer.model, self._path_saveload).load_model(new_env)
+        return Sb3Loader(self._trainer.model, self._path_saveload).load(new_env)
 
     def test(self):
         model = self.load()
