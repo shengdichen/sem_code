@@ -3,7 +3,7 @@ from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import PwilParam
-from src.ours.util.expert.trajectory.manager import TrajectoryManager
+from src.ours.util.pwil.trajectory.manager import TrajectoryManager
 from src.ours.util.pwil.rewardplot.manager import RewardPlotManager
 from src.ours.util.pwil.sb3.manager import Sb3PwilManager
 from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
