@@ -148,7 +148,7 @@ class PointEnvPwilManager:
         for manager in self._managers:
             manager.save_reward_plot()
 
-    def save_plot_with_torch(self) -> None:
+    def save_rewardplots_with_torch(self) -> None:
         plots = []
 
         for manager in self._managers:
