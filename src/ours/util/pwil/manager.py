@@ -19,6 +19,15 @@ class PwilManager:
             self._trajectory_manager,
         ) = managers
 
+    def save_reward_plot(self) -> None:
+        self._reward_plot_manager.save()
+
+    def show_reward_plot(self) -> None:
+        self._reward_plot_manager.show_reward_plot()
+
+    def get_reward_plot(self) -> np.ndarray:
+        return self._reward_plot_manager.reward_plot
+
     def train_model(self) -> None:
         self._sb3_pwil_manager.train()
 
@@ -33,15 +42,6 @@ class PwilManager:
 
     def load_trajectory(self) -> np.ndarray:
         return self._trajectory_manager.load()
-
-    def save_reward_plot(self) -> None:
-        self._reward_plot_manager.save()
-
-    def show_reward_plot(self) -> None:
-        self._reward_plot_manager.show_reward_plot()
-
-    def get_reward_plot(self) -> np.ndarray:
-        return self._reward_plot_manager.reward_plot
 
     def train_and_save(self) -> None:
         self._sb3_pwil_manager.train()
