@@ -112,32 +112,58 @@ class PointEnvPwilManagerFactory:
         return self
 
 
+class PointEnvPwilConfig:
+    def __init__(self):
+        self._n_demos_pool = [1, 2, 3]
+        self._subsampling_pool = [1, 2, 3, 5, 10, 20]
+
+    def _get_configs(self, demo_id_pool: list[int]) -> list[tuple[int, int, int]]:
+        configs = []
+        for demo_id in demo_id_pool:
+            for n_demos in self._n_demos_pool:
+                for subsampling in self._subsampling_pool:
+                    configs.append((demo_id, n_demos, subsampling))
+        return configs
+
+    def get_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([0, 1, 2, 3, 4, 5, 6])
+
+    def get_optimal_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([0])
+
+    def get_mixed_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([1, 2, 3])
+
+    def get_distant_configs(self) -> list[tuple[int, int, int]]:
+        return self._get_configs([4, 5, 6])
+
+    @staticmethod
+    def get_best_config() -> list[tuple[int, int, int]]:
+        demo_id = 0
+        n_demos = 1
+        subsampling_pool = 1
+
+        return [(demo_id, n_demos, subsampling_pool)]
+
+
 class PointEnvPwilManager:
     def __init__(self):
-        demo_id_pool = [0, 1, 2, 3]
-        n_demos_pool = [1, 2, 3]
-        subsampling_pool = [1, 2, 3, 5, 10, 20]
-
         self._managers = []
-        for demo_id in demo_id_pool:
-            for n_demos in n_demos_pool:
-                for subsampling in subsampling_pool:
-                    print(
-                        "subsampling: ",
-                        subsampling,
-                        " dem: ",
-                        demo_id,
-                        " n_demos: ",
-                        n_demos,
-                    )
-                    manager_factory = (
-                        PointEnvPwilManagerFactory()
-                        .set_pwil_training_param(
-                            n_demos=n_demos, subsampling=subsampling
-                        )
-                        .set_trajectories(demo_id)
-                    )
-                    self._managers.append(manager_factory.pwil_manager)
+        for demo_id, n_demos, subsampling in PointEnvPwilConfig().get_configs():
+            print(
+                " dem: ",
+                demo_id,
+                " n_demos: ",
+                n_demos,
+                "subsampling: ",
+                subsampling,
+            )
+            manager_factory = (
+                PointEnvPwilManagerFactory()
+                .set_pwil_training_param(n_demos=n_demos, subsampling=subsampling)
+                .set_trajectories(demo_id)
+            )
+            self._managers.append(manager_factory.pwil_manager)
 
     def train_and_save(self) -> None:
         for manager in self._managers:
