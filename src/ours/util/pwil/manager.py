@@ -11,13 +11,22 @@ from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
 class PwilManager:
     def __init__(
         self,
-        managers: tuple[Sb3PwilManager, TrajectoryManager, RewardPlotManager],
+        managers: tuple[RewardPlotManager, Sb3PwilManager, TrajectoryManager],
     ):
         (
+            self._reward_plot_manager,
             self._sb3_pwil_manager,
             self._trajectory_manager,
-            self._reward_plot_manager,
         ) = managers
+
+    def save_reward_plot(self) -> None:
+        self._reward_plot_manager.save()
+
+    def show_reward_plot(self) -> None:
+        self._reward_plot_manager.show_reward_plot()
+
+    def get_reward_plot(self) -> np.ndarray:
+        return self._reward_plot_manager.reward_plot
 
     def train_model(self) -> None:
         self._sb3_pwil_manager.train()
@@ -33,22 +42,6 @@ class PwilManager:
 
     def load_trajectory(self) -> np.ndarray:
         return self._trajectory_manager.load()
-
-    def save_reward_plot(self) -> None:
-        self._reward_plot_manager.save()
-
-    def show_reward_plot(self) -> None:
-        self._reward_plot_manager.show_reward_plot()
-
-    def get_reward_plot(self) -> np.ndarray:
-        return self._reward_plot_manager.reward_plot
-
-    def train_and_save(self) -> None:
-        self._sb3_pwil_manager.train()
-
-        self._sb3_pwil_manager.save()
-        self._trajectory_manager.save()
-        self._reward_plot_manager.save()
 
     def save_trajectory_stats_and_plot(self) -> None:
         self._trajectory_manager.save_stats()
@@ -71,6 +64,9 @@ class PwilManagerFactory:
             training_param, env_raw, trajectories
         ).env_pwil_rewarded
 
+        self._reward_plot_manager = RewardPlotManager(
+            training_param, (env_pwil_rewarded, env_identifier)
+        )
         self._sb3_pwil_manager = Sb3PwilManager(
             ((env_pwil_rewarded, env_raw_testing), env_identifier),
             training_param,
@@ -79,16 +75,13 @@ class PwilManagerFactory:
             (env_pwil_rewarded, env_identifier),
             (self._sb3_pwil_manager.model, training_param),
         )
-        self._reward_plot_manager = RewardPlotManager(
-            training_param, (env_pwil_rewarded, env_identifier)
-        )
 
     @property
     def pwil_manager(self) -> PwilManager:
         return PwilManager(
             (
+                self._reward_plot_manager,
                 self._sb3_pwil_manager,
                 self._trajectory_manager,
-                self._reward_plot_manager,
             )
         )
