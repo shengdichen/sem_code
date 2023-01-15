@@ -12,19 +12,18 @@ from src.ours.util.pwil.sb3.train import Sb3PwilTrainer
 class Sb3PwilManager:
     def __init__(
         self,
-        training_param: PwilParam,
         env_pwil_and_identifier: tuple[tuple[Env, Env], str],
+        training_param: PwilParam,
     ):
         (env_pwil_rewarded, env_raw_testing), env_identifier = env_pwil_and_identifier
+        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
+            env_identifier
+        )
         self._model = self._get_model(
             AlgorithmFactory(env_pwil_rewarded, training_param).get_algorithm()
         )
 
         self._trainer = Sb3PwilTrainer(self._model, training_param, env_raw_testing)
-
-        self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
-            env_identifier
-        )
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
@@ -34,19 +33,15 @@ class Sb3PwilManager:
             return algorithm
 
     @property
-    def model(self):
+    def model(self) -> BaseAlgorithm:
         return self._model
 
     def train(self) -> None:
         self._trainer.train()
 
     def save(self) -> None:
-        saver = Sb3Saver(self._trainer.model, self._path_saveload)
-        saver.save_model()
+        saver = Sb3Saver(self._model, self._path_saveload)
+        saver.save()
 
-    def load(self, new_env: Env = None) -> BaseAlgorithm:
-        return Sb3Loader(self._trainer.model, self._path_saveload).load_model(new_env)
-
-    def test(self):
-        model = self.load()
-        PolicyTester.test_policy(model)
+    def test(self) -> None:
+        PolicyTester.test_policy(self._model)
