@@ -37,7 +37,6 @@ class PolicyTester:
 
         fig = plt.figure()
         plt.title(rm)
-        # plt.hist2d(x,y,bins)
         plt.plot(obsa[:, 0], obsa[:, 1], "m-", alpha=0.3)
         plt.scatter(obsa[:, 2], obsa[:, 3], c="r")
         plt.axis("equal")
