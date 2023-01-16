@@ -25,7 +25,6 @@ class MovePoint(Env):
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._field)
 
         self._episode_timer = EpisodeLengthTimer(1000)
-        self._done = False
 
     @property
     def env_config(self):
