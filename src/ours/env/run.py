@@ -20,12 +20,7 @@ class PointEnvRunner:
             self._env.step(random.randint(0, 4))
             self._env.render()
 
-    def run_random(self):
-        self.reset()
-        self.take_action_random()
-        self._env.close()
-
-    def run_random_multi(self, n_runs: int):
+    def run_random(self, n_runs: int = 1):
         for __ in range(n_runs):
             self.reset()
             self.take_action_random()
