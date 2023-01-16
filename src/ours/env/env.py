@@ -25,7 +25,6 @@ class MovePoint(Env):
         self._trajectory_heat_visualizer = TrajectoryHeatVisualizer(self._field)
 
         self._episode_timer = EpisodeLengthTimer(1000)
-        self._done = False
 
     @property
     def env_config(self):
@@ -41,10 +40,8 @@ class MovePoint(Env):
         self._draw_elements_on_canvas()
 
         self._episode_timer.reset()
-        self._done = False
 
-        obs = self._get_obs()
-        return obs
+        return self._get_obs()
 
     def step(self, action: int):
         action_converted = ActionConverter(
@@ -58,8 +55,8 @@ class MovePoint(Env):
 
         has_elapsed = self._episode_timer.advance()
 
-        self._done = has_visited_all_targets or has_elapsed
-        return obs, reward, self._done, {}
+        done = has_visited_all_targets or has_elapsed
+        return obs, reward, done, {}
 
     def _get_obs(self):
         field_obs = self._field.get_pos_agent_target()
