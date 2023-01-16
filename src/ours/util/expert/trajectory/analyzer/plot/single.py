@@ -25,14 +25,17 @@ class TrajectoryPlotAtom:
             self._plot_agent_direct()
 
     def _plot_agent_hist(self) -> None:
+        self._make_square()
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         self._ax.hist2d(agent_pos_x, agent_pos_y, bins=self._bins_hist)
 
     def _plot_agent_direct(self) -> None:
+        self._make_square()
         agent_pos_x, agent_pos_y = self._trajectory_stats.agent_pos
         self._ax.plot(agent_pos_x, agent_pos_y, "m-", alpha=0.3)
 
     def plot_target(self) -> None:
+        self._make_square()
         target_pos_x, target_pos_y = self._trajectory_stats.target_pos
         self._ax.scatter(target_pos_x, target_pos_y, c="r")
 
