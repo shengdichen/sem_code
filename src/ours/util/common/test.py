@@ -40,5 +40,6 @@ class PolicyTester:
         plt.plot(obsa[:, 0], obsa[:, 1], "m-", alpha=0.3)
         plt.scatter(obsa[:, 2], obsa[:, 3], c="r")
         plt.axis("equal")
+        plt.show()
 
         return fig
