@@ -11,8 +11,9 @@ class PointEnvRunner:
         self._obs, self._done = self.reset()
 
     def reset(self):
-        self._env.reset()
+        obs = self._env.reset()
         self._env.render("human")
+        return obs, False
 
     def close(self):
         self._env.close()
