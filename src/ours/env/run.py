@@ -8,6 +8,8 @@ class PointEnvRunner:
         self._env = MovePoint()
         self._n_steps = 500
 
+        self._obs, self._done = self.reset()
+
     def reset(self):
         self._env.reset()
         self._env.render("human")
