@@ -44,6 +44,7 @@ class MovePoint(Env):
         self._done = False
 
         obs = self._get_obs()
+        # print("obs", obs)
         return obs
 
     def step(self, action: int):
