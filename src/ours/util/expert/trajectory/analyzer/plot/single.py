@@ -9,6 +9,7 @@ class TrajectoryPlotAtom:
         self._trajectory_stats = TrajectoryStats(trajectory)
 
         self._ax = ax
+        self._canvas_size = 200
         self._bins_hist = self._make_bins_hist()
 
     @staticmethod
