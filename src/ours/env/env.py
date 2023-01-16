@@ -43,9 +43,7 @@ class MovePoint(Env):
         self._episode_timer.reset()
         self._done = False
 
-        obs = self._get_obs()
-        # print("obs", obs)
-        return obs
+        return self._get_obs()
 
     def step(self, action: int):
         action_converted = ActionConverter(
