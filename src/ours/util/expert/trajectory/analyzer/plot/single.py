@@ -43,8 +43,8 @@ class TrajectoryPlotAtom:
         self._ax.hist(self._trajectory_stats.action)
 
     def _make_square(self) -> None:
-        self._ax.set_xlim(0, 200)
-        self._ax.set_ylim(0, 200)
+        self._ax.set_xlim(0, self._canvas_size)
+        self._ax.set_ylim(0, self._canvas_size)
         self._ax.set_aspect(1)
         self._ax.set_box_aspect(1)
 
