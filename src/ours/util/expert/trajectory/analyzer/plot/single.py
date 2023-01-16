@@ -12,10 +12,9 @@ class TrajectoryPlotAtom:
         self._canvas_size = 200
         self._bins_hist = self._make_bins_hist()
 
-    @staticmethod
-    def _make_bins_hist(nr=40, canvas_size=200) -> tuple[np.ndarray, np.ndarray]:
-        x_bins = np.linspace(0, canvas_size, nr)
-        y_bins = np.linspace(0, canvas_size, nr)
+    def _make_bins_hist(self, nr=40) -> tuple[np.ndarray, np.ndarray]:
+        x_bins = np.linspace(0, self._canvas_size, nr)
+        y_bins = np.linspace(0, self._canvas_size, nr)
 
         return x_bins, y_bins
 
