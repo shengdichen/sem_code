@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from src.ours.env.env import MovePoint
-from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlotAtom
 
 
 class PolicyTester:
@@ -35,7 +34,6 @@ class PolicyTester:
 
         print(rm + " mean / std cumrew: ", np.mean(cum_rew), np.std(cum_rew))
         obsa = np.stack(obs_list)
-        TrajectoryPlotter.get_hist_data(obsa)
 
         fig = plt.figure()
         plt.title(rm)
