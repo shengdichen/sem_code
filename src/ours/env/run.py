@@ -25,6 +25,13 @@ class PointEnvRunner:
         self.take_action_random()
         self._env.close()
 
+    def run_random_multi(self, n_runs: int):
+        for __ in range(n_runs):
+            self.reset()
+            self.take_action_random()
+
+        self._env.close()
+
 
 def client_code():
     runner = PointEnvRunner()
