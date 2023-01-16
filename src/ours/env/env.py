@@ -40,7 +40,6 @@ class MovePoint(Env):
         self._draw_elements_on_canvas()
 
         self._episode_timer.reset()
-        self._done = False
 
         return self._get_obs()
 
