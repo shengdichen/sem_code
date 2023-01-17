@@ -8,7 +8,7 @@ from src.ours.env.env import MovePoint
 class PointEnvRunner:
     def __init__(self):
         self._env = MovePoint()
-        self._n_max_steps_per_episode = 500
+        self._n_max_steps_per_episode, self._n_episodes = 500, 1
 
         self._obs, self._done = self.reset()
 
@@ -27,13 +27,11 @@ class PointEnvRunner:
             )
             self._env.render()
 
-    def run_episodes(
-        self, n_runs: int = 1, action_provider: "ActionProvider" = None
-    ) -> None:
+    def run_episodes(self, action_provider: "ActionProvider" = None) -> None:
         if action_provider is None:
             action_provider = ActionProviderRandom()
 
-        for __ in range(n_runs):
+        for __ in range(self._n_episodes):
             self.reset()
             self.run_one_episode(action_provider)
 
