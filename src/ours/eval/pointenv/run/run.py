@@ -7,6 +7,10 @@ from src.ours.eval.pointenv.run.actionprovider import (
 )
 
 
+class PointEnvRunnerConfig:
+    n_max_steps_per_episode, n_episodes = 500, 1
+
+
 class PointEnvRunner:
     def __init__(self):
         self._env = MovePoint()
