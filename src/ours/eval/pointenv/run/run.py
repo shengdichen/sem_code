@@ -19,9 +19,6 @@ class PointEnvRunner:
         self._env.render("human")
         return obs, False
 
-    def close(self) -> None:
-        self._env.close()
-
     def run_episodes(self, action_provider: ActionProvider) -> None:
         for __ in range(self._n_episodes):
             self.reset()
