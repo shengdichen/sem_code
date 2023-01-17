@@ -17,11 +17,12 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
+from src.ours.eval.pointenv.expert import PointEnvExpertDefault
+from src.ours.util.common.helper import RewardCheckpointCallback
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.helper import RewardPlotter, RewardCheckpointCallback
-from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.common.test import PolicyTester
 from src.ours.util.common.train import Trainer
+from src.ours.util.pwil.rewardplot.rewardplotter import RewardPlotter
 from src.upstream.env_utils import repack_vecenv
 from src.upstream.irl import (
     AIRLDiscriminator,
