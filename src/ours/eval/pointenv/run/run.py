@@ -27,7 +27,7 @@ class PointEnvRunner:
             )
             self._env.render()
 
-    def run_random(
+    def run_episodes(
         self, n_runs: int = 1, action_provider: "ActionProvider" = None
     ) -> None:
         if action_provider is None:
@@ -52,7 +52,7 @@ class ActionProviderRandom(ActionProvider):
 
 def client_code():
     runner = PointEnvRunner()
-    runner.run_random()
+    runner.run_episodes()
 
 
 if __name__ == "__main__":
