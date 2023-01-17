@@ -27,6 +27,9 @@ class PointEnvRunner:
             )
             self._env.render()
 
+            if self._done:
+                break
+
     def run_episodes(self, action_provider: "ActionProvider" = None) -> None:
         if action_provider is None:
             action_provider = ActionProviderRandom()
