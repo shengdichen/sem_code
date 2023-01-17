@@ -38,6 +38,11 @@ class ActionProvider:
         pass
 
 
+class ActionProviderRandom(ActionProvider):
+    def get_action(self, obs: np.ndarray, **kwargs) -> int:
+        return random.randint(0, 4)
+
+
 def client_code():
     runner = PointEnvRunner()
     runner.run_random()
