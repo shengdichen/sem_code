@@ -7,6 +7,11 @@ from src.ours.eval.pointenv.run.actionprovider import (
 )
 
 
+class PointEnvRunnerConfig:
+    n_max_steps_per_episode = 500
+    n_episodes = 2
+
+
 class PointEnvRunner:
     def __init__(self):
         self._env = MovePoint()
@@ -20,14 +25,14 @@ class PointEnvRunner:
         return obs, False
 
     def run_episodes(self, action_provider: ActionProvider) -> None:
-        for __ in range(self._n_episodes):
+        for __ in range(PointEnvRunnerConfig.n_episodes):
             self.reset()
             self._run_one_episode(action_provider)
 
         self._env.close()
 
     def _run_one_episode(self, action_provider: ActionProvider) -> None:
-        for __ in range(self._n_max_steps_per_episode):
+        for __ in range(PointEnvRunnerConfig.n_max_steps_per_episode):
             self._obs, __, self._done, __ = self._env.step(
                 action_provider.get_action(self._obs)
             )
