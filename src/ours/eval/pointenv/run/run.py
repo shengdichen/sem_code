@@ -20,9 +20,11 @@ class PointEnvRunner:
     def close(self) -> None:
         self._env.close()
 
-    def take_action_random(self) -> None:
+    def take_action_random(self, action_provider: "ActionProvider") -> None:
         for __ in range(self._n_steps):
-            self._env.step(random.randint(0, 4))
+            self._obs, __, self._done, __ = self._env.step(
+                action_provider.get_action(self._obs)
+            )
             self._env.render()
 
     def run_random(self, n_runs: int = 1) -> None:
