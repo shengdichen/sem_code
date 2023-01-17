@@ -78,6 +78,7 @@ class TrajectoryPlot:
         subfigure_upper, subfigure_lower = self._figure.subfigures(2, 1)
 
         axes_upper = subfigure_upper.subplots(1, 2)
+        TrajectoryPlotAtom(self._trajectory, axes_upper[0]).plot_target()
         TrajectoryPlotAtom(self._trajectory, axes_upper[0]).plot_agent(False)
         TrajectoryPlotAtom(self._trajectory, axes_upper[1]).plot_target()
 
