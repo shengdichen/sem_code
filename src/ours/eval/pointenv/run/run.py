@@ -1,14 +1,16 @@
-import random
-
 import numpy as np
 
 from src.ours.env.env import MovePoint
+from src.ours.eval.pointenv.run.actionprovider import (
+    ActionProvider,
+    ActionProviderRandom,
+)
 
 
 class PointEnvRunner:
     def __init__(self):
         self._env = MovePoint()
-        self._n_steps = 500
+        self._n_max_steps_per_episode, self._n_episodes = 500, 1
 
         self._obs, self._done = self.reset()
 
@@ -17,25 +19,27 @@ class PointEnvRunner:
         self._env.render("human")
         return obs, False
 
-    def close(self) -> None:
-        self._env.close()
-
-    def take_action_random(self) -> None:
-        for __ in range(self._n_steps):
-            self._env.step(random.randint(0, 4))
-            self._env.render()
-
-    def run_random(self, n_runs: int = 1) -> None:
-        for __ in range(n_runs):
+    def run_episodes(self, action_provider: ActionProvider) -> None:
+        for __ in range(self._n_episodes):
             self.reset()
-            self.take_action_random()
+            self._run_one_episode(action_provider)
 
         self._env.close()
+
+    def _run_one_episode(self, action_provider: ActionProvider) -> None:
+        for __ in range(self._n_max_steps_per_episode):
+            self._obs, __, self._done, __ = self._env.step(
+                action_provider.get_action(self._obs)
+            )
+            self._env.render("human")
+
+            if self._done:
+                break
 
 
 def client_code():
     runner = PointEnvRunner()
-    runner.run_random()
+    runner.run_episodes(ActionProviderRandom())
 
 
 if __name__ == "__main__":
