@@ -1,7 +1,7 @@
 class TestEnv:
     @staticmethod
     def get_runner():
-        from src.ours.env.run import PointEnvRunner
+        from src.ours.eval.pointenv.run.run import PointEnvRunner
 
         return PointEnvRunner()
 
