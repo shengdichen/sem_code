@@ -8,7 +8,8 @@ from src.ours.eval.pointenv.run.actionprovider import (
 
 
 class PointEnvRunnerConfig:
-    n_max_steps_per_episode, n_episodes = 500, 1
+    n_max_steps_per_episode = 500
+    n_episodes = 1
 
 
 class PointEnvRunner:
