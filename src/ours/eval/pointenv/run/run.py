@@ -31,7 +31,7 @@ class PointEnvRunner:
             self._obs, __, self._done, __ = self._env.step(
                 action_provider.get_action(self._obs)
             )
-            self._env.render()
+            self._env.render("human")
 
             if self._done:
                 break
