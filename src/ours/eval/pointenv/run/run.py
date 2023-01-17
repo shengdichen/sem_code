@@ -20,7 +20,7 @@ class PointEnvRunner:
     def close(self) -> None:
         self._env.close()
 
-    def run_one_episode(self, action_provider: "ActionProvider") -> None:
+    def _run_one_episode(self, action_provider: "ActionProvider") -> None:
         for __ in range(self._n_max_steps_per_episode):
             self._obs, __, self._done, __ = self._env.step(
                 action_provider.get_action(self._obs)
@@ -33,7 +33,7 @@ class PointEnvRunner:
 
         for __ in range(self._n_episodes):
             self.reset()
-            self.run_one_episode(action_provider)
+            self._run_one_episode(action_provider)
 
         self._env.close()
 
