@@ -1,8 +1,10 @@
-import random
-
 import numpy as np
 
 from src.ours.env.env import MovePoint
+from src.ours.eval.pointenv.run.actionprovider import (
+    ActionProvider,
+    ActionProviderRandom,
+)
 
 
 class PointEnvRunner:
@@ -39,16 +41,6 @@ class PointEnvRunner:
             self._run_one_episode(action_provider)
 
         self._env.close()
-
-
-class ActionProvider:
-    def get_action(self, obs: np.ndarray, **kwargs) -> int:
-        pass
-
-
-class ActionProviderRandom(ActionProvider):
-    def get_action(self, obs: np.ndarray, **kwargs) -> int:
-        return random.randint(0, 4)
 
 
 def client_code():
