@@ -33,6 +33,11 @@ class PointEnvRunner:
         self._env.close()
 
 
+class ActionProvider:
+    def get_action(self, obs: np.ndarray, **kwargs) -> int:
+        pass
+
+
 def client_code():
     runner = PointEnvRunner()
     runner.run_random()
