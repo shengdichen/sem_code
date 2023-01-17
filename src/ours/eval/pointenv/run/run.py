@@ -32,10 +32,7 @@ class PointEnvRunner:
             if self._done:
                 break
 
-    def run_episodes(self, action_provider: ActionProvider = None) -> None:
-        if action_provider is None:
-            action_provider = ActionProviderRandom()
-
+    def run_episodes(self, action_provider: ActionProvider) -> None:
         for __ in range(self._n_episodes):
             self.reset()
             self._run_one_episode(action_provider)
@@ -45,7 +42,7 @@ class PointEnvRunner:
 
 def client_code():
     runner = PointEnvRunner()
-    runner.run_episodes()
+    runner.run_episodes(ActionProviderRandom())
 
 
 if __name__ == "__main__":
