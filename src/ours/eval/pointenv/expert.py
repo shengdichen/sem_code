@@ -98,7 +98,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.show_trajectories_plot_parallel()
+    trainer.run_models()
 
 
 if __name__ == "__main__":
