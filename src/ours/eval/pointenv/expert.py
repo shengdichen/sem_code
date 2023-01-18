@@ -5,6 +5,8 @@ from src.ours.env.creation import (
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
 )
+from src.ours.eval.pointenv.run.run import PointEnvRunner
+from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
@@ -84,10 +86,19 @@ class PointEnvExpertDefault:
 
         return trajectories
 
+    def run_models(self):
+        model = self._expert_managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvRunner().run_episodes(ActionProviderModel())
+
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.show_trajectories_plot_parallel()
+    trainer.run_models()
 
 
 if __name__ == "__main__":
