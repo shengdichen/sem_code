@@ -1,4 +1,5 @@
 import numpy as np
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
@@ -19,6 +20,9 @@ class ExpertManager:
     def save_model_and_trajectory(self) -> None:
         self._sb3_manager.save()
         self._trajectory_manager.save()
+
+    def load_model(self) -> BaseAlgorithm:
+        return self._sb3_manager.model
 
     def load_trajectory(self) -> np.ndarray:
         return self._trajectory_manager.load()
