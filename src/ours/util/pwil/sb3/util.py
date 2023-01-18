@@ -3,6 +3,7 @@ from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.param import PwilParam
+from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.upstream.utils import CustomCallback
 
 
@@ -33,10 +34,13 @@ class CallbackListFactory:
         return callback_list
 
     def _make_eval_callback(self) -> EvalCallback:
+        model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
+            self._env_identifier
+        )
         eval_callback = EvalCallback(
             self._env_raw_testing,
-            best_model_save_path=self._training_param.sb3_tblog_dir,
-            log_path=self._training_param.sb3_tblog_dir,
+            best_model_save_path=str(model_path),
+            log_path=str(model_path),
             eval_freq=10000,
             deterministic=True,
             render=False,
