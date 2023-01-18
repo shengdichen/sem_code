@@ -11,13 +11,13 @@ class Sb3PwilTrainer(Trainer):
         self,
         model: BaseAlgorithm,
         training_param: PwilParam,
-        env_raw_testing: Env,
+        env_raw_testing_and_identifier: tuple[Env, str],
     ):
         self._model = model
         self._training_param = training_param
 
         self._callback_list = CallbackListFactory(
-            training_param, env_raw_testing
+            training_param, env_raw_testing_and_identifier
         ).callback_list
 
     @property

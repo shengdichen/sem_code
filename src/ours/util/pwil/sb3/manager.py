@@ -23,7 +23,9 @@ class Sb3PwilManager:
             AlgorithmFactory(env_pwil_rewarded, training_param).get_algorithm()
         )
 
-        self._trainer = Sb3PwilTrainer(self._model, training_param, env_raw_testing)
+        self._trainer = Sb3PwilTrainer(
+            self._model, training_param, (env_raw_testing, env_identifier)
+        )
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)

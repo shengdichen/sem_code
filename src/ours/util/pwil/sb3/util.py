@@ -10,10 +10,10 @@ class CallbackListFactory:
     def __init__(
         self,
         training_param: PwilParam,
-        env_raw_testing: Env,
+        env_raw_testing_and_identifier: tuple[Env, str],
     ):
         self._training_param = training_param
-        self._env_raw_testing = env_raw_testing
+        self._env_raw_testing, self._env_identifier = env_raw_testing_and_identifier
 
         self._callback_list = self._make_callback_list()
 
