@@ -27,9 +27,9 @@ class AlgorithPwilFactory:
         self._training_param = training_param
 
     def get_algorithm(self) -> BaseAlgorithm:
-        model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
-            self._env_identifier
-        )
+        model_path = PwilSaveLoadPathGenerator(
+            self._env_identifier, self._training_param
+        ).get_model_path()
         model_dir = str(model_path) + "/log/"
 
         return PPO(

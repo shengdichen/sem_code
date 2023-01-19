@@ -28,8 +28,8 @@ class TrajectoryManager:
             (env, model), trajectory_generator_config
         )
         self._path_saveload = PwilSaveLoadPathGenerator(
-            training_param
-        ).get_trajectory_path(env_identifier)
+            env_identifier, training_param
+        ).get_trajectory_path()
 
     def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectories()

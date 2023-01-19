@@ -23,9 +23,9 @@ class CallbackListFactory:
         return self._callback_list
 
     def _make_callback_list(self) -> CallbackList:
-        model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
-            self._env_identifier
-        )
+        model_path = PwilSaveLoadPathGenerator(
+            self._env_identifier, self._training_param
+        ).get_model_path()
         log_path = str(model_path) + "/log/simple/"
 
         callback_list = CallbackList(
@@ -39,9 +39,9 @@ class CallbackListFactory:
         return callback_list
 
     def _make_eval_callback(self) -> EvalCallback:
-        model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
-            self._env_identifier
-        )
+        model_path = PwilSaveLoadPathGenerator(
+            self._env_identifier, self._training_param
+        ).get_model_path()
         eval_path = str(model_path) + "/eval/"
 
         eval_callback = EvalCallback(

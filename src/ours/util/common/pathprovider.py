@@ -29,7 +29,8 @@ class ExpertSaveLoadPathGenerator:
 
 
 class PwilSaveLoadPathGenerator:
-    def __init__(self, training_param: PwilParam):
+    def __init__(self, env_identifier: str, training_param: PwilParam):
+        self._env_identifier = env_identifier
         self._training_param = training_param
 
     def get_model_path(self, env_identifier: str) -> Path:
