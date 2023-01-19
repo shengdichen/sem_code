@@ -44,15 +44,15 @@ class PwilSaveLoadPathGenerator:
             return "distant"
 
     def get_model_path(self) -> Path:
-        return self._get_model_dependent_path(self._training_param.model_dir)
+        return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
-        return self._get_model_dependent_path(self._training_param.demo_dir)
+        return Path(self._get_model_dependent_path(self._training_param.demo_dir))
 
     def get_rewardplot_path(self) -> Path:
         return self._get_model_independent_path(self._training_param.rewardplot_dir)
 
-    def _get_model_dependent_path(self, raw_dir: str) -> Path:
+    def _get_model_dependent_path(self, raw_dir: str) -> str:
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
@@ -62,12 +62,8 @@ class PwilSaveLoadPathGenerator:
             subsampling,
         )
 
-        return Path(
-            "{0}/{1}/{2}".format(
-                self._get_curr_model_dir(raw_dir),
-                self._trajectory_num_category,
-                filename,
-            )
+        return "{0}/{1}/{2}".format(
+            self._get_curr_model_dir(raw_dir), self._trajectory_num_category, filename
         )
 
     def _get_curr_model_dir(self, raw_dir: str) -> str:
