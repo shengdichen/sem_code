@@ -12,12 +12,12 @@ class Sb3Manager:
     def __init__(
         self, env_and_identifier: tuple[gym.Env, str], training_param: CommonParam
     ):
-        env, env_identifier = env_and_identifier
+        self._env, env_identifier = env_and_identifier
         self._path_saveload = ExpertSaveLoadPathGenerator(
             training_param
         ).get_model_path(env_identifier)
         self._model = self._get_model(
-            AlgorithmFactory(env, training_param).get_algorithm()
+            AlgorithmFactory(self._env, training_param).get_algorithm()
         )
 
         self._training_param = training_param
@@ -25,7 +25,7 @@ class Sb3Manager:
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
         if sb3_loader.exists():
-            return sb3_loader.load()
+            return sb3_loader.load(self._env)
         else:
             return algorithm
 
