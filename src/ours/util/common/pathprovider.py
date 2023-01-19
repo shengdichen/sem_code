@@ -33,36 +33,32 @@ class PwilSaveLoadPathGenerator:
         self._env_identifier = env_identifier
         self._training_param = training_param
 
-    def get_model_path(self, env_identifier: str) -> Path:
-        return self._get_model_dependent_path(
-            self._training_param.model_dir, env_identifier
-        )
+    def get_model_path(self) -> Path:
+        return self._get_model_dependent_path(self._training_param.model_dir)
 
-    def get_trajectory_path(self, env_identifier: str) -> Path:
-        return self._get_model_dependent_path(
-            self._training_param.demo_dir, env_identifier
-        )
+    def get_trajectory_path(self) -> Path:
+        return self._get_model_dependent_path(self._training_param.demo_dir)
 
     def get_rewardplot_path(self) -> Path:
         return self._get_model_independent_path(self._training_param.rewardplot_dir)
 
-    def _get_model_dependent_path(self, raw_dir: str, env_identifier: str) -> Path:
+    def _get_model_dependent_path(self, raw_dir: str) -> Path:
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
         return Path(
             "{0}/{1}_{2:02}_{3:03}".format(
-                self._get_curr_model_dir(raw_dir, env_identifier),
+                self._get_curr_model_dir(raw_dir),
                 self._training_param.trajectory_num,
                 n_demos,
                 subsampling,
             )
         )
 
-    def _get_curr_model_dir(self, raw_dir: str, env_identifier: str) -> str:
+    def _get_curr_model_dir(self, raw_dir: str) -> str:
         curr_model_dir = "{0}/{1}{2}{3:07}/".format(
             raw_dir,
-            env_identifier,
+            self._env_identifier,
             "_",
             self._training_param.n_steps_pwil_train,
         )
