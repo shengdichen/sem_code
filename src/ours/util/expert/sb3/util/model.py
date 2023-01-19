@@ -7,8 +7,10 @@ from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 
 
 class AlgorithmFactory:
-    def __init__(self, env: Env, training_param: CommonParam):
-        self._env = env
+    def __init__(
+        self, env_and_identifier: tuple[Env, str], training_param: CommonParam
+    ):
+        self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
 
     def get_algorithm(self) -> BaseAlgorithm:
