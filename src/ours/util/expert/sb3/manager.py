@@ -14,8 +14,8 @@ class Sb3Manager:
     ):
         self._env, env_identifier = env_and_identifier
         self._path_saveload = ExpertSaveLoadPathGenerator(
-            training_param
-        ).get_model_path(env_identifier)
+            env_identifier, training_param
+        ).get_model_path()
         self._model = self._get_model(
             AlgorithmFactory(
                 (self._env, env_identifier), training_param
