@@ -33,6 +33,16 @@ class PwilSaveLoadPathGenerator:
         self._env_identifier = env_identifier
         self._training_param = training_param
 
+        self._trajectory_num_category = self._get_trajectory_num_category()
+
+    def _get_trajectory_num_category(self) -> str:
+        if self._training_param.trajectory_num == 0:
+            return "optimal"
+        elif self._training_param.trajectory_num <= 3:
+            return "mixed"
+        else:
+            return "distant"
+
     def get_model_path(self) -> Path:
         return self._get_model_dependent_path(self._training_param.model_dir)
 
@@ -52,7 +62,13 @@ class PwilSaveLoadPathGenerator:
             subsampling,
         )
 
-        return Path("{0}/{1}".format(self._get_curr_model_dir(raw_dir), filename))
+        return Path(
+            "{0}/{1}/{2}".format(
+                self._get_curr_model_dir(raw_dir),
+                self._trajectory_num_category,
+                filename,
+            )
+        )
 
     def _get_curr_model_dir(self, raw_dir: str) -> str:
         curr_model_dir = "{0}/{1}{2}{3:07}/".format(
@@ -75,4 +91,8 @@ class PwilSaveLoadPathGenerator:
             subsampling,
         )
 
-        return Path("{0}/{1}/{2}".format(raw_dir, self._env_identifier, filename))
+        return Path(
+            "{0}/{1}/{2}/{3}".format(
+                raw_dir, self._env_identifier, self._trajectory_num_category, filename
+            )
+        )
