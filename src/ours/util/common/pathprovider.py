@@ -3,8 +3,21 @@ from pathlib import Path
 from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
-class ExpertSaveLoadPathGenerator:
+class SaveLoadPathGeneratorBase:
+    def get_sb3_model_path(self) -> Path:
+        pass
+
+    def get_model_path(self) -> Path:
+        pass
+
+    def get_trajectory_path(self) -> Path:
+        pass
+
+
+class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
     def __init__(self, env_identifier: str, training_param: CommonParam):
+        super().__init__()
+
         self._env_identifier = env_identifier
         self._training_param = training_param
 
@@ -28,8 +41,10 @@ class ExpertSaveLoadPathGenerator:
         )
 
 
-class PwilSaveLoadPathGenerator:
+class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
     def __init__(self, env_identifier: str, training_param: PwilParam):
+        super().__init__()
+
         self._env_identifier = env_identifier
         self._training_param = training_param
 
