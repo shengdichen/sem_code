@@ -43,6 +43,11 @@ class PwilSaveLoadPathGenerator:
         else:
             return "distant"
 
+    def get_sb3_model_path(self) -> Path:
+        model_path = self.get_model_path()
+        model_name_sb3 = "latest.zip"
+        return Path("{0}/{1}".format(model_path, model_name_sb3))
+
     def get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 

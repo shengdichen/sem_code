@@ -21,7 +21,7 @@ class Sb3PwilManager:
         ), env_identifier = env_pwil_and_identifier
         self._path_saveload = PwilSaveLoadPathGenerator(
             env_identifier, training_param
-        ).get_model_path()
+        ).get_sb3_model_path()
         self._model = self._get_model(
             AlgorithPwilFactory(
                 (self._env_pwil_rewarded, env_identifier), training_param
