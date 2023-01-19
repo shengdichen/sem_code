@@ -23,9 +23,14 @@ class CallbackListFactory:
         return self._callback_list
 
     def _make_callback_list(self) -> CallbackList:
+        model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
+            self._env_identifier
+        )
+        log_path = str(model_path) + "/log/simple/"
+
         callback_list = CallbackList(
             [
-                CustomCallback(id="", log_path=self._training_param.sb3_tblog_dir),
+                CustomCallback(id="", log_path=log_path),
                 self._make_eval_callback(),
                 TqdmCallback(),
             ]
