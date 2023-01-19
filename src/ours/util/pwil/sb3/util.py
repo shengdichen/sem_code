@@ -37,10 +37,12 @@ class CallbackListFactory:
         model_path = PwilSaveLoadPathGenerator(self._training_param).get_model_path(
             self._env_identifier
         )
+        eval_path = str(model_path) + "/eval/"
+
         eval_callback = EvalCallback(
             self._env_raw_testing,
-            best_model_save_path=str(model_path),
-            log_path=str(model_path),
+            best_model_save_path=eval_path,
+            log_path=eval_path,
             eval_freq=10000,
             deterministic=True,
             render=False,
