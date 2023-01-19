@@ -15,7 +15,10 @@ class Sb3PwilManager:
         env_pwil_and_identifier: tuple[tuple[Env, Env], str],
         training_param: PwilParam,
     ):
-        (env_pwil_rewarded, env_raw_testing), env_identifier = env_pwil_and_identifier
+        (
+            self._env_pwil_rewarded,
+            env_raw_testing,
+        ), env_identifier = env_pwil_and_identifier
         self._path_saveload = PwilSaveLoadPathGenerator(training_param).get_model_path(
             env_identifier
         )
@@ -28,7 +31,7 @@ class Sb3PwilManager:
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._path_saveload)
         if sb3_loader.exists():
-            return sb3_loader.load()
+            return sb3_loader.load(self._env_pwil_rewarded)
         else:
             return algorithm
 
