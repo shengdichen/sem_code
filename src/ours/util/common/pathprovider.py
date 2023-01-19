@@ -9,19 +9,17 @@ class ExpertSaveLoadPathGenerator:
         self._training_param = training_param
 
     def get_model_path(self) -> Path:
-        return self._get_model_dependent_path(self._training_param.model_dir)
+        return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
-        return self._get_model_dependent_path(self._training_param.demo_dir)
+        return Path(self._get_model_dependent_path(self._training_param.demo_dir))
 
-    def _get_model_dependent_path(self, raw_dir: str) -> Path:
-        return Path(
-            "{0}/{1}{2}{3:07}".format(
-                raw_dir,
-                self._env_identifier,
-                "_",
-                self._training_param.n_steps_expert_train,
-            )
+    def _get_model_dependent_path(self, raw_dir: str) -> str:
+        return "{0}/{1}{2}{3:07}".format(
+            raw_dir,
+            self._env_identifier,
+            "_",
+            self._training_param.n_steps_expert_train,
         )
 
 
