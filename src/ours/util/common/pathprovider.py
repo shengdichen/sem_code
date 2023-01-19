@@ -46,14 +46,13 @@ class PwilSaveLoadPathGenerator:
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
-        return Path(
-            "{0}/{1}_{2:02}_{3:03}".format(
-                self._get_curr_model_dir(raw_dir),
-                self._training_param.trajectory_num,
-                n_demos,
-                subsampling,
-            )
+        filename = "{0}_{1:02}_{2:03}".format(
+            self._training_param.trajectory_num,
+            n_demos,
+            subsampling,
         )
+
+        return Path("{0}/{1}".format(self._get_curr_model_dir(raw_dir), filename))
 
     def _get_curr_model_dir(self, raw_dir: str) -> str:
         curr_model_dir = "{0}/{1}{2}{3:07}/".format(
@@ -70,12 +69,10 @@ class PwilSaveLoadPathGenerator:
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
-        return Path(
-            "{0}/{1}/{2}_{3:02}_{4:03}".format(
-                raw_dir,
-                self._env_identifier,
-                self._training_param.trajectory_num,
-                n_demos,
-                subsampling,
-            )
+        filename = "{0}_{1:02}_{2:03}".format(
+            self._training_param.trajectory_num,
+            n_demos,
+            subsampling,
         )
+
+        return Path("{0}/{1}/{2}".format(raw_dir, self._env_identifier, filename))
