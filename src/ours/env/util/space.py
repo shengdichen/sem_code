@@ -78,5 +78,5 @@ class ActionConverterCont(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
-    def convert_one_dimension(self) -> np.ndarray:
+    def get_action_converted(self) -> np.ndarray:
         return np.round(self._action_raw)
