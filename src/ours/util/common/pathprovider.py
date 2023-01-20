@@ -77,7 +77,10 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
-        return Path(self._get_model_dependent_path(self._training_param.demo_dir))
+        path = self._get_model_dependent_path(self._training_param.demo_dir)
+        Util.mkdir_if_not_existent([path])
+
+        return Path(path)
 
     def get_rewardplot_path(self) -> Path:
         return self._get_model_independent_path(self._training_param.rewardplot_dir)
