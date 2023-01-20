@@ -19,8 +19,8 @@ class AlgorithmFactoryBase:
     ):
         self._env = env
         self._training_param = training_param
-        self._tensorboard_log_dir = (
-            str(saveload_path_generator.get_model_path()) + "/log/"
+        self._tensorboard_log_dir = str(
+            saveload_path_generator.get_model_log_path(False)
         )
 
     def get_algorithm(self) -> BaseAlgorithm:
