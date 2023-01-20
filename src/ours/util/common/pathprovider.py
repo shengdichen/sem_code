@@ -21,7 +21,18 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         self._env_identifier = env_identifier
         self._training_param = training_param
 
-    def get_sb3_model_path(self) -> Path:
+    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
+        if use_best_model:
+            return self._get_best_sb3_model_path()
+        else:
+            return self._get_latest_sb3_model_path()
+
+    def _get_best_sb3_model_path(self) -> Path:
+        model_path = self.get_model_path()
+        model_name_sb3 = "eval/best_model.zip"
+        return Path("{0}/{1}".format(model_path, model_name_sb3))
+
+    def _get_latest_sb3_model_path(self) -> Path:
         model_path = self.get_model_path()
         model_name_sb3 = "latest.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
@@ -58,7 +69,18 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         else:
             return "distant"
 
-    def get_sb3_model_path(self) -> Path:
+    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
+        if use_best_model:
+            return self._get_best_sb3_model_path()
+        else:
+            return self._get_latest_sb3_model_path()
+
+    def _get_best_sb3_model_path(self) -> Path:
+        model_path = self.get_model_path()
+        model_name_sb3 = "eval/best_model.zip"
+        return Path("{0}/{1}".format(model_path, model_name_sb3))
+
+    def _get_latest_sb3_model_path(self) -> Path:
         model_path = self.get_model_path()
         model_name_sb3 = "latest.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
