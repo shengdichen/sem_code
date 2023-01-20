@@ -2,7 +2,7 @@ import numpy as np
 from gym import spaces
 
 
-class SpaceGeneratorBase:
+class SpacesGeneratorBase:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
@@ -22,7 +22,7 @@ class SpaceGeneratorBase:
         pass
 
 
-class SpacesGenerator(SpaceGeneratorBase):
+class SpacesGenerator(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
@@ -37,7 +37,7 @@ class ActionConverterBase:
 
         self._action_raw = action_raw
 
-    def get_action_converted(self):
+    def get_action_converted(self) -> tuple[int, int]:
         pass
 
 
@@ -45,7 +45,7 @@ class ActionConverter(ActionConverterBase):
     def __init__(self, action_raw: int, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
-    def get_action_converted(self):
+    def get_action_converted(self) -> tuple[int, int]:
         if self._action_raw == 0:
             shift = 0, 2
         elif self._action_raw == 1:
@@ -60,7 +60,7 @@ class ActionConverter(ActionConverterBase):
         return shift
 
 
-class SpaceGeneratorCont(SpaceGeneratorBase):
+class SpacesGeneratorCont(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
@@ -78,5 +78,6 @@ class ActionConverterCont(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
-    def convert_one_dimension(self) -> np.ndarray:
-        return np.round(self._action_raw)
+    def get_action_converted(self) -> tuple[int, int]:
+        shift_x, shift_y = np.round(self._action_raw)
+        return int(shift_x), int(shift_y)
