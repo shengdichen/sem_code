@@ -10,7 +10,7 @@ class SaveLoadPathGeneratorBase:
     def get_model_eval_path(self) -> Path:
         return self.get_model_path() / "eval"
 
-    def get_model_log_path(self, use_simple_log: bool):
+    def get_model_log_path(self, use_simple_log: bool) -> Path:
         if use_simple_log:
             return self.get_model_path() / "log/simple"
         else:
