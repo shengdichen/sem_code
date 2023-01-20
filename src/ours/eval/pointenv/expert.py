@@ -1,4 +1,5 @@
 import numpy as np
+from gym import Env
 
 from src.ours.env.creation import (
     PointEnvFactory,
@@ -24,11 +25,7 @@ class PointEnvExpertManagerFactoryBase:
         self._env_config = env_config
 
     def create(self) -> ExpertManager:
-        env, env_eval = (
-            PointEnvFactory(self._env_config).create(),
-            PointEnvFactory(self._env_config).create(),
-        )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env)
+        (env, env_eval), env_identifier = self._get_envs_and_identifier()
 
         sb3_manager = Sb3Manager(
             ((env, env_eval), env_identifier), self._training_param
@@ -42,6 +39,9 @@ class PointEnvExpertManagerFactoryBase:
             (sb3_manager, trajectory_manager),
             env_identifier,
         )
+
+    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
+        pass
 
 
 class PointEnvExpertManagerFactory:
