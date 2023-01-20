@@ -82,6 +82,66 @@ class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
         )
 
 
+class PointEnvExpertDefaultBase:
+    def __init__(self):
+        self._expert_managers = self._make_expert_managers()
+
+    @staticmethod
+    def _make_expert_managers() -> list[ExpertManager]:
+        training_param = ExpertParam()
+        env_configs = PointEnvConfigFactory().env_configs
+
+        return [
+            PointEnvExpertManagerFactory(training_param, env_config).create()
+            for env_config in env_configs
+        ]
+
+    def train_and_save_models(self) -> None:
+        for expert_manager in self._expert_managers:
+            expert_manager.train_and_save_model()
+
+    def save_trajectories(self) -> None:
+        for expert_manager in self._expert_managers:
+            expert_manager.save_trajectory()
+
+    def save_trajectories_stats(self) -> None:
+        for expert_manager in self._expert_managers:
+            expert_manager.save_trajectory_stats()
+
+    def show_trajectories_stats(self) -> None:
+        TrajectoriesStats(self.load_trajectories()).show_stats()
+
+    def save_trajectories_plot(self):
+        for expert_manager in self._expert_managers:
+            expert_manager.save_trajectory_plot()
+
+    def show_trajectories_plot_parallel(self, plot_agent_as_hist: bool = False) -> None:
+        TrajectoriesPlotParallel(self.load_trajectories()).show_plot(
+            plot_agent_as_hist=plot_agent_as_hist
+        )
+
+    def show_trajectories_plot_separate(self, plot_agent_as_hist: bool = False) -> None:
+        TrajectoriesPlotSeparate(self.load_trajectories()).show_plot(
+            plot_agent_as_hist=plot_agent_as_hist
+        )
+
+    def load_trajectories(self) -> list[np.ndarray]:
+        trajectories = [
+            expert_manager.load_trajectory() for expert_manager in self._expert_managers
+        ]
+
+        return trajectories
+
+    def run_models(self):
+        model = self._expert_managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvRunner().run_episodes(ActionProviderModel())
+
+
 class PointEnvExpertDefault:
     def __init__(self):
         self._expert_managers = self._make_expert_managers()
@@ -144,7 +204,7 @@ class PointEnvExpertDefault:
 
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.run_models()
+    trainer.train_and_save_models()
 
 
 if __name__ == "__main__":
