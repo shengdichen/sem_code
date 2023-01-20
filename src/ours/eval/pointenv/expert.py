@@ -1,12 +1,17 @@
 import numpy as np
+from gym import Env
 
 from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
+    PointEnvContFactory,
+    PointEnvContIdentifierGenerator,
+    PointEnvFactoryBase,
+    PointEnvIdentifierGeneratorBase,
 )
-from src.ours.eval.pointenv.run.run import PointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
@@ -18,17 +23,22 @@ from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesSta
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
-class PointEnvExpertManagerFactory:
-    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+class PointEnvExpertManagerFactoryBase:
+    def __init__(
+        self,
+        training_param: ExpertParam,
+        env_config: dict[str:int],
+        env_factory: PointEnvFactoryBase,
+        env_identifier_generator: PointEnvIdentifierGeneratorBase,
+    ):
         self._training_param = training_param
         self._env_config = env_config
 
+        self._env_factory = env_factory
+        self._env_identifier_generator = env_identifier_generator
+
     def create(self) -> ExpertManager:
-        env, env_eval = (
-            PointEnvFactory(self._env_config).create(),
-            PointEnvFactory(self._env_config).create(),
-        )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env)
+        (env, env_eval), env_identifier = self._get_envs_and_identifier()
 
         sb3_manager = Sb3Manager(
             ((env, env_eval), env_identifier), self._training_param
@@ -43,20 +53,38 @@ class PointEnvExpertManagerFactory:
             env_identifier,
         )
 
+    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
+        env, env_eval = (
+            self._env_factory.create(),
+            self._env_factory.create(),
+        )
+        env_identifier = self._env_identifier_generator.from_env(env)
+        return (env, env_eval), env_identifier
 
-class PointEnvExpertDefault:
-    def __init__(self):
-        self._expert_managers = self._make_expert_managers()
 
-    @staticmethod
-    def _make_expert_managers() -> list[ExpertManager]:
-        training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
+class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+        super().__init__(
+            training_param,
+            env_config,
+            PointEnvFactory(env_config),
+            PointEnvIdentifierGenerator(),
+        )
 
-        return [
-            PointEnvExpertManagerFactory(training_param, env_config).create()
-            for env_config in env_configs
-        ]
+
+class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+        super().__init__(
+            training_param,
+            env_config,
+            PointEnvContFactory(env_config),
+            PointEnvContIdentifierGenerator(),
+        )
+
+
+class PointEnvExpertDefaultBase:
+    def __init__(self, expert_managers: list[ExpertManager]):
+        self._expert_managers = expert_managers
 
     def train_and_save_models(self) -> None:
         for expert_manager in self._expert_managers:
@@ -104,9 +132,57 @@ class PointEnvExpertDefault:
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
+class PointEnvExpertDefault(PointEnvExpertDefaultBase):
+    def __init__(self):
+        super().__init__(self._make_expert_managers())
+
+    @staticmethod
+    def _make_expert_managers() -> list[ExpertManager]:
+        training_param = ExpertParam()
+        env_configs = PointEnvConfigFactory().env_configs
+
+        return [
+            PointEnvExpertManagerFactory(training_param, env_config).create()
+            for env_config in env_configs
+        ]
+
+    def run_models(self):
+        model = self._expert_managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvRunner().run_episodes(ActionProviderModel())
+
+
+class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
+    def __init__(self):
+        super().__init__(self._make_expert_managers())
+
+    @staticmethod
+    def _make_expert_managers() -> list[ExpertManager]:
+        training_param = ExpertParam()
+        env_configs = PointEnvConfigFactory().env_configs
+
+        return [
+            PointEnvContExpertManagerFactory(training_param, env_config).create()
+            for env_config in env_configs
+        ]
+
+    def run_models(self):
+        model = self._expert_managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvContRunner().run_episodes(ActionProviderModel())
+
+
 def client_code():
     trainer = PointEnvExpertDefault()
-    trainer.run_models()
+    trainer.train_and_save_models()
 
 
 if __name__ == "__main__":
