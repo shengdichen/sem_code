@@ -11,9 +11,7 @@ class SaveLoadPathGeneratorBase:
         return self.get_model_eval_path() / "best_model.zip"
 
     def get_latest_sb3_model_path(self) -> Path:
-        model_path = self._get_model_path()
-        model_name_sb3 = "latest.zip"
-        return Path("{0}/{1}".format(model_path, model_name_sb3))
+        return self._get_model_path() / "latest.zip"
 
     def get_model_eval_path(self) -> Path:
         return self._get_model_path() / "eval"
