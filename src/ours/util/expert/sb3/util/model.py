@@ -19,7 +19,9 @@ class AlgorithmFactoryBase:
     ):
         self._env = env
         self._training_param = training_param
-        self._model_dir = str(saveload_path_generator.get_model_path()) + "/log/"
+        self._tensorboard_log_dir = (
+            str(saveload_path_generator.get_model_path()) + "/log/"
+        )
 
     def get_algorithm(self) -> BaseAlgorithm:
         return PPO(
@@ -27,7 +29,7 @@ class AlgorithmFactoryBase:
             self._env,
             verbose=0,
             **self._training_param.kwargs_ppo,
-            tensorboard_log=self._model_dir
+            tensorboard_log=self._tensorboard_log_dir
         )
 
 
