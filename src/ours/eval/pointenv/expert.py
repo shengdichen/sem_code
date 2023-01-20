@@ -54,7 +54,12 @@ class PointEnvExpertManagerFactoryBase:
         )
 
     def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
-        pass
+        env, env_eval = (
+            self._env_factory.create(),
+            self._env_factory.create(),
+        )
+        env_identifier = self._env_identifier_generator.from_env(env)
+        return (env, env_eval), env_identifier
 
 
 class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
@@ -66,15 +71,6 @@ class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
             PointEnvIdentifierGenerator(),
         )
 
-    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
-        env, env_eval = (
-            PointEnvFactory(self._env_config).create(),
-            PointEnvFactory(self._env_config).create(),
-        )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env)
-
-        return (env, env_eval), env_identifier
-
 
 class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
@@ -84,15 +80,6 @@ class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
             PointEnvContFactory(env_config),
             PointEnvContIdentifierGenerator(),
         )
-
-    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
-        env, env_eval = (
-            PointEnvContFactory(self._env_config).create(),
-            PointEnvContFactory(self._env_config).create(),
-        )
-        env_identifier = PointEnvContIdentifierGenerator().from_env(env)
-
-        return (env, env_eval), env_identifier
 
 
 class PointEnvExpertDefault:
