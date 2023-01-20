@@ -10,8 +10,19 @@ from src.ours.util.common.pathprovider import (
 
 
 class AlgorithmFactoryBase:
+    def __init__(self, env: Env, training_param: CommonParam, model_path: str):
+        self._env = env
+        self._training_param = training_param
+        self._model_dir = model_path + "/log/"
+
     def get_algorithm(self) -> BaseAlgorithm:
-        pass
+        return PPO(
+            "MlpPolicy",
+            self._env,
+            verbose=0,
+            **self._training_param.kwargs_ppo,
+            tensorboard_log=self._model_dir
+        )
 
 
 class AlgorithmFactory(AlgorithmFactoryBase):
