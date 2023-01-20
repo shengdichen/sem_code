@@ -16,9 +16,6 @@ class MovePointBase(Env):
         super().__init__()
 
         self._side_length = 200
-        self.observation_space, self.action_space = SpacesGenerator(
-            self._side_length
-        ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
         self._field = Field(n_targets, (shift_x, shift_y), random_spawn_agent)
