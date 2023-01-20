@@ -9,10 +9,17 @@ from src.ours.util.common.pathprovider import (
 )
 
 
-class AlgorithmFactory:
+class AlgorithmFactoryBase:
+    def get_algorithm(self) -> BaseAlgorithm:
+        pass
+
+
+class AlgorithmFactory(AlgorithmFactoryBase):
     def __init__(
         self, env_and_identifier: tuple[Env, str], training_param: CommonParam
     ):
+        super().__init__()
+
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
 
@@ -31,8 +38,10 @@ class AlgorithmFactory:
         )
 
 
-class AlgorithPwilFactory:
+class AlgorithPwilFactory(AlgorithmFactoryBase):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
+        super().__init__()
+
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
 
