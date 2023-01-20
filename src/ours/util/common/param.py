@@ -37,7 +37,7 @@ class CommonParam:
             # "max_grad_norm":0.5
         }
 
-        self._n_steps_expert_train = int(3e5)
+        self._n_steps_expert_train = int(1e6)
 
     @property
     def seed(self):
