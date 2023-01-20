@@ -41,11 +41,9 @@ class ActionConverterBase:
         pass
 
 
-class ActionConverter:
+class ActionConverter(ActionConverterBase):
     def __init__(self, action_raw: int, action_space: spaces.Space):
-        assert action_space.contains(action_raw), "Invalid Action"
-
-        self._action_raw = action_raw
+        super().__init__(action_raw, action_space)
 
     def get_action_converted(self):
         if self._action_raw == 0:
