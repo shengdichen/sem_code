@@ -70,3 +70,13 @@ class SpaceGeneratorCont:
             high=np.array([action_upper_bound, action_upper_bound]),
             dtype=np.float64,
         )
+
+
+class ActionConverterCont:
+    def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
+        assert action_space.contains(action_raw), "Invalid Action"
+
+        self._action_raw = action_raw
+
+    def convert_one_dimension(self):
+        return np.round(self._action_raw)
