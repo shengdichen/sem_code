@@ -32,7 +32,7 @@ class SpacesGenerator(SpaceGeneratorBase):
 
 
 class ActionConverterBase:
-    def __init__(self, action_raw: int, action_space: spaces.Space):
+    def __init__(self, action_raw: int | np.ndarray, action_space: spaces.Space):
         assert action_space.contains(action_raw), "Invalid Action"
 
         self._action_raw = action_raw
@@ -74,11 +74,9 @@ class SpaceGeneratorCont(SpaceGeneratorBase):
         )
 
 
-class ActionConverterCont:
+class ActionConverterCont(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
-        assert action_space.contains(action_raw), "Invalid Action"
-
-        self._action_raw = action_raw
+        super().__init__(action_raw, action_space)
 
     def convert_one_dimension(self) -> np.ndarray:
         return np.round(self._action_raw)
