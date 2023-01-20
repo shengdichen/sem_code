@@ -38,13 +38,13 @@ class TrajectoryManager:
     def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectories()
 
-        TrajectorySaveLoad(self._path_saveload).save(trajectory)
+        TrajectorySaveLoad(self._trajectory_path).save(trajectory)
 
     def load(self) -> np.ndarray:
-        return TrajectorySaveLoad(self._path_saveload).load()
+        return TrajectorySaveLoad(self._trajectory_path).load()
 
     def save_stats(self) -> None:
-        with open(self._path_saveload, "w") as f:
+        with open(self._stats_path, "w") as f:
             f.write(TrajectoryStats(self.load()).get_stats())
 
     def save_plot(self) -> None:
@@ -52,6 +52,6 @@ class TrajectoryManager:
 
         TrajectoryPlot(self.load(), figure).plot_agent_target_action()
 
-        figure.savefig(self._path_saveload)
+        figure.savefig(self._plot_path)
 
         plt.close()
