@@ -44,30 +44,18 @@ class PointEnvExpertManagerFactoryBase:
         pass
 
 
-class PointEnvExpertManagerFactory:
+class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
-        self._training_param = training_param
-        self._env_config = env_config
+        super().__init__(training_param, env_config)
 
-    def create(self) -> ExpertManager:
+    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
         env, env_eval = (
             PointEnvFactory(self._env_config).create(),
             PointEnvFactory(self._env_config).create(),
         )
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
 
-        sb3_manager = Sb3Manager(
-            ((env, env_eval), env_identifier), self._training_param
-        )
-        trajectory_manager = TrajectoryManager(
-            (env, env_identifier),
-            (sb3_manager.model, self._training_param),
-        )
-
-        return ExpertManager(
-            (sb3_manager, trajectory_manager),
-            env_identifier,
-        )
+        return (env, env_eval), env_identifier
 
 
 class PointEnvExpertDefault:
