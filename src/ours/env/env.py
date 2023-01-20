@@ -1,3 +1,4 @@
+import numpy as np
 from gym import Env
 
 from src.ours.env.component.visualizer import (
@@ -43,10 +44,8 @@ class MovePointBase(Env):
 
         return self._get_obs()
 
-    def step(self, action: int):
-        action_converted = ActionConverter(
-            action, self.action_space
-        ).get_action_converted()
+    def step(self, action: int | np.ndarray):
+        action_converted = self._get_action_converted(action)
         reward, has_visited_all_targets = self._field.step(action_converted)
 
         self._draw_elements_on_canvas()
@@ -57,6 +56,9 @@ class MovePointBase(Env):
 
         done = has_visited_all_targets or has_elapsed
         return obs, reward, done, {}
+
+    def _get_action_converted(self, action: int | np.ndarray) -> tuple[int, int]:
+        pass
 
     def _get_obs(self):
         field_obs = self._field.get_pos_agent_target()
