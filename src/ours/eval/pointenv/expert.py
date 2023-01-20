@@ -7,6 +7,8 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
     PointEnvContFactory,
     PointEnvContIdentifierGenerator,
+    PointEnvFactoryBase,
+    PointEnvIdentifierGeneratorBase,
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
@@ -22,9 +24,18 @@ from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
 class PointEnvExpertManagerFactoryBase:
-    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+    def __init__(
+        self,
+        training_param: ExpertParam,
+        env_config: dict[str:int],
+        env_factory: PointEnvFactoryBase,
+        env_identifier_generator: PointEnvIdentifierGeneratorBase,
+    ):
         self._training_param = training_param
         self._env_config = env_config
+
+        self._env_factory = env_factory
+        self._env_identifier_generator = env_identifier_generator
 
     def create(self) -> ExpertManager:
         (env, env_eval), env_identifier = self._get_envs_and_identifier()
@@ -48,7 +59,12 @@ class PointEnvExpertManagerFactoryBase:
 
 class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
-        super().__init__(training_param, env_config)
+        super().__init__(
+            training_param,
+            env_config,
+            PointEnvFactory(env_config),
+            PointEnvIdentifierGenerator(),
+        )
 
     def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
         env, env_eval = (
@@ -62,7 +78,12 @@ class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
 
 class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
-        super().__init__(training_param, env_config)
+        super().__init__(
+            training_param,
+            env_config,
+            PointEnvContFactory(env_config),
+            PointEnvContIdentifierGenerator(),
+        )
 
     def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
         env, env_eval = (
