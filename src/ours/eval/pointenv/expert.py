@@ -58,17 +58,20 @@ class PointEnvExpertDefault:
             for env_config in env_configs
         ]
 
-    def train_and_save(self) -> None:
+    def train_and_save_models(self) -> None:
         for expert_manager in self._expert_managers:
-            expert_manager.train_model()
-            expert_manager.save_model_and_trajectory()
+            expert_manager.train_and_save_model()
 
-    def show_trajectories_stats(self) -> None:
-        TrajectoriesStats(self.load_trajectories()).show_stats()
+    def save_trajectories(self) -> None:
+        for expert_manager in self._expert_managers:
+            expert_manager.save_trajectory()
 
     def save_trajectories_stats(self) -> None:
         for expert_manager in self._expert_managers:
             expert_manager.save_trajectory_stats()
+
+    def show_trajectories_stats(self) -> None:
+        TrajectoriesStats(self.load_trajectories()).show_stats()
 
     def save_trajectories_plot(self):
         for expert_manager in self._expert_managers:
