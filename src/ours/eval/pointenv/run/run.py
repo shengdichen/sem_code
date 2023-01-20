@@ -4,6 +4,7 @@ from src.ours.env.env import MovePoint, MovePointBase, MovePointCont
 from src.ours.eval.pointenv.run.actionprovider import (
     ActionProvider,
     ActionProviderRandom,
+    ActionProviderRandomCont,
 )
 
 
@@ -55,6 +56,9 @@ class PointEnvContRunner(PointEnvRunnerBase):
 def client_code():
     runner = PointEnvRunner()
     runner.run_episodes(ActionProviderRandom())
+
+    runner = PointEnvContRunner()
+    runner.run_episodes(ActionProviderRandomCont())
 
 
 if __name__ == "__main__":
