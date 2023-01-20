@@ -52,24 +52,11 @@ class ActionConverter:
         return shift
 
 
-class SpaceGeneratorCont:
+class SpaceGeneratorCont(SpaceGeneratorBase):
     def __init__(self, side_length: int):
-        self._side_length = side_length
+        super().__init__(side_length)
 
-    def get_spaces(self) -> tuple[spaces.Box, spaces.Box]:
-        return self._get_observation_space(), self._get_action_space()
-
-    def _get_observation_space(self) -> spaces.Box:
-        n_movements_to_observe = 4
-
-        return spaces.Box(
-            low=np.zeros(n_movements_to_observe, dtype=np.float64),
-            high=np.ones(n_movements_to_observe, dtype=np.float64) * self._side_length,
-            dtype=np.float64,
-        )
-
-    @staticmethod
-    def _get_action_space() -> spaces.Box:
+    def _get_action_space(self) -> spaces.Box:
         action_lower_bound, action_upper_bound = -2.5, +2.5
 
         return spaces.Box(
