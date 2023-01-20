@@ -37,7 +37,7 @@ class ActionConverterBase:
 
         self._action_raw = action_raw
 
-    def get_action_converted(self):
+    def get_action_converted(self) -> tuple[int, int]:
         pass
 
 
@@ -45,7 +45,7 @@ class ActionConverter(ActionConverterBase):
     def __init__(self, action_raw: int, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
-    def get_action_converted(self):
+    def get_action_converted(self) -> tuple[int, int]:
         if self._action_raw == 0:
             shift = 0, 2
         elif self._action_raw == 1:
@@ -78,5 +78,6 @@ class ActionConverterCont(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
-    def get_action_converted(self) -> np.ndarray:
-        return np.round(self._action_raw)
+    def get_action_converted(self) -> tuple[int, int]:
+        shift_x, shift_y = np.round(self._action_raw)
+        return int(shift_x), int(shift_y)
