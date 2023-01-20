@@ -103,7 +103,7 @@ class PwilParam(CommonParam):
         self._pwil_training_param = {
             "n_demos": 5,
             "subsampling": 10,
-            "use_actions": False,
+            "use_actions": True,
         }
 
         self._trajectory_num = 0
