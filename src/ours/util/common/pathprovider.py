@@ -14,10 +14,12 @@ class SaveLoadPathGeneratorBase:
         return self._get_model_path() / "latest.zip"
 
     def get_model_log_path(self, use_simple_log: bool) -> Path:
+        log_path = self._get_model_path() / "log"
+
         if use_simple_log:
-            return self._get_model_path() / "log/simple"
+            return log_path / "simple"
         else:
-            return self._get_model_path() / "log"
+            return log_path
 
     def _get_model_path(self) -> Path:
         pass
