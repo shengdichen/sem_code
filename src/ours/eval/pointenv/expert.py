@@ -5,6 +5,8 @@ from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
+    PointEnvContFactory,
+    PointEnvContIdentifierGenerator,
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
@@ -54,6 +56,20 @@ class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
             PointEnvFactory(self._env_config).create(),
         )
         env_identifier = PointEnvIdentifierGenerator().from_env(env)
+
+        return (env, env_eval), env_identifier
+
+
+class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+    def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
+        super().__init__(training_param, env_config)
+
+    def _get_envs_and_identifier(self) -> tuple[tuple[Env, Env], str]:
+        env, env_eval = (
+            PointEnvContFactory(self._env_config).create(),
+            PointEnvContFactory(self._env_config).create(),
+        )
+        env_identifier = PointEnvContIdentifierGenerator().from_env(env)
 
         return (env, env_eval), env_identifier
 
