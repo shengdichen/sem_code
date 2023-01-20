@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.ours.env.env import MovePoint
+from src.ours.env.env import MovePoint, MovePointBase
 from src.ours.eval.pointenv.run.actionprovider import (
     ActionProvider,
     ActionProviderRandom,
@@ -13,8 +13,8 @@ class PointEnvRunnerConfig:
 
 
 class PointEnvRunnerBase:
-    def __init__(self):
-        self._env = MovePoint()
+    def __init__(self, env: MovePointBase):
+        self._env = env
         self._n_max_steps_per_episode, self._n_episodes = 500, 1
 
         self._obs, self._done = self.reset()
