@@ -49,20 +49,6 @@ class PointEnvIdentifierGeneratorBase:
         return self.get_identifier(env.env_config)
 
 
-class PointEnvIdentifierGenerator:
+class PointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
     def __init__(self):
-        self._prefix = "pointenv"
-        self._connector = "_"
-
-    def get_identifier(self, env_config: dict[str:int]) -> str:
-        shift_x, shift_y = env_config["shift_x"], env_config["shift_y"]
-        return (
-            self._prefix
-            + self._connector
-            + "{0:03}".format(shift_x)
-            + self._connector
-            + "{0:03}".format(shift_y)
-        )
-
-    def from_env(self, env: MovePoint) -> str:
-        return self.get_identifier(env.env_config)
+        super().__init__("pointenv")
