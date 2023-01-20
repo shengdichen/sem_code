@@ -25,6 +25,9 @@ class SaveLoadPathGeneratorBase:
     def get_trajectory_path(self) -> Path:
         pass
 
+    def _get_model_dependent_path(self, raw_dir: str) -> str:
+        pass
+
 
 class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
     def __init__(self, env_identifier: str, training_param: CommonParam):
