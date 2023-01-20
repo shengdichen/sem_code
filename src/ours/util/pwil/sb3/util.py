@@ -15,7 +15,7 @@ class CallbackListFactory:
         saveload_path_generator: SaveLoadPathGeneratorBase,
     ):
         self._env_raw_testing = env_raw_testing
-        self._model_path = saveload_path_generator.get_model_path()
+        self._log_path = saveload_path_generator.get_model_log_path()
         self._eval_path = str(saveload_path_generator.get_model_eval_path())
 
         self._callback_list = self._make_callback_list()
@@ -25,7 +25,7 @@ class CallbackListFactory:
         return self._callback_list
 
     def _make_callback_list(self) -> CallbackList:
-        log_path = str(self._model_path) + "/log/simple/"
+        log_path = str(self._log_path) + "simple"
 
         callback_list = CallbackList(
             [
