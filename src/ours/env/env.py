@@ -30,14 +30,14 @@ class MovePointBase(Env):
         self._episode_timer = EpisodeLengthTimer(1000)
 
     @property
-    def env_config(self):
+    def env_config(self) -> dict[str, int]:
         return self._field.config
 
-    def _draw_elements_on_canvas(self):
+    def _draw_elements_on_canvas(self) -> None:
         self._position_visualizer.visualize()
         self._trajectory_heat_visualizer.visualize()
 
-    def reset(self):
+    def reset(self) -> np.ndarray:
         self._field.reset()
 
         self._draw_elements_on_canvas()
@@ -46,7 +46,7 @@ class MovePointBase(Env):
 
         return self._get_obs()
 
-    def step(self, action: int | np.ndarray):
+    def step(self, action: int | np.ndarray) -> tuple[np.ndarray, float, bool, dict]:
         action_converted = self._get_action_converted(action)
         reward, has_visited_all_targets = self._field.step(action_converted)
 
@@ -62,7 +62,7 @@ class MovePointBase(Env):
     def _get_action_converted(self, action: int | np.ndarray) -> tuple[int, int]:
         pass
 
-    def _get_obs(self):
+    def _get_obs(self) -> np.ndarray:
         field_obs = self._field.get_pos_agent_target()
         return field_obs
 
@@ -82,7 +82,7 @@ class MovePointBase(Env):
 
         renderer.render()
 
-    def close(self):
+    def close(self) -> None:
         PointEnvRendererHuman.clean_up()
 
 
