@@ -44,7 +44,7 @@ class CallbackListFactory:
             best_model_save_path=eval_path,
             log_path=eval_path,
             eval_freq=10000,
-            deterministic=True,
+            deterministic=False,
             render=False,
         )
 
