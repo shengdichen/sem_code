@@ -42,20 +42,6 @@ class AlgorithmFactory(AlgorithmFactoryBase):
             ),
         )
 
-    def get_algorithm(self) -> BaseAlgorithm:
-        model_path = ExpertSaveLoadPathGenerator(
-            self._env_identifier, self._training_param
-        ).get_model_path()
-        model_dir = str(model_path) + "/log/"
-
-        return PPO(
-            "MlpPolicy",
-            self._env,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=model_dir
-        )
-
 
 class AlgorithPwilFactory(AlgorithmFactoryBase):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
@@ -70,18 +56,4 @@ class AlgorithPwilFactory(AlgorithmFactoryBase):
                     self._env_identifier, self._training_param
                 ).get_model_path()
             ),
-        )
-
-    def get_algorithm(self) -> BaseAlgorithm:
-        model_path = PwilSaveLoadPathGenerator(
-            self._env_identifier, self._training_param
-        ).get_model_path()
-        model_dir = str(model_path) + "/log/"
-
-        return PPO(
-            "MlpPolicy",
-            self._env,
-            verbose=0,
-            **self._training_param.kwargs_ppo,
-            tensorboard_log=model_dir
         )
