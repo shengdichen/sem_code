@@ -2,6 +2,7 @@ from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import PwilParam
+from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 from src.ours.util.pwil.sb3.util import CallbackListFactory
 
@@ -15,9 +16,11 @@ class Sb3PwilTrainer(Trainer):
     ):
         self._model = model
         self._training_param = training_param
+        env_raw_testing, env_identifier = env_raw_testing_and_identifier
 
         self._callback_list = CallbackListFactory(
-            training_param, env_raw_testing_and_identifier
+            env_raw_testing,
+            PwilSaveLoadPathGenerator(env_identifier, self._training_param),
         ).callback_list
 
     @property
