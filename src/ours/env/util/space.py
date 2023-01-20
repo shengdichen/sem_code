@@ -63,7 +63,7 @@ class SpaceGeneratorCont:
 
     @staticmethod
     def _get_action_space():
-        action_lower_bound, action_upper_bound = -2.0, +2.0
+        action_lower_bound, action_upper_bound = -2.5, +2.5
 
         return spaces.Box(
             low=np.array([action_lower_bound, action_upper_bound]),
