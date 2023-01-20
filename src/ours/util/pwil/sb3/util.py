@@ -2,7 +2,6 @@ from gym import Env
 from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 
 from src.ours.util.common.helper import TqdmCallback
-from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import (
     SaveLoadPathGeneratorBase,
 )
@@ -12,13 +11,10 @@ from src.upstream.utils import CustomCallback
 class CallbackListFactory:
     def __init__(
         self,
-        training_param: PwilParam,
-        env_raw_testing_and_identifier: tuple[Env, str],
+        env_raw_testing: Env,
         saveload_path_generator: SaveLoadPathGeneratorBase,
     ):
-        self._training_param = training_param
-        self._env_raw_testing, self._env_identifier = env_raw_testing_and_identifier
-
+        self._env_raw_testing = env_raw_testing
         self._model_path = saveload_path_generator.get_model_path()
 
         self._callback_list = self._make_callback_list()
