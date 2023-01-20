@@ -2,14 +2,14 @@ import numpy as np
 from gym import spaces
 
 
-class SpacesGenerator:
+class SpaceGeneratorBase:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
-    def get_spaces(self):
+    def get_spaces(self) -> tuple[spaces.Space, spaces.Space]:
         return self._get_observation_space(), self._get_action_space()
 
-    def _get_observation_space(self):
+    def _get_observation_space(self) -> spaces.Space:
         n_movements_to_observe = 4
 
         return spaces.Box(
@@ -18,17 +18,32 @@ class SpacesGenerator:
             dtype=np.float64,
         )
 
-    @staticmethod
-    def _get_action_space():
+    def _get_action_space(self) -> spaces.Space:
+        pass
+
+
+class SpacesGenerator(SpaceGeneratorBase):
+    def __init__(self, side_length: int):
+        super().__init__(side_length)
+
+    def _get_action_space(self) -> spaces.Space:
         n_legal_actions = 5
         return spaces.Discrete(n_legal_actions)
 
 
-class ActionConverter:
-    def __init__(self, action_raw: int, action_space: spaces.Space):
+class ActionConverterBase:
+    def __init__(self, action_raw: int | np.ndarray, action_space: spaces.Space):
         assert action_space.contains(action_raw), "Invalid Action"
 
         self._action_raw = action_raw
+
+    def get_action_converted(self):
+        pass
+
+
+class ActionConverter(ActionConverterBase):
+    def __init__(self, action_raw: int, action_space: spaces.Space):
+        super().__init__(action_raw, action_space)
 
     def get_action_converted(self):
         if self._action_raw == 0:
@@ -45,24 +60,11 @@ class ActionConverter:
         return shift
 
 
-class SpaceGeneratorCont:
+class SpaceGeneratorCont(SpaceGeneratorBase):
     def __init__(self, side_length: int):
-        self._side_length = side_length
+        super().__init__(side_length)
 
-    def get_spaces(self) -> tuple[spaces.Box, spaces.Box]:
-        return self._get_observation_space(), self._get_action_space()
-
-    def _get_observation_space(self) -> spaces.Box:
-        n_movements_to_observe = 4
-
-        return spaces.Box(
-            low=np.zeros(n_movements_to_observe, dtype=np.float64),
-            high=np.ones(n_movements_to_observe, dtype=np.float64) * self._side_length,
-            dtype=np.float64,
-        )
-
-    @staticmethod
-    def _get_action_space() -> spaces.Box:
+    def _get_action_space(self) -> spaces.Box:
         action_lower_bound, action_upper_bound = -2.5, +2.5
 
         return spaces.Box(
@@ -72,11 +74,9 @@ class SpaceGeneratorCont:
         )
 
 
-class ActionConverterCont:
+class ActionConverterCont(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
-        assert action_space.contains(action_raw), "Invalid Action"
-
-        self._action_raw = action_raw
+        super().__init__(action_raw, action_space)
 
     def convert_one_dimension(self) -> np.ndarray:
         return np.round(self._action_raw)
