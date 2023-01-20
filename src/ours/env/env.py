@@ -99,7 +99,7 @@ class MovePoint(MovePointBase):
             self._side_length
         ).get_spaces()
 
-    def _get_action_converted(self, action: int | np.ndarray) -> tuple[int, int]:
+    def _get_action_converted(self, action: int) -> tuple[int, int]:
         return ActionConverter(action, self.action_space).get_action_converted()
 
 
@@ -116,5 +116,5 @@ class MovePointCont(MovePointBase):
             self._side_length
         ).get_spaces()
 
-    def _get_action_converted(self, action: int | np.ndarray) -> tuple[int, int]:
+    def _get_action_converted(self, action: np.ndarray) -> tuple[int, int]:
         return ActionConverterCont(action, self.action_space).get_action_converted()
