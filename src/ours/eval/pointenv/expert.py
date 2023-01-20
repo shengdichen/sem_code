@@ -83,18 +83,8 @@ class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
 
 
 class PointEnvExpertDefaultBase:
-    def __init__(self):
-        self._expert_managers = self._make_expert_managers()
-
-    @staticmethod
-    def _make_expert_managers() -> list[ExpertManager]:
-        training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
-
-        return [
-            PointEnvExpertManagerFactory(training_param, env_config).create()
-            for env_config in env_configs
-        ]
+    def __init__(self, expert_managers: list[ExpertManager]):
+        self._expert_managers = expert_managers
 
     def train_and_save_models(self) -> None:
         for expert_manager in self._expert_managers:
