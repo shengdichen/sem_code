@@ -30,9 +30,9 @@ class PointEnvConfigFactory:
         return self._env_configs
 
 
-class PointEnvIdentifierGenerator:
-    def __init__(self):
-        self._prefix = "pointenv"
+class PointEnvIdentifierGeneratorBase:
+    def __init__(self, prefix: str):
+        self._prefix = prefix
         self._connector = "_"
 
     def get_identifier(self, env_config: dict[str:int]) -> str:
@@ -47,3 +47,13 @@ class PointEnvIdentifierGenerator:
 
     def from_env(self, env: MovePoint) -> str:
         return self.get_identifier(env.env_config)
+
+
+class PointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+    def __init__(self):
+        super().__init__("pointenv")
+
+
+class PointEnvContIdentifierGenerator:
+    def __init__(self):
+        super().__init__("pointenv_cont")
