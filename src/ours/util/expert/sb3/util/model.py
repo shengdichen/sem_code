@@ -6,14 +6,20 @@ from src.ours.util.common.param import CommonParam, PwilParam
 from src.ours.util.common.pathprovider import (
     PwilSaveLoadPathGenerator,
     ExpertSaveLoadPathGenerator,
+    SaveLoadPathGeneratorBase,
 )
 
 
 class AlgorithmFactoryBase:
-    def __init__(self, env: Env, training_param: CommonParam, model_path: str):
+    def __init__(
+        self,
+        env: Env,
+        training_param: CommonParam,
+        saveload_path_generator: SaveLoadPathGeneratorBase,
+    ):
         self._env = env
         self._training_param = training_param
-        self._model_dir = model_path + "/log/"
+        self._model_dir = str(saveload_path_generator.get_model_path()) + "/log/"
 
     def get_algorithm(self) -> BaseAlgorithm:
         return PPO(
@@ -35,11 +41,7 @@ class AlgorithmFactory(AlgorithmFactoryBase):
         super().__init__(
             self._env,
             training_param,
-            str(
-                ExpertSaveLoadPathGenerator(
-                    self._env_identifier, self._training_param
-                ).get_model_path()
-            ),
+            ExpertSaveLoadPathGenerator(self._env_identifier, self._training_param),
         )
 
 
@@ -51,9 +53,5 @@ class AlgorithPwilFactory(AlgorithmFactoryBase):
         super().__init__(
             self._env,
             training_param,
-            str(
-                PwilSaveLoadPathGenerator(
-                    self._env_identifier, self._training_param
-                ).get_model_path()
-            ),
+            PwilSaveLoadPathGenerator(self._env_identifier, self._training_param),
         )
