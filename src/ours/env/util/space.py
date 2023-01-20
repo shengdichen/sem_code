@@ -49,10 +49,10 @@ class SpaceGeneratorCont:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
-    def get_spaces(self):
+    def get_spaces(self) -> tuple[spaces.Box, spaces.Box]:
         return self._get_observation_space(), self._get_action_space()
 
-    def _get_observation_space(self):
+    def _get_observation_space(self) -> spaces.Box:
         n_movements_to_observe = 4
 
         return spaces.Box(
@@ -62,7 +62,7 @@ class SpaceGeneratorCont:
         )
 
     @staticmethod
-    def _get_action_space():
+    def _get_action_space() -> spaces.Box:
         action_lower_bound, action_upper_bound = -2.5, +2.5
 
         return spaces.Box(
@@ -78,5 +78,5 @@ class ActionConverterCont:
 
         self._action_raw = action_raw
 
-    def convert_one_dimension(self):
+    def convert_one_dimension(self) -> np.ndarray:
         return np.round(self._action_raw)
