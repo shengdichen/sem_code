@@ -31,6 +31,14 @@ class SpacesGenerator(SpaceGeneratorBase):
         return spaces.Discrete(n_legal_actions)
 
 
+class ActionConverterBase:
+    def __init__(self):
+        pass
+
+    def get_action_converted(self):
+        pass
+
+
 class ActionConverter:
     def __init__(self, action_raw: int, action_space: spaces.Space):
         assert action_space.contains(action_raw), "Invalid Action"
