@@ -17,9 +17,9 @@ class PointEnvFactoryBase(EnvFactory):
         pass
 
 
-class PointEnvFactory(EnvFactory):
+class PointEnvFactory(PointEnvFactoryBase):
     def __init__(self, env_config: dict[str:int]):
-        self._env_config = env_config
+        super().__init__(env_config)
 
     def create(self):
         return MovePoint(**self._env_config)
