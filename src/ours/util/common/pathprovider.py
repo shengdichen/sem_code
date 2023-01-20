@@ -8,15 +8,15 @@ class SaveLoadPathGeneratorBase:
         pass
 
     def get_model_eval_path(self) -> Path:
-        return self.get_model_path() / "eval"
+        return self._get_model_path() / "eval"
 
     def get_model_log_path(self, use_simple_log: bool) -> Path:
         if use_simple_log:
-            return self.get_model_path() / "log/simple"
+            return self._get_model_path() / "log/simple"
         else:
-            return self.get_model_path() / "log"
+            return self._get_model_path() / "log"
 
-    def get_model_path(self) -> Path:
+    def _get_model_path(self) -> Path:
         pass
 
     def get_trajectory_path(self) -> Path:
@@ -37,16 +37,16 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
             return self.get_latest_sb3_model_path()
 
     def get_best_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
+        model_path = self._get_model_path()
         model_name_sb3 = "eval/best_model.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
 
     def get_latest_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
+        model_path = self._get_model_path()
         model_name_sb3 = "latest.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
 
-    def get_model_path(self) -> Path:
+    def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
@@ -88,16 +88,16 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
             return self.get_latest_sb3_model_path()
 
     def get_best_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
+        model_path = self._get_model_path()
         model_name_sb3 = "eval/best_model.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
 
     def get_latest_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
+        model_path = self._get_model_path()
         model_name_sb3 = "latest.zip"
         return Path("{0}/{1}".format(model_path, model_name_sb3))
 
-    def get_model_path(self) -> Path:
+    def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
