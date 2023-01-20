@@ -15,9 +15,9 @@ class Sb3Manager:
         training_param: CommonParam,
     ):
         (self._env, self._env_eval), self._env_identifier = envs_and_identifier
-        self._path_saveload = ExpertSaveLoadPathGenerator(
+        self._best_sb3_model_path = ExpertSaveLoadPathGenerator(
             self._env_identifier, training_param
-        ).get_sb3_model_path()
+        ).get_best_sb3_model_path()
         self._model = self._get_model(
             AlgorithmFactory(
                 (self._env, self._env_identifier), training_param
@@ -27,7 +27,7 @@ class Sb3Manager:
         self._training_param = training_param
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
-        sb3_loader = Sb3Loader(algorithm, self._path_saveload)
+        sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
         if sb3_loader.exists():
             return sb3_loader.load(self._env)
         else:
@@ -44,5 +44,5 @@ class Sb3Manager:
         trainer.train()
 
     def save(self) -> None:
-        saver = Sb3Saver(self._model, self._path_saveload)
+        saver = Sb3Saver(self._model, self._best_sb3_model_path)
         saver.save()
