@@ -27,13 +27,13 @@ class TrajectoryManager:
         self._trajectory_generator = TrajectoryGenerator(
             (env, model), trajectory_generator_config
         )
-        self._path_saveload = ExpertSaveLoadPathGenerator(
+
+        path_saveload = ExpertSaveLoadPathGenerator(
             env_identifier, training_param
         ).get_trajectory_path()
-
-        self._trajectory_path = self._path_saveload / "trajectory.npy"
-        self._stats_path = self._path_saveload / "stats"
-        self._plot_path = self._path_saveload / "plot.png"
+        self._trajectory_path = path_saveload / "trajectory.npy"
+        self._stats_path = path_saveload / "stats"
+        self._plot_path = path_saveload / "plot.png"
 
     def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectories()
