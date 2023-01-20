@@ -66,12 +66,12 @@ class PointEnvExpertDefault:
         for expert_manager in self._expert_managers:
             expert_manager.save_trajectory()
 
-    def show_trajectories_stats(self) -> None:
-        TrajectoriesStats(self.load_trajectories()).show_stats()
-
     def save_trajectories_stats(self) -> None:
         for expert_manager in self._expert_managers:
             expert_manager.save_trajectory_stats()
+
+    def show_trajectories_stats(self) -> None:
+        TrajectoriesStats(self.load_trajectories()).show_stats()
 
     def save_trajectories_plot(self):
         for expert_manager in self._expert_managers:
