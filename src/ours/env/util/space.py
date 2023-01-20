@@ -68,7 +68,7 @@ class SpacesGeneratorCont(SpacesGeneratorBase):
         action_lower_bound, action_upper_bound = -2.5, +2.5
 
         return spaces.Box(
-            low=np.array([action_lower_bound, action_upper_bound]),
+            low=np.array([action_lower_bound, action_lower_bound]),
             high=np.array([action_upper_bound, action_upper_bound]),
             dtype=np.float64,
         )
