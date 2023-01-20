@@ -10,8 +10,8 @@ from src.ours.env.creation import (
     PointEnvFactoryBase,
     PointEnvIdentifierGeneratorBase,
 )
-from src.ours.eval.pointenv.run.run import PointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import Sb3Manager
@@ -154,6 +154,30 @@ class PointEnvExpertDefault(PointEnvExpertDefaultBase):
                 return model.predict(obs)[0]
 
         PointEnvRunner().run_episodes(ActionProviderModel())
+
+
+class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
+    def __init__(self):
+        super().__init__(self._make_expert_managers())
+
+    @staticmethod
+    def _make_expert_managers() -> list[ExpertManager]:
+        training_param = ExpertParam()
+        env_configs = PointEnvConfigFactory().env_configs
+
+        return [
+            PointEnvContExpertManagerFactory(training_param, env_config).create()
+            for env_config in env_configs
+        ]
+
+    def run_models(self):
+        model = self._expert_managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvContRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():
