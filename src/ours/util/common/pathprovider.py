@@ -48,12 +48,13 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         return Path(path)
 
     def _get_model_dependent_path(self, raw_dir: str) -> str:
-        return "{0}/{1}{2}{3:07}".format(
-            raw_dir,
+        filename = "{0}{1}{2:07}".format(
             self._env_identifier,
             "_",
             self._training_param.n_steps_expert_train,
         )
+
+        return "{0}/{1}".format(raw_dir, filename)
 
 
 class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
