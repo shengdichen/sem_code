@@ -29,10 +29,18 @@ class AlgorithmFactory(AlgorithmFactoryBase):
     def __init__(
         self, env_and_identifier: tuple[Env, str], training_param: CommonParam
     ):
-        super().__init__()
-
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
+
+        super().__init__(
+            self._env,
+            training_param,
+            str(
+                ExpertSaveLoadPathGenerator(
+                    self._env_identifier, self._training_param
+                ).get_model_path()
+            ),
+        )
 
     def get_algorithm(self) -> BaseAlgorithm:
         model_path = ExpertSaveLoadPathGenerator(
@@ -51,10 +59,18 @@ class AlgorithmFactory(AlgorithmFactoryBase):
 
 class AlgorithPwilFactory(AlgorithmFactoryBase):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
-        super().__init__()
-
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
+
+        super().__init__(
+            self._env,
+            training_param,
+            str(
+                PwilSaveLoadPathGenerator(
+                    self._env_identifier, self._training_param
+                ).get_model_path()
+            ),
+        )
 
     def get_algorithm(self) -> BaseAlgorithm:
         model_path = PwilSaveLoadPathGenerator(
