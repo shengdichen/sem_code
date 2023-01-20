@@ -12,7 +12,7 @@ from src.ours.env.util.time import EpisodeLengthTimer
 
 class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
-        super(MovePoint, self).__init__()
+        super().__init__()
 
         self._side_length = 200
         self.observation_space, self.action_space = SpacesGenerator(
