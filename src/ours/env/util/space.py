@@ -2,6 +2,20 @@ import numpy as np
 from gym import spaces
 
 
+class SpaceGeneratorBase:
+    def __init__(self):
+        pass
+
+    def get_spaces(self) -> tuple[spaces.Space, spaces.Space]:
+        return self._get_observation_space(), self._get_action_space()
+
+    def _get_observation_space(self) -> spaces.Space:
+        pass
+
+    def _get_action_space(self) -> spaces.Space:
+        pass
+
+
 class SpacesGenerator:
     def __init__(self, side_length: int):
         self._side_length = side_length
