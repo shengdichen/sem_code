@@ -2,7 +2,7 @@ import numpy as np
 from gym import spaces
 
 
-class SpaceGeneratorBase:
+class SpacesGeneratorBase:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
@@ -22,7 +22,7 @@ class SpaceGeneratorBase:
         pass
 
 
-class SpacesGenerator(SpaceGeneratorBase):
+class SpacesGenerator(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
@@ -60,7 +60,7 @@ class ActionConverter(ActionConverterBase):
         return shift
 
 
-class SpaceGeneratorCont(SpaceGeneratorBase):
+class SpacesGeneratorCont(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
