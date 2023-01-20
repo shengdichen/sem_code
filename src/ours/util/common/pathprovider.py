@@ -10,11 +10,11 @@ class SaveLoadPathGeneratorBase:
     def get_best_sb3_model_path(self) -> Path:
         return self.get_model_eval_path() / "best_model.zip"
 
-    def get_latest_sb3_model_path(self) -> Path:
-        return self._get_model_path() / "latest.zip"
-
     def get_model_eval_path(self) -> Path:
         return self._get_model_path() / "eval"
+
+    def get_latest_sb3_model_path(self) -> Path:
+        return self._get_model_path() / "latest.zip"
 
     def get_model_log_path(self, use_simple_log: bool) -> Path:
         if use_simple_log:
