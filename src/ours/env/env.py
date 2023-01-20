@@ -1,3 +1,4 @@
+import numpy as np
 from gym import Env
 
 from src.ours.env.component.visualizer import (
@@ -5,19 +6,21 @@ from src.ours.env.component.visualizer import (
     PositionVisualizer,
 )
 from src.ours.env.component.field import Field
-from src.ours.env.util.space import SpacesGenerator, ActionConverter
+from src.ours.env.util.space import (
+    SpacesGenerator,
+    SpacesGeneratorCont,
+    ActionConverter,
+    ActionConverterCont,
+)
 from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRgb
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
-class MovePoint(Env):
+class MovePointBase(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
-        super(MovePoint, self).__init__()
+        super().__init__()
 
         self._side_length = 200
-        self.observation_space, self.action_space = SpacesGenerator(
-            self._side_length
-        ).get_spaces()
 
         self._board_shape = self._side_length, self._side_length
         self._field = Field(n_targets, (shift_x, shift_y), random_spawn_agent)
@@ -27,14 +30,14 @@ class MovePoint(Env):
         self._episode_timer = EpisodeLengthTimer(1000)
 
     @property
-    def env_config(self):
+    def env_config(self) -> dict[str, int]:
         return self._field.config
 
-    def _draw_elements_on_canvas(self):
+    def _draw_elements_on_canvas(self) -> None:
         self._position_visualizer.visualize()
         self._trajectory_heat_visualizer.visualize()
 
-    def reset(self):
+    def reset(self) -> np.ndarray:
         self._field.reset()
 
         self._draw_elements_on_canvas()
@@ -43,10 +46,8 @@ class MovePoint(Env):
 
         return self._get_obs()
 
-    def step(self, action: int):
-        action_converted = ActionConverter(
-            action, self.action_space
-        ).get_action_converted()
+    def step(self, action: int | np.ndarray) -> tuple[np.ndarray, float, bool, dict]:
+        action_converted = self._get_action_converted(action)
         reward, has_visited_all_targets = self._field.step(action_converted)
 
         self._draw_elements_on_canvas()
@@ -58,7 +59,10 @@ class MovePoint(Env):
         done = has_visited_all_targets or has_elapsed
         return obs, reward, done, {}
 
-    def _get_obs(self):
+    def _get_action_converted(self, action: int | np.ndarray) -> tuple[int, int]:
+        pass
+
+    def _get_obs(self) -> np.ndarray:
         field_obs = self._field.get_pos_agent_target()
         return field_obs
 
@@ -78,5 +82,39 @@ class MovePoint(Env):
 
         renderer.render()
 
-    def close(self):
+    def close(self) -> None:
         PointEnvRendererHuman.clean_up()
+
+
+class MovePoint(MovePointBase):
+    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
+        super().__init__(
+            n_targets,
+            shift_x,
+            shift_y,
+            random_spawn_agent,
+        )
+
+        self.observation_space, self.action_space = SpacesGenerator(
+            self._side_length
+        ).get_spaces()
+
+    def _get_action_converted(self, action: int) -> tuple[int, int]:
+        return ActionConverter(action, self.action_space).get_action_converted()
+
+
+class MovePointCont(MovePointBase):
+    def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
+        super().__init__(
+            n_targets,
+            shift_x,
+            shift_y,
+            random_spawn_agent,
+        )
+
+        self.observation_space, self.action_space = SpacesGeneratorCont(
+            self._side_length
+        ).get_spaces()
+
+    def _get_action_converted(self, action: np.ndarray) -> tuple[int, int]:
+        return ActionConverterCont(action, self.action_space).get_action_converted()
