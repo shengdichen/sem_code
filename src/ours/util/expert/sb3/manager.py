@@ -10,9 +10,11 @@ from src.ours.util.expert.sb3.util.train import Sb3Trainer
 
 class Sb3Manager:
     def __init__(
-        self, env_and_identifier: tuple[gym.Env, str], training_param: CommonParam
+        self,
+        envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
+        training_param: CommonParam,
     ):
-        self._env, env_identifier = env_and_identifier
+        (self._env, self._env_eval), env_identifier = envs_and_identifier
         self._path_saveload = ExpertSaveLoadPathGenerator(
             env_identifier, training_param
         ).get_sb3_model_path()
