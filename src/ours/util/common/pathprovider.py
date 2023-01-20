@@ -4,27 +4,27 @@ from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
 class ExpertSaveLoadPathGenerator:
-    def __init__(self, training_param: CommonParam):
+    def __init__(self, env_identifier: str, training_param: CommonParam):
+        self._env_identifier = env_identifier
         self._training_param = training_param
 
-    def get_model_path(self, env_identifier: str) -> Path:
-        return self._get_model_dependent_path(
-            self._training_param.model_dir, env_identifier
-        )
+    def get_sb3_model_path(self) -> Path:
+        model_path = self.get_model_path()
+        model_name_sb3 = "latest.zip"
+        return Path("{0}/{1}".format(model_path, model_name_sb3))
 
-    def get_trajectory_path(self, env_identifier: str) -> Path:
-        return self._get_model_dependent_path(
-            self._training_param.demo_dir, env_identifier
-        )
+    def get_model_path(self) -> Path:
+        return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
-    def _get_model_dependent_path(self, raw_dir: str, env_identifier: str) -> Path:
-        return Path(
-            "{0}/{1}{2}{3:07}".format(
-                raw_dir,
-                env_identifier,
-                "_",
-                self._training_param.n_steps_expert_train,
-            )
+    def get_trajectory_path(self) -> Path:
+        return Path(self._get_model_dependent_path(self._training_param.demo_dir))
+
+    def _get_model_dependent_path(self, raw_dir: str) -> str:
+        return "{0}/{1}{2}{3:07}".format(
+            raw_dir,
+            self._env_identifier,
+            "_",
+            self._training_param.n_steps_expert_train,
         )
 
 
