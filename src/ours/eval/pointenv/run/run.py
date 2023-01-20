@@ -1,9 +1,10 @@
 import numpy as np
 
-from src.ours.env.env import MovePoint
+from src.ours.env.env import MovePoint, MovePointBase, MovePointCont
 from src.ours.eval.pointenv.run.actionprovider import (
     ActionProvider,
     ActionProviderRandom,
+    ActionProviderRandomCont,
 )
 
 
@@ -12,9 +13,9 @@ class PointEnvRunnerConfig:
     n_episodes = 2
 
 
-class PointEnvRunner:
-    def __init__(self):
-        self._env = MovePoint()
+class PointEnvRunnerBase:
+    def __init__(self, env: MovePointBase):
+        self._env = env
         self._n_max_steps_per_episode, self._n_episodes = 500, 1
 
         self._obs, self._done = self.reset()
@@ -42,9 +43,22 @@ class PointEnvRunner:
                 break
 
 
+class PointEnvRunner(PointEnvRunnerBase):
+    def __init__(self):
+        super().__init__(MovePoint())
+
+
+class PointEnvContRunner(PointEnvRunnerBase):
+    def __init__(self):
+        super().__init__(MovePointCont())
+
+
 def client_code():
     runner = PointEnvRunner()
     runner.run_episodes(ActionProviderRandom())
+
+    runner = PointEnvContRunner()
+    runner.run_episodes(ActionProviderRandomCont())
 
 
 if __name__ == "__main__":
