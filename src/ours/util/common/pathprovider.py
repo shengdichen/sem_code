@@ -4,9 +4,6 @@ from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
 class SaveLoadPathGeneratorBase:
-    def get_sb3_model_path(self) -> Path:
-        pass
-
     def get_best_sb3_model_path(self) -> Path:
         return self.get_model_eval_path() / "best_model.zip"
 
@@ -35,12 +32,6 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
 
         self._env_identifier = env_identifier
         self._training_param = training_param
-
-    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
-        if use_best_model:
-            return self.get_best_sb3_model_path()
-        else:
-            return self.get_latest_sb3_model_path()
 
     def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
@@ -76,12 +67,6 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
             return "mixed"
         else:
             return "distant"
-
-    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
-        if use_best_model:
-            return self.get_best_sb3_model_path()
-        else:
-            return self.get_latest_sb3_model_path()
 
     def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
