@@ -22,6 +22,9 @@ class Sb3PwilManager:
         self._best_sb3_model_path = PwilSaveLoadPathGenerator(
             env_identifier, training_param
         ).get_best_sb3_model_path()
+        self._latest_sb3_model_path = PwilSaveLoadPathGenerator(
+            env_identifier, training_param
+        ).get_latest_sb3_model_path()
         self._model = self._get_model(
             AlgorithPwilFactory(
                 (self._env_pwil_rewarded, env_identifier), training_param
@@ -47,7 +50,7 @@ class Sb3PwilManager:
         self._trainer.train()
 
     def save(self) -> None:
-        saver = Sb3Saver(self._model, self._best_sb3_model_path)
+        saver = Sb3Saver(self._model, self._latest_sb3_model_path)
         saver.save()
 
     def test(self) -> None:
