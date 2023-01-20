@@ -34,5 +34,5 @@ class Sb3Trainer(Trainer):
     def train(self) -> None:
         self._model.learn(
             total_timesteps=self._training_param.n_steps_expert_train,
-            callback=[TqdmCallback()],
+            callback=self._callback_list,
         )
