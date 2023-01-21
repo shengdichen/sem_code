@@ -5,7 +5,10 @@ from gym import Env
 from matplotlib import pyplot as plt
 
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
+from src.ours.util.common.pathprovider import (
+    ExpertSaveLoadPathGenerator,
+    SaveLoadPathGeneratorBase,
+)
 from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
 from src.ours.util.expert.trajectory.util.generator import (
@@ -20,6 +23,7 @@ class TrajectoryManagerBase:
         self,
         env_and_identifier: tuple[Env, str],
         model_and_training_param: tuple[Any, CommonParam],
+        path_generator: SaveLoadPathGeneratorBase,
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
         env, env_identifier = env_and_identifier
@@ -28,9 +32,7 @@ class TrajectoryManagerBase:
             (env, model), trajectory_generator_config
         )
 
-        path_saveload = ExpertSaveLoadPathGenerator(
-            env_identifier, training_param
-        ).get_trajectory_path()
+        path_saveload = path_generator.get_trajectory_path()
         self._trajectory_path = path_saveload / "trajectory.npy"
         self._stats_path = path_saveload / "stats"
         self._plot_path = path_saveload / "plot.png"
