@@ -51,26 +51,19 @@ class Sb3ManagerBase:
         saver.save()
 
 
-class Sb3Manager:
+class Sb3Manager(Sb3ManagerBase):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
         training_param: CommonParam,
     ):
-        (self._env, self._env_eval), self._env_identifier = envs_and_identifier
-        self._best_sb3_model_path = ExpertSaveLoadPathGenerator(
-            self._env_identifier, training_param
-        ).get_best_sb3_model_path()
-        self._latest_sb3_model_path = ExpertSaveLoadPathGenerator(
-            self._env_identifier, training_param
-        ).get_latest_sb3_model_path()
-        self._model = self._get_model(
-            AlgorithmFactory(
-                (self._env, self._env_identifier), training_param
-            ).get_algorithm()
-        )
+        __, self._env_identifier = envs_and_identifier
 
-        self._training_param = training_param
+        super().__init__(
+            envs_and_identifier,
+            training_param,
+            ExpertSaveLoadPathGenerator(self._env_identifier, training_param),
+        )
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
