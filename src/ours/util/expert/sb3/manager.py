@@ -38,10 +38,7 @@ class Sb3ManagerBase:
         return self._model
 
     def train(self) -> None:
-        trainer = Sb3Trainer(
-            self._model, self._training_param, (self._env_eval, self._env_identifier)
-        )
-        trainer.train()
+        pass
 
     def save(self) -> None:
         saver = Sb3Saver(self._model, self._latest_sb3_model_path)
@@ -64,3 +61,9 @@ class Sb3Manager(Sb3ManagerBase):
                 (self._env, self._env_identifier), training_param
             ).get_algorithm(),
         )
+
+    def train(self) -> None:
+        trainer = Sb3Trainer(
+            self._model, self._training_param, (self._env_eval, self._env_identifier)
+        )
+        trainer.train()
