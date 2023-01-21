@@ -37,7 +37,7 @@ class CommonParam:
             # "max_grad_norm":0.5
         }
 
-        self._n_steps_expert_train = int(1e6)
+        self._n_steps_training = int(1e6)
 
     @property
     def seed(self):
@@ -61,7 +61,7 @@ class CommonParam:
 
     @property
     def n_steps_expert_train(self):
-        return self._n_steps_expert_train
+        return self._n_steps_training
 
     @property
     def prefix(self):
@@ -98,7 +98,7 @@ class PwilParam(CommonParam):
             [self._model_dir, self._demo_dir, self._rewardplot_dir]
         )
 
-        self._n_steps_pwil_train = int(5e5)
+        self._n_steps_training = int(5e5)
 
         self._pwil_training_param = {
             "n_demos": 5,
@@ -114,7 +114,7 @@ class PwilParam(CommonParam):
 
     @property
     def n_steps_pwil_train(self):
-        return self._n_steps_pwil_train
+        return self._n_steps_training
 
     @property
     def pwil_training_param(self):
