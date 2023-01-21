@@ -1,5 +1,6 @@
 import numpy as np
 from gym import Env
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import PwilParam
 from src.ours.util.pwil.trajectory.manager import TrajectoryManager
@@ -33,6 +34,9 @@ class PwilManager:
 
     def save_model(self) -> None:
         self._sb3_pwil_manager.save()
+
+    def load_model(self) -> BaseAlgorithm:
+        return self._sb3_pwil_manager.model
 
     def test_model(self) -> None:
         self._sb3_pwil_manager.test()
