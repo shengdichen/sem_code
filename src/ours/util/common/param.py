@@ -98,7 +98,7 @@ class PwilParam(CommonParam):
             [self._model_dir, self._demo_dir, self._rewardplot_dir]
         )
 
-        self._n_steps_pwil_train = int(3e5)
+        self._n_steps_pwil_train = int(5e5)
 
         self._pwil_training_param = {
             "n_demos": 5,
