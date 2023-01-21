@@ -2,7 +2,10 @@ import gym
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
+from src.ours.util.common.pathprovider import (
+    ExpertSaveLoadPathGenerator,
+    SaveLoadPathGeneratorBase,
+)
 from src.ours.util.expert.sb3.util.model import AlgorithmFactory
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.sb3.util.train import Sb3Trainer
@@ -13,14 +16,11 @@ class Sb3ManagerBase:
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
         training_param: CommonParam,
+        path_generator: SaveLoadPathGeneratorBase,
     ):
         (self._env, self._env_eval), self._env_identifier = envs_and_identifier
-        self._best_sb3_model_path = ExpertSaveLoadPathGenerator(
-            self._env_identifier, training_param
-        ).get_best_sb3_model_path()
-        self._latest_sb3_model_path = ExpertSaveLoadPathGenerator(
-            self._env_identifier, training_param
-        ).get_latest_sb3_model_path()
+        self._best_sb3_model_path = path_generator.get_best_sb3_model_path()
+        self._latest_sb3_model_path = path_generator.get_latest_sb3_model_path()
         self._model = self._get_model(
             AlgorithmFactory(
                 (self._env, self._env_identifier), training_param
