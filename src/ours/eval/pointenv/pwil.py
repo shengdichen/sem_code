@@ -116,7 +116,7 @@ class PointEnvPwilManagerFactory:
 class PointEnvPwilConfig:
     def __init__(self):
         self._n_demos_pool = [1, 5, 10]
-        self._subsampling_pool = [1, 2, 3, 5, 10, 20]
+        self._subsampling_pool = [1, 2, 5, 10, 20]
 
     def _get_configs(self, demo_id_pool: list[int]) -> list[tuple[int, int, int]]:
         configs = []
