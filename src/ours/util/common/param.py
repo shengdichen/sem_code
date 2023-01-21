@@ -113,10 +113,6 @@ class PwilParam(CommonParam):
         return self._rewardplot_dir
 
     @property
-    def n_steps_pwil_train(self):
-        return self._n_steps_training
-
-    @property
     def pwil_training_param(self):
         return self._pwil_training_param
 

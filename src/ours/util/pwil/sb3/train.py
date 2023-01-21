@@ -29,6 +29,6 @@ class Sb3PwilTrainer(Trainer):
 
     def train(self) -> None:
         self._model.learn(
-            total_timesteps=self._training_param.n_steps_pwil_train,
+            total_timesteps=self._training_param.n_steps_training,
             callback=self._callback_list,
         )

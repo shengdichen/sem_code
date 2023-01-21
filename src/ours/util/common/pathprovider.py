@@ -102,7 +102,7 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
             raw_dir,
             self._env_identifier,
             "_",
-            self._training_param.n_steps_pwil_train,
+            self._training_param.n_steps_training,
         )
         Util.mkdir_if_not_existent([curr_model_dir])
 
