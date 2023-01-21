@@ -8,28 +8,29 @@ from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
+from src.ours.util.expert.trajectory.manager import TrajectoryManagerBase
 from src.ours.util.expert.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
-    TrajectoryGenerator,
 )
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
 
 
-class TrajectoryManager:
+class TrajectoryManager(TrajectoryManagerBase):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
         model_and_training_param: tuple[Any, PwilParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
-        env, env_identifier = env_and_identifier
-        model, training_param = model_and_training_param
-        self._trajectory_generator = TrajectoryGenerator(
-            (env, model), trajectory_generator_config
+        __, env_identifier = env_and_identifier
+        __, training_param = model_and_training_param
+
+        super().__init__(
+            env_and_identifier,
+            model_and_training_param,
+            PwilSaveLoadPathGenerator(env_identifier, training_param),
+            trajectory_generator_config,
         )
-        self._path_saveload = PwilSaveLoadPathGenerator(
-            env_identifier, training_param
-        ).get_trajectory_path()
 
     def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectories()
