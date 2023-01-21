@@ -35,6 +35,8 @@ class Sb3PwilManager:
             self._model, training_param, (self._env_eval, self._env_identifier)
         )
 
+        self._training_param = training_param
+
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
         if sb3_loader.exists():
