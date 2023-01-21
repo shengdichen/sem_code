@@ -31,10 +31,6 @@ class Sb3PwilManager:
             ).get_algorithm()
         )
 
-        self._trainer = Sb3PwilTrainer(
-            self._model, training_param, (self._env_eval, self._env_identifier)
-        )
-
         self._training_param = training_param
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
@@ -49,7 +45,11 @@ class Sb3PwilManager:
         return self._model
 
     def train(self) -> None:
-        self._trainer.train()
+        trainer = Sb3PwilTrainer(
+            self._model, self._training_param, (self._env_eval, self._env_identifier)
+        )
+
+        trainer.train()
 
     def save(self) -> None:
         saver = Sb3Saver(self._model, self._latest_sb3_model_path)
