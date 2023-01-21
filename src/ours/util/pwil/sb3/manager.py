@@ -16,29 +16,29 @@ class Sb3PwilManager:
         training_param: PwilParam,
     ):
         (
-            self._env_pwil_rewarded,
-            env_raw_testing,
-        ), env_identifier = env_pwil_and_identifier
+            self._env,
+            self._env_eval,
+        ), self._env_identifier = env_pwil_and_identifier
         self._best_sb3_model_path = PwilSaveLoadPathGenerator(
-            env_identifier, training_param
+            self._env_identifier, training_param
         ).get_best_sb3_model_path()
         self._latest_sb3_model_path = PwilSaveLoadPathGenerator(
-            env_identifier, training_param
+            self._env_identifier, training_param
         ).get_latest_sb3_model_path()
         self._model = self._get_model(
             AlgorithPwilFactory(
-                (self._env_pwil_rewarded, env_identifier), training_param
+                (self._env, self._env_identifier), training_param
             ).get_algorithm()
         )
 
         self._trainer = Sb3PwilTrainer(
-            self._model, training_param, (env_raw_testing, env_identifier)
+            self._model, training_param, (self._env_eval, self._env_identifier)
         )
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
         if sb3_loader.exists():
-            return sb3_loader.load(self._env_pwil_rewarded)
+            return sb3_loader.load(self._env)
         else:
             return algorithm
 
