@@ -88,7 +88,7 @@ class PointEnvPwilManagerFactory:
         return selected_trajectories
 
     def set_pwil_training_param(
-        self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
+        self, n_demos: int = None, subsampling: int = None, use_actions: bool = None
     ) -> "PointEnvPwilManagerFactory":
         pwil_training_param = self._training_param.pwil_training_param
 
