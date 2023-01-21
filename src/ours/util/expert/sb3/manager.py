@@ -6,6 +6,7 @@ from src.ours.util.common.pathprovider import (
     ExpertSaveLoadPathGenerator,
     SaveLoadPathGeneratorBase,
 )
+from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.model import AlgorithmFactory
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.sb3.util.train import Sb3Trainer
@@ -35,6 +36,9 @@ class Sb3ManagerBase:
         return self._model
 
     def train(self) -> None:
+        self._get_trainer().train()
+
+    def _get_trainer(self) -> Trainer:
         pass
 
     def save(self) -> None:
