@@ -60,7 +60,7 @@ class CommonParam:
         return self._kwargs_ppo
 
     @property
-    def n_steps_expert_train(self):
+    def n_steps_training(self):
         return self._n_steps_training
 
     @property
