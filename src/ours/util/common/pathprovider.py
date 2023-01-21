@@ -4,13 +4,30 @@ from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
 class SaveLoadPathGeneratorBase:
-    def get_sb3_model_path(self) -> Path:
-        pass
+    def get_best_sb3_model_path(self) -> Path:
+        return self.get_model_eval_path() / "best_model.zip"
 
-    def get_model_path(self) -> Path:
+    def get_model_eval_path(self) -> Path:
+        return self._get_model_path() / "eval"
+
+    def get_latest_sb3_model_path(self) -> Path:
+        return self._get_model_path() / "latest.zip"
+
+    def get_model_log_path(self, use_simple_log: bool) -> Path:
+        log_path = self._get_model_path() / "log"
+
+        if use_simple_log:
+            return log_path / "simple"
+        else:
+            return log_path
+
+    def _get_model_path(self) -> Path:
         pass
 
     def get_trajectory_path(self) -> Path:
+        pass
+
+    def _get_model_dependent_path(self, raw_dir: str) -> str:
         pass
 
 
@@ -21,23 +38,7 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         self._env_identifier = env_identifier
         self._training_param = training_param
 
-    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
-        if use_best_model:
-            return self._get_best_sb3_model_path()
-        else:
-            return self._get_latest_sb3_model_path()
-
-    def _get_best_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
-        model_name_sb3 = "eval/best_model.zip"
-        return Path("{0}/{1}".format(model_path, model_name_sb3))
-
-    def _get_latest_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
-        model_name_sb3 = "latest.zip"
-        return Path("{0}/{1}".format(model_path, model_name_sb3))
-
-    def get_model_path(self) -> Path:
+    def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
@@ -47,12 +48,13 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         return Path(path)
 
     def _get_model_dependent_path(self, raw_dir: str) -> str:
-        return "{0}/{1}{2}{3:07}".format(
-            raw_dir,
+        filename = "{0}{1}{2:07}".format(
             self._env_identifier,
             "_",
             self._training_param.n_steps_expert_train,
         )
+
+        return "{0}/{1}".format(raw_dir, filename)
 
 
 class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
@@ -72,30 +74,14 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         else:
             return "distant"
 
-    def get_sb3_model_path(self, use_best_model: bool = True) -> Path:
-        if use_best_model:
-            return self._get_best_sb3_model_path()
-        else:
-            return self._get_latest_sb3_model_path()
-
-    def _get_best_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
-        model_name_sb3 = "eval/best_model.zip"
-        return Path("{0}/{1}".format(model_path, model_name_sb3))
-
-    def _get_latest_sb3_model_path(self) -> Path:
-        model_path = self.get_model_path()
-        model_name_sb3 = "latest.zip"
-        return Path("{0}/{1}".format(model_path, model_name_sb3))
-
-    def get_model_path(self) -> Path:
+    def _get_model_path(self) -> Path:
         return Path(self._get_model_dependent_path(self._training_param.model_dir))
 
     def get_trajectory_path(self) -> Path:
-        return Path(self._get_model_dependent_path(self._training_param.demo_dir))
+        path = self._get_model_dependent_path(self._training_param.demo_dir)
+        Util.mkdir_if_not_existent([path])
 
-    def get_rewardplot_path(self) -> Path:
-        return self._get_model_independent_path(self._training_param.rewardplot_dir)
+        return Path(path)
 
     def _get_model_dependent_path(self, raw_dir: str) -> str:
         n_demos = self._training_param.pwil_training_param["n_demos"]
@@ -121,6 +107,9 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         Util.mkdir_if_not_existent([curr_model_dir])
 
         return curr_model_dir
+
+    def get_rewardplot_path(self) -> Path:
+        return self._get_model_independent_path(self._training_param.rewardplot_dir)
 
     def _get_model_independent_path(self, raw_dir: str) -> Path:
         n_demos = self._training_param.pwil_training_param["n_demos"]
