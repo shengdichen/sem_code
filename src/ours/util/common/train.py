@@ -3,7 +3,9 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
+from src.ours.util.common.pathprovider import (
+    SaveLoadPathGeneratorBase,
+)
 from src.ours.util.pwil.sb3.util import CallbackListFactory
 
 
@@ -12,6 +14,7 @@ class Trainer:
         self,
         model: BaseAlgorithm,
         training_param: CommonParam,
+        path_generator: SaveLoadPathGeneratorBase,
         env_raw_testing_and_identifier: tuple[Env, str] = None,
     ):
         self._model = model
@@ -21,7 +24,7 @@ class Trainer:
         if env_raw_testing_and_identifier is not None:
             self._callback_list = CallbackListFactory(
                 env_raw_testing,
-                ExpertSaveLoadPathGenerator(env_identifier, self._training_param),
+                path_generator,
             ).callback_list
         else:
             self._callback_list = [TqdmCallback()]
