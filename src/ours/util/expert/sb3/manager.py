@@ -64,24 +64,3 @@ class Sb3Manager(Sb3ManagerBase):
             training_param,
             ExpertSaveLoadPathGenerator(self._env_identifier, training_param),
         )
-
-    def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
-        sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
-        if sb3_loader.exists():
-            return sb3_loader.load(self._env)
-        else:
-            return algorithm
-
-    @property
-    def model(self) -> BaseAlgorithm:
-        return self._model
-
-    def train(self) -> None:
-        trainer = Sb3Trainer(
-            self._model, self._training_param, (self._env_eval, self._env_identifier)
-        )
-        trainer.train()
-
-    def save(self) -> None:
-        saver = Sb3Saver(self._model, self._latest_sb3_model_path)
-        saver.save()
