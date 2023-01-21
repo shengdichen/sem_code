@@ -18,12 +18,13 @@ class Sb3PwilManager(Sb3ManagerBase):
 
         super().__init__(
             env_pwil_and_identifier,
-            training_param,
             PwilSaveLoadPathGenerator(self._env_identifier, training_param),
             AlgorithPwilFactory(
                 (self._env, self._env_identifier), training_param
             ).get_algorithm(),
         )
+
+        self._training_param = training_param
 
     def train(self) -> None:
         trainer = Sb3PwilTrainer(

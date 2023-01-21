@@ -15,7 +15,6 @@ class Sb3ManagerBase:
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
-        training_param: CommonParam,
         path_generator: SaveLoadPathGeneratorBase,
         algorithm: BaseAlgorithm,
     ):
@@ -23,8 +22,6 @@ class Sb3ManagerBase:
         self._best_sb3_model_path = path_generator.get_best_sb3_model_path()
         self._latest_sb3_model_path = path_generator.get_latest_sb3_model_path()
         self._model = self._get_model(algorithm)
-
-        self._training_param = training_param
 
     def _get_model(self, algorithm: BaseAlgorithm) -> BaseAlgorithm:
         sb3_loader = Sb3Loader(algorithm, self._best_sb3_model_path)
@@ -55,12 +52,13 @@ class Sb3Manager(Sb3ManagerBase):
 
         super().__init__(
             envs_and_identifier,
-            training_param,
             ExpertSaveLoadPathGenerator(self._env_identifier, training_param),
             AlgorithmFactory(
                 (self._env, self._env_identifier), training_param
             ).get_algorithm(),
         )
+
+        self._training_param = training_param
 
     def train(self) -> None:
         trainer = Sb3Trainer(
