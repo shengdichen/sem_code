@@ -75,24 +75,3 @@ class TrajectoryManager(TrajectoryManagerBase):
             ExpertSaveLoadPathGenerator(env_identifier, training_param),
             trajectory_generator_config,
         )
-
-    def save(self) -> None:
-        trajectory = self._trajectory_generator.get_trajectories()
-
-        TrajectorySaveLoad(self._trajectory_path).save(trajectory)
-
-    def load(self) -> np.ndarray:
-        return TrajectorySaveLoad(self._trajectory_path).load()
-
-    def save_stats(self) -> None:
-        with open(self._stats_path, "w") as f:
-            f.write(TrajectoryStats(self.load()).get_stats())
-
-    def save_plot(self) -> None:
-        figure = plt.figure(figsize=(15, 12), dpi=200)
-
-        TrajectoryPlot(self.load(), figure).plot_agent_target_action()
-
-        figure.savefig(self._plot_path)
-
-        plt.close()
