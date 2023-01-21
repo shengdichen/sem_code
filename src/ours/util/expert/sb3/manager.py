@@ -64,8 +64,7 @@ class Sb3Manager(Sb3ManagerBase):
 
         self._training_param = training_param
 
-    def train(self) -> None:
-        trainer = Sb3Trainer(
+    def _get_trainer(self) -> Sb3Trainer:
+        return Sb3Trainer(
             self._model, self._training_param, (self._env_eval, self._env_identifier)
         )
-        trainer.train()

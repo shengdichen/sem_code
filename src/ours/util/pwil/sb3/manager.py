@@ -26,12 +26,10 @@ class Sb3PwilManager(Sb3ManagerBase):
 
         self._training_param = training_param
 
-    def train(self) -> None:
-        trainer = Sb3PwilTrainer(
+    def _get_trainer(self) -> Sb3PwilTrainer:
+        return Sb3PwilTrainer(
             self._model, self._training_param, (self._env_eval, self._env_identifier)
         )
-
-        trainer.train()
 
     def test(self) -> None:
         PolicyTester.test_policy(self._model)
