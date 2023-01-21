@@ -15,6 +15,8 @@ class Sb3Trainer(Trainer):
         training_param: CommonParam,
         env_raw_testing_and_identifier: tuple[Env, str] = None,
     ):
+        super().__init__(model, training_param, env_raw_testing_and_identifier)
+
         self._model = model
         self._training_param = training_param
         env_raw_testing, env_identifier = env_raw_testing_and_identifier
