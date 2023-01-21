@@ -24,7 +24,7 @@ class TrajectoryManagerBase:
         env_and_identifier: tuple[Env, str],
         model_and_training_param: tuple[Any, CommonParam],
         path_generator: SaveLoadPathGeneratorBase,
-        trajectory_generator_config=TrajectoryGeneratorConfig(),
+        trajectory_generator_config: TrajectoryGeneratorConfig,
     ):
         env, env_identifier = env_and_identifier
         model, training_param = model_and_training_param
