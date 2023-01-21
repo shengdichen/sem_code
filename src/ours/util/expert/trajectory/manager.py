@@ -59,25 +59,22 @@ class TrajectoryManagerBase:
         plt.close()
 
 
-class TrajectoryManager:
+class TrajectoryManager(TrajectoryManagerBase):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
         model_and_training_param: tuple[Any, CommonParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
-        env, env_identifier = env_and_identifier
-        model, training_param = model_and_training_param
-        self._trajectory_generator = TrajectoryGenerator(
-            (env, model), trajectory_generator_config
-        )
+        __, env_identifier = env_and_identifier
+        __, training_param = model_and_training_param
 
-        path_saveload = ExpertSaveLoadPathGenerator(
-            env_identifier, training_param
-        ).get_trajectory_path()
-        self._trajectory_path = path_saveload / "trajectory.npy"
-        self._stats_path = path_saveload / "stats"
-        self._plot_path = path_saveload / "plot.png"
+        super().__init__(
+            env_and_identifier,
+            model_and_training_param,
+            ExpertSaveLoadPathGenerator(env_identifier, training_param),
+            trajectory_generator_config,
+        )
 
     def save(self) -> None:
         trajectory = self._trajectory_generator.get_trajectories()
