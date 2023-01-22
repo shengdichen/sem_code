@@ -17,28 +17,24 @@ from src.ours.util.pwil.manager import (
 
 
 class PointEnvPwilManagerFactory:
-    def __init__(
-        self,
-        demonstration: list[np.ndarray],
-        training_param: PwilParam = PwilParam(),
-    ):
-        self._training_param = training_param
+    def __init__(self):
+        pass
 
+    @staticmethod
+    def _get_pwil_manager(
+        demonstration: list[np.ndarray], training_param: PwilParam
+    ) -> PwilManager:
         env_config = PointEnvConfigFactory().env_configs[0]
-        self._env_raw, self._env_eval = (
+        env_raw, env_eval = (
             PointEnvFactory(env_config).create(),
             PointEnvFactory(env_config).create(),
         )
-        self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
+        env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
 
-        self._demonstration = demonstration
-
-    @property
-    def pwil_manager(self) -> PwilManager:
         return PwilManagerFactory(
-            self._training_param,
-            ((self._env_raw, self._env_eval), self._env_identifier),
-            self._demonstration,
+            training_param,
+            ((env_raw, env_eval), env_identifier),
+            demonstration,
         ).pwil_manager
 
 
