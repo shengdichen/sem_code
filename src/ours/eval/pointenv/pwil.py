@@ -210,9 +210,9 @@ class PointEnvPwilManagerBase:
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvPwilManager:
+class PointEnvPwilManager(PointEnvPwilManagerBase):
     def __init__(self):
-        self._managers = PointEnvPwilManagerFactory().get_pwil_managers()
+        super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
 
     def save_rewardplots(self) -> None:
         for manager in self._managers:
