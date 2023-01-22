@@ -19,9 +19,9 @@ class Trainer:
     ):
         self._model = model
         self._training_param = training_param
-        env_raw_testing, env_identifier = env_raw_testing_and_identifier
-
         if env_raw_testing_and_identifier is not None:
+            env_raw_testing, env_identifier = env_raw_testing_and_identifier
+
             self._callback_list = CallbackListFactory(
                 env_raw_testing,
                 path_generator,
