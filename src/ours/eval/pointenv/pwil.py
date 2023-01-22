@@ -164,8 +164,8 @@ class PointEnvPwilParams:
 
 
 class PointEnvPwilManagerBase:
-    def __init__(self):
-        self._managers = PointEnvPwilManagerFactory().get_pwil_managers()
+    def __init__(self, managers: list[PwilManager]):
+        self._managers = managers
 
     def save_rewardplots(self) -> None:
         for manager in self._managers:
