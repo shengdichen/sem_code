@@ -119,18 +119,18 @@ class PointEnvTrajectoryPool:
     def __init__(self):
         self._trajectories = PointEnvExpertDefault().load_trajectories()
 
-        demonstration_0 = self._make_selected_trajectories([0])
+        demonstration_0 = self._convert_selected_trajectories([0])
 
         (demonstration_01, demonstration_02, demonstration_012) = (
-            self._make_selected_trajectories([0, 1]),
-            self._make_selected_trajectories([0, 2]),
-            self._make_all_tractories(),
+            self._convert_selected_trajectories([0, 1]),
+            self._convert_selected_trajectories([0, 2]),
+            self._convert_all_tractories(),
         )
 
         demonstration_1, demonstration_2, demonstration_12 = (
-            self._make_selected_trajectories([1]),
-            self._make_selected_trajectories([2]),
-            self._make_selected_trajectories([1, 2]),
+            self._convert_selected_trajectories([1]),
+            self._convert_selected_trajectories([2]),
+            self._convert_selected_trajectories([1, 2]),
         )
 
         self._demonstrations = (
@@ -143,7 +143,7 @@ class PointEnvTrajectoryPool:
             demonstration_12,
         )
 
-    def _make_selected_trajectories(
+    def _convert_selected_trajectories(
         self,
         selected_indexes: list[int],
     ) -> list[np.ndarray]:
@@ -153,7 +153,7 @@ class PointEnvTrajectoryPool:
 
         return demonstration
 
-    def _make_all_tractories(self) -> list[np.ndarray]:
+    def _convert_all_tractories(self) -> list[np.ndarray]:
         demonstration = []
         for trajectory in self._trajectories:
             demonstration.extend(trajectory)
