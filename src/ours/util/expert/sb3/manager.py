@@ -52,13 +52,13 @@ class Sb3Manager(Sb3ManagerBase):
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
         training_param: CommonParam,
     ):
-        (self._env, __), self._env_identifier = envs_and_identifier
+        (env, __), env_identifier = envs_and_identifier
 
         super().__init__(
             envs_and_identifier,
-            ExpertSaveLoadPathGenerator(self._env_identifier, training_param),
+            ExpertSaveLoadPathGenerator(env_identifier, training_param),
             AlgorithmFactory(
-                (self._env, self._env_identifier), training_param
+                (env, env_identifier), training_param
             ).get_algorithm(),
         )
 
