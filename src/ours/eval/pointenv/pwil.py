@@ -113,17 +113,36 @@ class PointEnvPwilParams:
         self._n_demos_pool = [1, 5, 10]
         self._subsampling_pool = [1, 2, 5, 10, 20]
 
-    def _get_configs(self, demo_id_pool: list[int]) -> list[PwilParam]:
+    def get_params(self) -> list[PwilParam]:
+        return self._get_params([0, 1, 2, 3, 4, 5, 6])
+
+    def get_optimal_params(self) -> list[PwilParam]:
+        return self._get_params([0])
+
+    def get_mixed_params(self) -> list[PwilParam]:
+        return self._get_params([1, 2, 3])
+
+    def get_distant_params(self) -> list[PwilParam]:
+        return self._get_params([4, 5, 6])
+
+    def get_best_params(self) -> list[PwilParam]:
+        demo_id = 0
+        n_demos = 1
+        subsampling_pool = 1
+
+        return [self._convert_to_param((demo_id, n_demos, subsampling_pool))]
+
+    def _get_params(self, demo_id_pool: list[int]) -> list[PwilParam]:
         configs = []
         for demo_id in demo_id_pool:
             for n_demos in self._n_demos_pool:
                 for subsampling in self._subsampling_pool:
                     configs.append(
-                        self._get_pwil_param((demo_id, n_demos, subsampling))
+                        self._convert_to_param((demo_id, n_demos, subsampling))
                     )
         return configs
 
-    def _get_pwil_param(self, config: tuple[int, int, int]) -> PwilParam:
+    def _convert_to_param(self, config: tuple[int, int, int]) -> PwilParam:
         demo_id, n_demos, subsampling = config
 
         pwil_param = PwilParam()
@@ -132,25 +151,6 @@ class PointEnvPwilParams:
         pwil_param.pwil_training_param["subsampling"] = subsampling
 
         return pwil_param
-
-    def get_params(self) -> list[PwilParam]:
-        return self._get_configs([0, 1, 2, 3, 4, 5, 6])
-
-    def get_optimal_params(self) -> list[PwilParam]:
-        return self._get_configs([0])
-
-    def get_mixed_params(self) -> list[PwilParam]:
-        return self._get_configs([1, 2, 3])
-
-    def get_distant_params(self) -> list[PwilParam]:
-        return self._get_configs([4, 5, 6])
-
-    def get_best_params(self) -> list[PwilParam]:
-        demo_id = 0
-        n_demos = 1
-        subsampling_pool = 1
-
-        return [self._get_pwil_param((demo_id, n_demos, subsampling_pool))]
 
 
 class PointEnvPwilManager:
