@@ -117,9 +117,7 @@ class PointEnvPwilManagerFactory:
 
 class PointEnvTrajectoryPool:
     def __init__(self):
-        pointenv_expert_default = PointEnvExpertDefault()
-
-        self._trajectories = pointenv_expert_default.load_trajectories()
+        self._trajectories = PointEnvExpertDefault().load_trajectories()
 
         demonstration_0 = self._make_selected_trajectories([0])
 
