@@ -201,13 +201,7 @@ class PointEnvPwilManagerBase:
             manager.test_model()
 
     def run_models(self) -> None:
-        model = self._managers[0].load_model()
-
-        class ActionProviderModel(ActionProvider):
-            def get_action(self, obs: np.ndarray, **kwargs):
-                return model.predict(obs)[0]
-
-        PointEnvRunner().run_episodes(ActionProviderModel())
+        pass
 
 
 class PointEnvPwilManager(PointEnvPwilManagerBase):
