@@ -162,6 +162,9 @@ class PointEnvTrajectoryPool:
 
         return demonstration
 
+    def get_demonstration(self, demonstration_id: int) -> list[np.ndarray]:
+        return self._demonstrations[demonstration_id]
+
 
 class PointEnvPwilConfig:
     def __init__(self):
