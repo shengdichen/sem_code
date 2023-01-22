@@ -19,7 +19,7 @@ from src.ours.util.pwil.manager import (
 class PointEnvPwilManagerFactory:
     def __init__(
         self,
-        demonstration_and_id: tuple[list[np.ndarray], int],
+        demonstration: list[np.ndarray],
         training_param: PwilParam = PwilParam(),
     ):
         self._training_param = training_param
@@ -31,8 +31,7 @@ class PointEnvPwilManagerFactory:
         )
         self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
-        self._demonstration, demonstration_id = demonstration_and_id
-        self._training_param.trajectory_num = demonstration_id
+        self._demonstration = demonstration
 
     @property
     def pwil_manager(self) -> PwilManager:
@@ -167,8 +166,7 @@ class PointEnvPwilManager:
                     (
                         self._demonstrations_pool.get_demonstration(
                             pwil_param.trajectory_num
-                        ),
-                        pwil_param.trajectory_num,
+                        )
                     ),
                     pwil_param,
                 ).pwil_manager
