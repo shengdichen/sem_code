@@ -121,18 +121,18 @@ class PointEnvTrajectoryPool:
 
         self._trajectories = pointenv_expert_default.load_trajectories()
 
-        trajectory_0 = self.make_selected_trajectories([0])
+        trajectory_0 = self._make_selected_trajectories([0])
 
         (trajectory_01, trajectory_02, trajectory_012) = (
-            self.make_selected_trajectories([0, 1]),
-            self.make_selected_trajectories([0, 2]),
-            self.make_all_tractories(),
+            self._make_selected_trajectories([0, 1]),
+            self._make_selected_trajectories([0, 2]),
+            self._make_all_tractories(),
         )
 
         trajectory_1, trajectory_2, trajectory_12 = (
-            self.make_selected_trajectories([1]),
-            self.make_selected_trajectories([2]),
-            self.make_selected_trajectories([1, 2]),
+            self._make_selected_trajectories([1]),
+            self._make_selected_trajectories([2]),
+            self._make_selected_trajectories([1, 2]),
         )
 
         self._formated_trajectories = (
@@ -145,7 +145,7 @@ class PointEnvTrajectoryPool:
             trajectory_12,
         )
 
-    def make_selected_trajectories(
+    def _make_selected_trajectories(
         self,
         selected_indexes: list[int],
     ) -> list[np.ndarray]:
@@ -155,7 +155,7 @@ class PointEnvTrajectoryPool:
 
         return selected_trajectories
 
-    def make_all_tractories(self) -> list[np.ndarray]:
+    def _make_all_tractories(self) -> list[np.ndarray]:
         selected_trajectories = []
         for trajectory in self._trajectories:
             selected_trajectories.extend(trajectory)
