@@ -21,7 +21,7 @@ class PointEnvPwilManagerFactory:
         self._training_param = training_param
 
         env_config = PointEnvConfigFactory().env_configs[0]
-        self._env_raw, self._env_raw_testing = (
+        self._env_raw, self._env_eval = (
             PointEnvFactory(env_config).create(),
             PointEnvFactory(env_config).create(),
         )
@@ -34,7 +34,7 @@ class PointEnvPwilManagerFactory:
     def pwil_manager(self) -> PwilManager:
         return PwilManagerFactory(
             self._training_param,
-            ((self._env_raw, self._env_raw_testing), self._env_identifier),
+            ((self._env_raw, self._env_eval), self._env_identifier),
             self._demos_selected,
         ).pwil_manager
 

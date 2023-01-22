@@ -11,10 +11,10 @@ from src.upstream.utils import CustomCallback
 class CallbackListFactory:
     def __init__(
         self,
-        env_raw_testing: Env,
+        env_eval: Env,
         saveload_path_generator: SaveLoadPathGeneratorBase,
     ):
-        self._env_raw_testing = env_raw_testing
+        self._env_eval = env_eval
 
         self._log_path = str(saveload_path_generator.get_model_log_path(True))
         self._eval_path = str(saveload_path_generator.get_model_eval_path())
@@ -38,7 +38,7 @@ class CallbackListFactory:
 
     def _make_eval_callback(self) -> EvalCallback:
         eval_callback = EvalCallback(
-            self._env_raw_testing,
+            self._env_eval,
             best_model_save_path=self._eval_path,
             log_path=self._eval_path,
             eval_freq=10000,

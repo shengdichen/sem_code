@@ -65,7 +65,7 @@ class PwilManagerFactory:
     ):
         (
             env_raw,
-            env_raw_testing,
+            env_eval,
         ), env_identifier = envs_and_identifier
 
         env_pwil_rewarded = PwilEnvFactory(
@@ -76,7 +76,7 @@ class PwilManagerFactory:
             training_param, (env_pwil_rewarded, env_identifier)
         )
         self._sb3_pwil_manager = Sb3PwilManager(
-            ((env_pwil_rewarded, env_raw_testing), env_identifier),
+            ((env_pwil_rewarded, env_eval), env_identifier),
             training_param,
         )
         if PwilManagerFactoryConfig.use_raw_env_for_trajectory:

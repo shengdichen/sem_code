@@ -15,13 +15,13 @@ class Trainer:
         model: BaseAlgorithm,
         training_param: CommonParam,
         path_generator: SaveLoadPathGeneratorBase,
-        env_raw_testing: Env,
+        env_eval: Env,
     ):
         self._model = model
         self._training_param = training_param
-        if env_raw_testing is not None:
+        if env_eval is not None:
             self._callback_list = CallbackListFactory(
-                env_raw_testing,
+                env_eval,
                 path_generator,
             ).callback_list
         else:
