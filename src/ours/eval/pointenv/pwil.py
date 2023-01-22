@@ -156,10 +156,13 @@ class PointEnvPwilManager:
                 )
             )
 
-            manager_factory = PointEnvPwilManagerFactory(
-                (self._demonstrations_pool.get_demonstration(demo_id), demo_id)
-            ).set_pwil_training_param(n_demos=n_demos, subsampling=subsampling)
-            self._managers.append(manager_factory.pwil_manager)
+            self._managers.append(
+                PointEnvPwilManagerFactory(
+                    (self._demonstrations_pool.get_demonstration(demo_id), demo_id)
+                )
+                .set_pwil_training_param(n_demos=n_demos, subsampling=subsampling)
+                .pwil_manager
+            )
 
     def save_rewardplots(self) -> None:
         for manager in self._managers:
