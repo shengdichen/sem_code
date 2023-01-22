@@ -41,22 +41,6 @@ class PointEnvPwilManagerFactory:
             self._demonstration,
         ).pwil_manager
 
-    def set_pwil_training_param(
-        self, n_demos: int = None, subsampling: int = None, use_actions: bool = None
-    ) -> "PointEnvPwilManagerFactory":
-        pwil_training_param = self._training_param.pwil_training_param
-
-        if n_demos is not None:
-            pwil_training_param["n_demos"] = n_demos
-
-        if subsampling is not None:
-            pwil_training_param["subsampling"] = subsampling
-
-        if use_actions is not None:
-            pwil_training_param["use_actions"] = use_actions
-
-        return self
-
 
 class PointEnvDemonstrations:
     def __init__(self):
