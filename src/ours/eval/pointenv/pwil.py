@@ -145,13 +145,12 @@ class PointEnvPwilConfig:
     def get_distant_configs(self) -> list[PwilParam]:
         return self._get_configs([4, 5, 6])
 
-    @staticmethod
-    def get_best_config() -> list[tuple[int, int, int]]:
+    def get_best_config(self) -> list[PwilParam]:
         demo_id = 0
         n_demos = 1
         subsampling_pool = 1
 
-        return [(demo_id, n_demos, subsampling_pool)]
+        return [self._get_pwil_param((demo_id, n_demos, subsampling_pool))]
 
 
 class PointEnvPwilManager:
