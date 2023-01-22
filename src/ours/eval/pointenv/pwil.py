@@ -31,15 +31,15 @@ class PointEnvPwilManagerFactory:
         )
         self._env_identifier = PointEnvIdentifierGenerator().from_env(self._env_raw)
 
-        self._demos_selected, self._demonstration_id = demonstration_and_id
-        self._training_param.trajectory_num = self._demonstration_id
+        self._demonstration, demonstration_id = demonstration_and_id
+        self._training_param.trajectory_num = demonstration_id
 
     @property
     def pwil_manager(self) -> PwilManager:
         return PwilManagerFactory(
             self._training_param,
             ((self._env_raw, self._env_eval), self._env_identifier),
-            self._demos_selected,
+            self._demonstration,
         ).pwil_manager
 
     def set_pwil_training_param(
