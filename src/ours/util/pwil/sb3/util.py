@@ -16,7 +16,7 @@ class CallbackListFactory:
     ):
         self._env_raw_testing = env_raw_testing
 
-        self._log_path = saveload_path_generator.get_model_log_path(True)
+        self._log_path = str(saveload_path_generator.get_model_log_path(True))
         self._eval_path = str(saveload_path_generator.get_model_eval_path())
 
         self._callback_list = self._make_callback_list()
