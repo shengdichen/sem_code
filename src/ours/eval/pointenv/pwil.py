@@ -78,9 +78,9 @@ class PointEnvPwilManagerFactoryBase:
         pass
 
 
-class PointEnvPwilManagerFactory:
+class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
     def __init__(self):
-        self._trajectories = PointEnvExpertDefault().load_trajectories()
+        super().__init__(PointEnvExpertDefault().load_trajectories())
 
         demonstration_0 = self._convert_selected_trajectories([0])
 
