@@ -77,48 +77,6 @@ class PointEnvPwilManagerFactory:
         ).pwil_manager
 
 
-class PointEnvDemonstrations:
-    def __init__(self):
-        self._trajectories = PointEnvExpertDefault().load_trajectories()
-
-        demonstration_0 = self._convert_selected_trajectories([0])
-
-        (demonstration_01, demonstration_02, demonstration_012) = (
-            self._convert_selected_trajectories([0, 1]),
-            self._convert_selected_trajectories([0, 2]),
-            self._convert_selected_trajectories([0, 1, 2]),
-        )
-
-        demonstration_1, demonstration_2, demonstration_12 = (
-            self._convert_selected_trajectories([1]),
-            self._convert_selected_trajectories([2]),
-            self._convert_selected_trajectories([1, 2]),
-        )
-
-        self._demonstrations = (
-            demonstration_0,
-            demonstration_01,
-            demonstration_02,
-            demonstration_012,
-            demonstration_1,
-            demonstration_2,
-            demonstration_12,
-        )
-
-    def _convert_selected_trajectories(
-        self,
-        selected_indexes: list[int],
-    ) -> list[np.ndarray]:
-        demonstration = []
-        for index in selected_indexes:
-            demonstration.extend(self._trajectories[index])
-
-        return demonstration
-
-    def get_demonstration(self, demonstration_id: int) -> list[np.ndarray]:
-        return self._demonstrations[demonstration_id]
-
-
 class PointEnvPwilParams:
     def __init__(self):
         self._n_demos_pool = [1, 5, 10]
