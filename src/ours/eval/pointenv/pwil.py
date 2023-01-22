@@ -54,6 +54,14 @@ class PointEnvPwilManagerFactory:
 
         return demonstration
 
+    def get_pwil_managers(self) -> list[PwilManager]:
+        managers = []
+        for pwil_param in PointEnvPwilParams().get_params():
+            pwil_param.print_pwil_related_info()
+            managers.append(self._get_pwil_manager(pwil_param))
+
+        return managers
+
     def _get_pwil_manager(self, training_param: PwilParam) -> PwilManager:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
