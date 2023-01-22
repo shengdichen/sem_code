@@ -168,11 +168,6 @@ class PointEnvPwilManager:
             )
             self._managers.append(manager_factory.pwil_manager)
 
-    def train_and_save_models(self) -> None:
-        for manager in self._managers:
-            manager.train_model()
-            manager.save_model()
-
     def save_rewardplots(self) -> None:
         for manager in self._managers:
             manager.save_reward_plot()
@@ -184,6 +179,11 @@ class PointEnvPwilManager:
             plots.append(manager.get_reward_plot())
 
         torchvision.utils.save_image(plots, normalize=True, nrow=6)
+
+    def train_and_save_models(self) -> None:
+        for manager in self._managers:
+            manager.train_model()
+            manager.save_model()
 
     def save_trajectories_and_stats_and_plot(self):
         self.save_trajectories()
