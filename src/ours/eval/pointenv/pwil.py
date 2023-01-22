@@ -149,13 +149,13 @@ class PointEnvPwilManager:
 
         for demo_id, n_demos, subsampling in PointEnvPwilConfig().get_configs():
             print(
-                " dem: ",
-                demo_id,
-                " n_demos: ",
-                n_demos,
-                "subsampling: ",
-                subsampling,
+                "(demo_id, n_demos, subsampling) := ({0}, {1}, {2})".format(
+                    demo_id,
+                    n_demos,
+                    subsampling,
+                )
             )
+
             manager_factory = PointEnvPwilManagerFactory(
                 (self._demonstrations_pool.get_demonstration(demo_id), demo_id)
             ).set_pwil_training_param(n_demos=n_demos, subsampling=subsampling)
