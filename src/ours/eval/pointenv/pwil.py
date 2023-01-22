@@ -47,7 +47,7 @@ class PointEnvDemonstrations:
         (demonstration_01, demonstration_02, demonstration_012) = (
             self._convert_selected_trajectories([0, 1]),
             self._convert_selected_trajectories([0, 2]),
-            self._convert_all_trajectories(),
+            self._convert_selected_trajectories([0, 1, 2]),
         )
 
         demonstration_1, demonstration_2, demonstration_12 = (
@@ -73,13 +73,6 @@ class PointEnvDemonstrations:
         demonstration = []
         for index in selected_indexes:
             demonstration.extend(self._trajectories[index])
-
-        return demonstration
-
-    def _convert_all_trajectories(self) -> list[np.ndarray]:
-        demonstration = []
-        for trajectory in self._trajectories:
-            demonstration.extend(trajectory)
 
         return demonstration
 
