@@ -13,11 +13,11 @@ class Sb3Trainer(Trainer):
         training_param: CommonParam,
         env_raw_testing_and_identifier: tuple[Env, str] = None,
     ):
-        __, env_identifier = env_raw_testing_and_identifier
+        env_raw_testing, env_identifier = env_raw_testing_and_identifier
 
         super().__init__(
             model,
             training_param,
             ExpertSaveLoadPathGenerator(env_identifier, training_param),
-            env_raw_testing_and_identifier,
+            env_raw_testing,
         )

@@ -15,13 +15,11 @@ class Trainer:
         model: BaseAlgorithm,
         training_param: CommonParam,
         path_generator: SaveLoadPathGeneratorBase,
-        env_raw_testing_and_identifier: tuple[Env, str] = None,
+        env_raw_testing: Env = None,
     ):
         self._model = model
         self._training_param = training_param
-        if env_raw_testing_and_identifier is not None:
-            env_raw_testing, env_identifier = env_raw_testing_and_identifier
-
+        if env_raw_testing is not None:
             self._callback_list = CallbackListFactory(
                 env_raw_testing,
                 path_generator,
