@@ -14,13 +14,13 @@ class Sb3PwilManager(Sb3ManagerBase):
         envs_and_identifier: tuple[tuple[Env, Env], str],
         training_param: PwilParam,
     ):
-        (env, __), env_identifier = envs_and_identifier
+        (env_pwil_rewarded, __), env_identifier = envs_and_identifier
 
         super().__init__(
             envs_and_identifier,
             PwilSaveLoadPathGenerator(env_identifier, training_param),
             AlgorithPwilFactory(
-                (env, env_identifier), training_param
+                (env_pwil_rewarded, env_identifier), training_param
             ).get_algorithm(),
         )
 
