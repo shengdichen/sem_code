@@ -17,8 +17,8 @@ from src.ours.util.pwil.manager import (
 
 
 class PointEnvPwilManagerFactoryBase:
-    def __init__(self):
-        self._trajectories = PointEnvExpertDefault().load_trajectories()
+    def __init__(self, trajectories: list[np.ndarray]):
+        self._trajectories = trajectories
 
         demonstration_0 = self._convert_selected_trajectories([0])
 
