@@ -142,7 +142,8 @@ class PointEnvPwilParams:
                     )
         return configs
 
-    def _convert_to_param(self, config: tuple[int, int, int]) -> PwilParam:
+    @staticmethod
+    def _convert_to_param(config: tuple[int, int, int]) -> PwilParam:
         demo_id, n_demos, subsampling = config
 
         pwil_param = PwilParam()
