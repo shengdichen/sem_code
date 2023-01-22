@@ -16,12 +16,11 @@ class TrajectoryManager(TrajectoryManagerBase):
         model_and_training_param: tuple[BaseAlgorithm, PwilParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
-        __, env_identifier = env_and_identifier
-        __, training_param = model_and_training_param
+        env, env_identifier = env_and_identifier
+        model, training_param = model_and_training_param
 
         super().__init__(
-            env_and_identifier,
-            model_and_training_param,
+            (env, model),
             PwilSaveLoadPathGenerator(env_identifier, training_param),
             trajectory_generator_config,
         )
