@@ -108,7 +108,7 @@ class PointEnvDemonstrations:
         return self._demonstrations[demonstration_id]
 
 
-class PointEnvPwilConfig:
+class PointEnvPwilParams:
     def __init__(self):
         self._n_demos_pool = [1, 5, 10]
         self._subsampling_pool = [1, 2, 5, 10, 20]
@@ -133,19 +133,19 @@ class PointEnvPwilConfig:
 
         return pwil_param
 
-    def get_configs(self) -> list[PwilParam]:
+    def get_params(self) -> list[PwilParam]:
         return self._get_configs([0, 1, 2, 3, 4, 5, 6])
 
-    def get_optimal_configs(self) -> list[PwilParam]:
+    def get_optimal_params(self) -> list[PwilParam]:
         return self._get_configs([0])
 
-    def get_mixed_configs(self) -> list[PwilParam]:
+    def get_mixed_params(self) -> list[PwilParam]:
         return self._get_configs([1, 2, 3])
 
-    def get_distant_configs(self) -> list[PwilParam]:
+    def get_distant_params(self) -> list[PwilParam]:
         return self._get_configs([4, 5, 6])
 
-    def get_best_config(self) -> list[PwilParam]:
+    def get_best_params(self) -> list[PwilParam]:
         demo_id = 0
         n_demos = 1
         subsampling_pool = 1
@@ -158,7 +158,7 @@ class PointEnvPwilManager:
         self._managers = []
         self._demonstrations_pool = PointEnvDemonstrations()
 
-        for demo_id, n_demos, subsampling in PointEnvPwilConfig().get_configs():
+        for demo_id, n_demos, subsampling in PointEnvPwilParams().get_params():
             print(
                 "(demo_id, n_demos, subsampling) := ({0}, {1}, {2})".format(
                     demo_id,
