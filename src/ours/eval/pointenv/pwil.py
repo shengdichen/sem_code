@@ -5,9 +5,14 @@ from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
+    PointEnvContFactory,
+    PointEnvContIdentifierGenerator,
 )
-from src.ours.env.env import MovePointBase, MovePoint
-from src.ours.eval.pointenv.expert import PointEnvExpertDefault
+from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
+from src.ours.eval.pointenv.expert import (
+    PointEnvExpertDefault,
+    PointEnvContExpertDefault,
+)
 from src.ours.eval.pointenv.run.run import PointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.common.param import PwilParam
@@ -91,6 +96,23 @@ class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
             PointEnvFactory(env_config).create(),
         )
         env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
+
+        return (env_raw, env_eval), env_identifier
+
+
+class PointEnvContPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+    def __init__(self):
+        super().__init__(PointEnvContExpertDefault().load_trajectories())
+
+    def _get_envs_and_identifier(
+        self,
+    ) -> tuple[tuple[MovePointCont, MovePointCont], str]:
+        env_config = PointEnvConfigFactory().env_configs[0]
+        env_raw, env_eval = (
+            PointEnvContFactory(env_config).create(),
+            PointEnvContFactory(env_config).create(),
+        )
+        env_identifier = PointEnvContIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
