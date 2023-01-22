@@ -13,7 +13,7 @@ from src.ours.eval.pointenv.expert import (
     PointEnvExpertDefault,
     PointEnvContExpertDefault,
 )
-from src.ours.eval.pointenv.run.run import PointEnvRunner
+from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.common.param import PwilParam
 from src.ours.util.pwil.manager import (
@@ -216,6 +216,20 @@ class PointEnvPwilManager(PointEnvPwilManagerBase):
                 return model.predict(obs)[0]
 
         PointEnvRunner().run_episodes(ActionProviderModel())
+
+
+class PointEnvContPwilManager(PointEnvPwilManagerBase):
+    def __init__(self):
+        super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
+
+    def run_models(self) -> None:
+        model = self._managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvContRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():
