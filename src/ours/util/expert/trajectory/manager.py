@@ -1,8 +1,7 @@
-from typing import Any
-
 import numpy as np
 from gym import Env
 from matplotlib import pyplot as plt
+from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import (
@@ -22,7 +21,7 @@ class TrajectoryManagerBase:
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
-        model_and_training_param: tuple[Any, CommonParam],
+        model_and_training_param: tuple[BaseAlgorithm, CommonParam],
         path_generator: SaveLoadPathGeneratorBase,
         trajectory_generator_config: TrajectoryGeneratorConfig,
     ):
@@ -70,7 +69,7 @@ class TrajectoryManager(TrajectoryManagerBase):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
-        model_and_training_param: tuple[Any, CommonParam],
+        model_and_training_param: tuple[BaseAlgorithm, CommonParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
         __, env_identifier = env_and_identifier
