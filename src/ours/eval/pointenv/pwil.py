@@ -121,46 +121,46 @@ class PointEnvTrajectoryPool:
 
         self._trajectories = pointenv_expert_default.load_trajectories()
 
-        trajectory_0 = self._make_selected_trajectories([0])
+        demonstration_0 = self._make_selected_trajectories([0])
 
-        (trajectory_01, trajectory_02, trajectory_012) = (
+        (demonstration_01, demonstration_02, demonstration_012) = (
             self._make_selected_trajectories([0, 1]),
             self._make_selected_trajectories([0, 2]),
             self._make_all_tractories(),
         )
 
-        trajectory_1, trajectory_2, trajectory_12 = (
+        demonstration_1, demonstration_2, demonstration_12 = (
             self._make_selected_trajectories([1]),
             self._make_selected_trajectories([2]),
             self._make_selected_trajectories([1, 2]),
         )
 
-        self._formated_trajectories = (
-            trajectory_0,
-            trajectory_01,
-            trajectory_02,
-            trajectory_012,
-            trajectory_1,
-            trajectory_2,
-            trajectory_12,
+        self._demonstrations = (
+            demonstration_0,
+            demonstration_01,
+            demonstration_02,
+            demonstration_012,
+            demonstration_1,
+            demonstration_2,
+            demonstration_12,
         )
 
     def _make_selected_trajectories(
         self,
         selected_indexes: list[int],
     ) -> list[np.ndarray]:
-        selected_trajectories = []
+        demonstration = []
         for index in selected_indexes:
-            selected_trajectories.extend(self._trajectories[index])
+            demonstration.extend(self._trajectories[index])
 
-        return selected_trajectories
+        return demonstration
 
     def _make_all_tractories(self) -> list[np.ndarray]:
-        selected_trajectories = []
+        demonstration = []
         for trajectory in self._trajectories:
-            selected_trajectories.extend(trajectory)
+            demonstration.extend(trajectory)
 
-        return selected_trajectories
+        return demonstration
 
 
 class PointEnvPwilConfig:
