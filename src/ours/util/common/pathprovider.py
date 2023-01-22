@@ -112,6 +112,11 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         return self._get_model_independent_path(self._training_param.rewardplot_dir)
 
     def _get_model_independent_path(self, raw_dir: str) -> Path:
+        curr_dir = "{0}/{1}/{2}".format(
+            raw_dir, self._env_identifier, self._trajectory_num_category
+        )
+        Util.mkdir_if_not_existent([curr_dir])
+
         n_demos = self._training_param.pwil_training_param["n_demos"]
         subsampling = self._training_param.pwil_training_param["subsampling"]
 
@@ -121,8 +126,4 @@ class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
             subsampling,
         )
 
-        return Path(
-            "{0}/{1}/{2}/{3}".format(
-                raw_dir, self._env_identifier, self._trajectory_num_category, filename
-            )
-        )
+        return Path("{0}/{1}".format(curr_dir, filename))
