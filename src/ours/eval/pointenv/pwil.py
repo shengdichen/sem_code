@@ -82,62 +82,6 @@ class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
     def __init__(self):
         super().__init__(PointEnvExpertDefault().load_trajectories())
 
-        demonstration_0 = self._convert_selected_trajectories([0])
-
-        (demonstration_01, demonstration_02, demonstration_012) = (
-            self._convert_selected_trajectories([0, 1]),
-            self._convert_selected_trajectories([0, 2]),
-            self._convert_selected_trajectories([0, 1, 2]),
-        )
-
-        demonstration_1, demonstration_2, demonstration_12 = (
-            self._convert_selected_trajectories([1]),
-            self._convert_selected_trajectories([2]),
-            self._convert_selected_trajectories([1, 2]),
-        )
-
-        self._demonstrations = (
-            demonstration_0,
-            demonstration_01,
-            demonstration_02,
-            demonstration_012,
-            demonstration_1,
-            demonstration_2,
-            demonstration_12,
-        )
-
-    def _convert_selected_trajectories(
-        self,
-        selected_indexes: list[int],
-    ) -> list[np.ndarray]:
-        demonstration = []
-        for index in selected_indexes:
-            demonstration.extend(self._trajectories[index])
-
-        return demonstration
-
-    def get_pwil_managers(self) -> list[PwilManager]:
-        managers = []
-        for pwil_param in PointEnvPwilParams().get_params():
-            pwil_param.print_pwil_related_info()
-            managers.append(self._get_pwil_manager(pwil_param))
-
-        return managers
-
-    def _get_pwil_manager(self, training_param: PwilParam) -> PwilManager:
-        env_config = PointEnvConfigFactory().env_configs[0]
-        env_raw, env_eval = (
-            PointEnvFactory(env_config).create(),
-            PointEnvFactory(env_config).create(),
-        )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
-
-        return PwilManagerFactory(
-            training_param,
-            ((env_raw, env_eval), env_identifier),
-            self._demonstrations[training_param.trajectory_num],
-        ).pwil_manager
-
     def _get_envs_and_identifier(
         self,
     ) -> tuple[tuple[MovePoint, MovePoint], str]:
