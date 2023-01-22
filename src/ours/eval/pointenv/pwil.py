@@ -159,21 +159,19 @@ class PointEnvPwilManager:
         self._managers = []
         self._demonstrations_pool = PointEnvDemonstrations()
 
-        for demo_id, n_demos, subsampling in PointEnvPwilParams().get_params():
-            print(
-                "(demo_id, n_demos, subsampling) := ({0}, {1}, {2})".format(
-                    demo_id,
-                    n_demos,
-                    subsampling,
-                )
-            )
+        for pwil_param in PointEnvPwilParams().get_params():
+            pwil_param.print_pwil_related_info()
 
             self._managers.append(
                 PointEnvPwilManagerFactory(
-                    (self._demonstrations_pool.get_demonstration(demo_id), demo_id)
-                )
-                .set_pwil_training_param(n_demos=n_demos, subsampling=subsampling)
-                .pwil_manager
+                    (
+                        self._demonstrations_pool.get_demonstration(
+                            pwil_param.trajectory_num
+                        ),
+                        pwil_param.trajectory_num,
+                    ),
+                    pwil_param,
+                ).pwil_manager
             )
 
     def save_rewardplots(self) -> None:
