@@ -124,7 +124,7 @@ class PointEnvTrajectoryPool:
         (demonstration_01, demonstration_02, demonstration_012) = (
             self._convert_selected_trajectories([0, 1]),
             self._convert_selected_trajectories([0, 2]),
-            self._convert_all_tractories(),
+            self._convert_all_trajectories(),
         )
 
         demonstration_1, demonstration_2, demonstration_12 = (
@@ -153,7 +153,7 @@ class PointEnvTrajectoryPool:
 
         return demonstration
 
-    def _convert_all_tractories(self) -> list[np.ndarray]:
+    def _convert_all_trajectories(self) -> list[np.ndarray]:
         demonstration = []
         for trajectory in self._trajectories:
             demonstration.extend(trajectory)
