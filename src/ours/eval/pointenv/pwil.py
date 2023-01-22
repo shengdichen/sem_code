@@ -113,24 +113,36 @@ class PointEnvPwilConfig:
         self._n_demos_pool = [1, 5, 10]
         self._subsampling_pool = [1, 2, 5, 10, 20]
 
-    def _get_configs(self, demo_id_pool: list[int]) -> list[tuple[int, int, int]]:
+    def _get_configs(self, demo_id_pool: list[int]) -> list[PwilParam]:
         configs = []
         for demo_id in demo_id_pool:
             for n_demos in self._n_demos_pool:
                 for subsampling in self._subsampling_pool:
-                    configs.append((demo_id, n_demos, subsampling))
+                    configs.append(
+                        self._get_pwil_param((demo_id, n_demos, subsampling))
+                    )
         return configs
 
-    def get_configs(self) -> list[tuple[int, int, int]]:
+    def _get_pwil_param(self, config: tuple[int, int, int]) -> PwilParam:
+        demo_id, n_demos, subsampling = config
+
+        pwil_param = PwilParam()
+        pwil_param.trajectory_num = demo_id
+        pwil_param.pwil_training_param["n_demos"] = n_demos
+        pwil_param.pwil_training_param["subsampling"] = subsampling
+
+        return pwil_param
+
+    def get_configs(self) -> list[PwilParam]:
         return self._get_configs([0, 1, 2, 3, 4, 5, 6])
 
-    def get_optimal_configs(self) -> list[tuple[int, int, int]]:
+    def get_optimal_configs(self) -> list[PwilParam]:
         return self._get_configs([0])
 
-    def get_mixed_configs(self) -> list[tuple[int, int, int]]:
+    def get_mixed_configs(self) -> list[PwilParam]:
         return self._get_configs([1, 2, 3])
 
-    def get_distant_configs(self) -> list[tuple[int, int, int]]:
+    def get_distant_configs(self) -> list[PwilParam]:
         return self._get_configs([4, 5, 6])
 
     @staticmethod
