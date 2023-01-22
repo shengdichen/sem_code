@@ -11,7 +11,7 @@ class Sb3Trainer(Trainer):
         self,
         model: BaseAlgorithm,
         training_param: CommonParam,
-        env_raw_testing_and_identifier: tuple[Env, str] = None,
+        env_raw_testing_and_identifier: tuple[Env, str],
     ):
         env_raw_testing, env_identifier = env_raw_testing_and_identifier
 
