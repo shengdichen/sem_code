@@ -15,7 +15,7 @@ class Trainer:
         model: BaseAlgorithm,
         training_param: CommonParam,
         path_generator: SaveLoadPathGeneratorBase,
-        env_raw_testing: Env = None,
+        env_raw_testing: Env,
     ):
         self._model = model
         self._training_param = training_param
