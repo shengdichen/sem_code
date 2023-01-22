@@ -116,29 +116,26 @@ class PointEnvPwilManagerFactory:
 
 
 class PointEnvTrajectoryPool:
-    @staticmethod
-    def _get_all_demos():
+    def __init__(self):
         pointenv_expert_default = PointEnvExpertDefault()
 
-        trajectories = pointenv_expert_default.load_trajectories()
+        self._trajectories = pointenv_expert_default.load_trajectories()
 
-        trajectory_0 = PointEnvTrajectoryPool.make_selected_trajectories(
-            trajectories, [0]
-        )
+        trajectory_0 = self.make_selected_trajectories([0])
 
         (trajectory_01, trajectory_02, trajectory_012) = (
-            PointEnvTrajectoryPool.make_selected_trajectories(trajectories, [0, 1]),
-            PointEnvTrajectoryPool.make_selected_trajectories(trajectories, [0, 2]),
-            PointEnvTrajectoryPool.make_all_tractories(trajectories),
+            self.make_selected_trajectories([0, 1]),
+            self.make_selected_trajectories([0, 2]),
+            self.make_all_tractories(),
         )
 
         trajectory_1, trajectory_2, trajectory_12 = (
-            PointEnvTrajectoryPool.make_selected_trajectories(trajectories, [1]),
-            PointEnvTrajectoryPool.make_selected_trajectories(trajectories, [2]),
-            PointEnvTrajectoryPool.make_selected_trajectories(trajectories, [1, 2]),
+            self.make_selected_trajectories([1]),
+            self.make_selected_trajectories([2]),
+            self.make_selected_trajectories([1, 2]),
         )
 
-        return (
+        self._formated_trajectories = (
             trajectory_0,
             trajectory_01,
             trajectory_02,
@@ -148,21 +145,19 @@ class PointEnvTrajectoryPool:
             trajectory_12,
         )
 
-    @staticmethod
     def make_selected_trajectories(
-        trajectories: list[np.ndarray],
+        self,
         selected_indexes: list[int],
     ) -> list[np.ndarray]:
         selected_trajectories = []
         for index in selected_indexes:
-            selected_trajectories.extend(trajectories[index])
+            selected_trajectories.extend(self._trajectories[index])
 
         return selected_trajectories
 
-    @staticmethod
-    def make_all_tractories(trajectories: list[np.ndarray]) -> list[np.ndarray]:
+    def make_all_tractories(self) -> list[np.ndarray]:
         selected_trajectories = []
-        for trajectory in trajectories:
+        for trajectory in self._trajectories:
             selected_trajectories.extend(trajectory)
 
         return selected_trajectories
