@@ -57,10 +57,9 @@ class PointEnvPwilManagerFactory:
     def get_demonstration(self, demonstration_id: int) -> list[np.ndarray]:
         return self._demonstrations[demonstration_id]
 
-    @staticmethod
-    def _get_pwil_manager(
-        demonstration: list[np.ndarray], training_param: PwilParam
-    ) -> PwilManager:
+    def _get_pwil_manager(self, training_param: PwilParam) -> PwilManager:
+        demonstration = self.get_demonstration(training_param.trajectory_num)
+
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
             PointEnvFactory(env_config).create(),
