@@ -5,9 +5,15 @@ from src.ours.env.creation import (
     PointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
+    PointEnvContFactory,
+    PointEnvContIdentifierGenerator,
 )
-from src.ours.eval.pointenv.expert import PointEnvExpertDefault
-from src.ours.eval.pointenv.run.run import PointEnvRunner
+from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
+from src.ours.eval.pointenv.expert import (
+    PointEnvExpertDefault,
+    PointEnvContExpertDefault,
+)
+from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.common.param import PwilParam
 from src.ours.util.pwil.manager import (
@@ -16,9 +22,9 @@ from src.ours.util.pwil.manager import (
 )
 
 
-class PointEnvPwilManagerFactory:
-    def __init__(self):
-        self._trajectories = PointEnvExpertDefault().load_trajectories()
+class PointEnvPwilManagerFactoryBase:
+    def __init__(self, trajectories: list[np.ndarray]):
+        self._trajectories = trajectories
 
         demonstration_0 = self._convert_selected_trajectories([0])
 
@@ -63,6 +69,27 @@ class PointEnvPwilManagerFactory:
         return managers
 
     def _get_pwil_manager(self, training_param: PwilParam) -> PwilManager:
+        (env_raw, env_eval), env_identifier = self._get_envs_and_identifier()
+
+        return PwilManagerFactory(
+            training_param,
+            ((env_raw, env_eval), env_identifier),
+            self._demonstrations[training_param.trajectory_num],
+        ).pwil_manager
+
+    def _get_envs_and_identifier(
+        self,
+    ) -> tuple[tuple[MovePointBase, MovePointBase], str]:
+        pass
+
+
+class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+    def __init__(self):
+        super().__init__(PointEnvExpertDefault().load_trajectories())
+
+    def _get_envs_and_identifier(
+        self,
+    ) -> tuple[tuple[MovePoint, MovePoint], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
             PointEnvFactory(env_config).create(),
@@ -70,11 +97,24 @@ class PointEnvPwilManagerFactory:
         )
         env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
 
-        return PwilManagerFactory(
-            training_param,
-            ((env_raw, env_eval), env_identifier),
-            self._demonstrations[training_param.trajectory_num],
-        ).pwil_manager
+        return (env_raw, env_eval), env_identifier
+
+
+class PointEnvContPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+    def __init__(self):
+        super().__init__(PointEnvContExpertDefault().load_trajectories())
+
+    def _get_envs_and_identifier(
+        self,
+    ) -> tuple[tuple[MovePointCont, MovePointCont], str]:
+        env_config = PointEnvConfigFactory().env_configs[0]
+        env_raw, env_eval = (
+            PointEnvContFactory(env_config).create(),
+            PointEnvContFactory(env_config).create(),
+        )
+        env_identifier = PointEnvContIdentifierGenerator().from_env(env_raw)
+
+        return (env_raw, env_eval), env_identifier
 
 
 class PointEnvPwilParams:
@@ -123,9 +163,9 @@ class PointEnvPwilParams:
         return pwil_param
 
 
-class PointEnvPwilManager:
-    def __init__(self):
-        self._managers = PointEnvPwilManagerFactory().get_pwil_managers()
+class PointEnvPwilManagerBase:
+    def __init__(self, managers: list[PwilManager]):
+        self._managers = managers
 
     def save_rewardplots(self) -> None:
         for manager in self._managers:
@@ -161,6 +201,14 @@ class PointEnvPwilManager:
             manager.test_model()
 
     def run_models(self) -> None:
+        pass
+
+
+class PointEnvPwilManager(PointEnvPwilManagerBase):
+    def __init__(self):
+        super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
+
+    def run_models(self) -> None:
         model = self._managers[0].load_model()
 
         class ActionProviderModel(ActionProvider):
@@ -168,6 +216,20 @@ class PointEnvPwilManager:
                 return model.predict(obs)[0]
 
         PointEnvRunner().run_episodes(ActionProviderModel())
+
+
+class PointEnvContPwilManager(PointEnvPwilManagerBase):
+    def __init__(self):
+        super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
+
+    def run_models(self) -> None:
+        model = self._managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvContRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():
