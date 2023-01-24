@@ -37,7 +37,7 @@ class TrajectoryInfo:
 
     @property
     def done(self) -> np.ndarray:
-        return self._trajectory[:, 6]
+        return self._trajectory[:, -1]
 
     def _get_num_episodes(self) -> int:
         return int(np.sum(self.done))
