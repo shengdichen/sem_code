@@ -72,18 +72,18 @@ class TrajectoryStats:
         stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
 
         stats += "Number of steps: {0}\n".format(self._info.n_steps)
-        stats += "Reward (global): {0}\n".format(AvgStdUtil(self._info.reward))
-        stats += "Reward (global): {0}\n".format(MinMaxUtil(self._info.reward))
+        stats += "Reward (per step): {0}\n".format(AvgStdUtil(self._info.reward))
+        stats += "Reward (per step): {0}\n".format(MinMaxUtil(self._info.reward))
         stats += "\n"
 
         stats += "Number of episodes: {0}\n".format(self._info.n_episodes)
-        stats += "Reward (episode): {0}\n".format(
+        stats += "Reward (per episode): {0}\n".format(
             AvgStdUtil(self._info.rewards_per_episode)
         )
-        stats += "Reward (episode): {0}\n".format(
+        stats += "Reward (per episode): {0}\n".format(
             MinMaxUtil(self._info.rewards_per_episode)
         )
-        stats += "Length (episode): {0}\n".format(
+        stats += "Length (per episode): {0}\n".format(
             AvgStdUtil(self._info.lengths_per_episode)
         )
 
