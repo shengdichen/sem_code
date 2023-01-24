@@ -230,7 +230,7 @@ class PWILRewarder(object):
         if action is None:
             agent_atom = obs
         else:
-            if not isinstance(action, int):
+            if not isinstance(action, np.ndarray):
                 action = np.array([action])
             agent_atom = np.concatenate([obs, action])
 
