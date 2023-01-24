@@ -58,6 +58,13 @@ class TrajectoryManagerBase:
 
         plt.close()
 
+    def show_plot(self) -> None:
+        TrajectoryPlot(
+            self.load(), plt.figure(figsize=(15, 12), dpi=200)
+        ).plot_agent_target_action()
+
+        plt.show()
+
 
 class TrajectoryManager(TrajectoryManagerBase):
     def __init__(
