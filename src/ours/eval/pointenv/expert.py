@@ -181,8 +181,8 @@ class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
 
 
 def client_code():
-    trainer = PointEnvExpertDefault()
-    trainer.train_and_save_models()
+    trainer = PointEnvContExpertDefault()
+    trainer.run_models()
 
 
 if __name__ == "__main__":
