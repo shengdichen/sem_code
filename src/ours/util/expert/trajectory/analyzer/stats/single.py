@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class TrajectoryStats:
+class TrajectoryInfo:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
@@ -39,24 +39,35 @@ class TrajectoryStats:
     def done(self) -> np.ndarray:
         return self._trajectory[:, 6]
 
+    def _get_num_episodes(self) -> int:
+        return int(np.sum(self.done))
+
+
+class TrajectoryStats:
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
+
+        self._info = TrajectoryInfo(trajectory)
+
     def get_stats(self) -> str:
         stats = ""
         stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
 
-        stats += "Number of episodes: {0}\n".format(self._get_num_episodes())
+        stats += "Number of episodes: {0}\n".format(self._info.n_episodes)
 
-        stats += "Reward (global): {0}\n".format(AvgStdUtil(self.reward))
-        stats += "Reward (global): {0}\n".format(MinMaxUtil(self.reward))
+        stats += "Reward (global): {0}\n".format(AvgStdUtil(self._info.reward))
+        stats += "Reward (global): {0}\n".format(MinMaxUtil(self._info.reward))
 
-        stats += "Reward (episode): {0}\n".format(AvgStdUtil(self._rewards_per_episode))
-        stats += "Reward (episode): {0}\n".format(MinMaxUtil(self._rewards_per_episode))
+        stats += "Reward (episode): {0}\n".format(
+            AvgStdUtil(self._info.rewards_per_episode)
+        )
+        stats += "Reward (episode): {0}\n".format(
+            MinMaxUtil(self._info.rewards_per_episode)
+        )
 
         stats += "{0:*^60}\n".format(" Trajectory Statistics [END] ")
 
         return stats
-
-    def _get_num_episodes(self) -> int:
-        return int(np.sum(self.done))
 
 
 class AvgStdUtil:
