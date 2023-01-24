@@ -39,7 +39,7 @@ class TrajectoriesPlotParallel(TrajectoriesPlotBase):
 
     def _get_configured_figures(
         self,
-    ) -> list[matplotlib.figure.Figure] | list[matplotlib.figure.SubFigure]:
+    ) -> list[matplotlib.figure.SubFigure]:
         return MplUtil(len(self._trajectories)).get_horizontal_figures(self._figure)
 
 
