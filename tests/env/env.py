@@ -9,4 +9,6 @@ class TestEnv:
         self.get_runner().reset()
 
     def test_run_random(self):
-        self.get_runner().run_random()
+        from src.ours.eval.pointenv.run.actionprovider import ActionProviderRandom
+
+        self.get_runner().run_episodes(ActionProviderRandom())
