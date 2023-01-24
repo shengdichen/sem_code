@@ -13,12 +13,12 @@ class TrajectoriesPlotBase(ABC):
         self._trajectories = trajectories
 
     def show_plot(self, plot_agent_as_hist: bool = True) -> None:
-        for trajectory_plotter in self._get_trajectories_plotter():
-            trajectory_plotter.plot_agent_and_target(plot_agent_as_hist)
+        for trajectory_plot in self._get_trajectories_plot():
+            trajectory_plot.plot_agent_and_target(plot_agent_as_hist)
 
         MplUtil.show_figures()
 
-    def _get_trajectories_plotter(self) -> list[TrajectoryPlot]:
+    def _get_trajectories_plot(self) -> list[TrajectoryPlot]:
         return [
             TrajectoryPlot(trajectory, figure)
             for trajectory, figure in zip(
