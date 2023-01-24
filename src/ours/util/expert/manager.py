@@ -30,5 +30,8 @@ class ExpertManager:
     def save_trajectory_stats(self) -> None:
         self._trajectory_manager.save_stats()
 
+    def show_trajectory_stats(self) -> None:
+        self._trajectory_manager.show_stats()
+
     def save_trajectory_plot(self) -> None:
         self._trajectory_manager.save_plot()

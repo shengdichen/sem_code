@@ -46,6 +46,9 @@ class TrajectoryManagerBase:
         with open(self._stats_path, "w") as f:
             f.write(TrajectoryStats(self.load()).get_stats())
 
+    def show_stats(self) -> None:
+        print(TrajectoryStats(self.load()).get_stats())
+
     def save_plot(self) -> None:
         figure = plt.figure(figsize=(15, 12), dpi=200)
 
