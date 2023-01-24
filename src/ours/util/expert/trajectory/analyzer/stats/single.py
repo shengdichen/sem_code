@@ -1,6 +1,64 @@
 import numpy as np
 
 
+class TrajectoryInfo:
+    def __init__(self, trajectory: np.ndarray):
+        self._trajectory = trajectory
+
+        self._rewards_per_episode = self._get_rewards_per_episode()
+
+    def _get_rewards_per_episode(self) -> np.ndarray:
+        rewards_per_episode = []
+        reward_current_episode = 0
+
+        for data_current_step in self._trajectory:
+            reward_current_episode += data_current_step[-2]
+            if data_current_step[-1]:  # current episode is over at this step
+                rewards_per_episode.append(reward_current_episode)
+                reward_current_episode = 0
+
+        return np.array(rewards_per_episode)
+
+    @property
+    def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 0], self._trajectory[:, 1]
+
+    @property
+    def target_pos(self) -> tuple[np.ndarray, np.ndarray]:
+        return self._trajectory[:, 2], self._trajectory[:, 3]
+
+    @property
+    def action(self) -> np.ndarray:
+        return self._trajectory[:, 4]
+
+    @property
+    def reward(self) -> np.ndarray:
+        return self._trajectory[:, 5]
+
+    @property
+    def done(self) -> np.ndarray:
+        return self._trajectory[:, 6]
+
+    def get_stats(self) -> str:
+        stats = ""
+        stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
+
+        stats += "Number of episodes: {0}\n".format(self._get_num_episodes())
+
+        stats += "Reward (global): {0}\n".format(AvgStdUtil(self.reward))
+        stats += "Reward (global): {0}\n".format(MinMaxUtil(self.reward))
+
+        stats += "Reward (episode): {0}\n".format(AvgStdUtil(self._rewards_per_episode))
+        stats += "Reward (episode): {0}\n".format(MinMaxUtil(self._rewards_per_episode))
+
+        stats += "{0:*^60}\n".format(" Trajectory Statistics [END] ")
+
+        return stats
+
+    def _get_num_episodes(self) -> int:
+        return int(np.sum(self.done))
+
+
 class TrajectoryStats:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
