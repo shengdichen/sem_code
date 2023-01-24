@@ -5,19 +5,24 @@ class TrajectoryInfo:
     def __init__(self, trajectory: np.ndarray):
         self._trajectory = trajectory
 
-        self._rewards_per_episode = self._get_rewards_per_episode()
+        (
+            self._rewards_per_episode,
+            self._lengths_per_episode,
+        ) = self._get_rewards_and_lengths_per_episode()
 
-    def _get_rewards_per_episode(self) -> np.ndarray:
-        rewards_per_episode = []
-        reward_current_episode = 0
+    def _get_rewards_and_lengths_per_episode(self) -> tuple[np.ndarray, np.ndarray]:
+        rewards_per_episode, lengths_per_episode = [], []
+        reward_current_episode, length_current_episode = 0, 0
 
         for data_current_step in self._trajectory:
             reward_current_episode += data_current_step[-2]
+            length_current_episode += 1
             if data_current_step[-1]:  # current episode is over at this step
                 rewards_per_episode.append(reward_current_episode)
-                reward_current_episode = 0
+                lengths_per_episode.append(length_current_episode)
+                reward_current_episode, length_current_episode = 0, 0
 
-        return np.array(rewards_per_episode)
+        return np.array(rewards_per_episode), np.array(lengths_per_episode)
 
     @property
     def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
