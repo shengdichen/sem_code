@@ -1,7 +1,11 @@
 ************** Trajectory Statistics [START] ***************
-Number of episodes: -53303
-Reward (global): [<avg> +- <std>] | 1.916 +- 0.5088
-Reward (global): [<min> / <max>] | -0.0356 / 2.5
-Reward (episode): [<avg> +- <std>] | -5.33e+03 +- 62.37
-Reward (episode): [<min> / <max>] | -5.417e+03 / -5.224e+03
+Number of steps: 894
+Reward (per step): [<avg> +- <std>] | -59.62 +- 34.01
+Reward (per step): [<min> / <max>] | -120.6 / -3.162
+
+Number of episodes: 10
+Reward (per episode): [<avg> +- <std>] | -5.33e+03 +- 62.37
+Reward (per episode): [<min> / <max>] | -5.417e+03 / -5.224e+03
+Length (per episode): [<avg> +- <std>] | 89.4 +- 0.8
+Length (per episode): [<min> / <max>] | 88.0 / 91.0
 *************** Trajectory Statistics [END] ****************
