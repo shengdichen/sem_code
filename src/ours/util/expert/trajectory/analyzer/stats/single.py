@@ -39,22 +39,6 @@ class TrajectoryInfo:
     def done(self) -> np.ndarray:
         return self._trajectory[:, 6]
 
-    def get_stats(self) -> str:
-        stats = ""
-        stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
-
-        stats += "Number of episodes: {0}\n".format(self._get_num_episodes())
-
-        stats += "Reward (global): {0}\n".format(AvgStdUtil(self.reward))
-        stats += "Reward (global): {0}\n".format(MinMaxUtil(self.reward))
-
-        stats += "Reward (episode): {0}\n".format(AvgStdUtil(self._rewards_per_episode))
-        stats += "Reward (episode): {0}\n".format(MinMaxUtil(self._rewards_per_episode))
-
-        stats += "{0:*^60}\n".format(" Trajectory Statistics [END] ")
-
-        return stats
-
     def _get_num_episodes(self) -> int:
         return int(np.sum(self.done))
 
