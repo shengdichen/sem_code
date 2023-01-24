@@ -33,7 +33,7 @@ class TrajectoryInfo:
 
     @property
     def reward(self) -> np.ndarray:
-        return self._trajectory[:, 5]
+        return self._trajectory[:, -2]
 
     @property
     def done(self) -> np.ndarray:
