@@ -90,7 +90,7 @@ class PointEnvPwilManagerFactory:
         return selected_trajectories
 
     def set_pwil_training_param(
-        self, n_demos: int = None, subsampling: int = None, use_actions: bool = False
+        self, n_demos: int = None, subsampling: int = None, use_actions: bool = None
     ) -> "PointEnvPwilManagerFactory":
         pwil_training_param = self._training_param.pwil_training_param
 
@@ -117,8 +117,8 @@ class PointEnvPwilManagerFactory:
 
 class PointEnvPwilConfig:
     def __init__(self):
-        self._n_demos_pool = [1, 2, 3]
-        self._subsampling_pool = [1, 2, 3, 5, 10, 20]
+        self._n_demos_pool = [1, 5, 10]
+        self._subsampling_pool = [1, 2, 5, 10, 20]
 
     def _get_configs(self, demo_id_pool: list[int]) -> list[tuple[int, int, int]]:
         configs = []
