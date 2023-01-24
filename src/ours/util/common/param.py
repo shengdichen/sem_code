@@ -13,7 +13,7 @@ class Util:
 
 
 class CommonParam:
-    def __init__(self):
+    def __init__(self, n_steps_training: int):
         self._seed = 42
         self._propagate_seed()
 
@@ -37,7 +37,7 @@ class CommonParam:
             # "max_grad_norm":0.5
         }
 
-        self._n_steps_expert_train = int(1e6)
+        self._n_steps_training = n_steps_training
 
     @property
     def seed(self):
@@ -60,8 +60,8 @@ class CommonParam:
         return self._kwargs_ppo
 
     @property
-    def n_steps_expert_train(self):
-        return self._n_steps_expert_train
+    def n_steps_training(self):
+        return self._n_steps_training
 
     @property
     def prefix(self):
@@ -79,7 +79,7 @@ class CommonParam:
 
 class ExpertParam(CommonParam):
     def __init__(self):
-        super().__init__()
+        super().__init__(int(1e6))
 
         self._model_dir, self._demo_dir = "./expert/models/", "./expert/demos/"
         Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
@@ -87,7 +87,7 @@ class ExpertParam(CommonParam):
 
 class PwilParam(CommonParam):
     def __init__(self):
-        super().__init__()
+        super().__init__(int(5e5))
 
         self._model_dir, self._demo_dir, self._rewardplot_dir = (
             "./pwil/models/",
@@ -97,8 +97,6 @@ class PwilParam(CommonParam):
         Util.mkdir_if_not_existent(
             [self._model_dir, self._demo_dir, self._rewardplot_dir]
         )
-
-        self._n_steps_pwil_train = int(5e5)
 
         self._pwil_training_param = {
             "n_demos": 5,
@@ -111,10 +109,6 @@ class PwilParam(CommonParam):
     @property
     def rewardplot_dir(self):
         return self._rewardplot_dir
-
-    @property
-    def n_steps_pwil_train(self):
-        return self._n_steps_pwil_train
 
     @property
     def pwil_training_param(self):
