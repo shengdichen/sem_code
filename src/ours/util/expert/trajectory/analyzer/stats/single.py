@@ -41,6 +41,14 @@ class TrajectoryInfo:
         return self._trajectory[:, -2]
 
     @property
+    def rewards_per_episode(self) -> np.ndarray:
+        return self._rewards_per_episode
+
+    @property
+    def lengths_per_episode(self) -> np.ndarray:
+        return self._lengths_per_episode
+
+    @property
     def done(self) -> np.ndarray:
         return self._trajectory[:, -1]
 
