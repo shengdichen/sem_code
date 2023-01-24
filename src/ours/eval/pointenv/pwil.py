@@ -7,6 +7,8 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
 )
 from src.ours.eval.pointenv.expert import PointEnvExpertDefault
+from src.ours.eval.pointenv.run.run import PointEnvRunner
+from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.common.param import PwilParam
 from src.ours.util.pwil.manager import (
     PwilManagerFactory,
@@ -198,6 +200,15 @@ class PointEnvPwilManager:
     def test_models(self) -> None:
         for manager in self._managers:
             manager.test_model()
+
+    def run_models(self) -> None:
+        model = self._managers[0].load_model()
+
+        class ActionProviderModel(ActionProvider):
+            def get_action(self, obs: np.ndarray, **kwargs):
+                return model.predict(obs)[0]
+
+        PointEnvRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():
