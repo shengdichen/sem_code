@@ -1,11 +1,7 @@
 import numpy as np
 
 from src.ours.env.env import MovePoint, MovePointBase, MovePointCont
-from src.ours.eval.pointenv.run.actionprovider import (
-    ActionProvider,
-    ActionProviderRandom,
-    ActionProviderRandomCont,
-)
+from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 
 
 class PointEnvRunnerConfig:
@@ -53,6 +49,11 @@ class PointEnvContRunner(PointEnvRunnerBase):
 
 
 def client_code():
+    from src.ours.eval.pointenv.run.actionprovider import (
+        ActionProviderRandom,
+        ActionProviderRandomCont,
+    )
+
     runner = PointEnvRunner()
     runner.run_episodes(ActionProviderRandom())
 
