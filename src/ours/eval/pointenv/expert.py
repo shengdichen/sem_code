@@ -84,7 +84,7 @@ class ContPointNavExpertManagerFactory(PointNavExpertManagerFactory):
         )
 
 
-class PointEnvExpertDefault:
+class PointNavExpertDefault:
     def __init__(self, expert_managers: list[ExpertManager]):
         self._expert_managers = expert_managers
 
@@ -134,7 +134,7 @@ class PointEnvExpertDefault:
         DiscretePointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
+class DiscretePointNavExpertDefault(PointNavExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
@@ -158,7 +158,7 @@ class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
         DiscretePointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class ContPointEnvExpertDefault(PointEnvExpertDefault):
+class ContPointNavExpertDefault(PointNavExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
@@ -183,7 +183,7 @@ class ContPointEnvExpertDefault(PointEnvExpertDefault):
 
 
 def client_code():
-    trainer = ContPointEnvExpertDefault()
+    trainer = ContPointNavExpertDefault()
     trainer.run_models()
 
 

@@ -12,8 +12,8 @@ from src.ours.env.identifier import (
 )
 from src.ours.env.env import PointNav, DiscretePointNav, ContPointNav
 from src.ours.eval.pointenv.expert import (
-    DiscretePointEnvExpertDefault,
-    ContPointEnvExpertDefault,
+    DiscretePointNavExpertDefault,
+    ContPointNavExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
 from src.ours.eval.common.action_provider import ActionProvider
@@ -87,7 +87,7 @@ class PointEnvPwilManagerFactory:
 
 class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
-        super().__init__(DiscretePointEnvExpertDefault().load_trajectories())
+        super().__init__(DiscretePointNavExpertDefault().load_trajectories())
 
     def _get_envs_and_identifier(
         self,
@@ -104,7 +104,7 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
 
 class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
-        super().__init__(ContPointEnvExpertDefault().load_trajectories())
+        super().__init__(ContPointNavExpertDefault().load_trajectories())
 
     def _get_envs_and_identifier(
         self,
