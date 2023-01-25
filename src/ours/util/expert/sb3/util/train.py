@@ -6,7 +6,7 @@ from src.ours.util.common.pathprovider import ExpertSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 
 
-class Sb3Trainer(Trainer):
+class ExpertSb3Trainer(Trainer):
     def __init__(
         self,
         model: BaseAlgorithm,

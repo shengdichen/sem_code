@@ -9,7 +9,7 @@ from src.ours.util.common.pathprovider import (
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.model import AlgorithmFactory
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
-from src.ours.util.expert.sb3.util.train import Sb3Trainer
+from src.ours.util.expert.sb3.util.train import ExpertSb3Trainer
 
 
 class Sb3ManagerBase:
@@ -64,7 +64,7 @@ class Sb3Manager(Sb3ManagerBase):
 
         self._training_param = training_param
 
-    def _get_trainer(self) -> Sb3Trainer:
-        return Sb3Trainer(
+    def _get_trainer(self) -> ExpertSb3Trainer:
+        return ExpertSb3Trainer(
             self._model, self._training_param, (self._env_eval, self._env_identifier)
         )
