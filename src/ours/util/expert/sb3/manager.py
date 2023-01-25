@@ -3,7 +3,7 @@ import gym
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.sb3.manager import Sb3Manager
 from src.ours.util.expert.path import ExpertSaveLoadPathGenerator
-from src.ours.util.expert.sb3.util.model import ExpertAlgorithmFactory
+from src.ours.util.expert.sb3.model import ExpertAlgorithmFactory
 from src.ours.util.expert.sb3.util.train import ExpertSb3Trainer
 
 
