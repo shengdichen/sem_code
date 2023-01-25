@@ -12,7 +12,7 @@ from src.ours.env.util.space import (
     ActionConverter,
     ActionConverterCont,
 )
-from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRgb
+from src.ours.env.util.renderer import HumanPointEnvRenderer, PointEnvRendererRgb
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
@@ -73,7 +73,7 @@ class MovePointBase(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = PointEnvRendererHuman(
+            renderer = HumanPointEnvRenderer(
                 self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
@@ -83,7 +83,7 @@ class MovePointBase(Env):
         renderer.render()
 
     def close(self) -> None:
-        PointEnvRendererHuman.clean_up()
+        HumanPointEnvRenderer.clean_up()
 
 
 class MovePoint(MovePointBase):

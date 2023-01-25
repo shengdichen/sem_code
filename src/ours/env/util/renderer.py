@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -11,7 +10,7 @@ class PointEnvRenderer(ABC):
         pass
 
 
-class PointEnvRendererHuman(PointEnvRenderer):
+class HumanPointEnvRenderer(PointEnvRenderer):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
 
