@@ -72,6 +72,6 @@ class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
         super().__init__("pointenv")
 
 
-class PointEnvContIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class ContPointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
     def __init__(self):
         super().__init__("pointenv_cont")

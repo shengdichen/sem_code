@@ -6,7 +6,7 @@ from src.ours.env.creation import (
     DiscretePointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     ContPointEnvFactory,
-    PointEnvContIdentifierGenerator,
+    ContPointEnvIdentifierGenerator,
 )
 from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
 from src.ours.eval.pointenv.expert import (
@@ -112,7 +112,7 @@ class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
             ContPointEnvFactory(env_config).create(),
             ContPointEnvFactory(env_config).create(),
         )
-        env_identifier = PointEnvContIdentifierGenerator().from_env(env_raw)
+        env_identifier = ContPointEnvIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
