@@ -19,7 +19,7 @@ class PointEnvFactoryBase(EnvFactory):
         pass
 
 
-class PointEnvFactory(PointEnvFactoryBase):
+class DiscretePointEnvFactory(PointEnvFactoryBase):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 

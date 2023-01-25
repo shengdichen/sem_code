@@ -2,7 +2,7 @@ import numpy as np
 from gym import Env
 
 from src.ours.env.creation import (
-    PointEnvFactory,
+    DiscretePointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     PointEnvContFactory,
@@ -67,7 +67,7 @@ class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
         super().__init__(
             training_param,
             env_config,
-            PointEnvFactory(env_config),
+            DiscretePointEnvFactory(env_config),
             PointEnvIdentifierGenerator(),
         )
 

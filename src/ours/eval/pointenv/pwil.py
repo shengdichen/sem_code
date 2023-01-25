@@ -2,7 +2,7 @@ import numpy as np
 import torchvision
 
 from src.ours.env.creation import (
-    PointEnvFactory,
+    DiscretePointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     PointEnvContFactory,
@@ -92,8 +92,8 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     ) -> tuple[tuple[MovePoint, MovePoint], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
-            PointEnvFactory(env_config).create(),
-            PointEnvFactory(env_config).create(),
+            DiscretePointEnvFactory(env_config).create(),
+            DiscretePointEnvFactory(env_config).create(),
         )
         env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
 
