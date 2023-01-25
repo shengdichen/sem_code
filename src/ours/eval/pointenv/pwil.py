@@ -22,7 +22,7 @@ from src.ours.util.pwil.manager import (
 )
 
 
-class PointEnvPwilManagerFactoryBase:
+class PointEnvPwilManagerFactory:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
@@ -83,7 +83,7 @@ class PointEnvPwilManagerFactoryBase:
         pass
 
 
-class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
         super().__init__(DiscretePointEnvExpertDefault().load_trajectories())
 
@@ -100,7 +100,7 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
         return (env_raw, env_eval), env_identifier
 
 
-class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
         super().__init__(ContPointEnvExpertDefault().load_trajectories())
 
