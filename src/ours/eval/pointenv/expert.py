@@ -23,7 +23,7 @@ from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesSta
 from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
 
 
-class PointEnvExpertManagerFactoryBase:
+class PointEnvExpertManagerFactory:
     def __init__(
         self,
         training_param: ExpertParam,
@@ -62,7 +62,7 @@ class PointEnvExpertManagerFactoryBase:
         return (env, env_eval), env_identifier
 
 
-class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
@@ -72,7 +72,7 @@ class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
         )
 
 
-class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
