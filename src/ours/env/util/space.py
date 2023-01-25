@@ -31,7 +31,7 @@ class DiscreteSpacesGenerator(SpacesGenerator):
         return spaces.Discrete(n_legal_actions)
 
 
-class ActionConverterBase:
+class ActionConverter:
     def __init__(self, action_raw: int | np.ndarray, action_space: spaces.Space):
         assert action_space.contains(action_raw), "Invalid Action"
 
@@ -41,7 +41,7 @@ class ActionConverterBase:
         pass
 
 
-class DiscreteActionConverter(ActionConverterBase):
+class DiscreteActionConverter(ActionConverter):
     def __init__(self, action_raw: int, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
@@ -74,7 +74,7 @@ class ContSpacesGenerator(SpacesGenerator):
         )
 
 
-class ContActionConverter(ActionConverterBase):
+class ContActionConverter(ActionConverter):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
