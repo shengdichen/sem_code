@@ -17,7 +17,7 @@ from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
 from src.ours.util.expert.trajectory.analyzer.plot.multi import (
     ParallelTrajectoriesPlot,
-    TrajectoriesPlotSeparate,
+    SeparateTrajectoriesPlot,
 )
 from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
 from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
@@ -111,7 +111,7 @@ class PointEnvExpertDefaultBase:
         )
 
     def show_trajectories_plot_separate(self, plot_agent_as_hist: bool = False) -> None:
-        TrajectoriesPlotSeparate(self.load_trajectories()).show_plot(
+        SeparateTrajectoriesPlot(self.load_trajectories()).show_plot(
             plot_agent_as_hist=plot_agent_as_hist
         )
 

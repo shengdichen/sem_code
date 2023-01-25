@@ -43,7 +43,7 @@ class ParallelTrajectoriesPlot(TrajectoriesPlot):
         return MplUtil(len(self._trajectories)).get_horizontal_figures(self._figure)
 
 
-class TrajectoriesPlotSeparate(TrajectoriesPlot):
+class SeparateTrajectoriesPlot(TrajectoriesPlot):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
