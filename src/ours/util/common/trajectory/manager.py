@@ -4,13 +4,13 @@ from matplotlib import pyplot as plt
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.saveload.path import SaveLoadPathGenerator
-from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
-from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
-from src.ours.util.expert.trajectory.util.generator import (
+from src.ours.util.common.trajectory.analyzer.plot.single import TrajectoryPlot
+from src.ours.util.common.trajectory.analyzer.stats.single import TrajectoryStats
+from src.ours.util.common.trajectory.util.generator import (
     TrajectoryGeneratorConfig,
     TrajectoryGenerator,
 )
-from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
+from src.ours.util.common.trajectory.util.saveload import TrajectorySaveLoad
 
 
 class TrajectoryManager:

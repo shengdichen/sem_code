@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
+from src.ours.util.common.trajectory.analyzer.stats.single import TrajectoryStats
 
 
 class TrajectoriesStats:
