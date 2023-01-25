@@ -77,14 +77,6 @@ class CommonParam:
         random.seed(self._seed)
 
 
-class ExpertParam(CommonParam):
-    def __init__(self):
-        super().__init__(int(1e6))
-
-        self._model_dir, self._demo_dir = "./expert/models/", "./expert/demos/"
-        Util.mkdir_if_not_existent([self._model_dir, self._demo_dir])
-
-
 class PwilParam(CommonParam):
     def __init__(self):
         super().__init__(int(5e5))

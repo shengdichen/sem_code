@@ -14,7 +14,7 @@ from src.ours.env.identifier import (
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
-from src.ours.util.common.param import ExpertParam
+from src.ours.util.expert.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
 from src.ours.util.expert.trajectory.analyzer.plot.multi import (
