@@ -11,7 +11,7 @@ class EnvFactory(ABC):
         pass
 
 
-class PointEnvFactoryBase(EnvFactory):
+class PointEnvFactory(EnvFactory):
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
@@ -19,7 +19,7 @@ class PointEnvFactoryBase(EnvFactory):
         pass
 
 
-class DiscretePointEnvFactory(PointEnvFactoryBase):
+class DiscretePointEnvFactory(PointEnvFactory):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 
@@ -27,7 +27,7 @@ class DiscretePointEnvFactory(PointEnvFactoryBase):
         return MovePoint(**self._env_config)
 
 
-class ContPointEnvFactory(PointEnvFactoryBase):
+class ContPointEnvFactory(PointEnvFactory):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 

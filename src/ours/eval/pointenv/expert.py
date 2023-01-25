@@ -7,7 +7,7 @@ from src.ours.env.creation import (
     PointEnvConfigFactory,
     ContPointEnvFactory,
     PointEnvContIdentifierGenerator,
-    PointEnvFactoryBase,
+    PointEnvFactory,
     PointEnvIdentifierGeneratorBase,
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
@@ -28,7 +28,7 @@ class PointEnvExpertManagerFactory:
         self,
         training_param: ExpertParam,
         env_config: dict[str:int],
-        env_factory: PointEnvFactoryBase,
+        env_factory: PointEnvFactory,
         env_identifier_generator: PointEnvIdentifierGeneratorBase,
     ):
         self._training_param = training_param
