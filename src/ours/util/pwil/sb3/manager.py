@@ -8,7 +8,7 @@ from src.ours.util.expert.sb3.util.model import AlgorithPwilFactory
 from src.ours.util.pwil.sb3.train import PwilSb3Trainer
 
 
-class Sb3PwilManager(Sb3ManagerBase):
+class PwilSb3Manager(Sb3ManagerBase):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[Env, Env], str],
