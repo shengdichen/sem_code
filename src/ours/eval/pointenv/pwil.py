@@ -3,7 +3,7 @@ import torchvision
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    PointEnvIdentifierGenerator,
+    DiscretePointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     ContPointEnvFactory,
     PointEnvContIdentifierGenerator,
@@ -95,7 +95,7 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
             DiscretePointEnvFactory(env_config).create(),
             DiscretePointEnvFactory(env_config).create(),
         )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
+        env_identifier = DiscretePointEnvIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 

@@ -67,7 +67,7 @@ class PointEnvIdentifierGeneratorBase:
         return self.get_identifier(env.env_config)
 
 
-class PointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
     def __init__(self):
         super().__init__("pointenv")
 

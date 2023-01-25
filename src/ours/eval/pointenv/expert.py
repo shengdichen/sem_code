@@ -3,7 +3,7 @@ from gym import Env
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    PointEnvIdentifierGenerator,
+    DiscretePointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     ContPointEnvFactory,
     PointEnvContIdentifierGenerator,
@@ -68,7 +68,7 @@ class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
             training_param,
             env_config,
             DiscretePointEnvFactory(env_config),
-            PointEnvIdentifierGenerator(),
+            DiscretePointEnvIdentifierGenerator(),
         )
 
 
