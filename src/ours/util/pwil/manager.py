@@ -51,6 +51,9 @@ class PwilManager:
         self._trajectory_manager.save_stats()
         self._trajectory_manager.save_plot()
 
+    def show_trajectory_plot(self) -> None:
+        self._trajectory_manager.show_plot()
+
 
 class PwilManagerFactoryConfig:
     use_raw_env_for_trajectory: bool = True
