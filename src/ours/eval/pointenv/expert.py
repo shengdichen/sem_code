@@ -3,10 +3,10 @@ from gym import Env
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    PointEnvConfigFactory,
     ContPointEnvFactory,
     PointEnvFactory,
 )
+from src.ours.env.config import PointEnvConfigFactory
 from src.ours.env.identifier import (
     PointEnvIdentifierGenerator,
     DiscretePointEnvIdentifierGenerator,

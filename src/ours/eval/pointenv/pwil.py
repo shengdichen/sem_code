@@ -3,9 +3,9 @@ import torchvision
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    PointEnvConfigFactory,
     ContPointEnvFactory,
 )
+from src.ours.env.config import PointEnvConfigFactory
 from src.ours.env.identifier import (
     DiscretePointEnvIdentifierGenerator,
     ContPointEnvIdentifierGenerator,
