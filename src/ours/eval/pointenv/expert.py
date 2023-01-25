@@ -72,7 +72,7 @@ class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
         )
 
 
-class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
@@ -166,7 +166,7 @@ class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
         env_configs = PointEnvConfigFactory().env_configs
 
         return [
-            PointEnvContExpertManagerFactory(training_param, env_config).create()
+            ContPointEnvExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
