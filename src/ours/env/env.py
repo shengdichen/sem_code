@@ -12,7 +12,7 @@ from src.ours.env.util.space import (
     ActionConverter,
     ActionConverterCont,
 )
-from src.ours.env.util.renderer import HumanPointEnvRenderer, PointEnvRendererRgb
+from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
@@ -78,7 +78,7 @@ class MovePointBase(Env):
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = PointEnvRendererRgb(self._position_visualizer.colormat)
+            renderer = RgbPointEnvRenderer(self._position_visualizer.colormat)
 
         renderer.render()
 

@@ -45,7 +45,7 @@ class HumanPointEnvRenderer(PointEnvRenderer):
         plt.close("all")
 
 
-class PointEnvRendererRgb(PointEnvRenderer):
+class RgbPointEnvRenderer(PointEnvRenderer):
     def __init__(self, canvas: np.ndarray):
         self._canvas = canvas
 
