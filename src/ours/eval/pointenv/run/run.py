@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.ours.env.env import DiscreteMovePoint, MovePoint, ContMovePoint
-from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.common.action_provider import ActionProvider
 
 
 class PointEnvRunnerConfig:

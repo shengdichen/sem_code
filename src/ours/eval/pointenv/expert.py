@@ -12,7 +12,7 @@ from src.ours.env.identifier import (
     DiscretePointEnvIdentifierGenerator,
     ContPointEnvIdentifierGenerator,
 )
-from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.common.action_provider import ActionProvider
 from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
 from src.ours.util.expert.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager

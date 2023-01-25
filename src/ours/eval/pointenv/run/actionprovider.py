@@ -2,10 +2,7 @@ import random
 
 import numpy as np
 
-
-class ActionProvider:
-    def get_action(self, obs: np.ndarray, **kwargs) -> int | np.ndarray:
-        pass
+from src.ours.eval.common.action_provider import ActionProvider
 
 
 class ActionProviderRandom(ActionProvider):
