@@ -6,7 +6,7 @@ from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 
 
-class Sb3PwilTrainer(Trainer):
+class PwilSb3Trainer(Trainer):
     def __init__(
         self,
         model: BaseAlgorithm,
