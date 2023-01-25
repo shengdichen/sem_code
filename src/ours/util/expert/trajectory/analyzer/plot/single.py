@@ -47,9 +47,13 @@ class TrajectoryPlotAtom:
 
         action = self._info.action
         if action.shape[1] == 1:
-            bins = np.arange(6) - 0.5  # align&center hist-bins with the action-values
-            rwidth = 0.6  # add space between hist-bars
-            self._ax.hist(action, bins=bins, rwidth=rwidth)
+            self._ax.hist(
+                action,
+                bins=(
+                    np.arange(6) - 0.5
+                ),  # align&center hist-bins with the action-values
+                rwidth=0.6,  # add space between hist-bars
+            )
             self._ax.set_xticks(np.arange(5))  # show only integer-valued ticks
         elif action.shape[1] == 2:
             self._ax.hist(action)
