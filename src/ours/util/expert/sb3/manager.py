@@ -7,7 +7,7 @@ from src.ours.util.common.pathprovider import (
     SaveLoadPathGenerator,
 )
 from src.ours.util.common.train import Trainer
-from src.ours.util.expert.sb3.util.model import AlgorithmFactory
+from src.ours.util.expert.sb3.util.model import ExpertAlgorithmFactory
 from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.sb3.util.train import ExpertSb3Trainer
 
@@ -57,7 +57,7 @@ class ExpertSb3Manager(Sb3Manager):
         super().__init__(
             envs_and_identifier,
             ExpertSaveLoadPathGenerator(env_identifier, training_param),
-            AlgorithmFactory(
+            ExpertAlgorithmFactory(
                 (env, env_identifier), training_param
             ).get_algorithm(),
         )

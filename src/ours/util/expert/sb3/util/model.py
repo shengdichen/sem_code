@@ -33,7 +33,7 @@ class AlgorithmFactoryBase:
         )
 
 
-class AlgorithmFactory(AlgorithmFactoryBase):
+class ExpertAlgorithmFactory(AlgorithmFactoryBase):
     def __init__(
         self, env_and_identifier: tuple[Env, str], training_param: CommonParam
     ):
