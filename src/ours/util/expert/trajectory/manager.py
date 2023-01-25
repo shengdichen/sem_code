@@ -66,7 +66,7 @@ class TrajectoryManagerBase:
         plt.show()
 
 
-class TrajectoryManager(TrajectoryManagerBase):
+class ExpertTrajectoryManager(TrajectoryManagerBase):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],

@@ -20,7 +20,7 @@ from src.ours.util.expert.trajectory.analyzer.plot.multi import (
     TrajectoriesPlotSeparate,
 )
 from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
-from src.ours.util.expert.trajectory.manager import TrajectoryManager
+from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
 
 
 class PointEnvExpertManagerFactoryBase:
@@ -43,7 +43,7 @@ class PointEnvExpertManagerFactoryBase:
         sb3_manager = ExpertSb3Manager(
             ((env, env_eval), env_identifier), self._training_param
         )
-        trajectory_manager = TrajectoryManager(
+        trajectory_manager = ExpertTrajectoryManager(
             (env, env_identifier),
             (sb3_manager.model, self._training_param),
         )
