@@ -47,7 +47,7 @@ class ExpertAlgorithmFactory(AlgorithmFactoryBase):
         )
 
 
-class AlgorithPwilFactory(AlgorithmFactoryBase):
+class PwilAlgorithFactory(AlgorithmFactoryBase):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param

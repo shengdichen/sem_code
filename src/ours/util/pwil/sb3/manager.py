@@ -4,7 +4,7 @@ from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.test import PolicyTester
 from src.ours.util.expert.sb3.manager import Sb3Manager
-from src.ours.util.expert.sb3.util.model import AlgorithPwilFactory
+from src.ours.util.expert.sb3.util.model import PwilAlgorithFactory
 from src.ours.util.pwil.sb3.train import PwilSb3Trainer
 
 
@@ -19,7 +19,7 @@ class PwilSb3Manager(Sb3Manager):
         super().__init__(
             envs_and_identifier,
             PwilSaveLoadPathGenerator(env_identifier, training_param),
-            AlgorithPwilFactory(
+            PwilAlgorithFactory(
                 (env_pwil_rewarded, env_identifier), training_param
             ).get_algorithm(),
         )
