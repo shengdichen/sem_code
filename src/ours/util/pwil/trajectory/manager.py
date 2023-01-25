@@ -9,7 +9,7 @@ from src.ours.util.expert.trajectory.util.generator import (
 )
 
 
-class TrajectoryManagerPwil(TrajectoryManagerBase):
+class PwilTrajectoryManager(TrajectoryManagerBase):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],

@@ -3,7 +3,7 @@ from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import PwilParam
-from src.ours.util.pwil.trajectory.manager import TrajectoryManagerPwil
+from src.ours.util.pwil.trajectory.manager import PwilTrajectoryManager
 from src.ours.util.pwil.rewardplot.manager import RewardPlotManager
 from src.ours.util.pwil.sb3.manager import PwilSb3Manager
 from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
@@ -12,7 +12,7 @@ from src.ours.util.pwil.util.pwilenv import PwilEnvFactory
 class PwilManager:
     def __init__(
         self,
-        managers: tuple[RewardPlotManager, PwilSb3Manager, TrajectoryManagerPwil],
+        managers: tuple[RewardPlotManager, PwilSb3Manager, PwilTrajectoryManager],
     ):
         (
             self._reward_plot_manager,
@@ -83,12 +83,12 @@ class PwilManagerFactory:
             training_param,
         )
         if PwilManagerFactoryConfig.use_raw_env_for_trajectory:
-            self._trajectory_manager = TrajectoryManagerPwil(
+            self._trajectory_manager = PwilTrajectoryManager(
                 (env_raw, env_identifier),
                 (self._sb3_pwil_manager.model, training_param),
             )
         else:
-            self._trajectory_manager = TrajectoryManagerPwil(
+            self._trajectory_manager = PwilTrajectoryManager(
                 (env_pwil_rewarded, env_identifier),
                 (self._sb3_pwil_manager.model, training_param),
             )
