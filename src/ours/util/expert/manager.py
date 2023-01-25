@@ -1,14 +1,14 @@
 import numpy as np
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.sb3.manager import ExpertSb3Manager
 from src.ours.util.expert.trajectory.manager import TrajectoryManager
 
 
 class ExpertManager:
     def __init__(
         self,
-        managers: tuple[Sb3Manager, TrajectoryManager],
+        managers: tuple[ExpertSb3Manager, TrajectoryManager],
         env_identifier: str,
     ):
         self._sb3_manager, self._trajectory_manager = managers

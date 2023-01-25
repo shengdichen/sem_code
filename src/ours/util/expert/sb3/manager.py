@@ -46,7 +46,7 @@ class Sb3ManagerBase:
         saver.save()
 
 
-class Sb3Manager(Sb3ManagerBase):
+class ExpertSb3Manager(Sb3ManagerBase):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],

@@ -14,7 +14,7 @@ from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.sb3.manager import ExpertSb3Manager
 from src.ours.util.expert.trajectory.analyzer.plot.multi import (
     TrajectoriesPlotParallel,
     TrajectoriesPlotSeparate,
@@ -40,7 +40,7 @@ class PointEnvExpertManagerFactoryBase:
     def create(self) -> ExpertManager:
         (env, env_eval), env_identifier = self._get_envs_and_identifier()
 
-        sb3_manager = Sb3Manager(
+        sb3_manager = ExpertSb3Manager(
             ((env, env_eval), env_identifier), self._training_param
         )
         trajectory_manager = TrajectoryManager(
