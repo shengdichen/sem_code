@@ -7,8 +7,8 @@ from src.ours.util.pwil.param import PwilParam
 from src.ours.util.common.pathprovider import (
     PwilSaveLoadPathGenerator,
     ExpertSaveLoadPathGenerator,
-    SaveLoadPathGenerator,
 )
+from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 
 
 class AlgorithmFactory:
