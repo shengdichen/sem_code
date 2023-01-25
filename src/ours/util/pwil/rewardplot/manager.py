@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
-from src.ours.util.common.saveload import ImageSaveLoad
+from src.ours.util.saveload.image import ImageSaveLoad
 from src.ours.util.saveload.numpy import NumpySaveLoad
 from src.ours.util.pwil.rewardplot.rewardplotter import RewardPlotter
 
