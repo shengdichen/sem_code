@@ -9,9 +9,8 @@ from src.ours.env.component.field import Field
 from src.ours.env.util.space import (
     DiscreteSpacesGenerator,
     ContSpacesGenerator,
-    DiscreteActionConverter,
-    ContActionConverter,
 )
+from src.ours.env.util.action import DiscreteActionConverter, ContActionConverter
 from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
 
