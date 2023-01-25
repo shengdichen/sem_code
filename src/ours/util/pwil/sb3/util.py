@@ -2,9 +2,7 @@ from gym import Env
 from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 
 from src.ours.util.common.helper import TqdmCallback
-from src.ours.util.common.pathprovider import (
-    SaveLoadPathGenerator,
-)
+from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 from src.upstream.utils import CustomCallback
 
 

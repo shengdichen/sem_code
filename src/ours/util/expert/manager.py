@@ -2,7 +2,7 @@ import numpy as np
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
-from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
+from src.ours.util.expert.trajectory import ExpertTrajectoryManager
 
 
 class ExpertManager:

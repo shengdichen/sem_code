@@ -3,9 +3,11 @@ import torchvision
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    DiscretePointEnvIdentifierGenerator,
-    PointEnvConfigFactory,
     ContPointEnvFactory,
+)
+from src.ours.env.config import PointEnvConfigFactory
+from src.ours.env.identifier import (
+    DiscretePointEnvIdentifierGenerator,
     ContPointEnvIdentifierGenerator,
 )
 from src.ours.env.env import MovePoint, DiscreteMovePoint, ContMovePoint
@@ -15,7 +17,7 @@ from src.ours.eval.pointenv.expert import (
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
-from src.ours.util.common.param import PwilParam
+from src.ours.util.pwil.param import PwilParam
 from src.ours.util.pwil.manager import (
     PwilManagerFactory,
     PwilManager,

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.ours.util.common.saveload import NumpySaveLoad
+from src.ours.util.common.saveload.numpy import NumpySaveLoad
 
 
 class TrajectorySaveLoad:

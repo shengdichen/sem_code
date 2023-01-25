@@ -3,24 +3,26 @@ from gym import Env
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    DiscretePointEnvIdentifierGenerator,
-    PointEnvConfigFactory,
     ContPointEnvFactory,
-    ContPointEnvIdentifierGenerator,
     PointEnvFactory,
+)
+from src.ours.env.config import PointEnvConfigFactory
+from src.ours.env.identifier import (
     PointEnvIdentifierGenerator,
+    DiscretePointEnvIdentifierGenerator,
+    ContPointEnvIdentifierGenerator,
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
-from src.ours.util.common.param import ExpertParam
+from src.ours.util.expert.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
-from src.ours.util.expert.trajectory.analyzer.plot.multi import (
+from src.ours.util.common.trajectory.analyzer.plot.multi import (
     ParallelTrajectoriesPlot,
     SeparateTrajectoriesPlot,
 )
-from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
-from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
+from src.ours.util.common.trajectory.analyzer.stats.multi import TrajectoriesStats
+from src.ours.util.expert.trajectory import ExpertTrajectoryManager
 
 
 class PointEnvExpertManagerFactory:

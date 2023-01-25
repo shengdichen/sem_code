@@ -2,7 +2,7 @@ import numpy as np
 from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.util.common.param import PwilParam
+from src.ours.util.pwil.param import PwilParam
 from src.ours.util.pwil.trajectory.manager import PwilTrajectoryManager
 from src.ours.util.pwil.rewardplot.manager import RewardPlotManager
 from src.ours.util.pwil.sb3.manager import PwilSb3Manager

@@ -3,9 +3,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import (
-    SaveLoadPathGenerator,
-)
+from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 from src.ours.util.pwil.sb3.util import CallbackListFactory
 
 
