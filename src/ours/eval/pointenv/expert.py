@@ -13,7 +13,7 @@ from src.ours.env.identifier import (
     ContPointEnvIdentifierGenerator,
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
-from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
+from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, PointEnvContRunner
 from src.ours.util.expert.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
@@ -131,7 +131,7 @@ class PointEnvExpertDefault:
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        PointEnvRunner().run_episodes(ActionProviderModel())
+        DiscretePointEnvRunner().run_episodes(ActionProviderModel())
 
 
 class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
@@ -155,7 +155,7 @@ class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        PointEnvRunner().run_episodes(ActionProviderModel())
+        DiscretePointEnvRunner().run_episodes(ActionProviderModel())
 
 
 class ContPointEnvExpertDefault(PointEnvExpertDefault):
