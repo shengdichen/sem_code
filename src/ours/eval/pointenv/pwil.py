@@ -218,7 +218,7 @@ class DiscretePointEnvPwilManager(PointEnvPwilManagerBase):
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvContPwilManager(PointEnvPwilManagerBase):
+class ContPointEnvPwilManager(PointEnvPwilManagerBase):
     def __init__(self):
         super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
 
