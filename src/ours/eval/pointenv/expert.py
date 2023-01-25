@@ -3,12 +3,14 @@ from gym import Env
 
 from src.ours.env.creation import (
     DiscretePointEnvFactory,
-    DiscretePointEnvIdentifierGenerator,
     PointEnvConfigFactory,
     ContPointEnvFactory,
-    ContPointEnvIdentifierGenerator,
     PointEnvFactory,
+)
+from src.ours.env.identifier import (
     PointEnvIdentifierGenerator,
+    DiscretePointEnvIdentifierGenerator,
+    ContPointEnvIdentifierGenerator,
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
