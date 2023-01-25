@@ -17,7 +17,7 @@ from src.ours.eval.pointenv.expert import (
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
-from src.ours.util.common.param import PwilParam
+from src.ours.util.pwil.param import PwilParam
 from src.ours.util.pwil.manager import (
     PwilManagerFactory,
     PwilManager,

@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from src.ours.util.common.param import CommonParam, PwilParam, Util
+from src.ours.util.common.param import CommonParam, Util
+from src.ours.util.pwil.param import PwilParam
 
 
 class SaveLoadPathGenerator:

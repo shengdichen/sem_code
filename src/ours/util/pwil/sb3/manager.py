@@ -1,6 +1,6 @@
 from gym import Env
 
-from src.ours.util.common.param import PwilParam
+from src.ours.util.pwil.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.test import PolicyTester
 from src.ours.util.expert.sb3.manager import Sb3Manager

@@ -1,7 +1,7 @@
 import numpy as np
 from gym import Env
 
-from src.ours.util.common.param import PwilParam
+from src.ours.util.pwil.param import PwilParam
 from src.upstream.env_utils import PWILReward
 
 

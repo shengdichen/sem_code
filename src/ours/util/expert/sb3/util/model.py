@@ -2,7 +2,8 @@ from gym import Env
 from stable_baselines3 import PPO
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.util.common.param import CommonParam, PwilParam
+from src.ours.util.common.param import CommonParam
+from src.ours.util.pwil.param import PwilParam
 from src.ours.util.common.pathprovider import (
     PwilSaveLoadPathGenerator,
     ExpertSaveLoadPathGenerator,
