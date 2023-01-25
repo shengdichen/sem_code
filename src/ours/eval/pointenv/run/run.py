@@ -9,7 +9,7 @@ class PointEnvRunnerConfig:
     n_episodes = 2
 
 
-class PointEnvRunnerBase:
+class PointEnvRunner:
     def __init__(self, env: MovePoint):
         self._env = env
 
@@ -38,12 +38,12 @@ class PointEnvRunnerBase:
                 break
 
 
-class DiscretePointEnvRunner(PointEnvRunnerBase):
+class DiscretePointEnvRunner(PointEnvRunner):
     def __init__(self):
         super().__init__(DiscreteMovePoint())
 
 
-class ContPointEnvRunner(PointEnvRunnerBase):
+class ContPointEnvRunner(PointEnvRunner):
     def __init__(self):
         super().__init__(ContMovePoint())
 
