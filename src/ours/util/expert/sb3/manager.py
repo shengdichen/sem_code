@@ -6,7 +6,7 @@ from src.ours.util.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.model import ExpertAlgorithmFactory
-from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
+from src.ours.util.common.sb3.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.sb3.util.train import ExpertSb3Trainer
 
 
