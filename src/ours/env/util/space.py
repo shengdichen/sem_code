@@ -41,7 +41,7 @@ class ActionConverterBase:
         pass
 
 
-class ActionConverter(ActionConverterBase):
+class DiscreteActionConverter(ActionConverterBase):
     def __init__(self, action_raw: int, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 

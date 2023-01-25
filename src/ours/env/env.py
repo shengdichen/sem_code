@@ -9,7 +9,7 @@ from src.ours.env.component.field import Field
 from src.ours.env.util.space import (
     DiscreteSpacesGenerator,
     ContSpacesGenerator,
-    ActionConverter,
+    DiscreteActionConverter,
     ActionConverterCont,
 )
 from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
@@ -100,7 +100,7 @@ class MovePoint(MovePointBase):
         ).get_spaces()
 
     def _get_action_converted(self, action: int) -> tuple[int, int]:
-        return ActionConverter(action, self.action_space).get_action_converted()
+        return DiscreteActionConverter(action, self.action_space).get_action_converted()
 
 
 class MovePointCont(MovePointBase):
