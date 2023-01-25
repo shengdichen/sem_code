@@ -17,7 +17,7 @@ from src.ours.util.expert.trajectory.util.generator import (
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
 
 
-class TrajectoryManagerBase:
+class TrajectoryManager:
     def __init__(
         self,
         env_and_model: tuple[Env, BaseAlgorithm],
@@ -66,7 +66,7 @@ class TrajectoryManagerBase:
         plt.show()
 
 
-class ExpertTrajectoryManager(TrajectoryManagerBase):
+class ExpertTrajectoryManager(TrajectoryManager):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
