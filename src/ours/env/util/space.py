@@ -22,7 +22,7 @@ class SpacesGeneratorBase:
         pass
 
 
-class SpacesGenerator(SpacesGeneratorBase):
+class DiscreteSpacesGenerator(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
