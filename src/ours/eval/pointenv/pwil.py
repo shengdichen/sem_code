@@ -64,7 +64,7 @@ class PointNavPwilManagerFactory:
 
     def get_pwil_managers(self) -> list[PwilManager]:
         managers = []
-        for pwil_param in PointEnvPwilParams().get_params():
+        for pwil_param in PointNavPwilParams().get_params():
             pwil_param.print_pwil_related_info()
             managers.append(self._get_pwil_manager(pwil_param))
 
@@ -119,7 +119,7 @@ class ContPointNavPwilManagerFactory(PointNavPwilManagerFactory):
         return (env_raw, env_eval), env_identifier
 
 
-class PointEnvPwilParams:
+class PointNavPwilParams:
     def __init__(self):
         self._n_demos_pool = [1, 5, 10]
         self._subsampling_pool = [1, 2, 5, 10, 20]
