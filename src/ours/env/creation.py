@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from gym import Env
 
-from src.ours.env.env import MovePointBase, DiscreteMovePoint, ContMovePoint
+from src.ours.env.env import MovePoint, DiscreteMovePoint, ContMovePoint
 
 
 class EnvFactory(ABC):
@@ -15,7 +15,7 @@ class PointEnvFactory(EnvFactory):
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
-    def create(self) -> MovePointBase:
+    def create(self) -> MovePoint:
         pass
 
 
@@ -63,7 +63,7 @@ class PointEnvIdentifierGenerator:
             + "{0:03}".format(shift_y)
         )
 
-    def from_env(self, env: MovePointBase) -> str:
+    def from_env(self, env: MovePoint) -> str:
         return self.get_identifier(env.env_config)
 
 

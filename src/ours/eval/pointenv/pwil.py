@@ -8,7 +8,7 @@ from src.ours.env.creation import (
     ContPointEnvFactory,
     ContPointEnvIdentifierGenerator,
 )
-from src.ours.env.env import MovePointBase, DiscreteMovePoint, ContMovePoint
+from src.ours.env.env import MovePoint, DiscreteMovePoint, ContMovePoint
 from src.ours.eval.pointenv.expert import (
     DiscretePointEnvExpertDefault,
     ContPointEnvExpertDefault,
@@ -79,7 +79,7 @@ class PointEnvPwilManagerFactory:
 
     def _get_envs_and_identifier(
         self,
-    ) -> tuple[tuple[MovePointBase, MovePointBase], str]:
+    ) -> tuple[tuple[MovePoint, MovePoint], str]:
         pass
 
 
