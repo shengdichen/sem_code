@@ -2,9 +2,7 @@ import gym
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
-from src.ours.util.common.pathprovider import (
-    ExpertSaveLoadPathGenerator,
-)
+from src.ours.util.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.model import ExpertAlgorithmFactory
