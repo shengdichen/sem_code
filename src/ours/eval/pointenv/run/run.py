@@ -49,7 +49,7 @@ class ContPointEnvRunner(PointEnvRunner):
 
 
 def client_code():
-    from src.ours.eval.pointenv.run.actionprovider import (
+    from src.ours.eval.pointenv.run.action_provider import (
         ActionProviderRandom,
         ActionProviderRandomCont,
     )

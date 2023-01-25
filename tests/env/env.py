@@ -9,7 +9,7 @@ class TestEnv:
         self.get_runner().reset()
 
     def test_run_random(self):
-        from src.ours.eval.pointenv.run.actionprovider import ActionProviderRandom
+        from src.ours.eval.pointenv.run.action_provider import ActionProviderRandom
 
         self.get_runner().run_episodes(ActionProviderRandom())
 
@@ -25,6 +25,6 @@ class TestContEnv:
         self.get_runner().reset()
 
     def test_run_random(self):
-        from src.ours.eval.pointenv.run.actionprovider import ActionProviderRandomCont
+        from src.ours.eval.pointenv.run.action_provider import ActionProviderRandomCont
 
         self.get_runner().run_episodes(ActionProviderRandomCont())
