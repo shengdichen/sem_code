@@ -48,7 +48,7 @@ class PointEnvConfigFactory:
         return self._env_configs
 
 
-class PointEnvIdentifierGeneratorBase:
+class PointEnvIdentifierGenerator:
     def __init__(self, prefix: str):
         self._prefix = prefix
         self._connector = "_"
@@ -67,11 +67,11 @@ class PointEnvIdentifierGeneratorBase:
         return self.get_identifier(env.env_config)
 
 
-class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv")
 
 
-class ContPointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class ContPointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv_cont")
