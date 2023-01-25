@@ -60,7 +60,7 @@ class TrajectoryPlotAtom:
             )
         elif action.shape[1] == 2:
             labels = ["dimension-1", "dimension-2"]
-            self._ax.hist(action, label=labels)
+            self._ax.hist(action, bins=20, label=labels)
             self._ax.legend()
 
     def _make_square(self) -> None:
