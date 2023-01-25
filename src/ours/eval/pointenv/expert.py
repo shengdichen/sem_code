@@ -25,7 +25,7 @@ from src.ours.util.common.trajectory.analyzer.stats.multi import TrajectoriesSta
 from src.ours.util.expert.trajectory import ExpertTrajectoryManager
 
 
-class PointEnvExpertManagerFactory:
+class PointNavExpertManagerFactory:
     def __init__(
         self,
         training_param: ExpertParam,
@@ -64,7 +64,7 @@ class PointEnvExpertManagerFactory:
         return (env, env_eval), env_identifier
 
 
-class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
+class DiscretePointNavExpertManagerFactory(PointNavExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
@@ -74,7 +74,7 @@ class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
         )
 
 
-class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
+class ContPointNavExpertManagerFactory(PointNavExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
@@ -144,7 +144,7 @@ class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
         env_configs = PointEnvConfigFactory().env_configs
 
         return [
-            DiscretePointEnvExpertManagerFactory(training_param, env_config).create()
+            DiscretePointNavExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
@@ -168,7 +168,7 @@ class ContPointEnvExpertDefault(PointEnvExpertDefault):
         env_configs = PointEnvConfigFactory().env_configs
 
         return [
-            ContPointEnvExpertManagerFactory(training_param, env_config).create()
+            ContPointNavExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
