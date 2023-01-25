@@ -163,7 +163,7 @@ class PointEnvPwilParams:
         return pwil_param
 
 
-class PointEnvPwilManagerBase:
+class PointEnvPwilManager:
     def __init__(self, managers: list[PwilManager]):
         self._managers = managers
 
@@ -204,7 +204,7 @@ class PointEnvPwilManagerBase:
         pass
 
 
-class DiscretePointEnvPwilManager(PointEnvPwilManagerBase):
+class DiscretePointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
         super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
 
@@ -218,7 +218,7 @@ class DiscretePointEnvPwilManager(PointEnvPwilManagerBase):
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class ContPointEnvPwilManager(PointEnvPwilManagerBase):
+class ContPointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
         super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
 
