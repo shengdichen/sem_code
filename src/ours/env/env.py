@@ -86,7 +86,7 @@ class MovePointBase(Env):
         HumanPointEnvRenderer.clean_up()
 
 
-class MovePoint(MovePointBase):
+class DiscreteMovePoint(MovePointBase):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,
