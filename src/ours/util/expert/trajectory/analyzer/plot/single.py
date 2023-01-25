@@ -59,7 +59,9 @@ class TrajectoryPlotAtom:
                 np.arange(action_space_size)  # show only integer-valued ticks
             )
         elif action.shape[1] == 2:
-            self._ax.hist(action)
+            labels = ["dimension-1", "dimension-2"]
+            self._ax.hist(action, label=labels)
+            self._ax.legend()
 
     def _make_square(self) -> None:
         self._ax.set_xlim(0, self._canvas_size)
