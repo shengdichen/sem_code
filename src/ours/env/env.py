@@ -7,16 +7,16 @@ from src.ours.env.component.visualizer import (
 )
 from src.ours.env.component.field import Field
 from src.ours.env.util.space import (
-    SpacesGenerator,
-    SpacesGeneratorCont,
-    ActionConverter,
-    ActionConverterCont,
+    DiscreteSpacesGenerator,
+    ContSpacesGenerator,
+    DiscreteActionConverter,
+    ContActionConverter,
 )
-from src.ours.env.util.renderer import PointEnvRendererHuman, PointEnvRendererRgb
+from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
-class MovePointBase(Env):
+class MovePoint(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__()
 
@@ -73,20 +73,20 @@ class MovePointBase(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = PointEnvRendererHuman(
+            renderer = HumanPointEnvRenderer(
                 self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = PointEnvRendererRgb(self._position_visualizer.colormat)
+            renderer = RgbPointEnvRenderer(self._position_visualizer.colormat)
 
         renderer.render()
 
     def close(self) -> None:
-        PointEnvRendererHuman.clean_up()
+        HumanPointEnvRenderer.clean_up()
 
 
-class MovePoint(MovePointBase):
+class DiscreteMovePoint(MovePoint):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,
@@ -95,15 +95,15 @@ class MovePoint(MovePointBase):
             random_spawn_agent,
         )
 
-        self.observation_space, self.action_space = SpacesGenerator(
+        self.observation_space, self.action_space = DiscreteSpacesGenerator(
             self._side_length
         ).get_spaces()
 
     def _get_action_converted(self, action: int) -> tuple[int, int]:
-        return ActionConverter(action, self.action_space).get_action_converted()
+        return DiscreteActionConverter(action, self.action_space).get_action_converted()
 
 
-class MovePointCont(MovePointBase):
+class ContMovePoint(MovePoint):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,
@@ -112,9 +112,9 @@ class MovePointCont(MovePointBase):
             random_spawn_agent,
         )
 
-        self.observation_space, self.action_space = SpacesGeneratorCont(
+        self.observation_space, self.action_space = ContSpacesGenerator(
             self._side_length
         ).get_spaces()
 
     def _get_action_converted(self, action: np.ndarray) -> tuple[int, int]:
-        return ActionConverterCont(action, self.action_space).get_action_converted()
+        return ContActionConverter(action, self.action_space).get_action_converted()

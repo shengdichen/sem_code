@@ -2,16 +2,16 @@ import numpy as np
 import torchvision
 
 from src.ours.env.creation import (
-    PointEnvFactory,
-    PointEnvIdentifierGenerator,
+    DiscretePointEnvFactory,
+    DiscretePointEnvIdentifierGenerator,
     PointEnvConfigFactory,
-    PointEnvContFactory,
-    PointEnvContIdentifierGenerator,
+    ContPointEnvFactory,
+    ContPointEnvIdentifierGenerator,
 )
-from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
+from src.ours.env.env import MovePoint, DiscreteMovePoint, ContMovePoint
 from src.ours.eval.pointenv.expert import (
-    PointEnvExpertDefault,
-    PointEnvContExpertDefault,
+    DiscretePointEnvExpertDefault,
+    ContPointEnvExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
@@ -22,7 +22,7 @@ from src.ours.util.pwil.manager import (
 )
 
 
-class PointEnvPwilManagerFactoryBase:
+class PointEnvPwilManagerFactory:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
@@ -79,40 +79,40 @@ class PointEnvPwilManagerFactoryBase:
 
     def _get_envs_and_identifier(
         self,
-    ) -> tuple[tuple[MovePointBase, MovePointBase], str]:
+    ) -> tuple[tuple[MovePoint, MovePoint], str]:
         pass
 
 
-class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
-        super().__init__(PointEnvExpertDefault().load_trajectories())
+        super().__init__(DiscretePointEnvExpertDefault().load_trajectories())
 
     def _get_envs_and_identifier(
         self,
-    ) -> tuple[tuple[MovePoint, MovePoint], str]:
+    ) -> tuple[tuple[DiscreteMovePoint, DiscreteMovePoint], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
-            PointEnvFactory(env_config).create(),
-            PointEnvFactory(env_config).create(),
+            DiscretePointEnvFactory(env_config).create(),
+            DiscretePointEnvFactory(env_config).create(),
         )
-        env_identifier = PointEnvIdentifierGenerator().from_env(env_raw)
+        env_identifier = DiscretePointEnvIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
 
-class PointEnvContPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
     def __init__(self):
-        super().__init__(PointEnvContExpertDefault().load_trajectories())
+        super().__init__(ContPointEnvExpertDefault().load_trajectories())
 
     def _get_envs_and_identifier(
         self,
-    ) -> tuple[tuple[MovePointCont, MovePointCont], str]:
+    ) -> tuple[tuple[ContMovePoint, ContMovePoint], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
-            PointEnvContFactory(env_config).create(),
-            PointEnvContFactory(env_config).create(),
+            ContPointEnvFactory(env_config).create(),
+            ContPointEnvFactory(env_config).create(),
         )
-        env_identifier = PointEnvContIdentifierGenerator().from_env(env_raw)
+        env_identifier = ContPointEnvIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
@@ -163,7 +163,7 @@ class PointEnvPwilParams:
         return pwil_param
 
 
-class PointEnvPwilManagerBase:
+class PointEnvPwilManager:
     def __init__(self, managers: list[PwilManager]):
         self._managers = managers
 
@@ -204,9 +204,9 @@ class PointEnvPwilManagerBase:
         pass
 
 
-class PointEnvPwilManager(PointEnvPwilManagerBase):
+class DiscretePointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
+        super().__init__(DiscretePointEnvPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
@@ -218,9 +218,9 @@ class PointEnvPwilManager(PointEnvPwilManagerBase):
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvContPwilManager(PointEnvPwilManagerBase):
+class ContPointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
+        super().__init__(ContPointEnvPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
@@ -233,7 +233,7 @@ class PointEnvContPwilManager(PointEnvPwilManagerBase):
 
 
 def client_code():
-    trainer = PointEnvPwilManager()
+    trainer = DiscretePointEnvPwilManager()
     trainer.test_models()
 
 

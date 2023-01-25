@@ -1,17 +1,16 @@
 from abc import ABC, abstractmethod
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
 
-class PointEnvRendererBase(ABC):
+class PointEnvRenderer(ABC):
     @abstractmethod
     def render(self) -> None:
         pass
 
 
-class PointEnvRendererHuman(PointEnvRendererBase):
+class HumanPointEnvRenderer(PointEnvRenderer):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
 
@@ -46,7 +45,7 @@ class PointEnvRendererHuman(PointEnvRendererBase):
         plt.close("all")
 
 
-class PointEnvRendererRgb(PointEnvRendererBase):
+class RgbPointEnvRenderer(PointEnvRenderer):
     def __init__(self, canvas: np.ndarray):
         self._canvas = canvas
 

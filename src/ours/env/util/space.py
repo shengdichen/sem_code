@@ -2,7 +2,7 @@ import numpy as np
 from gym import spaces
 
 
-class SpacesGeneratorBase:
+class SpacesGenerator:
     def __init__(self, side_length: int):
         self._side_length = side_length
 
@@ -22,7 +22,7 @@ class SpacesGeneratorBase:
         pass
 
 
-class SpacesGenerator(SpacesGeneratorBase):
+class DiscreteSpacesGenerator(SpacesGenerator):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
@@ -31,7 +31,7 @@ class SpacesGenerator(SpacesGeneratorBase):
         return spaces.Discrete(n_legal_actions)
 
 
-class ActionConverterBase:
+class ActionConverter:
     def __init__(self, action_raw: int | np.ndarray, action_space: spaces.Space):
         assert action_space.contains(action_raw), "Invalid Action"
 
@@ -41,7 +41,7 @@ class ActionConverterBase:
         pass
 
 
-class ActionConverter(ActionConverterBase):
+class DiscreteActionConverter(ActionConverter):
     def __init__(self, action_raw: int, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
@@ -60,7 +60,7 @@ class ActionConverter(ActionConverterBase):
         return shift
 
 
-class SpacesGeneratorCont(SpacesGeneratorBase):
+class ContSpacesGenerator(SpacesGenerator):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 
@@ -74,7 +74,7 @@ class SpacesGeneratorCont(SpacesGeneratorBase):
         )
 
 
-class ActionConverterCont(ActionConverterBase):
+class ContActionConverter(ActionConverter):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 

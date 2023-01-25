@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.ours.env.env import MovePoint
+from src.ours.env.env import DiscreteMovePoint
 
 
 class PolicyTester:
@@ -14,7 +14,7 @@ class PolicyTester:
         n_timesteps=2000,
         deterministic=True,
     ):
-        testing_env = MovePoint(2, shift_x=shift_x, shift_y=shift_y)
+        testing_env = DiscreteMovePoint(2, shift_x=shift_x, shift_y=shift_y)
 
         obs_list = []
         obs = testing_env.reset()

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from gym import Env
 
-from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
+from src.ours.env.env import MovePoint, DiscreteMovePoint, ContMovePoint
 
 
 class EnvFactory(ABC):
@@ -11,28 +11,28 @@ class EnvFactory(ABC):
         pass
 
 
-class PointEnvFactoryBase(EnvFactory):
+class PointEnvFactory(EnvFactory):
     def __init__(self, env_config: dict[str:int]):
         self._env_config = env_config
 
-    def create(self) -> MovePointBase:
+    def create(self) -> MovePoint:
         pass
 
 
-class PointEnvFactory(PointEnvFactoryBase):
+class DiscretePointEnvFactory(PointEnvFactory):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 
-    def create(self) -> MovePoint:
-        return MovePoint(**self._env_config)
+    def create(self) -> DiscreteMovePoint:
+        return DiscreteMovePoint(**self._env_config)
 
 
-class PointEnvContFactory(PointEnvFactoryBase):
+class ContPointEnvFactory(PointEnvFactory):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 
-    def create(self) -> MovePointCont:
-        return MovePointCont(**self._env_config)
+    def create(self) -> ContMovePoint:
+        return ContMovePoint(**self._env_config)
 
 
 class PointEnvConfigFactory:
@@ -48,7 +48,7 @@ class PointEnvConfigFactory:
         return self._env_configs
 
 
-class PointEnvIdentifierGeneratorBase:
+class PointEnvIdentifierGenerator:
     def __init__(self, prefix: str):
         self._prefix = prefix
         self._connector = "_"
@@ -63,15 +63,15 @@ class PointEnvIdentifierGeneratorBase:
             + "{0:03}".format(shift_y)
         )
 
-    def from_env(self, env: MovePointBase) -> str:
+    def from_env(self, env: MovePoint) -> str:
         return self.get_identifier(env.env_config)
 
 
-class PointEnvIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv")
 
 
-class PointEnvContIdentifierGenerator(PointEnvIdentifierGeneratorBase):
+class ContPointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv_cont")

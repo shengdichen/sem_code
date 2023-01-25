@@ -6,16 +6,16 @@ from src.ours.util.common.param import CommonParam, PwilParam
 from src.ours.util.common.pathprovider import (
     PwilSaveLoadPathGenerator,
     ExpertSaveLoadPathGenerator,
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 
 
-class AlgorithmFactoryBase:
+class AlgorithmFactory:
     def __init__(
         self,
         env: Env,
         training_param: CommonParam,
-        saveload_path_generator: SaveLoadPathGeneratorBase,
+        saveload_path_generator: SaveLoadPathGenerator,
     ):
         self._env = env
         self._training_param = training_param
@@ -33,7 +33,7 @@ class AlgorithmFactoryBase:
         )
 
 
-class AlgorithmFactory(AlgorithmFactoryBase):
+class ExpertAlgorithmFactory(AlgorithmFactory):
     def __init__(
         self, env_and_identifier: tuple[Env, str], training_param: CommonParam
     ):
@@ -47,7 +47,7 @@ class AlgorithmFactory(AlgorithmFactoryBase):
         )
 
 
-class AlgorithPwilFactory(AlgorithmFactoryBase):
+class PwilAlgorithFactory(AlgorithmFactory):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param

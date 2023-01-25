@@ -6,7 +6,7 @@ from src.ours.env.component.field import Field
 from src.ours.env.component.point.point import NamedPointWithIcon
 
 
-class VisualizerBase(ABC):
+class Visualizer(ABC):
     def __init__(self, field: Field):
         self._field = field
         self._colormat_shape = field.shape[0], field.shape[1], 3
@@ -16,7 +16,7 @@ class VisualizerBase(ABC):
         pass
 
 
-class PositionVisualizer(VisualizerBase):
+class PositionVisualizer(Visualizer):
     def __init__(self, field: Field):
         super().__init__(field)
 
@@ -51,7 +51,7 @@ class PositionVisualizer(VisualizerBase):
         ] = point.icon
 
 
-class TrajectoryHeatVisualizer(VisualizerBase):
+class TrajectoryHeatVisualizer(Visualizer):
     def __init__(self, field: Field):
         super().__init__(field)
 

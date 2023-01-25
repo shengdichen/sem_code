@@ -6,7 +6,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import (
     ExpertSaveLoadPathGenerator,
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
@@ -17,11 +17,11 @@ from src.ours.util.expert.trajectory.util.generator import (
 from src.ours.util.expert.trajectory.util.saveload import TrajectorySaveLoad
 
 
-class TrajectoryManagerBase:
+class TrajectoryManager:
     def __init__(
         self,
         env_and_model: tuple[Env, BaseAlgorithm],
-        path_generator: SaveLoadPathGeneratorBase,
+        path_generator: SaveLoadPathGenerator,
         trajectory_generator_config: TrajectoryGeneratorConfig,
     ):
         env, model = env_and_model
@@ -66,7 +66,7 @@ class TrajectoryManagerBase:
         plt.show()
 
 
-class TrajectoryManager(TrajectoryManagerBase):
+class ExpertTrajectoryManager(TrajectoryManager):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],

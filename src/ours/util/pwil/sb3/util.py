@@ -3,7 +3,7 @@ from stable_baselines3.common.callbacks import CallbackList, EvalCallback
 
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.pathprovider import (
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 from src.upstream.utils import CustomCallback
 
@@ -12,7 +12,7 @@ class CallbackListFactory:
     def __init__(
         self,
         env_eval: Env,
-        saveload_path_generator: SaveLoadPathGeneratorBase,
+        saveload_path_generator: SaveLoadPathGenerator,
     ):
         self._env_eval = env_eval
 

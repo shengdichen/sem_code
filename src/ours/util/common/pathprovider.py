@@ -3,7 +3,7 @@ from pathlib import Path
 from src.ours.util.common.param import CommonParam, PwilParam, Util
 
 
-class SaveLoadPathGeneratorBase:
+class SaveLoadPathGenerator:
     def get_best_sb3_model_path(self) -> Path:
         return self.get_model_eval_path() / "best_model.zip"
 
@@ -31,7 +31,7 @@ class SaveLoadPathGeneratorBase:
         pass
 
 
-class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
+class ExpertSaveLoadPathGenerator(SaveLoadPathGenerator):
     def __init__(self, env_identifier: str, training_param: CommonParam):
         super().__init__()
 
@@ -57,7 +57,7 @@ class ExpertSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
         return "{0}/{1}".format(raw_dir, filename)
 
 
-class PwilSaveLoadPathGenerator(SaveLoadPathGeneratorBase):
+class PwilSaveLoadPathGenerator(SaveLoadPathGenerator):
     def __init__(self, env_identifier: str, training_param: PwilParam):
         super().__init__()
 

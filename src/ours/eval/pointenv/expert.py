@@ -2,34 +2,34 @@ import numpy as np
 from gym import Env
 
 from src.ours.env.creation import (
+    DiscretePointEnvFactory,
+    DiscretePointEnvIdentifierGenerator,
+    PointEnvConfigFactory,
+    ContPointEnvFactory,
+    ContPointEnvIdentifierGenerator,
     PointEnvFactory,
     PointEnvIdentifierGenerator,
-    PointEnvConfigFactory,
-    PointEnvContFactory,
-    PointEnvContIdentifierGenerator,
-    PointEnvFactoryBase,
-    PointEnvIdentifierGeneratorBase,
 )
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
 from src.ours.util.common.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
-from src.ours.util.expert.sb3.manager import Sb3Manager
+from src.ours.util.expert.sb3.manager import ExpertSb3Manager
 from src.ours.util.expert.trajectory.analyzer.plot.multi import (
-    TrajectoriesPlotParallel,
-    TrajectoriesPlotSeparate,
+    ParallelTrajectoriesPlot,
+    SeparateTrajectoriesPlot,
 )
 from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
-from src.ours.util.expert.trajectory.manager import TrajectoryManager
+from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
 
 
-class PointEnvExpertManagerFactoryBase:
+class PointEnvExpertManagerFactory:
     def __init__(
         self,
         training_param: ExpertParam,
         env_config: dict[str:int],
-        env_factory: PointEnvFactoryBase,
-        env_identifier_generator: PointEnvIdentifierGeneratorBase,
+        env_factory: PointEnvFactory,
+        env_identifier_generator: PointEnvIdentifierGenerator,
     ):
         self._training_param = training_param
         self._env_config = env_config
@@ -40,10 +40,10 @@ class PointEnvExpertManagerFactoryBase:
     def create(self) -> ExpertManager:
         (env, env_eval), env_identifier = self._get_envs_and_identifier()
 
-        sb3_manager = Sb3Manager(
+        sb3_manager = ExpertSb3Manager(
             ((env, env_eval), env_identifier), self._training_param
         )
-        trajectory_manager = TrajectoryManager(
+        trajectory_manager = ExpertTrajectoryManager(
             (env, env_identifier),
             (sb3_manager.model, self._training_param),
         )
@@ -62,27 +62,27 @@ class PointEnvExpertManagerFactoryBase:
         return (env, env_eval), env_identifier
 
 
-class PointEnvExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
             env_config,
-            PointEnvFactory(env_config),
-            PointEnvIdentifierGenerator(),
+            DiscretePointEnvFactory(env_config),
+            DiscretePointEnvIdentifierGenerator(),
         )
 
 
-class PointEnvContExpertManagerFactory(PointEnvExpertManagerFactoryBase):
+class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
             env_config,
-            PointEnvContFactory(env_config),
-            PointEnvContIdentifierGenerator(),
+            ContPointEnvFactory(env_config),
+            ContPointEnvIdentifierGenerator(),
         )
 
 
-class PointEnvExpertDefaultBase:
+class PointEnvExpertDefault:
     def __init__(self, expert_managers: list[ExpertManager]):
         self._expert_managers = expert_managers
 
@@ -106,12 +106,12 @@ class PointEnvExpertDefaultBase:
             expert_manager.save_trajectory_plot()
 
     def show_trajectories_plot_parallel(self, plot_agent_as_hist: bool = False) -> None:
-        TrajectoriesPlotParallel(self.load_trajectories()).show_plot(
+        ParallelTrajectoriesPlot(self.load_trajectories()).show_plot(
             plot_agent_as_hist=plot_agent_as_hist
         )
 
     def show_trajectories_plot_separate(self, plot_agent_as_hist: bool = False) -> None:
-        TrajectoriesPlotSeparate(self.load_trajectories()).show_plot(
+        SeparateTrajectoriesPlot(self.load_trajectories()).show_plot(
             plot_agent_as_hist=plot_agent_as_hist
         )
 
@@ -132,7 +132,7 @@ class PointEnvExpertDefaultBase:
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvExpertDefault(PointEnvExpertDefaultBase):
+class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
@@ -142,7 +142,7 @@ class PointEnvExpertDefault(PointEnvExpertDefaultBase):
         env_configs = PointEnvConfigFactory().env_configs
 
         return [
-            PointEnvExpertManagerFactory(training_param, env_config).create()
+            DiscretePointEnvExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
@@ -156,7 +156,7 @@ class PointEnvExpertDefault(PointEnvExpertDefaultBase):
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
+class ContPointEnvExpertDefault(PointEnvExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
@@ -166,7 +166,7 @@ class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
         env_configs = PointEnvConfigFactory().env_configs
 
         return [
-            PointEnvContExpertManagerFactory(training_param, env_config).create()
+            ContPointEnvExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
@@ -181,7 +181,7 @@ class PointEnvContExpertDefault(PointEnvExpertDefaultBase):
 
 
 def client_code():
-    trainer = PointEnvContExpertDefault()
+    trainer = ContPointEnvExpertDefault()
     trainer.run_models()
 
 
