@@ -44,7 +44,12 @@ class TrajectoryPlotAtom:
 
     def plot_action(self) -> None:
         self._ax.set_title("Model's Action")
-        self._ax.hist(self._info.action)
+
+        action = self._info.action
+        if action.shape[1] == 1:
+            self._ax.hist(action)
+        elif action.shape[1] == 2:
+            self._ax.hist(action)
 
     def _make_square(self) -> None:
         self._ax.set_xlim(0, self._canvas_size)
