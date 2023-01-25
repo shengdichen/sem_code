@@ -100,7 +100,7 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
         return (env_raw, env_eval), env_identifier
 
 
-class PointEnvContPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
     def __init__(self):
         super().__init__(ContPointEnvExpertDefault().load_trajectories())
 
@@ -220,7 +220,7 @@ class DiscretePointEnvPwilManager(PointEnvPwilManager):
 
 class ContPointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(PointEnvContPwilManagerFactory().get_pwil_managers())
+        super().__init__(ContPointEnvPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
