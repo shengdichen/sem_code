@@ -60,7 +60,7 @@ class ActionConverter(ActionConverterBase):
         return shift
 
 
-class SpacesGeneratorCont(SpacesGeneratorBase):
+class ContSpacesGenerator(SpacesGeneratorBase):
     def __init__(self, side_length: int):
         super().__init__(side_length)
 

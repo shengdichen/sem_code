@@ -8,7 +8,7 @@ from src.ours.env.component.visualizer import (
 from src.ours.env.component.field import Field
 from src.ours.env.util.space import (
     DiscreteSpacesGenerator,
-    SpacesGeneratorCont,
+    ContSpacesGenerator,
     ActionConverter,
     ActionConverterCont,
 )
@@ -112,7 +112,7 @@ class MovePointCont(MovePointBase):
             random_spawn_agent,
         )
 
-        self.observation_space, self.action_space = SpacesGeneratorCont(
+        self.observation_space, self.action_space = ContSpacesGenerator(
             self._side_length
         ).get_spaces()
 
