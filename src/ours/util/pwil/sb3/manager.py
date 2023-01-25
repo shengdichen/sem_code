@@ -3,12 +3,12 @@ from gym import Env
 from src.ours.util.common.param import PwilParam
 from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
 from src.ours.util.common.test import PolicyTester
-from src.ours.util.expert.sb3.manager import Sb3ManagerBase
+from src.ours.util.expert.sb3.manager import Sb3Manager
 from src.ours.util.expert.sb3.util.model import AlgorithPwilFactory
 from src.ours.util.pwil.sb3.train import PwilSb3Trainer
 
 
-class PwilSb3Manager(Sb3ManagerBase):
+class PwilSb3Manager(Sb3Manager):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[Env, Env], str],

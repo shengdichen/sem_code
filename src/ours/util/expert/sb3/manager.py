@@ -12,7 +12,7 @@ from src.ours.util.expert.sb3.util.saveload import Sb3Saver, Sb3Loader
 from src.ours.util.expert.sb3.util.train import ExpertSb3Trainer
 
 
-class Sb3ManagerBase:
+class Sb3Manager:
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
@@ -46,7 +46,7 @@ class Sb3ManagerBase:
         saver.save()
 
 
-class ExpertSb3Manager(Sb3ManagerBase):
+class ExpertSb3Manager(Sb3Manager):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
