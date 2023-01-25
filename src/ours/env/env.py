@@ -15,7 +15,7 @@ from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRendere
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
-class MovePoint(Env):
+class PointNav(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__()
 
@@ -85,7 +85,7 @@ class MovePoint(Env):
         HumanPointEnvRenderer.clean_up()
 
 
-class DiscreteMovePoint(MovePoint):
+class DiscretePointNav(PointNav):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,
@@ -102,7 +102,7 @@ class DiscreteMovePoint(MovePoint):
         return DiscreteActionConverter(action, self.action_space).get_action_converted()
 
 
-class ContMovePoint(MovePoint):
+class ContPointNav(PointNav):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,

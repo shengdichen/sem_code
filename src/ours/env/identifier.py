@@ -1,4 +1,4 @@
-from src.ours.env.env import MovePoint
+from src.ours.env.env import PointNav
 
 
 class PointEnvIdentifierGenerator:
@@ -16,7 +16,7 @@ class PointEnvIdentifierGenerator:
             + "{0:03}".format(shift_y)
         )
 
-    def from_env(self, env: MovePoint) -> str:
+    def from_env(self, env: PointNav) -> str:
         return self.get_identifier(env.env_config)
 
 

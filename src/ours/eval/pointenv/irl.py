@@ -16,7 +16,7 @@ from stable_baselines3.common.utils import configure_logger
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-from src.ours.env.env import DiscreteMovePoint
+from src.ours.env.env import DiscretePointNav
 from src.ours.eval.pointenv.expert import DiscretePointEnvExpertDefault
 from src.ours.util.common.helper import RewardCheckpointCallback
 from src.ours.util.common.param import CommonParam
@@ -71,8 +71,8 @@ class TrainerIrl(Trainer):
         random.seed(seed)
 
         # define environments and load expert demos
-        env = make_vec_env(DiscreteMovePoint, n_envs=1, env_kwargs=env_kwargs)
-        testing_env = DiscreteMovePoint(2, shift_x=0, shift_y=0)
+        env = make_vec_env(DiscretePointNav, n_envs=1, env_kwargs=env_kwargs)
+        testing_env = DiscretePointNav(2, shift_x=0, shift_y=0)
         expert_demos = DiscretePointEnvExpertDefault().load_trajectories()
 
         # define discriminator
