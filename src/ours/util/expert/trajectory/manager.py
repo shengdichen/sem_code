@@ -3,8 +3,6 @@ from gym import Env
 from matplotlib import pyplot as plt
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.util.common.param import CommonParam
-from src.ours.util.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.stats.single import TrajectoryStats
@@ -62,20 +60,3 @@ class TrajectoryManager:
         ).plot_agent_target_action()
 
         plt.show()
-
-
-class ExpertTrajectoryManager(TrajectoryManager):
-    def __init__(
-        self,
-        env_and_identifier: tuple[Env, str],
-        model_and_training_param: tuple[BaseAlgorithm, CommonParam],
-        trajectory_generator_config=TrajectoryGeneratorConfig(),
-    ):
-        env, env_identifier = env_and_identifier
-        model, training_param = model_and_training_param
-
-        super().__init__(
-            (env, model),
-            ExpertSaveLoadPathGenerator(env_identifier, training_param),
-            trajectory_generator_config,
-        )

@@ -22,7 +22,7 @@ from src.ours.util.expert.trajectory.analyzer.plot.multi import (
     SeparateTrajectoriesPlot,
 )
 from src.ours.util.expert.trajectory.analyzer.stats.multi import TrajectoriesStats
-from src.ours.util.expert.trajectory.manager import ExpertTrajectoryManager
+from src.ours.util.expert.trajectorymanager import ExpertTrajectoryManager
 
 
 class PointEnvExpertManagerFactory:
