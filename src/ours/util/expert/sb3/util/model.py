@@ -4,7 +4,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 
 from src.ours.util.common.param import CommonParam
 from src.ours.util.pwil.param import PwilParam
-from src.ours.util.common.pathprovider import PwilSaveLoadPathGenerator
+from src.ours.util.pwil.path import PwilSaveLoadPathGenerator
 from src.ours.util.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.util.common.saveload.path import SaveLoadPathGenerator
 
