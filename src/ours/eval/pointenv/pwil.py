@@ -204,7 +204,7 @@ class PointEnvPwilManagerBase:
         pass
 
 
-class PointEnvPwilManager(PointEnvPwilManagerBase):
+class DiscretePointEnvPwilManager(PointEnvPwilManagerBase):
     def __init__(self):
         super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
 
@@ -233,7 +233,7 @@ class PointEnvContPwilManager(PointEnvPwilManagerBase):
 
 
 def client_code():
-    trainer = PointEnvPwilManager()
+    trainer = DiscretePointEnvPwilManager()
     trainer.test_models()
 
 
