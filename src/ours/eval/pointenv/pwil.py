@@ -83,7 +83,7 @@ class PointEnvPwilManagerFactoryBase:
         pass
 
 
-class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
+class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
     def __init__(self):
         super().__init__(DiscretePointEnvExpertDefault().load_trajectories())
 
@@ -206,7 +206,7 @@ class PointEnvPwilManager:
 
 class DiscretePointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(PointEnvPwilManagerFactory().get_pwil_managers())
+        super().__init__(DiscretePointEnvPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
