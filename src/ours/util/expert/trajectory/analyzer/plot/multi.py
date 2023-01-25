@@ -8,7 +8,7 @@ from src.ours.util.expert.trajectory.analyzer.plot.single import TrajectoryPlot
 from src.ours.util.expert.trajectory.analyzer.util import MplUtil
 
 
-class TrajectoriesPlotBase(ABC):
+class TrajectoriesPlot(ABC):
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
@@ -31,7 +31,7 @@ class TrajectoriesPlotBase(ABC):
         pass
 
 
-class TrajectoriesPlotParallel(TrajectoriesPlotBase):
+class TrajectoriesPlotParallel(TrajectoriesPlot):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
@@ -43,7 +43,7 @@ class TrajectoriesPlotParallel(TrajectoriesPlotBase):
         return MplUtil(len(self._trajectories)).get_horizontal_figures(self._figure)
 
 
-class TrajectoriesPlotSeparate(TrajectoriesPlotBase):
+class TrajectoriesPlotSeparate(TrajectoriesPlot):
     def __init__(self, trajectories: list[np.ndarray]):
         super().__init__(trajectories)
 
