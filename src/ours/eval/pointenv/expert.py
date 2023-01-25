@@ -5,7 +5,7 @@ from src.ours.env.creation import (
     DiscretePointEnvFactory,
     PointEnvIdentifierGenerator,
     PointEnvConfigFactory,
-    PointEnvContFactory,
+    ContPointEnvFactory,
     PointEnvContIdentifierGenerator,
     PointEnvFactoryBase,
     PointEnvIdentifierGeneratorBase,
@@ -77,7 +77,7 @@ class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
         super().__init__(
             training_param,
             env_config,
-            PointEnvContFactory(env_config),
+            ContPointEnvFactory(env_config),
             PointEnvContIdentifierGenerator(),
         )
 

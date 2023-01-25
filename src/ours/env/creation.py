@@ -27,7 +27,7 @@ class DiscretePointEnvFactory(PointEnvFactoryBase):
         return MovePoint(**self._env_config)
 
 
-class PointEnvContFactory(PointEnvFactoryBase):
+class ContPointEnvFactory(PointEnvFactoryBase):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 
