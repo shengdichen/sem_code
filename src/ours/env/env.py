@@ -103,7 +103,7 @@ class DiscreteMovePoint(MovePointBase):
         return DiscreteActionConverter(action, self.action_space).get_action_converted()
 
 
-class MovePointCont(MovePointBase):
+class ContMovePoint(MovePointBase):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,

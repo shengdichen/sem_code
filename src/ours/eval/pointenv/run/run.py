@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.ours.env.env import DiscreteMovePoint, MovePointBase, MovePointCont
+from src.ours.env.env import DiscreteMovePoint, MovePointBase, ContMovePoint
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 
 
@@ -45,7 +45,7 @@ class PointEnvRunner(PointEnvRunnerBase):
 
 class PointEnvContRunner(PointEnvRunnerBase):
     def __init__(self):
-        super().__init__(MovePointCont())
+        super().__init__(ContMovePoint())
 
 
 def client_code():

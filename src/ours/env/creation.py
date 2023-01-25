@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from gym import Env
 
-from src.ours.env.env import MovePointBase, DiscreteMovePoint, MovePointCont
+from src.ours.env.env import MovePointBase, DiscreteMovePoint, ContMovePoint
 
 
 class EnvFactory(ABC):
@@ -31,8 +31,8 @@ class ContPointEnvFactory(PointEnvFactory):
     def __init__(self, env_config: dict[str:int]):
         super().__init__(env_config)
 
-    def create(self) -> MovePointCont:
-        return MovePointCont(**self._env_config)
+    def create(self) -> ContMovePoint:
+        return ContMovePoint(**self._env_config)
 
 
 class PointEnvConfigFactory:
