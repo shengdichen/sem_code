@@ -4,7 +4,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.ours.util.common.helper import TqdmCallback
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import (
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 from src.ours.util.pwil.sb3.util import CallbackListFactory
 
@@ -14,7 +14,7 @@ class Trainer:
         self,
         model: BaseAlgorithm,
         training_param: CommonParam,
-        path_generator: SaveLoadPathGeneratorBase,
+        path_generator: SaveLoadPathGenerator,
         env_eval: Env,
     ):
         self._model = model

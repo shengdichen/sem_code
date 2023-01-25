@@ -6,7 +6,7 @@ from src.ours.util.common.param import CommonParam, PwilParam
 from src.ours.util.common.pathprovider import (
     PwilSaveLoadPathGenerator,
     ExpertSaveLoadPathGenerator,
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 
 
@@ -15,7 +15,7 @@ class AlgorithmFactoryBase:
         self,
         env: Env,
         training_param: CommonParam,
-        saveload_path_generator: SaveLoadPathGeneratorBase,
+        saveload_path_generator: SaveLoadPathGenerator,
     ):
         self._env = env
         self._training_param = training_param

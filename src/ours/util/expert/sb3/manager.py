@@ -4,7 +4,7 @@ from stable_baselines3.common.base_class import BaseAlgorithm
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.pathprovider import (
     ExpertSaveLoadPathGenerator,
-    SaveLoadPathGeneratorBase,
+    SaveLoadPathGenerator,
 )
 from src.ours.util.common.train import Trainer
 from src.ours.util.expert.sb3.util.model import AlgorithmFactory
@@ -16,7 +16,7 @@ class Sb3Manager:
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
-        path_generator: SaveLoadPathGeneratorBase,
+        path_generator: SaveLoadPathGenerator,
         algorithm: BaseAlgorithm,
     ):
         (self._env, self._env_eval), self._env_identifier = envs_and_identifier
