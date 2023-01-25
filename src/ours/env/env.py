@@ -10,7 +10,7 @@ from src.ours.env.util.space import (
     DiscreteSpacesGenerator,
     ContSpacesGenerator,
     DiscreteActionConverter,
-    ActionConverterCont,
+    ContActionConverter,
 )
 from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
@@ -117,4 +117,4 @@ class MovePointCont(MovePointBase):
         ).get_spaces()
 
     def _get_action_converted(self, action: np.ndarray) -> tuple[int, int]:
-        return ActionConverterCont(action, self.action_space).get_action_converted()
+        return ContActionConverter(action, self.action_space).get_action_converted()

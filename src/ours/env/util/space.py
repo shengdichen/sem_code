@@ -74,7 +74,7 @@ class ContSpacesGenerator(SpacesGenerator):
         )
 
 
-class ActionConverterCont(ActionConverterBase):
+class ContActionConverter(ActionConverterBase):
     def __init__(self, action_raw: np.ndarray, action_space: spaces.Space):
         super().__init__(action_raw, action_space)
 
