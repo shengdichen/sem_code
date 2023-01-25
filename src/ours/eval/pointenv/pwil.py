@@ -24,7 +24,7 @@ from src.ours.util.pwil.manager import (
 )
 
 
-class PointEnvPwilManagerFactory:
+class PointNavPwilManagerFactory:
     def __init__(self, trajectories: list[np.ndarray]):
         self._trajectories = trajectories
 
@@ -85,7 +85,7 @@ class PointEnvPwilManagerFactory:
         pass
 
 
-class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
+class DiscretePointNavPwilManagerFactory(PointNavPwilManagerFactory):
     def __init__(self):
         super().__init__(DiscretePointNavExpertDefault().load_trajectories())
 
@@ -102,7 +102,7 @@ class DiscretePointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
         return (env_raw, env_eval), env_identifier
 
 
-class ContPointEnvPwilManagerFactory(PointEnvPwilManagerFactory):
+class ContPointNavPwilManagerFactory(PointNavPwilManagerFactory):
     def __init__(self):
         super().__init__(ContPointNavExpertDefault().load_trajectories())
 
@@ -208,7 +208,7 @@ class PointEnvPwilManager:
 
 class DiscretePointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(DiscretePointEnvPwilManagerFactory().get_pwil_managers())
+        super().__init__(DiscretePointNavPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
@@ -222,7 +222,7 @@ class DiscretePointEnvPwilManager(PointEnvPwilManager):
 
 class ContPointEnvPwilManager(PointEnvPwilManager):
     def __init__(self):
-        super().__init__(ContPointEnvPwilManagerFactory().get_pwil_managers())
+        super().__init__(ContPointNavPwilManagerFactory().get_pwil_managers())
 
     def run_models(self) -> None:
         model = self._managers[0].load_model()
