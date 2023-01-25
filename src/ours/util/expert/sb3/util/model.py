@@ -10,7 +10,7 @@ from src.ours.util.common.pathprovider import (
 )
 
 
-class AlgorithmFactoryBase:
+class AlgorithmFactory:
     def __init__(
         self,
         env: Env,
@@ -33,7 +33,7 @@ class AlgorithmFactoryBase:
         )
 
 
-class ExpertAlgorithmFactory(AlgorithmFactoryBase):
+class ExpertAlgorithmFactory(AlgorithmFactory):
     def __init__(
         self, env_and_identifier: tuple[Env, str], training_param: CommonParam
     ):
@@ -47,7 +47,7 @@ class ExpertAlgorithmFactory(AlgorithmFactoryBase):
         )
 
 
-class PwilAlgorithFactory(AlgorithmFactoryBase):
+class PwilAlgorithFactory(AlgorithmFactory):
     def __init__(self, env_and_identifier: tuple[Env, str], training_param: PwilParam):
         self._env, self._env_identifier = env_and_identifier
         self._training_param = training_param
