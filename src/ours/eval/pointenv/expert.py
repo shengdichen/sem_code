@@ -132,7 +132,7 @@ class PointEnvExpertDefaultBase:
         PointEnvRunner().run_episodes(ActionProviderModel())
 
 
-class PointEnvExpertDefault(PointEnvExpertDefaultBase):
+class DiscretePointEnvExpertDefault(PointEnvExpertDefaultBase):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 

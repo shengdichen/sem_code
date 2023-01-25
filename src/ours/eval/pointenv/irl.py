@@ -17,7 +17,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from src.ours.env.env import MovePoint
-from src.ours.eval.pointenv.expert import PointEnvExpertDefault
+from src.ours.eval.pointenv.expert import DiscretePointEnvExpertDefault
 from src.ours.util.common.helper import RewardCheckpointCallback
 from src.ours.util.common.param import CommonParam
 from src.ours.util.common.test import PolicyTester
@@ -73,7 +73,7 @@ class TrainerIrl(Trainer):
         # define environments and load expert demos
         env = make_vec_env(MovePoint, n_envs=1, env_kwargs=env_kwargs)
         testing_env = MovePoint(2, shift_x=0, shift_y=0)
-        expert_demos = PointEnvExpertDefault().load_trajectories()
+        expert_demos = DiscretePointEnvExpertDefault().load_trajectories()
 
         # define discriminator
         if opt.discriminator_type == "airl":

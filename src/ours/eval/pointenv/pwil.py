@@ -10,7 +10,7 @@ from src.ours.env.creation import (
 )
 from src.ours.env.env import MovePointBase, MovePoint, MovePointCont
 from src.ours.eval.pointenv.expert import (
-    PointEnvExpertDefault,
+    DiscretePointEnvExpertDefault,
     PointEnvContExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
@@ -85,7 +85,7 @@ class PointEnvPwilManagerFactoryBase:
 
 class PointEnvPwilManagerFactory(PointEnvPwilManagerFactoryBase):
     def __init__(self):
-        super().__init__(PointEnvExpertDefault().load_trajectories())
+        super().__init__(DiscretePointEnvExpertDefault().load_trajectories())
 
     def _get_envs_and_identifier(
         self,
