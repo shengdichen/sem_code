@@ -1,9 +1,9 @@
 from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
+from src.ours.rl.common.train import Trainer
 from src.ours.rl.pwil.param import PwilParam
 from src.ours.rl.pwil.path import PwilSaveLoadPathGenerator
-from src.ours.rl.common.train import Trainer
 
 
 class PwilSb3Trainer(Trainer):

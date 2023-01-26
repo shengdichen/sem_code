@@ -1,9 +1,9 @@
 from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
+from src.ours.rl.common.train import Trainer
 from src.ours.rl.expert.param import ExpertParam
 from src.ours.rl.expert.path import ExpertSaveLoadPathGenerator
-from src.ours.rl.common.train import Trainer
 
 
 class ExpertSb3Trainer(Trainer):
