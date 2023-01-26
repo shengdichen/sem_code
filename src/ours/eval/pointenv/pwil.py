@@ -2,8 +2,8 @@ import numpy as np
 import torchvision
 
 from src.ours.env.creation import (
-    DiscretePointEnvFactory,
-    ContPointEnvFactory,
+    DiscretePointNavFactory,
+    ContPointNavFactory,
 )
 from src.ours.env.config import PointEnvConfigFactory
 from src.ours.env.identifier import (
@@ -94,8 +94,8 @@ class DiscretePointNavPwilManagerFactory(PointNavPwilManagerFactory):
     ) -> tuple[tuple[DiscretePointNav, DiscretePointNav], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
-            DiscretePointEnvFactory(env_config).create(),
-            DiscretePointEnvFactory(env_config).create(),
+            DiscretePointNavFactory(env_config).create(),
+            DiscretePointNavFactory(env_config).create(),
         )
         env_identifier = DiscretePointEnvIdentifierGenerator().from_env(env_raw)
 
@@ -111,8 +111,8 @@ class ContPointNavPwilManagerFactory(PointNavPwilManagerFactory):
     ) -> tuple[tuple[ContPointNav, ContPointNav], str]:
         env_config = PointEnvConfigFactory().env_configs[0]
         env_raw, env_eval = (
-            ContPointEnvFactory(env_config).create(),
-            ContPointEnvFactory(env_config).create(),
+            ContPointNavFactory(env_config).create(),
+            ContPointNavFactory(env_config).create(),
         )
         env_identifier = ContPointEnvIdentifierGenerator().from_env(env_raw)
 

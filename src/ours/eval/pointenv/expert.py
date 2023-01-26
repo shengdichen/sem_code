@@ -2,9 +2,9 @@ import numpy as np
 from gym import Env
 
 from src.ours.env.creation import (
-    DiscretePointEnvFactory,
-    ContPointEnvFactory,
-    PointEnvFactory,
+    DiscretePointNavFactory,
+    ContPointNavFactory,
+    PointNavFactory,
 )
 from src.ours.env.config import PointEnvConfigFactory
 from src.ours.env.identifier import (
@@ -30,7 +30,7 @@ class PointNavExpertManagerFactory:
         self,
         training_param: ExpertParam,
         env_config: dict[str:int],
-        env_factory: PointEnvFactory,
+        env_factory: PointNavFactory,
         env_identifier_generator: PointEnvIdentifierGenerator,
     ):
         self._training_param = training_param
@@ -69,7 +69,7 @@ class DiscretePointNavExpertManagerFactory(PointNavExpertManagerFactory):
         super().__init__(
             training_param,
             env_config,
-            DiscretePointEnvFactory(env_config),
+            DiscretePointNavFactory(env_config),
             DiscretePointEnvIdentifierGenerator(),
         )
 
@@ -79,7 +79,7 @@ class ContPointNavExpertManagerFactory(PointNavExpertManagerFactory):
         super().__init__(
             training_param,
             env_config,
-            ContPointEnvFactory(env_config),
+            ContPointNavFactory(env_config),
             ContPointEnvIdentifierGenerator(),
         )
 
