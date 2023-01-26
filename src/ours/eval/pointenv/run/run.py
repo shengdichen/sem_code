@@ -22,7 +22,7 @@ class PointNavRunner:
 
     def run_episodes(self, action_provider: ActionProvider) -> None:
         for __ in range(PointNavRunnerConfig.n_episodes):
-            self.reset()
+            self._obs, self._done = self.reset()
             self._run_one_episode(action_provider)
 
         self._env.close()
