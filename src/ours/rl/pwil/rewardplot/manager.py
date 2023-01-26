@@ -65,6 +65,8 @@ class RewardPlotManager:
 
         if self._config.auto_load:
             self._reward_plot = self._make_reward_plot()
+        else:
+            self._reward_plot = None
 
     @property
     def reward_plot(self) -> np.ndarray:
@@ -88,12 +90,18 @@ class RewardPlotManager:
         return plot
 
     def save(self) -> None:
+        if self._reward_plot is None:
+            self._reward_plot = self._make_reward_plot()
+
         if self._config.save_as_image:
             self._saveloader_image.save_from_np(self._reward_plot, force_resave=False)
         if self._config.save_as_numpy:
             self._saveloader_numpy.save(self._reward_plot, force_resave=False)
 
     def show_reward_plot(self) -> None:
+        if self._reward_plot is None:
+            self._reward_plot = self._make_reward_plot()
+
         ax = plt.figure().subplots()
         ax.imshow(self._reward_plot)
         plt.show()
