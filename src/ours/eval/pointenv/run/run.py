@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.ours.env.env import DiscreteMovePoint, MovePoint, ContMovePoint
-from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.common.action_provider import ActionProvider
 
 
 class PointEnvRunnerConfig:
@@ -49,7 +49,7 @@ class ContPointEnvRunner(PointEnvRunner):
 
 
 def client_code():
-    from src.ours.eval.pointenv.run.actionprovider import (
+    from src.ours.eval.pointenv.run.action_provider import (
         ActionProviderRandom,
         ActionProviderRandomCont,
     )

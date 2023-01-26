@@ -16,7 +16,7 @@ from src.ours.eval.pointenv.expert import (
     ContPointEnvExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
-from src.ours.eval.pointenv.run.actionprovider import ActionProvider
+from src.ours.eval.common.action_provider import ActionProvider
 from src.ours.util.pwil.param import PwilParam
 from src.ours.util.pwil.manager import (
     PwilManagerFactory,
