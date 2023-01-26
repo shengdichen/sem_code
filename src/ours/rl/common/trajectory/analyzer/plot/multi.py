@@ -91,32 +91,21 @@ class TrajectoriesComparisonPlot:
         }
 
     def compare_optimal(self, plot_together: bool = True):
-        selection_optimal_one = (
-            Selector(self._trajectories, self._params)
-            .select_by_trajectory_num([0])
-            .select_by_n_demos([1])
-        )
-        selection_optimal_five = (
-            Selector(self._trajectories, self._params)
-            .select_by_trajectory_num([0])
-            .select_by_n_demos([5])
-        )
-        selection_optimal_ten = (
-            Selector(self._trajectories, self._params)
-            .select_by_trajectory_num([0])
-            .select_by_n_demos([10])
-        )
+        selections_optimal = []
+        for n_demos in [1, 5, 10]:
+            selections_optimal.append(
+                Selector(self._trajectories, self._params)
+                .select_by_trajectory_num([0])
+                .select_by_n_demos([n_demos])
+            )
 
         if plot_together:
-            self._plot_selections_together(
-                plt.figure().subplots(),
-                [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
-            )
+            self._plot_selections_together(plt.figure().subplots(), selections_optimal)
         else:
             axes = plt.figure().subplots(1, 3)
             self._plot_selections_separate(
                 axes,
-                [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
+                selections_optimal,
                 "subsampling",
             )
 
