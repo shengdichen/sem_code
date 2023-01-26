@@ -11,11 +11,11 @@ from src.ours.env.util.space import (
     ContSpacesGenerator,
 )
 from src.ours.env.util.action import DiscreteActionConverter, ContActionConverter
-from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
+from src.ours.env.util.renderer import HumanPointNavRenderer, RgbPointNavRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
-class MovePoint(Env):
+class PointNav(Env):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__()
 
@@ -72,20 +72,20 @@ class MovePoint(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = HumanPointEnvRenderer(
+            renderer = HumanPointNavRenderer(
                 self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = RgbPointEnvRenderer(self._position_visualizer.colormat)
+            renderer = RgbPointNavRenderer(self._position_visualizer.colormat)
 
         renderer.render()
 
     def close(self) -> None:
-        HumanPointEnvRenderer.clean_up()
+        HumanPointNavRenderer.clean_up()
 
 
-class DiscreteMovePoint(MovePoint):
+class DiscretePointNav(PointNav):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,
@@ -102,7 +102,7 @@ class DiscreteMovePoint(MovePoint):
         return DiscreteActionConverter(action, self.action_space).get_action_converted()
 
 
-class ContMovePoint(MovePoint):
+class ContPointNav(PointNav):
     def __init__(self, n_targets=2, shift_x=0, shift_y=0, random_spawn_agent=False):
         super().__init__(
             n_targets,

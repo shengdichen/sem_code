@@ -1,4 +1,4 @@
-class PointEnvConfigFactory:
+class PointNavConfigFactory:
     def __init__(self):
         self._env_configs = [
             {"n_targets": 2, "shift_x": 0, "shift_y": 0},

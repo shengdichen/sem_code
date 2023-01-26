@@ -2,18 +2,18 @@ import numpy as np
 from gym import Env
 
 from src.ours.env.creation import (
-    DiscretePointEnvFactory,
-    ContPointEnvFactory,
-    PointEnvFactory,
+    DiscretePointNavFactory,
+    ContPointNavFactory,
+    PointNavFactory,
 )
-from src.ours.env.config import PointEnvConfigFactory
+from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.identifier import (
-    PointEnvIdentifierGenerator,
-    DiscretePointEnvIdentifierGenerator,
-    ContPointEnvIdentifierGenerator,
+    PointNavIdentifierGenerator,
+    DiscretePointNavIdentifierGenerator,
+    ContPointNavIdentifierGenerator,
 )
 from src.ours.eval.common.action_provider import ActionProvider
-from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
+from src.ours.eval.pointenv.run.run import DiscretePointNavRunner, ContPointNavRunner
 from src.ours.util.expert.param import ExpertParam
 from src.ours.util.expert.manager import ExpertManager
 from src.ours.util.expert.sb3.manager import ExpertSb3Manager
@@ -25,13 +25,13 @@ from src.ours.util.common.trajectory.analyzer.stats.multi import TrajectoriesSta
 from src.ours.util.expert.trajectory import ExpertTrajectoryManager
 
 
-class PointEnvExpertManagerFactory:
+class PointNavExpertManagerFactory:
     def __init__(
         self,
         training_param: ExpertParam,
         env_config: dict[str:int],
-        env_factory: PointEnvFactory,
-        env_identifier_generator: PointEnvIdentifierGenerator,
+        env_factory: PointNavFactory,
+        env_identifier_generator: PointNavIdentifierGenerator,
     ):
         self._training_param = training_param
         self._env_config = env_config
@@ -64,27 +64,27 @@ class PointEnvExpertManagerFactory:
         return (env, env_eval), env_identifier
 
 
-class DiscretePointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
+class DiscretePointNavExpertManagerFactory(PointNavExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
             env_config,
-            DiscretePointEnvFactory(env_config),
-            DiscretePointEnvIdentifierGenerator(),
+            DiscretePointNavFactory(env_config),
+            DiscretePointNavIdentifierGenerator(),
         )
 
 
-class ContPointEnvExpertManagerFactory(PointEnvExpertManagerFactory):
+class ContPointNavExpertManagerFactory(PointNavExpertManagerFactory):
     def __init__(self, training_param: ExpertParam, env_config: dict[str:int]):
         super().__init__(
             training_param,
             env_config,
-            ContPointEnvFactory(env_config),
-            ContPointEnvIdentifierGenerator(),
+            ContPointNavFactory(env_config),
+            ContPointNavIdentifierGenerator(),
         )
 
 
-class PointEnvExpertDefault:
+class PointNavExpertDefault:
     def __init__(self, expert_managers: list[ExpertManager]):
         self._expert_managers = expert_managers
 
@@ -131,20 +131,20 @@ class PointEnvExpertDefault:
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        DiscretePointEnvRunner().run_episodes(ActionProviderModel())
+        DiscretePointNavRunner().run_episodes(ActionProviderModel())
 
 
-class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
+class DiscretePointNavExpertDefault(PointNavExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
     @staticmethod
     def _make_expert_managers() -> list[ExpertManager]:
         training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
+        env_configs = PointNavConfigFactory().env_configs
 
         return [
-            DiscretePointEnvExpertManagerFactory(training_param, env_config).create()
+            DiscretePointNavExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
@@ -155,20 +155,20 @@ class DiscretePointEnvExpertDefault(PointEnvExpertDefault):
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        DiscretePointEnvRunner().run_episodes(ActionProviderModel())
+        DiscretePointNavRunner().run_episodes(ActionProviderModel())
 
 
-class ContPointEnvExpertDefault(PointEnvExpertDefault):
+class ContPointNavExpertDefault(PointNavExpertDefault):
     def __init__(self):
         super().__init__(self._make_expert_managers())
 
     @staticmethod
     def _make_expert_managers() -> list[ExpertManager]:
         training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
+        env_configs = PointNavConfigFactory().env_configs
 
         return [
-            ContPointEnvExpertManagerFactory(training_param, env_config).create()
+            ContPointNavExpertManagerFactory(training_param, env_config).create()
             for env_config in env_configs
         ]
 
@@ -179,11 +179,11 @@ class ContPointEnvExpertDefault(PointEnvExpertDefault):
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        ContPointEnvRunner().run_episodes(ActionProviderModel())
+        ContPointNavRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():
-    trainer = ContPointEnvExpertDefault()
+    trainer = ContPointNavExpertDefault()
     trainer.run_models()
 
 

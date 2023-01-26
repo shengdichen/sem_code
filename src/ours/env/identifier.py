@@ -1,7 +1,7 @@
-from src.ours.env.env import MovePoint
+from src.ours.env.env import PointNav
 
 
-class PointEnvIdentifierGenerator:
+class PointNavIdentifierGenerator:
     def __init__(self, prefix: str):
         self._prefix = prefix
         self._connector = "_"
@@ -16,15 +16,15 @@ class PointEnvIdentifierGenerator:
             + "{0:03}".format(shift_y)
         )
 
-    def from_env(self, env: MovePoint) -> str:
+    def from_env(self, env: PointNav) -> str:
         return self.get_identifier(env.env_config)
 
 
-class DiscretePointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
+class DiscretePointNavIdentifierGenerator(PointNavIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv")
 
 
-class ContPointEnvIdentifierGenerator(PointEnvIdentifierGenerator):
+class ContPointNavIdentifierGenerator(PointNavIdentifierGenerator):
     def __init__(self):
         super().__init__("pointenv_cont")
