@@ -9,6 +9,15 @@ class TrajectoryStats:
 
         self._info = TrajectoryInfo(trajectory)
 
+        self._rewards_avg_std, self._rewards_min_max = (
+            AvgStdUtil(self._info.rewards_per_episode),
+            MinMaxUtil(self._info.rewards_per_episode),
+        )
+        self._lengths_avg_std, self._lengths_min_max = (
+            AvgStdUtil(self._info.lengths_per_episode),
+            MinMaxUtil(self._info.lengths_per_episode),
+        )
+
     def get_stats(self) -> str:
         stats = ""
         stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
