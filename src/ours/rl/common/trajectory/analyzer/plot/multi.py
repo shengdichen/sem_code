@@ -98,18 +98,20 @@ class TrajectoriesComparisonPlot:
         )
 
         axes = plt.figure().subplots(1, 3)
-        self._plot_selection(axes[0], selection_optimal_one)
-        self._plot_selection(axes[1], selection_optimal_five)
-        self._plot_selection(axes[2], selection_optimal_ten)
+        self._plot_selection(axes[0], selection_optimal_one, "subsampling")
+        self._plot_selection(axes[1], selection_optimal_five, "subsampling")
+        self._plot_selection(axes[2], selection_optimal_ten, "subsampling")
 
         plt.show()
 
     @staticmethod
-    def _plot_selection(ax: mpl.axes.Axes, selection: Selector):
-        subsamplings = [
-            param.pwil_training_param["subsampling"] for param in selection.params
-        ]
-        ax.plot(subsamplings, TrajectoriesStats(selection.trajectories).rewards_avg)
+    def _plot_selection(ax: mpl.axes.Axes, selection: Selector, variant: str):
+        if variant == "subsampling":
+            subsamplings = [
+                param.pwil_training_param["subsampling"] for param in selection.params
+            ]
+
+            ax.plot(subsamplings, TrajectoriesStats(selection.trajectories).rewards_avg)
 
     def compare_all_by_demo_id(self):
         stats_optimal = TrajectoriesStats(
