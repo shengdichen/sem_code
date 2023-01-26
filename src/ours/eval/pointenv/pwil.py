@@ -17,8 +17,8 @@ from src.ours.eval.pointenv.expert import (
 )
 from src.ours.eval.pointenv.run.run import DiscretePointNavRunner, ContPointNavRunner
 from src.ours.eval.common.action_provider import ActionProvider
-from src.ours.util.pwil.param import PwilParam
-from src.ours.util.pwil.manager import (
+from src.ours.rl.pwil.param import PwilParam
+from src.ours.rl.pwil.manager import (
     PwilManagerFactory,
     PwilManager,
 )
