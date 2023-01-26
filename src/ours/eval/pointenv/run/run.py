@@ -9,6 +9,14 @@ class PointNavRunnerConfig:
     n_episodes = 2
 
 
+class Runner:
+    def reset(self):
+        pass
+
+    def run_episodes(self, action_provider: ActionProvider):
+        pass
+
+
 class PointNavRunner:
     def __init__(self, env: PointNav):
         self._env = env
