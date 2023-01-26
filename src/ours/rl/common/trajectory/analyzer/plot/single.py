@@ -1,7 +1,7 @@
 import matplotlib
 import numpy as np
 
-from src.ours.rl.common.trajectory.analyzer.stats.single import TrajectoryInfo
+from src.ours.rl.common.trajectory.analyzer.info import TrajectoryInfo
 
 
 class TrajectoryPlotAtom:
