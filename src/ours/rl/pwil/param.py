@@ -42,7 +42,7 @@ class PwilParam(CommonParam):
     def trajectory_num(self, value: int):
         self._trajectory_num = value
 
-    def print_pwil_related_info(self) -> str:
+    def get_pwil_hyperparam_info(self) -> str:
         return "(demo_id, n_demos, subsampling) := ({0}, {1}, {2})".format(
             self._trajectory_num,
             self._pwil_training_param["n_demos"],

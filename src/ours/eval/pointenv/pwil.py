@@ -69,7 +69,7 @@ class PointNavPwilManagerFactory:
     def get_pwil_managers(self) -> list[PwilManager]:
         managers = []
         for pwil_param in PointNavPwilParams().get_params():
-            logging.info(pwil_param.print_pwil_related_info())
+            logging.info(pwil_param.get_pwil_hyperparam_info())
             managers.append(self._get_pwil_manager(pwil_param))
 
         return managers
