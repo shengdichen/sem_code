@@ -98,11 +98,20 @@ class TrajectoriesComparisonPlot:
         )
 
         axes = plt.figure().subplots(1, 3)
-        self._plot_selection(axes[0], selection_optimal_one, "subsampling")
-        self._plot_selection(axes[1], selection_optimal_five, "subsampling")
-        self._plot_selection(axes[2], selection_optimal_ten, "subsampling")
+        self._plot_selection_separate(
+            axes,
+            [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
+            "subsampling",
+        )
 
         plt.show()
+
+    @staticmethod
+    def _plot_selection_separate(
+        axes: list[mpl.axes.Axes], selections: list[Selector], variant: str
+    ):
+        for ax, selection in zip(axes, selections):
+            TrajectoriesComparisonPlot._plot_selection(ax, selection, variant)
 
     @staticmethod
     def _plot_selection(ax: mpl.axes.Axes, selection: Selector, variant: str):
