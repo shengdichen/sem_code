@@ -98,13 +98,13 @@ class TrajectoriesComparisonPlot:
         )
 
         if plot_together:
-            self._plot_selection_together(
+            self._plot_selections_together(
                 plt.figure().subplots(),
                 [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
             )
         else:
             axes = plt.figure().subplots(1, 3)
-            self._plot_selection_separate(
+            self._plot_selections_separate(
                 axes,
                 [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
                 "subsampling",
@@ -113,7 +113,7 @@ class TrajectoriesComparisonPlot:
         plt.show()
 
     @staticmethod
-    def _plot_selection_together(ax: mpl.axes.Axes, selections: list[Selector]):
+    def _plot_selections_together(ax: mpl.axes.Axes, selections: list[Selector]):
         for selection in selections:
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
@@ -133,7 +133,7 @@ class TrajectoriesComparisonPlot:
         ax.legend()
 
     @staticmethod
-    def _plot_selection_separate(
+    def _plot_selections_separate(
         axes: list[mpl.axes.Axes], selections: list[Selector], variant: str
     ):
         for ax, selection in zip(axes, selections):
