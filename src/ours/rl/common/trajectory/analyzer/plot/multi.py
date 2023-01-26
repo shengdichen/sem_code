@@ -112,6 +112,11 @@ class TrajectoriesComparisonPlot:
             ]
 
             ax.plot(subsamplings, TrajectoriesStats(selection.trajectories).rewards_avg)
+            ax.set_title(
+                "<type>-<n-traj>: {0}-{1}".format(
+                    "optimal", selection.params[0].pwil_training_param["n_demos"]
+                ),
+            )
 
     def compare_all_by_demo_id(self):
         stats_optimal = TrajectoriesStats(
