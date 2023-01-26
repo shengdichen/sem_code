@@ -2,19 +2,12 @@ import numpy as np
 
 from src.ours.env.env import DiscretePointNav, PointNav, ContPointNav
 from src.ours.eval.common.action_provider import ActionProvider
+from src.ours.eval.common.runner import Runner
 
 
 class PointNavRunnerConfig:
     n_max_steps_per_episode = 500
     n_episodes = 2
-
-
-class Runner:
-    def reset(self):
-        pass
-
-    def run_episodes(self, action_provider: ActionProvider):
-        pass
 
 
 class PointNavRunner(Runner):
