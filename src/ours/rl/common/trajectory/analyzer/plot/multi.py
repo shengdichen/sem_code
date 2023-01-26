@@ -80,6 +80,16 @@ class TrajectoriesComparisonPlot:
         self._trajectories = trajectories
         self._params = pwil_params
 
+        self._demo_id_to_demo_quality = {
+            0: "optimal",
+            1: "mixed",
+            2: "mixed",
+            3: "mixed",
+            4: "distant",
+            5: "distant",
+            6: "distant",
+        }
+
     def compare_optimal(self, plot_together: bool = True):
         selection_optimal_one = (
             Selector(self._trajectories, self._params)
@@ -112,8 +122,7 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
-    @staticmethod
-    def _plot_selections_together(ax: mpl.axes.Axes, selections: list[Selector]):
+    def _plot_selections_together(self, ax: mpl.axes.Axes, selections: list[Selector]):
         for selection in selections:
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
@@ -127,8 +136,10 @@ class TrajectoriesComparisonPlot:
                 label="num-demos: {0}".format(n_demos),
             )
 
+        demo_id = selections[0].params[0].trajectory_num
+        demo_type = self._demo_id_to_demo_quality[demo_id]
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}-{1}".format("optimal", "[1 | 5 | 10]"),
+            "[demo-type]-[n-traj]: {0}-{1}".format(demo_type, "[1 | 5 | 10]"),
         )
         ax.legend()
 
