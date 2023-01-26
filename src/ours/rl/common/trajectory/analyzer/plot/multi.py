@@ -93,11 +93,14 @@ class TrajectoriesComparisonPlot:
         self._figure = plt.figure()
 
     def compare_optimal(self, plot_together: bool = True):
+        self.compare_one_demo_id(0, plot_together)
+
+    def compare_one_demo_id(self, demo_id: int, plot_together: bool = True):
         selections_optimal = []
         for n_demos in [1, 5, 10]:
             selections_optimal.append(
                 Selector(self._trajectories, self._params)
-                .select_by_trajectory_num([0])
+                .select_by_trajectory_num([demo_id])
                 .select_by_n_demos([n_demos])
             )
 
