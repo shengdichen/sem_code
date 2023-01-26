@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import matplotlib
+import matplotlib as mpl
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -78,6 +79,37 @@ class TrajectoriesComparisonPlot:
     def __init__(self, trajectories: list[np.ndarray], pwil_params: list[PwilParam]):
         self._trajectories = trajectories
         self._params = pwil_params
+
+    def compare_optimal(self):
+        selection_optimal_one = (
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([0])
+            .select_by_n_demos([1])
+        )
+        selection_optimal_five = (
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([0])
+            .select_by_n_demos([5])
+        )
+        selection_optimal_ten = (
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([0])
+            .select_by_n_demos([10])
+        )
+
+        axes = plt.figure().subplots(1, 3)
+        self._plot_selection(axes[0], selection_optimal_one)
+        self._plot_selection(axes[1], selection_optimal_five)
+        self._plot_selection(axes[2], selection_optimal_ten)
+
+        plt.show()
+
+    @staticmethod
+    def _plot_selection(ax: mpl.axes.Axes, selection: Selector):
+        subsamplings = [
+            param.pwil_training_param["subsampling"] for param in selection.params
+        ]
+        ax.plot(subsamplings, TrajectoriesStats(selection.trajectories).rewards_avg)
 
     def compare_all_by_demo_id(self):
         stats_optimal = TrajectoriesStats(
