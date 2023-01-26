@@ -124,11 +124,13 @@ class TrajectoriesComparisonPlot:
                 subsamplings,
                 TrajectoriesStats(selection.trajectories).rewards_avg,
                 "x--",
+                label="num-demos: {0}".format(n_demos),
             )
 
         ax.set_title(
             "[demo-type]-[n-traj]: {0}-{1}".format("optimal", "[1 | 5 | 10]"),
         )
+        ax.legend()
 
     @staticmethod
     def _plot_selection_separate(
