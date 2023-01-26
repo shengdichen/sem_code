@@ -244,4 +244,8 @@ def client_code():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(module)s: [%(levelname)s] %(message)s", level=logging.INFO
+    )
+
     client_code()
