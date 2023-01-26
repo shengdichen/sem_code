@@ -2,6 +2,7 @@ import numpy as np
 
 from src.ours.env.env import DiscretePointNav, PointNav, ContPointNav
 from src.ours.eval.common.action_provider import ActionProvider
+from src.ours.eval.common.runner import Runner
 
 
 class PointNavRunnerConfig:
@@ -9,7 +10,7 @@ class PointNavRunnerConfig:
     n_episodes = 2
 
 
-class PointNavRunner:
+class PointNavRunner(Runner):
     def __init__(self, env: PointNav):
         self._env = env
 
