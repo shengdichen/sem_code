@@ -22,20 +22,23 @@ class Selector:
     def params(self) -> list[PwilParam]:
         return self._params
 
-    def select_by_trajectory_num(self, candidates: list[int]) -> None:
+    def select_by_trajectory_num(self, candidates: list[int]) -> "Selector":
         self._trajectories, self._params = self._select_by(
             self._is_selected_by_trajectory_num, candidates
         )
+        return self
 
-    def select_by_n_demos(self, candidates: list[int]) -> None:
+    def select_by_n_demos(self, candidates: list[int]) -> "Selector":
         self._trajectories, self._params = self._select_by(
             self._is_selected_by_n_demos, candidates
         )
+        return self
 
-    def select_by_subsampling(self, candidates: list[int]) -> None:
+    def select_by_subsampling(self, candidates: list[int]) -> "Selector":
         self._trajectories, self._params = self._select_by(
             self._is_selected_by_subsampling, candidates
         )
+        return self
 
     def _select_by(
         self, _is_selected_function, candidates: list[int]
