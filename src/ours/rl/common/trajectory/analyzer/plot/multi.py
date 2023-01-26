@@ -80,7 +80,7 @@ class TrajectoriesComparisonPlot:
         self._trajectories = trajectories
         self._params = pwil_params
 
-    def compare_optimal(self):
+    def compare_optimal(self, plot_together: bool = True):
         selection_optimal_one = (
             Selector(self._trajectories, self._params)
             .select_by_trajectory_num([0])
@@ -97,12 +97,18 @@ class TrajectoriesComparisonPlot:
             .select_by_n_demos([10])
         )
 
-        axes = plt.figure().subplots(1, 3)
-        self._plot_selection_separate(
-            axes,
-            [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
-            "subsampling",
-        )
+        if plot_together:
+            self._plot_selection_together(
+                plt.figure().subplots(),
+                [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
+            )
+        else:
+            axes = plt.figure().subplots(1, 3)
+            self._plot_selection_separate(
+                axes,
+                [selection_optimal_one, selection_optimal_five, selection_optimal_ten],
+                "subsampling",
+            )
 
         plt.show()
 
