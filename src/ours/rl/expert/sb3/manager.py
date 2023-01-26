@@ -1,7 +1,7 @@
 import gym
 
-from src.ours.rl.common.param import CommonParam
 from src.ours.rl.common.sb3.manager import Sb3Manager
+from src.ours.rl.expert.param import ExpertParam
 from src.ours.rl.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.rl.expert.sb3.model import ExpertAlgorithmFactory
 from src.ours.rl.expert.sb3.train import ExpertSb3Trainer
@@ -11,7 +11,7 @@ class ExpertSb3Manager(Sb3Manager):
     def __init__(
         self,
         envs_and_identifier: tuple[tuple[gym.Env, gym.Env], str],
-        training_param: CommonParam,
+        training_param: ExpertParam,
     ):
         (env, __), env_identifier = envs_and_identifier
 
