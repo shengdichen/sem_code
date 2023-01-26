@@ -1,10 +1,10 @@
 from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.rl.expert.param import ExpertParam
-from src.ours.rl.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.rl.common.trajectory.manager import TrajectoryManager
 from src.ours.rl.common.trajectory.util.generator import TrajectoryGeneratorConfig
+from src.ours.rl.expert.param import ExpertParam
+from src.ours.rl.expert.path import ExpertSaveLoadPathGenerator
 
 
 class ExpertTrajectoryManager(TrajectoryManager):
