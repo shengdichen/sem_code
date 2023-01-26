@@ -117,6 +117,8 @@ class TrajectoriesComparisonPlot:
                     "optimal", selection.params[0].pwil_training_param["n_demos"]
                 ),
             )
+            ax.set_xlabel("Subsampling Frequency")
+            ax.set_ylabel("Reward (higher is better)")
 
     def compare_all_by_demo_id(self):
         stats_optimal = TrajectoriesStats(
