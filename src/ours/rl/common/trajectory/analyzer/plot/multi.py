@@ -93,9 +93,11 @@ class TrajectoriesComparisonPlot:
         self._figure = plt.figure()
 
     def compare_optimal(self, plot_together: bool = True):
-        self.compare_one_demo_id(0, plot_together)
+        self.compare_one_demo_id(self._figure.subplots(), 0, plot_together)
 
-    def compare_one_demo_id(self, demo_id: int, plot_together: bool = True):
+    def compare_one_demo_id(
+        self, ax: mpl.axes.Axes, demo_id: int, plot_together: bool = True
+    ):
         selections_optimal = []
         for n_demos in [1, 5, 10]:
             selections_optimal.append(
@@ -105,7 +107,7 @@ class TrajectoriesComparisonPlot:
             )
 
         if plot_together:
-            self._plot_selections_together(self._figure.subplots(), selections_optimal)
+            self._plot_selections_together(ax, selections_optimal)
         else:
             axes = self._figure.subplots(1, 3)
             self._plot_selections_separate(
