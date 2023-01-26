@@ -196,16 +196,18 @@ class PWILRewarder(object):
 
     def filter_demonstrations(self, demonstrations):
         filtered_demonstrations = []
-        print("Number of demonstrations: ", len(demonstrations))
+        self._logger.debug("Number of demonstrations: {0}".format(len(demonstrations)))
         np.random.shuffle(demonstrations)
         for episode in demonstrations[: self.num_demonstrations]:
             # Random episode start.
             random_offset = np.random.randint(0, self.subsampling)
-            print("Random offset: ", random_offset)
+            self._logger.debug("Random offset: {0}".format(random_offset))
             # Subsampling.
-            print("Full episode length", len(episode))
+            self._logger.debug("Full episode length: {0}".format(len(episode)))
             subsampled_episode = episode[random_offset :: self.subsampling]
-            print("Subsampled episode length", len(subsampled_episode))
+            self._logger.debug(
+                "Subsampled episode length: {0}".format(len(subsampled_episode))
+            )
             # Specify step types of demonstrations.
             # for transition in subsampled_episode:
             #     transition['step_type'] = dm_env.StepType.MID
