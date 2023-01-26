@@ -2,6 +2,7 @@
 # from stable_baselines3.common.logger import Logger
 # from stable_baselines3.common.monitor import Monitor
 import copy
+import logging
 from collections import deque
 
 # import doorenv
@@ -11,6 +12,7 @@ import numpy as np
 import ot
 import torch
 from sklearn import preprocessing
+
 # import dmc2gym
 # import gym_minigrid
 # import robosuite
@@ -18,6 +20,8 @@ from sklearn import preprocessing
 # from robosuite import load_controller_config
 # from gym_minigrid.wrappers import *
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+
+logger = logging.getLogger(__name__)
 
 
 def get_trajectory_list(demos):
