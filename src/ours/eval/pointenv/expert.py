@@ -8,9 +8,9 @@ from src.ours.env.creation import (
 )
 from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.identifier import (
-    PointEnvIdentifierGenerator,
-    DiscretePointEnvIdentifierGenerator,
-    ContPointEnvIdentifierGenerator,
+    PointNavIdentifierGenerator,
+    DiscretePointNavIdentifierGenerator,
+    ContPointNavIdentifierGenerator,
 )
 from src.ours.eval.common.action_provider import ActionProvider
 from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
@@ -31,7 +31,7 @@ class PointNavExpertManagerFactory:
         training_param: ExpertParam,
         env_config: dict[str:int],
         env_factory: PointNavFactory,
-        env_identifier_generator: PointEnvIdentifierGenerator,
+        env_identifier_generator: PointNavIdentifierGenerator,
     ):
         self._training_param = training_param
         self._env_config = env_config
@@ -70,7 +70,7 @@ class DiscretePointNavExpertManagerFactory(PointNavExpertManagerFactory):
             training_param,
             env_config,
             DiscretePointNavFactory(env_config),
-            DiscretePointEnvIdentifierGenerator(),
+            DiscretePointNavIdentifierGenerator(),
         )
 
 
@@ -80,7 +80,7 @@ class ContPointNavExpertManagerFactory(PointNavExpertManagerFactory):
             training_param,
             env_config,
             ContPointNavFactory(env_config),
-            ContPointEnvIdentifierGenerator(),
+            ContPointNavIdentifierGenerator(),
         )
 
 

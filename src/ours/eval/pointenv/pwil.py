@@ -7,8 +7,8 @@ from src.ours.env.creation import (
 )
 from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.identifier import (
-    DiscretePointEnvIdentifierGenerator,
-    ContPointEnvIdentifierGenerator,
+    DiscretePointNavIdentifierGenerator,
+    ContPointNavIdentifierGenerator,
 )
 from src.ours.env.env import PointNav, DiscretePointNav, ContPointNav
 from src.ours.eval.pointenv.expert import (
@@ -97,7 +97,7 @@ class DiscretePointNavPwilManagerFactory(PointNavPwilManagerFactory):
             DiscretePointNavFactory(env_config).create(),
             DiscretePointNavFactory(env_config).create(),
         )
-        env_identifier = DiscretePointEnvIdentifierGenerator().from_env(env_raw)
+        env_identifier = DiscretePointNavIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
@@ -114,7 +114,7 @@ class ContPointNavPwilManagerFactory(PointNavPwilManagerFactory):
             ContPointNavFactory(env_config).create(),
             ContPointNavFactory(env_config).create(),
         )
-        env_identifier = ContPointEnvIdentifierGenerator().from_env(env_raw)
+        env_identifier = ContPointNavIdentifierGenerator().from_env(env_raw)
 
         return (env_raw, env_eval), env_identifier
 
