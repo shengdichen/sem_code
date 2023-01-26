@@ -143,15 +143,13 @@ class TrajectoriesComparisonPlot:
         )
         ax.legend()
 
-    @staticmethod
     def _plot_selections_separate(
-        axes: list[mpl.axes.Axes], selections: list[Selector], variant: str
+        self, axes: list[mpl.axes.Axes], selections: list[Selector], variant: str
     ):
         for ax, selection in zip(axes, selections):
-            TrajectoriesComparisonPlot._plot_selection(ax, selection, variant)
+            self._plot_selection(ax, selection, variant)
 
-    @staticmethod
-    def _plot_selection(ax: mpl.axes.Axes, selection: Selector, variant: str):
+    def _plot_selection(self, ax: mpl.axes.Axes, selection: Selector, variant: str):
         if variant == "subsampling":
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
@@ -164,7 +162,8 @@ class TrajectoriesComparisonPlot:
             )
             ax.set_title(
                 "[demo-type]-[n-traj]: {0}-{1}".format(
-                    "optimal", selection.params[0].pwil_training_param["n_demos"]
+                    self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
+                    selection.params[0].pwil_training_param["n_demos"],
                 ),
             )
             ax.set_xlabel("Subsampling Frequency")
