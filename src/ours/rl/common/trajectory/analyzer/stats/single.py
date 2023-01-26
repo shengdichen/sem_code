@@ -18,6 +18,22 @@ class TrajectoryStats:
             MinMaxUtil(self._info.lengths_per_episode),
         )
 
+    @property
+    def rewards_avg(self) -> float:
+        return self._rewards_avg_std.stats[0]
+
+    @property
+    def rewards_std(self):
+        return self._rewards_avg_std.stats[1]
+
+    @property
+    def lengths_avg(self):
+        return self._lengths_avg_std.stats[0]
+
+    @property
+    def lengths_std(self):
+        return self._lengths_avg_std.stats[1]
+
     def get_stats(self) -> str:
         stats = ""
         stats += "{0:*^60}\n".format(" Trajectory Statistics [START] ")
