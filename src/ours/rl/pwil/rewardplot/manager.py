@@ -63,7 +63,8 @@ class RewardPlotManager:
         self._saveloader_numpy = NumpySaveLoad(self._path_saveload)
         self._saveloader_image = ImageSaveLoad(self._path_saveload)
 
-        self._reward_plot = self._make_reward_plot()
+        if self._config.auto_load:
+            self._reward_plot = self._make_reward_plot()
 
     @property
     def reward_plot(self) -> np.ndarray:
