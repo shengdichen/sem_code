@@ -11,10 +11,15 @@ from src.ours.rl.pwil.rewardplot.rewardplotter import RewardPlotter
 
 class RewardPlotConfig:
     def __init__(self):
+        self._auto_load: bool = True
         self._force_regenerate: bool = False
 
         self._save_as_image: bool = True
         self._save_as_numpy: bool = True
+
+    @property
+    def auto_load(self):
+        return self._auto_load
 
     @property
     def force_regenerate(self) -> bool:
@@ -58,7 +63,10 @@ class RewardPlotManager:
         self._saveloader_numpy = NumpySaveLoad(self._path_saveload)
         self._saveloader_image = ImageSaveLoad(self._path_saveload)
 
-        self._reward_plot = self._make_reward_plot()
+        if self._config.auto_load:
+            self._reward_plot = self._make_reward_plot()
+        else:
+            self._reward_plot = None
 
     @property
     def reward_plot(self) -> np.ndarray:
@@ -82,12 +90,18 @@ class RewardPlotManager:
         return plot
 
     def save(self) -> None:
+        if self._reward_plot is None:
+            self._reward_plot = self._make_reward_plot()
+
         if self._config.save_as_image:
             self._saveloader_image.save_from_np(self._reward_plot, force_resave=False)
         if self._config.save_as_numpy:
             self._saveloader_numpy.save(self._reward_plot, force_resave=False)
 
     def show_reward_plot(self) -> None:
+        if self._reward_plot is None:
+            self._reward_plot = self._make_reward_plot()
+
         ax = plt.figure().subplots()
         ax.imshow(self._reward_plot)
         plt.show()
