@@ -1,11 +1,12 @@
 from pathlib import Path
 
-from src.ours.rl.common.param import CommonParam, Util
+from src.ours.rl.common.param import Util
 from src.ours.rl.common.saveload.path import SaveLoadPathGenerator
+from src.ours.rl.expert.param import ExpertParam
 
 
 class ExpertSaveLoadPathGenerator(SaveLoadPathGenerator):
-    def __init__(self, env_identifier: str, training_param: CommonParam):
+    def __init__(self, env_identifier: str, training_param: ExpertParam):
         super().__init__()
 
         self._env_identifier = env_identifier
