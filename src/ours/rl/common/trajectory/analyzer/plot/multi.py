@@ -136,10 +136,11 @@ class TrajectoriesComparisonPlot:
                 label="num-demos: {0}".format(n_demos),
             )
 
-        demo_id = selections[0].params[0].trajectory_num
-        demo_type = self._demo_id_to_demo_quality[demo_id]
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}-{1}".format(demo_type, "[1 | 5 | 10]"),
+            "[demo-type]-[n-traj]: {0}-{1}".format(
+                self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
+                "[1 | 5 | 10]",
+            ),
         )
         ax.legend()
 
