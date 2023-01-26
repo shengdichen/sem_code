@@ -1,7 +1,7 @@
 from gym import Env
 from stable_baselines3.common.base_class import BaseAlgorithm
 
-from src.ours.rl.common.param import CommonParam
+from src.ours.rl.expert.param import ExpertParam
 from src.ours.rl.expert.path import ExpertSaveLoadPathGenerator
 from src.ours.rl.common.trajectory.manager import TrajectoryManager
 from src.ours.rl.common.trajectory.util.generator import TrajectoryGeneratorConfig
@@ -11,7 +11,7 @@ class ExpertTrajectoryManager(TrajectoryManager):
     def __init__(
         self,
         env_and_identifier: tuple[Env, str],
-        model_and_training_param: tuple[BaseAlgorithm, CommonParam],
+        model_and_training_param: tuple[BaseAlgorithm, ExpertParam],
         trajectory_generator_config=TrajectoryGeneratorConfig(),
     ):
         env, env_identifier = env_and_identifier
