@@ -9,7 +9,7 @@ class PointEnvRunnerConfig:
     n_episodes = 2
 
 
-class PointEnvRunnerBase:
+class PointEnvRunner:
     def __init__(self, env: MovePoint):
         self._env = env
 
@@ -38,12 +38,12 @@ class PointEnvRunnerBase:
                 break
 
 
-class PointEnvRunner(PointEnvRunnerBase):
+class DiscretePointEnvRunner(PointEnvRunner):
     def __init__(self):
         super().__init__(DiscreteMovePoint())
 
 
-class PointEnvContRunner(PointEnvRunnerBase):
+class ContPointEnvRunner(PointEnvRunner):
     def __init__(self):
         super().__init__(ContMovePoint())
 
@@ -54,10 +54,10 @@ def client_code():
         ActionProviderRandomCont,
     )
 
-    runner = PointEnvRunner()
+    runner = DiscretePointEnvRunner()
     runner.run_episodes(ActionProviderRandom())
 
-    runner = PointEnvContRunner()
+    runner = ContPointEnvRunner()
     runner.run_episodes(ActionProviderRandomCont())
 
 

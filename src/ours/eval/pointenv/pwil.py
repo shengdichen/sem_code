@@ -15,7 +15,7 @@ from src.ours.eval.pointenv.expert import (
     DiscretePointEnvExpertDefault,
     ContPointEnvExpertDefault,
 )
-from src.ours.eval.pointenv.run.run import PointEnvRunner, PointEnvContRunner
+from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner, ContPointEnvRunner
 from src.ours.eval.pointenv.run.actionprovider import ActionProvider
 from src.ours.util.pwil.param import PwilParam
 from src.ours.util.pwil.manager import (
@@ -217,7 +217,7 @@ class DiscretePointEnvPwilManager(PointEnvPwilManager):
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        PointEnvRunner().run_episodes(ActionProviderModel())
+        DiscretePointEnvRunner().run_episodes(ActionProviderModel())
 
 
 class ContPointEnvPwilManager(PointEnvPwilManager):
@@ -231,7 +231,7 @@ class ContPointEnvPwilManager(PointEnvPwilManager):
             def get_action(self, obs: np.ndarray, **kwargs):
                 return model.predict(obs)[0]
 
-        PointEnvContRunner().run_episodes(ActionProviderModel())
+        ContPointEnvRunner().run_episodes(ActionProviderModel())
 
 
 def client_code():

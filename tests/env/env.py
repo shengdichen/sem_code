@@ -1,9 +1,9 @@
 class TestEnv:
     @staticmethod
     def get_runner():
-        from src.ours.eval.pointenv.run.run import PointEnvRunner
+        from src.ours.eval.pointenv.run.run import DiscretePointEnvRunner
 
-        return PointEnvRunner()
+        return DiscretePointEnvRunner()
 
     def test_reset(self):
         self.get_runner().reset()
@@ -17,9 +17,9 @@ class TestEnv:
 class TestContEnv:
     @staticmethod
     def get_runner():
-        from src.ours.eval.pointenv.run.run import PointEnvContRunner
+        from src.ours.eval.pointenv.run.run import ContPointEnvRunner
 
-        return PointEnvContRunner()
+        return ContPointEnvRunner()
 
     def test_reset(self):
         self.get_runner().reset()
