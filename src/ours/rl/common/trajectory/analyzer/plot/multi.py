@@ -107,6 +107,24 @@ class TrajectoriesComparisonPlot:
         plt.show()
 
     @staticmethod
+    def _plot_selection_together(ax: mpl.axes.Axes, selections: list[Selector]):
+        for selection in selections:
+            subsamplings = [
+                param.pwil_training_param["subsampling"] for param in selection.params
+            ]
+
+            n_demos = selection.params[0].pwil_training_param["n_demos"]
+            ax.plot(
+                subsamplings,
+                TrajectoriesStats(selection.trajectories).rewards_avg,
+                "x--",
+            )
+
+        ax.set_title(
+            "[demo-type]-[n-traj]: {0}-{1}".format("optimal", "[1 | 5 | 10]"),
+        )
+
+    @staticmethod
     def _plot_selection_separate(
         axes: list[mpl.axes.Axes], selections: list[Selector], variant: str
     ):
