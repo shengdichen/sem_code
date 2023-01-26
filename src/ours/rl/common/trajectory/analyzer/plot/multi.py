@@ -93,13 +93,13 @@ class TrajectoriesComparisonPlot:
         self._figure = plt.figure()
 
     def compare_distant(self):
-        for ax, demo_id in zip(self._figure.subplots(1, 3), [4, 5, 6]):
-            self.compare_one_demo_id(ax, demo_id)
-
-        plt.show()
+        self.compare_multi_demo_ids([4, 5, 6])
 
     def compare_mixed(self):
-        for ax, demo_id in zip(self._figure.subplots(1, 3), [1, 2, 3]):
+        self.compare_multi_demo_ids([1, 2, 3])
+
+    def compare_multi_demo_ids(self, demo_ids: list[int]):
+        for ax, demo_id in zip(self._figure.subplots(1, 3), demo_ids):
             self.compare_one_demo_id(ax, demo_id)
 
         plt.show()
