@@ -17,7 +17,7 @@ class Runner:
         pass
 
 
-class PointNavRunner:
+class PointNavRunner(Runner):
     def __init__(self, env: PointNav):
         self._env = env
 
