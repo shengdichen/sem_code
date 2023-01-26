@@ -92,8 +92,16 @@ class TrajectoriesComparisonPlot:
 
         self._figure = plt.figure()
 
+    def compare_mixed(self):
+        for ax, demo_id in zip(self._figure.subplots(1, 3), [1, 2, 3]):
+            self.compare_one_demo_id(ax, demo_id)
+
+        plt.show()
+
     def compare_optimal(self, plot_together: bool = True):
         self.compare_one_demo_id(self._figure.subplots(), 0, plot_together)
+
+        plt.show()
 
     def compare_one_demo_id(
         self, ax: mpl.axes.Axes, demo_id: int, plot_together: bool = True
@@ -115,8 +123,6 @@ class TrajectoriesComparisonPlot:
                 selections_optimal,
                 "subsampling",
             )
-
-        plt.show()
 
     def _plot_selections_together(self, ax: mpl.axes.Axes, selections: list[Selector]):
         for selection in selections:
