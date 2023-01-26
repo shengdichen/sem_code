@@ -90,6 +90,8 @@ class TrajectoriesComparisonPlot:
             6: "distant",
         }
 
+        self._figure = plt.figure()
+
     def compare_optimal(self, plot_together: bool = True):
         selections_optimal = []
         for n_demos in [1, 5, 10]:
@@ -100,9 +102,9 @@ class TrajectoriesComparisonPlot:
             )
 
         if plot_together:
-            self._plot_selections_together(plt.figure().subplots(), selections_optimal)
+            self._plot_selections_together(self._figure.subplots(), selections_optimal)
         else:
-            axes = plt.figure().subplots(1, 3)
+            axes = self._figure.subplots(1, 3)
             self._plot_selections_separate(
                 axes,
                 selections_optimal,
