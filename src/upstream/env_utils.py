@@ -161,6 +161,7 @@ class PWILRewarder(object):
         beta=5.0,
         observation_only=False,
     ):
+        self._logger = logger
 
         self.num_demonstrations = num_demonstrations
         self.time_horizon = time_horizon
