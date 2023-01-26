@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import torchvision
 
@@ -22,6 +24,8 @@ from src.ours.rl.pwil.manager import (
     PwilManager,
 )
 from src.ours.rl.pwil.param import PwilParam
+
+logger = logging.getLogger(__name__)
 
 
 class PointNavPwilManagerFactory:
@@ -65,7 +69,7 @@ class PointNavPwilManagerFactory:
     def get_pwil_managers(self) -> list[PwilManager]:
         managers = []
         for pwil_param in PointNavPwilParams().get_params():
-            pwil_param.print_pwil_related_info()
+            logging.info(pwil_param.get_pwil_hyperparam_info())
             managers.append(self._get_pwil_manager(pwil_param))
 
         return managers
@@ -240,4 +244,8 @@ def client_code():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(module)s: [%(levelname)s] %(message)s", level=logging.INFO
+    )
+
     client_code()
