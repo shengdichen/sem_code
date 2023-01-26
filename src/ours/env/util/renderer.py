@@ -4,13 +4,13 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-class PointEnvRenderer(ABC):
+class PointNavRenderer(ABC):
     @abstractmethod
     def render(self) -> None:
         pass
 
 
-class HumanPointEnvRenderer(PointEnvRenderer):
+class HumanPointNavRenderer(PointNavRenderer):
     def __init__(self, canvas: np.ndarray, canvas_hist: np.ndarray):
         self._canvas = canvas
 
@@ -45,7 +45,7 @@ class HumanPointEnvRenderer(PointEnvRenderer):
         plt.close("all")
 
 
-class RgbPointEnvRenderer(PointEnvRenderer):
+class RgbPointNavRenderer(PointNavRenderer):
     def __init__(self, canvas: np.ndarray):
         self._canvas = canvas
 

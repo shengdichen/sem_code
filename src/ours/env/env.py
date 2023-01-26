@@ -11,7 +11,7 @@ from src.ours.env.util.space import (
     ContSpacesGenerator,
 )
 from src.ours.env.util.action import DiscreteActionConverter, ContActionConverter
-from src.ours.env.util.renderer import HumanPointEnvRenderer, RgbPointEnvRenderer
+from src.ours.env.util.renderer import HumanPointNavRenderer, RgbPointNavRenderer
 from src.ours.env.util.time import EpisodeLengthTimer
 
 
@@ -72,17 +72,17 @@ class PointNav(Env):
         ], 'Invalid mode, must be either "human" or "rgb_array"'
 
         if mode == "human":
-            renderer = HumanPointEnvRenderer(
+            renderer = HumanPointNavRenderer(
                 self._position_visualizer.colormat,
                 self._trajectory_heat_visualizer.colormat,
             )
         else:
-            renderer = RgbPointEnvRenderer(self._position_visualizer.colormat)
+            renderer = RgbPointNavRenderer(self._position_visualizer.colormat)
 
         renderer.render()
 
     def close(self) -> None:
-        HumanPointEnvRenderer.clean_up()
+        HumanPointNavRenderer.clean_up()
 
 
 class DiscretePointNav(PointNav):
