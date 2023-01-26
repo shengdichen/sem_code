@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from src.ours.rl.common.trajectory.analyzer.plot.single import TrajectoryPlot
+from src.ours.rl.common.trajectory.analyzer.stats.multi import TrajectoriesStats
 from src.ours.rl.common.trajectory.analyzer.util import MplUtil
 from src.ours.rl.pwil.param import PwilParam
 
@@ -71,6 +72,36 @@ class Selector:
             if param.pwil_training_param["subsampling"] == candidate:
                 return True
         return False
+
+
+class TrajectoriesComparisonPlot:
+    def __init__(self, trajectories: list[np.ndarray], pwil_params: list[PwilParam]):
+        self._trajectories = trajectories
+        self._params = pwil_params
+
+    def compare_all_by_demo_id(self):
+        stats_optimal = TrajectoriesStats(
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([0])
+            .trajectories
+        )
+        stats_mixed = TrajectoriesStats(
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([1, 2, 3])
+            .trajectories
+        )
+        stats_distant = TrajectoriesStats(
+            Selector(self._trajectories, self._params)
+            .select_by_trajectory_num([4, 5, 6])
+            .trajectories
+        )
+
+        axes = plt.figure().subplots(1, 3)
+        axes[0].plot(stats_optimal.rewards_avg)
+        axes[1].plot(stats_mixed.rewards_avg)
+        axes[2].plot(stats_distant.rewards_avg)
+
+        plt.show()
 
 
 class TrajectoriesPlot(ABC):
