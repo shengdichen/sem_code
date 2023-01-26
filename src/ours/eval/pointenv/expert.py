@@ -1,12 +1,12 @@
 import numpy as np
 from gym import Env
 
+from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.creation import (
     DiscretePointNavFactory,
     ContPointNavFactory,
     PointNavFactory,
 )
-from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.identifier import (
     PointNavIdentifierGenerator,
     DiscretePointNavIdentifierGenerator,
@@ -14,14 +14,14 @@ from src.ours.env.identifier import (
 )
 from src.ours.eval.common.action_provider import ActionProvider
 from src.ours.eval.pointenv.run.run import DiscretePointNavRunner, ContPointNavRunner
-from src.ours.rl.expert.param import ExpertParam
-from src.ours.rl.expert.manager import ExpertManager
-from src.ours.rl.expert.sb3.manager import ExpertSb3Manager
 from src.ours.rl.common.trajectory.analyzer.plot.multi import (
     ParallelTrajectoriesPlot,
     SeparateTrajectoriesPlot,
 )
 from src.ours.rl.common.trajectory.analyzer.stats.multi import TrajectoriesStats
+from src.ours.rl.expert.manager import ExpertManager
+from src.ours.rl.expert.param import ExpertParam
+from src.ours.rl.expert.sb3.manager import ExpertSb3Manager
 from src.ours.rl.expert.trajectory import ExpertTrajectoryManager
 
 
