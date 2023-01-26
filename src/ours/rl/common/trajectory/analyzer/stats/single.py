@@ -1,64 +1,6 @@
 import numpy as np
 
-
-class TrajectoryInfo:
-    def __init__(self, trajectory: np.ndarray):
-        self._trajectory = trajectory
-
-        (
-            self._rewards_per_episode,
-            self._lengths_per_episode,
-        ) = self._get_rewards_and_lengths_per_episode()
-
-    def _get_rewards_and_lengths_per_episode(self) -> tuple[np.ndarray, np.ndarray]:
-        rewards_per_episode, lengths_per_episode = [], []
-        reward_current_episode, length_current_episode = 0, 0
-
-        for data_current_step in self._trajectory:
-            reward_current_episode += data_current_step[-2]
-            length_current_episode += 1
-            if data_current_step[-1]:  # current episode is over at this step
-                rewards_per_episode.append(reward_current_episode)
-                lengths_per_episode.append(length_current_episode)
-                reward_current_episode, length_current_episode = 0, 0
-
-        return np.array(rewards_per_episode), np.array(lengths_per_episode)
-
-    @property
-    def n_steps(self):
-        return self._trajectory.shape[0]
-
-    @property
-    def agent_pos(self) -> tuple[np.ndarray, np.ndarray]:
-        return self._trajectory[:, 0], self._trajectory[:, 1]
-
-    @property
-    def target_pos(self) -> tuple[np.ndarray, np.ndarray]:
-        return self._trajectory[:, 2], self._trajectory[:, 3]
-
-    @property
-    def action(self) -> np.ndarray:
-        return self._trajectory[:, 4:-2]
-
-    @property
-    def reward(self) -> np.ndarray:
-        return self._trajectory[:, -2]
-
-    @property
-    def rewards_per_episode(self) -> np.ndarray:
-        return self._rewards_per_episode
-
-    @property
-    def lengths_per_episode(self) -> np.ndarray:
-        return self._lengths_per_episode
-
-    @property
-    def done(self) -> np.ndarray:
-        return self._trajectory[:, -1]
-
-    @property
-    def n_episodes(self):
-        return int(np.sum(self.done))
+from src.ours.rl.common.trajectory.analyzer.info import TrajectoryInfo
 
 
 class TrajectoryStats:
@@ -66,6 +8,31 @@ class TrajectoryStats:
         self._trajectory = trajectory
 
         self._info = TrajectoryInfo(trajectory)
+
+        self._reward_avg_std, self._reward_min_max = (
+            AvgStdUtil(self._info.rewards_per_episode),
+            MinMaxUtil(self._info.rewards_per_episode),
+        )
+        self._length_avg_std, self._length_min_max = (
+            AvgStdUtil(self._info.lengths_per_episode),
+            MinMaxUtil(self._info.lengths_per_episode),
+        )
+
+    @property
+    def rewards_avg(self) -> float:
+        return self._reward_avg_std.stats[0]
+
+    @property
+    def rewards_std(self):
+        return self._reward_avg_std.stats[1]
+
+    @property
+    def lengths_avg(self):
+        return self._length_avg_std.stats[0]
+
+    @property
+    def lengths_std(self):
+        return self._length_avg_std.stats[1]
 
     def get_stats(self) -> str:
         stats = ""
@@ -77,18 +44,10 @@ class TrajectoryStats:
         stats += "\n"
 
         stats += "Number of episodes: {0}\n".format(self._info.n_episodes)
-        stats += "Reward (per episode): {0}\n".format(
-            AvgStdUtil(self._info.rewards_per_episode)
-        )
-        stats += "Reward (per episode): {0}\n".format(
-            MinMaxUtil(self._info.rewards_per_episode)
-        )
-        stats += "Length (per episode): {0}\n".format(
-            AvgStdUtil(self._info.lengths_per_episode)
-        )
-        stats += "Length (per episode): {0}\n".format(
-            MinMaxUtil(self._info.lengths_per_episode)
-        )
+        stats += "Reward (per episode): {0}\n".format(self._reward_avg_std)
+        stats += "Reward (per episode): {0}\n".format(self._reward_min_max)
+        stats += "Length (per episode): {0}\n".format(self._length_avg_std)
+        stats += "Length (per episode): {0}\n".format(self._length_min_max)
 
         stats += "{0:*^60}\n".format(" Trajectory Statistics [END] ")
 
