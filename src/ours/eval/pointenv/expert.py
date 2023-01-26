@@ -6,7 +6,7 @@ from src.ours.env.creation import (
     ContPointNavFactory,
     PointNavFactory,
 )
-from src.ours.env.config import PointEnvConfigFactory
+from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.identifier import (
     PointEnvIdentifierGenerator,
     DiscretePointEnvIdentifierGenerator,
@@ -141,7 +141,7 @@ class DiscretePointNavExpertDefault(PointNavExpertDefault):
     @staticmethod
     def _make_expert_managers() -> list[ExpertManager]:
         training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
+        env_configs = PointNavConfigFactory().env_configs
 
         return [
             DiscretePointNavExpertManagerFactory(training_param, env_config).create()
@@ -165,7 +165,7 @@ class ContPointNavExpertDefault(PointNavExpertDefault):
     @staticmethod
     def _make_expert_managers() -> list[ExpertManager]:
         training_param = ExpertParam()
-        env_configs = PointEnvConfigFactory().env_configs
+        env_configs = PointNavConfigFactory().env_configs
 
         return [
             ContPointNavExpertManagerFactory(training_param, env_config).create()
