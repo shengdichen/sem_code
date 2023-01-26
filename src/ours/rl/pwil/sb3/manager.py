@@ -1,9 +1,9 @@
 from gym import Env
 
+from src.ours.rl.common.sb3.manager import Sb3Manager
+from src.ours.rl.common.test import PolicyTester
 from src.ours.rl.pwil.param import PwilParam
 from src.ours.rl.pwil.path import PwilSaveLoadPathGenerator
-from src.ours.rl.common.test import PolicyTester
-from src.ours.rl.common.sb3.manager import Sb3Manager
 from src.ours.rl.pwil.sb3.algorithm import PwilAlgorithFactory
 from src.ours.rl.pwil.sb3.train import PwilSb3Trainer
 

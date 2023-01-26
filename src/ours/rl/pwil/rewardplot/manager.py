@@ -2,10 +2,10 @@ import numpy as np
 from gym import Env
 from matplotlib import pyplot as plt
 
-from src.ours.rl.pwil.param import PwilParam
-from src.ours.rl.pwil.path import PwilSaveLoadPathGenerator
 from src.ours.rl.common.saveload.image import ImageSaveLoad
 from src.ours.rl.common.saveload.numpy import NumpySaveLoad
+from src.ours.rl.pwil.param import PwilParam
+from src.ours.rl.pwil.path import PwilSaveLoadPathGenerator
 from src.ours.rl.pwil.rewardplot.rewardplotter import RewardPlotter
 
 
