@@ -4,7 +4,7 @@ from src.ours.env.env import DiscretePointNav, PointNav, ContPointNav
 from src.ours.eval.common.action_provider import ActionProvider
 
 
-class PointEnvRunnerConfig:
+class PointNavRunnerConfig:
     n_max_steps_per_episode = 500
     n_episodes = 2
 
@@ -21,14 +21,14 @@ class PointEnvRunner:
         return obs, False
 
     def run_episodes(self, action_provider: ActionProvider) -> None:
-        for __ in range(PointEnvRunnerConfig.n_episodes):
+        for __ in range(PointNavRunnerConfig.n_episodes):
             self.reset()
             self._run_one_episode(action_provider)
 
         self._env.close()
 
     def _run_one_episode(self, action_provider: ActionProvider) -> None:
-        for __ in range(PointEnvRunnerConfig.n_max_steps_per_episode):
+        for __ in range(PointNavRunnerConfig.n_max_steps_per_episode):
             self._obs, __, self._done, __ = self._env.step(
                 action_provider.get_action(self._obs)
             )
