@@ -11,10 +11,15 @@ from src.ours.rl.pwil.rewardplot.rewardplotter import RewardPlotter
 
 class RewardPlotConfig:
     def __init__(self):
+        self._auto_load: bool = True
         self._force_regenerate: bool = False
 
         self._save_as_image: bool = True
         self._save_as_numpy: bool = True
+
+    @property
+    def auto_load(self):
+        return self._auto_load
 
     @property
     def force_regenerate(self) -> bool:
