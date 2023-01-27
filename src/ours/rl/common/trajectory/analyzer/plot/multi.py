@@ -111,17 +111,11 @@ class TrajectoriesComparisonPlot:
             figures_upper_lower[1].subplots(1, 3), [4, 5, 6], stats_variant
         )
 
-        plt.show()
-
     def plot_distant(self, stats_variant: str = "rewards_avg") -> None:
         self._plot_multi_demo_ids(self._figure.subplots(1, 3), [4, 5, 6], stats_variant)
 
-        plt.show()
-
     def plot_mixed(self, stats_variant: str = "rewards_avg") -> None:
         self._plot_multi_demo_ids(self._figure.subplots(1, 3), [1, 2, 3], stats_variant)
-
-        plt.show()
 
     def _plot_multi_demo_ids(
         self,
@@ -141,8 +135,6 @@ class TrajectoriesComparisonPlot:
         else:
             axes = self._figure.subplots(1, 3)
             self._plot_one_demo_id_separate(axes, 0, stats_variant)
-
-        plt.show()
 
     def _plot_one_demo_id_together(
         self,
@@ -281,8 +273,6 @@ class TrajectoriesComparisonPlot:
         axes[0].plot(self._pick_stats(stats_optimal, variant))
         axes[1].plot(self._pick_stats(stats_mixed, variant))
         axes[2].plot(self._pick_stats(stats_distant, variant))
-
-        plt.show()
 
     @staticmethod
     def _pick_stats(stats: TrajectoriesStats, variant: str) -> np.ndarray:
