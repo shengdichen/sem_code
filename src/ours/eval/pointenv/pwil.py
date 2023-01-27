@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 import torchvision
+from matplotlib import pyplot as plt
 
 from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.creation import (
@@ -19,6 +20,7 @@ from src.ours.eval.pointenv.expert import (
     ContPointNavExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import DiscretePointNavRunner, ContPointNavRunner
+from src.ours.rl.common.trajectory.analyzer.plot.multi import TrajectoriesComparisonPlot
 from src.ours.rl.pwil.manager import (
     PwilManagerFactory,
     PwilManager,
@@ -173,6 +175,10 @@ class PointNavPwilManager:
     def __init__(self, managers: list[PwilManager]):
         self._managers = managers
 
+    @property
+    def managers(self) -> list[PwilManager]:
+        return self._managers
+
     def save_rewardplots(self) -> None:
         for manager in self._managers:
             manager.save_reward_plot()
@@ -236,6 +242,39 @@ class ContPointNavPwilManager(PointNavPwilManager):
                 return model.predict(obs)[0]
 
         ContPointNavRunner().run_episodes(ActionProviderModel())
+
+
+class TrajectoriesAnalysisPlot:
+    def __init__(self):
+        self._figure = plt.figure()
+
+    def plot_mixed_distant_discrete(self):
+        plot_discrete = TrajectoriesComparisonPlot(
+            [
+                manager.load_trajectory()
+                for manager in DiscretePointNavPwilManager().managers
+            ],
+            PointNavPwilParams().get_params(),
+            model_is_discrete=True,
+            figure=self._figure,
+        )
+        plot_discrete.plot_mixed_distant(stats_variant="length_avg")
+
+        plt.show()
+
+    def plot_mixed_distant_cont(self):
+        plot_cont = TrajectoriesComparisonPlot(
+            [
+                manager.load_trajectory()
+                for manager in ContPointNavPwilManager().managers
+            ],
+            PointNavPwilParams().get_params(),
+            model_is_discrete=False,
+            figure=self._figure,
+        )
+        plot_cont.plot_mixed_distant(stats_variant="length_avg")
+
+        plt.show()
 
 
 def client_code():
