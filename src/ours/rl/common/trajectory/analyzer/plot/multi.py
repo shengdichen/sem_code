@@ -240,8 +240,8 @@ class TrajectoriesComparisonPlot:
         ax.set_xlabel("Subsampling Frequency")
         ax.set_ylim([0, 1200])
 
-        baseline_line_style = {"color": "salmon", "label": "baseline"}
-        expert_line_style = {"color": "grey", "label": "expert"}
+        baseline_line_style = {"color": "salmon", "label": "baseline", "linewidth": 2.5}
+        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 2.5}
         ax.axhline(
             950,  # baseline
             **baseline_line_style,
