@@ -1,5 +1,6 @@
 import logging
 
+import matplotlib as mpl
 import numpy as np
 import torchvision
 from matplotlib import pyplot as plt
@@ -249,31 +250,45 @@ class TrajectoriesAnalysisPlot:
         self._figure = plt.figure()
         plt.rcParams["font.family"] = "Source Code Pro"
 
-    def plot_mixed_distant_discrete(self):
-        plot_discrete = TrajectoriesComparisonPlot(
+        self._trajectories_discrete, self._trajectories_cont = (
             [
                 manager.load_trajectory()
                 for manager in DiscretePointNavPwilManager().managers
             ],
-            PointNavPwilParams().get_params(),
-            model_is_discrete=True,
-            figure=self._figure,
-        )
-        plot_discrete.plot_mixed_distant(stats_variant="length_avg")
-
-        plt.show()
-
-    def plot_mixed_distant_cont(self):
-        plot_cont = TrajectoriesComparisonPlot(
             [
                 manager.load_trajectory()
                 for manager in ContPointNavPwilManager().managers
             ],
-            PointNavPwilParams().get_params(),
-            model_is_discrete=False,
-            figure=self._figure,
         )
-        plot_cont.plot_mixed_distant(stats_variant="length_avg")
+        self._params = PointNavPwilParams().get_params()
+
+    def _make_discrete_plotter(self, figure: mpl.figure.FigureBase):
+        return TrajectoriesComparisonPlot(
+            self._trajectories_discrete,
+            self._params,
+            model_is_discrete=True,
+            figure=figure,
+        )
+
+    def _make_cont_plotter(self, figure: mpl.figure.FigureBase):
+        return TrajectoriesComparisonPlot(
+            self._trajectories_cont,
+            self._params,
+            model_is_discrete=False,
+            figure=figure,
+        )
+
+    def plot_mixed_distant_discrete(self):
+        self._make_discrete_plotter(self._figure).plot_mixed_distant(
+            stats_variant="length_avg"
+        )
+
+        plt.show()
+
+    def plot_mixed_distant_cont(self):
+        self._make_cont_plotter(self._figure).plot_mixed_distant(
+            stats_variant="length_avg"
+        )
 
         plt.show()
 
