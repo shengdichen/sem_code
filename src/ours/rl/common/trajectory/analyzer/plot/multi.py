@@ -76,7 +76,12 @@ class Selector:
 
 
 class TrajectoriesComparisonPlot:
-    def __init__(self, trajectories: list[np.ndarray], pwil_params: list[PwilParam]):
+    def __init__(
+        self,
+        trajectories: list[np.ndarray],
+        pwil_params: list[PwilParam],
+        figure: mpl.figure.FigureBase = None,
+    ):
         self._trajectories = trajectories
         self._params = pwil_params
 
@@ -90,7 +95,10 @@ class TrajectoriesComparisonPlot:
             6: "distant",
         }
 
-        self._figure = plt.figure()
+        if figure is not None:
+            self._figure = figure
+        else:
+            self._figure = plt.figure()
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
         figures_upper_lower = self._figure.subfigures(2, 1)
