@@ -202,6 +202,15 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
+    @staticmethod
+    def pick_stats(stats: TrajectoriesStats, variant: str):
+        if variant == "rewards_avg":
+            return stats.rewards_avg
+        elif variant == "length_avg":
+            return stats.lengths_avg
+        else:
+            exit("wrong stats picker")
+
 
 class TrajectoriesPlot(ABC):
     def __init__(self, trajectories: list[np.ndarray]):
