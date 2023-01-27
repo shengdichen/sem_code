@@ -179,7 +179,8 @@ class TrajectoriesComparisonPlot:
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
     ) -> None:
-        for selection in selections:
+        marker_styles = ["x", "+", "."]
+        for selection, marker_style in zip(selections, marker_styles):
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
             ]
@@ -190,7 +191,7 @@ class TrajectoriesComparisonPlot:
                 self._pick_stats(
                     TrajectoriesStats(selection.trajectories), stats_variant
                 ),
-                "x--",
+                marker=marker_style,
                 label="num-demos: {0}".format(n_demos),
             )
 
