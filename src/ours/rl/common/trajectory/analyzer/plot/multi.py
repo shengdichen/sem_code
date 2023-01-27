@@ -126,7 +126,7 @@ class TrajectoriesComparisonPlot:
         stats_variant: str = "rewards_avg",
     ):
         for ax, demo_id in zip(axes, demo_ids):
-            selections = self.get_selections(demo_id)
+            selections = self._select_by_demo_id(demo_id)
             self._plot_selections_together(ax, selections, stats_variant)
 
     def plot_optimal(
@@ -146,7 +146,7 @@ class TrajectoriesComparisonPlot:
         demo_id: int,
         stats_variant: str = "rewards_avg",
     ):
-        selections = self.get_selections(demo_id)
+        selections = self._select_by_demo_id(demo_id)
 
         self._plot_selections_together(ax, selections, stats_variant)
 
@@ -156,11 +156,11 @@ class TrajectoriesComparisonPlot:
         demo_id: int,
         stats_variant: str = "rewards_avg",
     ):
-        selections = self.get_selections(demo_id)
+        selections = self._select_by_demo_id(demo_id)
 
         self._plot_selections_separate(axes, selections, stats_variant)
 
-    def get_selections(self, demo_id: int) -> list[Selector]:
+    def _select_by_demo_id(self, demo_id: int) -> list[Selector]:
         selections_optimal = []
         for n_demos in [1, 5, 10]:
             selections_optimal.append(
