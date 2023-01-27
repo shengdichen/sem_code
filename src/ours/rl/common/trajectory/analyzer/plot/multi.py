@@ -110,10 +110,14 @@ class TrajectoriesComparisonPlot:
             self._figure.subplots(1, 3), [4, 5, 6], stats_variant
         )
 
+        plt.show()
+
     def compare_mixed(self, stats_variant: str = "rewards_avg"):
         self.compare_multi_demo_ids(
             self._figure.subplots(1, 3), [1, 2, 3], stats_variant
         )
+
+        plt.show()
 
     def compare_multi_demo_ids(
         self,
@@ -123,8 +127,6 @@ class TrajectoriesComparisonPlot:
     ):
         for ax, demo_id in zip(axes, demo_ids):
             self.compare_one_demo_id(ax, demo_id, True, stats_variant)
-
-        plt.show()
 
     def compare_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
