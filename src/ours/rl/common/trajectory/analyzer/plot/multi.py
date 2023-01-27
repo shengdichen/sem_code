@@ -242,6 +242,8 @@ class TrajectoriesComparisonPlot:
     @staticmethod
     def _set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
         ax.set_xlabel("Subsampling Frequency")
+        ax.set_ylim([0, 1200])
+
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
         else:
