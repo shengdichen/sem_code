@@ -126,18 +126,18 @@ class TrajectoriesComparisonPlot:
         stats_variant: str = "rewards_avg",
     ):
         for ax, demo_id in zip(axes, demo_ids):
-            self.compare_one_demo_id(ax, demo_id, True, stats_variant)
+            self._plot_one_demo_id(ax, demo_id, True, stats_variant)
 
     def compare_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
     ):
-        self.compare_one_demo_id(
+        self._plot_one_demo_id(
             self._figure.subplots(), 0, plot_together, stats_variant
         )
 
         plt.show()
 
-    def compare_one_demo_id(
+    def _plot_one_demo_id(
         self,
         ax: mpl.axes.Axes,
         demo_id: int,
