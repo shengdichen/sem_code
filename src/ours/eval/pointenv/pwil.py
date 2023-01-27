@@ -247,6 +247,7 @@ class ContPointNavPwilManager(PointNavPwilManager):
 class TrajectoriesAnalysisPlot:
     def __init__(self):
         self._figure = plt.figure()
+        plt.rcParams["font.family"] = "Source Code Pro"
 
     def plot_mixed_distant_discrete(self):
         plot_discrete = TrajectoriesComparisonPlot(
