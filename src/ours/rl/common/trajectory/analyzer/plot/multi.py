@@ -102,6 +102,9 @@ class TrajectoriesComparisonPlot:
             self._figure = plt.figure()
 
         self._model_is_discrete = model_is_discrete
+        self._env_name = (
+            "'PointNav'-Discrete" if model_is_discrete else "'PointNav'-Continuous"
+        )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
         figures_upper_lower = self._figure.subfigures(2, 1)
