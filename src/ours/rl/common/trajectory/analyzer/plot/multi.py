@@ -240,23 +240,16 @@ class TrajectoriesComparisonPlot:
         ax.set_xlabel("Subsampling Frequency")
         ax.set_ylim([0, 1200])
 
+        baseline_line_style = {"color": "salmon", "label": "baseline"}
+        expert_line_style = {"color": "grey", "label": "expert"}
         ax.axhline(
             950,  # baseline
-            color="salmon",
-            label="baseline",
+            **baseline_line_style,
         )
         if self._model_is_discrete:
-            ax.axhline(
-                208,  # expert
-                color="grey",
-                label="expert",
-            )
+            ax.axhline(208, **expert_line_style)
         else:
-            ax.axhline(
-                88.2,  # expert
-                color="grey",
-                label="expert",
-            )
+            ax.axhline(88.2, **expert_line_style)
 
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
