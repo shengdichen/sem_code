@@ -144,6 +144,15 @@ class TrajectoriesComparisonPlot:
         plot_together: bool = True,
         stats_variant: str = "rewards_avg",
     ):
+        selections = self.get_selections(demo_id)
+
+        if plot_together:
+            self._plot_selections_together(ax, selections, stats_variant)
+        else:
+            axes = self._figure.subplots(1, 3)
+            self._plot_selections_separate(axes, selections, stats_variant)
+
+    def get_selections(self, demo_id: int) -> list[Selector]:
         selections_optimal = []
         for n_demos in [1, 5, 10]:
             selections_optimal.append(
@@ -152,11 +161,7 @@ class TrajectoriesComparisonPlot:
                 .select_by_n_demos([n_demos])
             )
 
-        if plot_together:
-            self._plot_selections_together(ax, selections_optimal, stats_variant)
-        else:
-            axes = self._figure.subplots(1, 3)
-            self._plot_selections_separate(axes, selections_optimal, stats_variant)
+        return selections_optimal
 
     def _plot_selections_together(
         self,
