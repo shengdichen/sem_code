@@ -195,7 +195,7 @@ class TrajectoriesComparisonPlot:
             )
 
         ax.set_title(
-            "{0}\n[demo-id]-[n-demos]  --  {1}({2})-{3}".format(
+            "{0}\n<demo-id={1}({2})> -- <n-demos={3}>".format(
                 self._env_name,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
