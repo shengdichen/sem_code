@@ -224,6 +224,14 @@ class TrajectoriesComparisonPlot:
         else:
             ax.set_ylabel("Length (lower is better)")
 
+    @staticmethod
+    def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"):
+        ax.set_xlabel("Subsampling Frequency")
+        if stats_variant == "rewards_avg":
+            ax.set_ylabel("Reward (higher is better)")
+        else:
+            ax.set_ylabel("Length (lower is better)")
+
     def plot_all_types(self, variant: str = "rewards_avg"):
         stats_optimal = TrajectoriesStats(
             Selector(self._trajectories, self._params)
