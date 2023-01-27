@@ -128,7 +128,7 @@ class TrajectoriesComparisonPlot:
         for ax, demo_id in zip(axes, demo_ids):
             self._plot_one_demo_id(ax, demo_id, True, stats_variant)
 
-    def compare_optimal(
+    def plot_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
     ):
         self._plot_one_demo_id(
