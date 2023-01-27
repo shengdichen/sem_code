@@ -80,6 +80,7 @@ class TrajectoriesComparisonPlot:
         self,
         trajectories: list[np.ndarray],
         pwil_params: list[PwilParam],
+        model_is_discrete: bool = True,
         figure: mpl.figure.FigureBase = None,
     ):
         self._trajectories = trajectories
@@ -99,6 +100,8 @@ class TrajectoriesComparisonPlot:
             self._figure = figure
         else:
             self._figure = plt.figure()
+
+        self._model_is_discrete = model_is_discrete
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
         figures_upper_lower = self._figure.subfigures(2, 1)
