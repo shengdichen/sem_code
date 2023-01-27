@@ -192,6 +192,7 @@ class TrajectoriesComparisonPlot:
                     TrajectoriesStats(selection.trajectories), stats_variant
                 ),
                 marker=marker_style,
+                dashes=[5, 3],
                 label="num-demos: {0}".format(n_demos),
             )
 
