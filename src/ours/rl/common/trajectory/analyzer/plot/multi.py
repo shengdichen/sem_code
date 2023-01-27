@@ -180,7 +180,8 @@ class TrajectoriesComparisonPlot:
             )
 
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}-{1}".format(
+            "[demo-type]-[n-traj]: {0}({1})-{2}".format(
+                selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
                 "[1 | 5 | 10]",
             ),
