@@ -92,7 +92,7 @@ class TrajectoriesComparisonPlot:
 
         self._figure = plt.figure()
 
-    def plot_mixed_distant(self, stats_variant: str):
+    def plot_mixed_distant(self, stats_variant: str) -> None:
         figures_upper_lower = self._figure.subfigures(2, 1)
 
         self._plot_multi_demo_ids(
@@ -105,17 +105,13 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
-    def plot_distant(self, stats_variant: str = "rewards_avg"):
-        self._plot_multi_demo_ids(
-            self._figure.subplots(1, 3), [4, 5, 6], stats_variant
-        )
+    def plot_distant(self, stats_variant: str = "rewards_avg") -> None:
+        self._plot_multi_demo_ids(self._figure.subplots(1, 3), [4, 5, 6], stats_variant)
 
         plt.show()
 
-    def plot_mixed(self, stats_variant: str = "rewards_avg"):
-        self._plot_multi_demo_ids(
-            self._figure.subplots(1, 3), [1, 2, 3], stats_variant
-        )
+    def plot_mixed(self, stats_variant: str = "rewards_avg") -> None:
+        self._plot_multi_demo_ids(self._figure.subplots(1, 3), [1, 2, 3], stats_variant)
 
         plt.show()
 
@@ -124,14 +120,14 @@ class TrajectoriesComparisonPlot:
         axes: list[mpl.axes.Axes],
         demo_ids: list[int],
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         for ax, demo_id in zip(axes, demo_ids):
             selections = self._select_by_demo_id(demo_id)
             self._plot_selections_together(ax, selections, stats_variant)
 
     def plot_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
-    ):
+    ) -> None:
         if plot_together:
             self._plot_one_demo_id_together(self._figure.subplots(), 0, stats_variant)
         else:
@@ -145,7 +141,7 @@ class TrajectoriesComparisonPlot:
         ax: mpl.axes.Axes,
         demo_id: int,
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         selections = self._select_by_demo_id(demo_id)
 
         self._plot_selections_together(ax, selections, stats_variant)
@@ -155,7 +151,7 @@ class TrajectoriesComparisonPlot:
         axes: list[mpl.axes.Axes],
         demo_id: int,
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         selections = self._select_by_demo_id(demo_id)
 
         self._plot_selections_separate(axes, selections, stats_variant)
@@ -176,7 +172,7 @@ class TrajectoriesComparisonPlot:
         ax: mpl.axes.Axes,
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         for selection in selections:
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
@@ -207,7 +203,7 @@ class TrajectoriesComparisonPlot:
         axes: list[mpl.axes.Axes],
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         for ax, selection in zip(axes, selections):
             self._plot_selection(ax, selection, stats_variant)
 
@@ -216,7 +212,7 @@ class TrajectoriesComparisonPlot:
         ax: mpl.axes.Axes,
         selection: Selector,
         stats_variant: str = "rewards_avg",
-    ):
+    ) -> None:
         subsamplings = [
             param.pwil_training_param["subsampling"] for param in selection.params
         ]
@@ -236,14 +232,14 @@ class TrajectoriesComparisonPlot:
         self.set_axis_labels(ax, stats_variant)
 
     @staticmethod
-    def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"):
+    def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
         ax.set_xlabel("Subsampling Frequency")
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
         else:
             ax.set_ylabel("Length (lower is better)")
 
-    def plot_all_types(self, variant: str = "rewards_avg"):
+    def plot_all_types(self, variant: str = "rewards_avg") -> None:
         stats_optimal = TrajectoriesStats(
             Selector(self._trajectories, self._params)
             .select_by_trajectory_num([0])
@@ -268,7 +264,7 @@ class TrajectoriesComparisonPlot:
         plt.show()
 
     @staticmethod
-    def pick_stats(stats: TrajectoriesStats, variant: str):
+    def pick_stats(stats: TrajectoriesStats, variant: str) -> None:
         if variant == "rewards_avg":
             return stats.rewards_avg
         elif variant == "length_avg":
