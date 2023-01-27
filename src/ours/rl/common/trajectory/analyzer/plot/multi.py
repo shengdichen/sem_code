@@ -92,7 +92,7 @@ class TrajectoriesComparisonPlot:
 
         self._figure = plt.figure()
 
-    def compare_distant_mixed(self, stats_variant: str):
+    def plot_mixed_distant(self, stats_variant: str):
         figures_upper_lower = self._figure.subfigures(2, 1)
 
         self._compare_multi_demo_ids(
@@ -105,14 +105,14 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
-    def compare_distant(self, stats_variant: str = "rewards_avg"):
+    def plot_distant(self, stats_variant: str = "rewards_avg"):
         self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [4, 5, 6], stats_variant
         )
 
         plt.show()
 
-    def compare_mixed(self, stats_variant: str = "rewards_avg"):
+    def plot_mixed(self, stats_variant: str = "rewards_avg"):
         self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [1, 2, 3], stats_variant
         )
