@@ -186,6 +186,7 @@ class TrajectoriesComparisonPlot:
                 "[1 | 5 | 10]",
             ),
         )
+        self.set_axis_labels(ax, stats_variant)
         ax.legend()
 
     def _plot_selections_separate(
@@ -218,11 +219,7 @@ class TrajectoriesComparisonPlot:
                 selection.params[0].pwil_training_param["n_demos"],
             ),
         )
-        ax.set_xlabel("Subsampling Frequency")
-        if stats_variant == "rewards_avg":
-            ax.set_ylabel("Reward (higher is better)")
-        else:
-            ax.set_ylabel("Length (lower is better)")
+        self.set_axis_labels(ax, stats_variant)
 
     @staticmethod
     def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"):
