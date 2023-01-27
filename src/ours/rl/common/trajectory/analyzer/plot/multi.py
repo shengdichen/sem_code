@@ -137,6 +137,26 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
+    def plot_one_demo_id_together(
+        self,
+        ax: mpl.axes.Axes,
+        demo_id: int,
+        stats_variant: str = "rewards_avg",
+    ):
+        selections = self.get_selections(demo_id)
+
+        self._plot_selections_together(ax, selections, stats_variant)
+
+    def plot_one_demo_id_separate(
+        self,
+        axes: list[mpl.axes.Axes],
+        demo_id: int,
+        stats_variant: str = "rewards_avg",
+    ):
+        selections = self.get_selections(demo_id)
+
+        self._plot_selections_separate(axes, selections, stats_variant)
+
     def _plot_one_demo_id(
         self,
         ax: mpl.axes.Axes,
