@@ -95,31 +95,31 @@ class TrajectoriesComparisonPlot:
     def compare_distant_mixed(self, stats_variant: str):
         figures_upper_lower = self._figure.subfigures(2, 1)
 
-        self.compare_multi_demo_ids(
+        self._compare_multi_demo_ids(
             figures_upper_lower[0].subplots(1, 3), [1, 2, 3], stats_variant
         )
 
-        self.compare_multi_demo_ids(
+        self._compare_multi_demo_ids(
             figures_upper_lower[1].subplots(1, 3), [4, 5, 6], stats_variant
         )
 
         plt.show()
 
     def compare_distant(self, stats_variant: str = "rewards_avg"):
-        self.compare_multi_demo_ids(
+        self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [4, 5, 6], stats_variant
         )
 
         plt.show()
 
     def compare_mixed(self, stats_variant: str = "rewards_avg"):
-        self.compare_multi_demo_ids(
+        self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [1, 2, 3], stats_variant
         )
 
         plt.show()
 
-    def compare_multi_demo_ids(
+    def _compare_multi_demo_ids(
         self,
         axes: list[mpl.axes.Axes],
         demo_ids: list[int],
