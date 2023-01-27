@@ -156,9 +156,7 @@ class TrajectoriesComparisonPlot:
             self._plot_selections_together(ax, selections_optimal, stats_variant)
         else:
             axes = self._figure.subplots(1, 3)
-            self._plot_selections_separate(
-                axes, selections_optimal, "subsampling", stats_variant
-            )
+            self._plot_selections_separate(axes, selections_optimal, stats_variant)
 
     def _plot_selections_together(
         self,
@@ -193,39 +191,34 @@ class TrajectoriesComparisonPlot:
         self,
         axes: list[mpl.axes.Axes],
         selections: list[Selector],
-        variant: str,
         stats_variant: str = "rewards_avg",
     ):
         for ax, selection in zip(axes, selections):
-            self._plot_selection(ax, selection, variant, stats_variant)
+            self._plot_selection(ax, selection, stats_variant)
 
     def _plot_selection(
         self,
         ax: mpl.axes.Axes,
         selection: Selector,
-        variant: str,
         stats_variant: str = "rewards_avg",
     ):
-        if variant == "subsampling":
-            subsamplings = [
-                param.pwil_training_param["subsampling"] for param in selection.params
-            ]
+        subsamplings = [
+            param.pwil_training_param["subsampling"] for param in selection.params
+        ]
 
-            ax.plot(
-                subsamplings,
-                self.pick_stats(
-                    TrajectoriesStats(selection.trajectories), stats_variant
-                ),
-                "x--",
-            )
-            ax.set_title(
-                "[demo-type]-[n-traj]: {0}-{1}".format(
-                    self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
-                    selection.params[0].pwil_training_param["n_demos"],
-                ),
-            )
-            ax.set_xlabel("Subsampling Frequency")
-            ax.set_ylabel("Reward (higher is better)")
+        ax.plot(
+            subsamplings,
+            self.pick_stats(TrajectoriesStats(selection.trajectories), stats_variant),
+            "x--",
+        )
+        ax.set_title(
+            "[demo-type]-[n-traj]: {0}-{1}".format(
+                self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
+                selection.params[0].pwil_training_param["n_demos"],
+            ),
+        )
+        ax.set_xlabel("Subsampling Frequency")
+        ax.set_ylabel("Reward (higher is better)")
 
     def plot_all_types(self, variant: str = "rewards_avg"):
         stats_optimal = TrajectoriesStats(
