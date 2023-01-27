@@ -244,6 +244,9 @@ class TrajectoriesComparisonPlot:
         ax.set_xlabel("Subsampling Frequency")
         ax.set_ylim([0, 1200])
 
+        ax.hlines(950, 0, 20)  # baseline
+        ax.hlines(250, 0, 20)  # expert
+
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
         else:
