@@ -126,14 +126,17 @@ class TrajectoriesComparisonPlot:
         stats_variant: str = "rewards_avg",
     ):
         for ax, demo_id in zip(axes, demo_ids):
-            self._plot_one_demo_id(ax, demo_id, True, stats_variant)
+            selections = self.get_selections(demo_id)
+            self._plot_selections_together(ax, selections, stats_variant)
 
     def plot_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
     ):
-        self._plot_one_demo_id(
-            self._figure.subplots(), 0, plot_together, stats_variant
-        )
+        if plot_together:
+            self.plot_one_demo_id_together(self._figure.subplots(), 0, stats_variant)
+        else:
+            axes = self._figure.subplots(1, 3)
+            self.plot_one_demo_id_separate(axes, 0, stats_variant)
 
         plt.show()
 
@@ -156,21 +159,6 @@ class TrajectoriesComparisonPlot:
         selections = self.get_selections(demo_id)
 
         self._plot_selections_separate(axes, selections, stats_variant)
-
-    def _plot_one_demo_id(
-        self,
-        ax: mpl.axes.Axes,
-        demo_id: int,
-        plot_together: bool = True,
-        stats_variant: str = "rewards_avg",
-    ):
-        selections = self.get_selections(demo_id)
-
-        if plot_together:
-            self._plot_selections_together(ax, selections, stats_variant)
-        else:
-            axes = self._figure.subplots(1, 3)
-            self._plot_selections_separate(axes, selections, stats_variant)
 
     def get_selections(self, demo_id: int) -> list[Selector]:
         selections_optimal = []
