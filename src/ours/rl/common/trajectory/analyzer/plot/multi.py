@@ -227,7 +227,7 @@ class TrajectoriesComparisonPlot:
             ax.set_xlabel("Subsampling Frequency")
             ax.set_ylabel("Reward (higher is better)")
 
-    def compare_all_by_demo_id(self, variant: str = "rewards_avg"):
+    def plot_all_types(self, variant: str = "rewards_avg"):
         stats_optimal = TrajectoriesStats(
             Selector(self._trajectories, self._params)
             .select_by_trajectory_num([0])
