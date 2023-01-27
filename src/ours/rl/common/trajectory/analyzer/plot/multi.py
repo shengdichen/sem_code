@@ -133,14 +133,14 @@ class TrajectoriesComparisonPlot:
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
     ):
         if plot_together:
-            self.plot_one_demo_id_together(self._figure.subplots(), 0, stats_variant)
+            self._plot_one_demo_id_together(self._figure.subplots(), 0, stats_variant)
         else:
             axes = self._figure.subplots(1, 3)
-            self.plot_one_demo_id_separate(axes, 0, stats_variant)
+            self._plot_one_demo_id_separate(axes, 0, stats_variant)
 
         plt.show()
 
-    def plot_one_demo_id_together(
+    def _plot_one_demo_id_together(
         self,
         ax: mpl.axes.Axes,
         demo_id: int,
@@ -150,7 +150,7 @@ class TrajectoriesComparisonPlot:
 
         self._plot_selections_together(ax, selections, stats_variant)
 
-    def plot_one_demo_id_separate(
+    def _plot_one_demo_id_separate(
         self,
         axes: list[mpl.axes.Axes],
         demo_id: int,
