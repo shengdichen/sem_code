@@ -234,8 +234,9 @@ class TrajectoriesComparisonPlot:
         )
         self._set_axis_labels(ax, stats_variant)
 
-    @staticmethod
-    def _set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
+    def _set_axis_labels(
+        self, ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"
+    ) -> None:
         ax.set_xlabel("Subsampling Frequency")
         ax.set_ylim([0, 1200])
 
@@ -244,11 +245,18 @@ class TrajectoriesComparisonPlot:
             color="salmon",
             label="baseline",
         )
-        ax.axhline(
-            208,  # expert
-            color="grey",
-            label="expert",
-        )
+        if self._model_is_discrete:
+            ax.axhline(
+                208,  # expert
+                color="grey",
+                label="expert",
+            )
+        else:
+            ax.axhline(
+                88.2,  # expert
+                color="grey",
+                label="expert",
+            )
 
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
