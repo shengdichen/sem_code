@@ -181,7 +181,7 @@ class TrajectoriesComparisonPlot:
             n_demos = selection.params[0].pwil_training_param["n_demos"]
             ax.plot(
                 subsamplings,
-                self.pick_stats(
+                self._pick_stats(
                     TrajectoriesStats(selection.trajectories), stats_variant
                 ),
                 "x--",
@@ -195,7 +195,7 @@ class TrajectoriesComparisonPlot:
                 "[1 | 5 | 10]",
             ),
         )
-        self.set_axis_labels(ax, stats_variant)
+        self._set_axis_labels(ax, stats_variant)
         ax.legend()
 
     def _plot_selections_separate(
@@ -219,7 +219,7 @@ class TrajectoriesComparisonPlot:
 
         ax.plot(
             subsamplings,
-            self.pick_stats(TrajectoriesStats(selection.trajectories), stats_variant),
+            self._pick_stats(TrajectoriesStats(selection.trajectories), stats_variant),
             "x--",
         )
         ax.set_title(
@@ -229,10 +229,10 @@ class TrajectoriesComparisonPlot:
                 selection.params[0].pwil_training_param["n_demos"],
             ),
         )
-        self.set_axis_labels(ax, stats_variant)
+        self._set_axis_labels(ax, stats_variant)
 
     @staticmethod
-    def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
+    def _set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
         ax.set_xlabel("Subsampling Frequency")
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
@@ -257,14 +257,14 @@ class TrajectoriesComparisonPlot:
         )
 
         axes = plt.figure().subplots(1, 3)
-        axes[0].plot(self.pick_stats(stats_optimal, variant))
-        axes[1].plot(self.pick_stats(stats_mixed, variant))
-        axes[2].plot(self.pick_stats(stats_distant, variant))
+        axes[0].plot(self._pick_stats(stats_optimal, variant))
+        axes[1].plot(self._pick_stats(stats_mixed, variant))
+        axes[2].plot(self._pick_stats(stats_distant, variant))
 
         plt.show()
 
     @staticmethod
-    def pick_stats(stats: TrajectoriesStats, variant: str) -> None:
+    def _pick_stats(stats: TrajectoriesStats, variant: str) -> np.ndarray:
         if variant == "rewards_avg":
             return stats.rewards_avg
         elif variant == "length_avg":
