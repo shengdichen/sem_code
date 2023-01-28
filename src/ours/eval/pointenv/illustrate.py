@@ -1,12 +1,14 @@
 import matplotlib as mpl
 from matplotlib import pyplot as plt
 
+from src.ours.eval.pointenv.illustration.trajectory.compare import (
+    TrajectoriesComparisonPlot,
+)
 from src.ours.eval.pointenv.pwil import (
     DiscretePointNavPwilManager,
     ContPointNavPwilManager,
     PointNavPwilParams,
 )
-from src.ours.rl.common.trajectory.analyzer.plot.multi import TrajectoriesComparisonPlot
 
 
 class TrajectoriesAnalysisPlotConfig:
