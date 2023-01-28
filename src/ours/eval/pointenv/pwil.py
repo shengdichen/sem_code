@@ -245,6 +245,10 @@ class ContPointNavPwilManager(PointNavPwilManager):
         ContPointNavRunner().run_episodes(ActionProviderModel())
 
 
+class TrajectoriesAnalysisPlotConfig:
+    use_length_as_metric: bool = True
+
+
 class TrajectoriesAnalysisPlot:
     def __init__(self):
         self._figure = plt.figure()
@@ -261,6 +265,8 @@ class TrajectoriesAnalysisPlot:
             ],
         )
         self._params = PointNavPwilParams().get_params()
+
+        self._config = TrajectoriesAnalysisPlotConfig
 
     def _make_discrete_plotter(self, figure: mpl.figure.FigureBase):
         return TrajectoriesComparisonPlot(
@@ -298,16 +304,26 @@ class TrajectoriesAnalysisPlot:
         plt.show()
 
     def plot_mixed_distant_discrete(self):
-        self._make_discrete_plotter(self._figure).plot_mixed_distant(
-            stats_variant="length_avg"
-        )
+        if self._config.use_length_as_metric:
+            self._make_discrete_plotter(self._figure).plot_mixed_distant(
+                stats_variant="length_avg"
+            )
+        else:
+            self._make_discrete_plotter(self._figure).plot_mixed_distant(
+                stats_variant="rewards_avg"
+            )
 
         plt.show()
 
     def plot_mixed_distant_cont(self):
-        self._make_cont_plotter(self._figure).plot_mixed_distant(
-            stats_variant="length_avg"
-        )
+        if self._config.use_length_as_metric:
+            self._make_cont_plotter(self._figure).plot_mixed_distant(
+                stats_variant="length_avg"
+            )
+        else:
+            self._make_cont_plotter(self._figure).plot_mixed_distant(
+                stats_variant="rewards_avg"
+            )
 
         plt.show()
 
