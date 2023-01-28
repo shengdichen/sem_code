@@ -259,14 +259,24 @@ class TrajectoriesComparisonPlot:
             "linewidth": 2.5,
         }
         expert_line_style = {"color": "grey", "label": "expert", "linewidth": 2.5}
-        ax.axhline(
-            950,  # baseline
-            **baseline_line_style,
-        )
-        if self._model_is_discrete:
-            ax.axhline(208, **expert_line_style)
+        if stats_variant == "length_avg":
+            ax.axhline(
+                950,  # baseline
+                **baseline_line_style,
+            )
+            if self._model_is_discrete:
+                ax.axhline(208, **expert_line_style)
+            else:
+                ax.axhline(88.2, **expert_line_style)
         else:
-            ax.axhline(88.2, **expert_line_style)
+            ax.axhline(
+                -7e4,  # baseline
+                **baseline_line_style,
+            )
+            if self._model_is_discrete:
+                ax.axhline(-1.3e4, **expert_line_style)
+            else:
+                ax.axhline(-5300, **expert_line_style)
 
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
