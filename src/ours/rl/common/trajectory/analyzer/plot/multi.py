@@ -76,7 +76,13 @@ class Selector:
 
 
 class TrajectoriesComparisonPlot:
-    def __init__(self, trajectories: list[np.ndarray], pwil_params: list[PwilParam]):
+    def __init__(
+        self,
+        trajectories: list[np.ndarray],
+        pwil_params: list[PwilParam],
+        model_is_discrete: bool = True,
+        figure: mpl.figure.FigureBase = None,
+    ):
         self._trajectories = trajectories
         self._params = pwil_params
 
@@ -90,7 +96,15 @@ class TrajectoriesComparisonPlot:
             6: "distant",
         }
 
-        self._figure = plt.figure()
+        if figure is not None:
+            self._figure = figure
+        else:
+            self._figure = plt.figure()
+
+        self._model_is_discrete = model_is_discrete
+        self._env_name = (
+            "'PointNav'-Discrete" if model_is_discrete else "'PointNav'-Continuous"
+        )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
         figures_upper_lower = self._figure.subfigures(2, 1)
@@ -103,17 +117,11 @@ class TrajectoriesComparisonPlot:
             figures_upper_lower[1].subplots(1, 3), [4, 5, 6], stats_variant
         )
 
-        plt.show()
-
     def plot_distant(self, stats_variant: str = "rewards_avg") -> None:
         self._plot_multi_demo_ids(self._figure.subplots(1, 3), [4, 5, 6], stats_variant)
 
-        plt.show()
-
     def plot_mixed(self, stats_variant: str = "rewards_avg") -> None:
         self._plot_multi_demo_ids(self._figure.subplots(1, 3), [1, 2, 3], stats_variant)
-
-        plt.show()
 
     def _plot_multi_demo_ids(
         self,
@@ -133,8 +141,6 @@ class TrajectoriesComparisonPlot:
         else:
             axes = self._figure.subplots(1, 3)
             self._plot_one_demo_id_separate(axes, 0, stats_variant)
-
-        plt.show()
 
     def _plot_one_demo_id_together(
         self,
@@ -173,7 +179,11 @@ class TrajectoriesComparisonPlot:
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
     ) -> None:
-        for selection in selections:
+        marker_styles = ["x", "+", "."]
+        markersize_styles = [6.0, 7.5, 9.5]
+        for selection, marker_style, markersize_style in zip(
+            selections, marker_styles, markersize_styles
+        ):
             subsamplings = [
                 param.pwil_training_param["subsampling"] for param in selection.params
             ]
@@ -184,12 +194,15 @@ class TrajectoriesComparisonPlot:
                 self._pick_stats(
                     TrajectoriesStats(selection.trajectories), stats_variant
                 ),
-                "x--",
+                marker=marker_style,
+                markersize=markersize_style,
+                dashes=[5, 3],
                 label="num-demos: {0}".format(n_demos),
             )
 
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}({1})-{2}".format(
+            "{0}\n<demo-id={1}({2})> -- <n-demos={3}>".format(
+                self._env_name,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
                 "[1 | 5 | 10]",
@@ -231,9 +244,40 @@ class TrajectoriesComparisonPlot:
         )
         self._set_axis_labels(ax, stats_variant)
 
-    @staticmethod
-    def _set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg") -> None:
+    def _set_axis_labels(
+        self, ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"
+    ) -> None:
         ax.set_xlabel("Subsampling Frequency")
+        if stats_variant == "length_avg":
+            ax.set_ylim([0, 1200])
+        else:
+            ax.set_ylim([-1.35e5, 0])
+
+        baseline_line_style = {
+            "color": "rebeccapurple",
+            "label": "baseline",
+            "linewidth": 2.5,
+        }
+        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 2.5}
+        if stats_variant == "length_avg":
+            ax.axhline(
+                950,  # baseline
+                **baseline_line_style,
+            )
+            if self._model_is_discrete:
+                ax.axhline(208, **expert_line_style)
+            else:
+                ax.axhline(88.2, **expert_line_style)
+        else:
+            ax.axhline(
+                -7e4,  # baseline
+                **baseline_line_style,
+            )
+            if self._model_is_discrete:
+                ax.axhline(-1.3e4, **expert_line_style)
+            else:
+                ax.axhline(-5300, **expert_line_style)
+
         if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
         else:
@@ -260,8 +304,6 @@ class TrajectoriesComparisonPlot:
         axes[0].plot(self._pick_stats(stats_optimal, variant))
         axes[1].plot(self._pick_stats(stats_mixed, variant))
         axes[2].plot(self._pick_stats(stats_distant, variant))
-
-        plt.show()
 
     @staticmethod
     def _pick_stats(stats: TrajectoriesStats, variant: str) -> np.ndarray:
