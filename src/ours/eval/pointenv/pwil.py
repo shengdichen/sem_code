@@ -1,9 +1,7 @@
 import logging
 
-import matplotlib as mpl
 import numpy as np
 import torchvision
-from matplotlib import pyplot as plt
 
 from src.ours.env.config import PointNavConfigFactory
 from src.ours.env.creation import (
@@ -21,7 +19,6 @@ from src.ours.eval.pointenv.expert import (
     ContPointNavExpertDefault,
 )
 from src.ours.eval.pointenv.run.run import DiscretePointNavRunner, ContPointNavRunner
-from src.ours.rl.common.trajectory.analyzer.plot.multi import TrajectoriesComparisonPlot
 from src.ours.rl.pwil.manager import (
     PwilManagerFactory,
     PwilManager,
@@ -243,89 +240,6 @@ class ContPointNavPwilManager(PointNavPwilManager):
                 return model.predict(obs)[0]
 
         ContPointNavRunner().run_episodes(ActionProviderModel())
-
-
-class TrajectoriesAnalysisPlotConfig:
-    use_length_as_metric: bool = True
-
-
-class TrajectoriesAnalysisPlot:
-    def __init__(self):
-        self._figure = plt.figure()
-        plt.rcParams["font.family"] = "Source Code Pro"
-
-        self._trajectories_discrete, self._trajectories_cont = (
-            [
-                manager.load_trajectory()
-                for manager in DiscretePointNavPwilManager().managers
-            ],
-            [
-                manager.load_trajectory()
-                for manager in ContPointNavPwilManager().managers
-            ],
-        )
-        self._params = PointNavPwilParams().get_params()
-
-        self._config = TrajectoriesAnalysisPlotConfig
-
-    def _make_discrete_plotter(self, figure: mpl.figure.FigureBase):
-        return TrajectoriesComparisonPlot(
-            self._trajectories_discrete,
-            self._params,
-            model_is_discrete=True,
-            figure=figure,
-        )
-
-    def _make_cont_plotter(self, figure: mpl.figure.FigureBase):
-        return TrajectoriesComparisonPlot(
-            self._trajectories_cont,
-            self._params,
-            model_is_discrete=False,
-            figure=figure,
-        )
-
-    def plot_optimals(self):
-        figures = self._figure.subfigures(2, 2)
-
-        self._make_discrete_plotter(figures[0][0]).plot_optimal(
-            plot_together=True, stats_variant="length_avg"
-        )
-        self._make_cont_plotter(figures[0][1]).plot_optimal(
-            plot_together=True, stats_variant="length_avg"
-        )
-
-        self._make_discrete_plotter(figures[1][0]).plot_optimal(
-            plot_together=True, stats_variant="rewards_avg"
-        )
-        self._make_cont_plotter(figures[1][1]).plot_optimal(
-            plot_together=True, stats_variant="rewards_avg"
-        )
-
-        plt.show()
-
-    def plot_mixed_distant_discrete(self):
-        if self._config.use_length_as_metric:
-            self._make_discrete_plotter(self._figure).plot_mixed_distant(
-                stats_variant="length_avg"
-            )
-        else:
-            self._make_discrete_plotter(self._figure).plot_mixed_distant(
-                stats_variant="rewards_avg"
-            )
-
-        plt.show()
-
-    def plot_mixed_distant_cont(self):
-        if self._config.use_length_as_metric:
-            self._make_cont_plotter(self._figure).plot_mixed_distant(
-                stats_variant="length_avg"
-            )
-        else:
-            self._make_cont_plotter(self._figure).plot_mixed_distant(
-                stats_variant="rewards_avg"
-            )
-
-        plt.show()
 
 
 def client_code():
