@@ -278,6 +278,25 @@ class TrajectoriesAnalysisPlot:
             figure=figure,
         )
 
+    def plot_optimals(self):
+        figures = self._figure.subfigures(2, 2)
+
+        self._make_discrete_plotter(figures[0][0]).plot_optimal(
+            plot_together=True, stats_variant="length_avg"
+        )
+        self._make_cont_plotter(figures[0][1]).plot_optimal(
+            plot_together=True, stats_variant="length_avg"
+        )
+
+        self._make_discrete_plotter(figures[1][0]).plot_optimal(
+            plot_together=True, stats_variant="rewards_avg"
+        )
+        self._make_cont_plotter(figures[1][1]).plot_optimal(
+            plot_together=True, stats_variant="rewards_avg"
+        )
+
+        plt.show()
+
     def plot_mixed_distant_discrete(self):
         self._make_discrete_plotter(self._figure).plot_mixed_distant(
             stats_variant="length_avg"
