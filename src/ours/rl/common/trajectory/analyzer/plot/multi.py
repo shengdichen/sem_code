@@ -248,7 +248,10 @@ class TrajectoriesComparisonPlot:
         self, ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"
     ) -> None:
         ax.set_xlabel("Subsampling Frequency")
-        ax.set_ylim([0, 1200])
+        if stats_variant == "length_avg":
+            ax.set_ylim([0, 1200])
+        else:
+            ax.set_ylim([-1.35e5, 0])
 
         baseline_line_style = {
             "color": "rebeccapurple",
