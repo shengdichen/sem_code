@@ -92,7 +92,7 @@ class TrajectoriesComparisonPlot:
 
         self._figure = plt.figure()
 
-    def compare_distant_mixed(self, stats_variant: str):
+    def plot_mixed_distant(self, stats_variant: str):
         figures_upper_lower = self._figure.subfigures(2, 1)
 
         self._compare_multi_demo_ids(
@@ -105,14 +105,14 @@ class TrajectoriesComparisonPlot:
 
         plt.show()
 
-    def compare_distant(self, stats_variant: str = "rewards_avg"):
+    def plot_distant(self, stats_variant: str = "rewards_avg"):
         self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [4, 5, 6], stats_variant
         )
 
         plt.show()
 
-    def compare_mixed(self, stats_variant: str = "rewards_avg"):
+    def plot_mixed(self, stats_variant: str = "rewards_avg"):
         self._compare_multi_demo_ids(
             self._figure.subplots(1, 3), [1, 2, 3], stats_variant
         )
@@ -126,24 +126,33 @@ class TrajectoriesComparisonPlot:
         stats_variant: str = "rewards_avg",
     ):
         for ax, demo_id in zip(axes, demo_ids):
-            self.compare_one_demo_id(ax, demo_id, True, stats_variant)
+            self._plot_one_demo_id(ax, demo_id, True, stats_variant)
 
-    def compare_optimal(
+    def plot_optimal(
         self, plot_together: bool = True, stats_variant: str = "rewards_avg"
     ):
-        self.compare_one_demo_id(
+        self._plot_one_demo_id(
             self._figure.subplots(), 0, plot_together, stats_variant
         )
 
         plt.show()
 
-    def compare_one_demo_id(
+    def _plot_one_demo_id(
         self,
         ax: mpl.axes.Axes,
         demo_id: int,
         plot_together: bool = True,
         stats_variant: str = "rewards_avg",
     ):
+        selections = self.get_selections(demo_id)
+
+        if plot_together:
+            self._plot_selections_together(ax, selections, stats_variant)
+        else:
+            axes = self._figure.subplots(1, 3)
+            self._plot_selections_separate(axes, selections, stats_variant)
+
+    def get_selections(self, demo_id: int) -> list[Selector]:
         selections_optimal = []
         for n_demos in [1, 5, 10]:
             selections_optimal.append(
@@ -152,13 +161,7 @@ class TrajectoriesComparisonPlot:
                 .select_by_n_demos([n_demos])
             )
 
-        if plot_together:
-            self._plot_selections_together(ax, selections_optimal, stats_variant)
-        else:
-            axes = self._figure.subplots(1, 3)
-            self._plot_selections_separate(
-                axes, selections_optimal, "subsampling", stats_variant
-            )
+        return selections_optimal
 
     def _plot_selections_together(
         self,
@@ -182,52 +185,56 @@ class TrajectoriesComparisonPlot:
             )
 
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}-{1}".format(
+            "[demo-type]-[n-traj]: {0}({1})-{2}".format(
+                selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
                 "[1 | 5 | 10]",
             ),
         )
+        self.set_axis_labels(ax, stats_variant)
         ax.legend()
 
     def _plot_selections_separate(
         self,
         axes: list[mpl.axes.Axes],
         selections: list[Selector],
-        variant: str,
         stats_variant: str = "rewards_avg",
     ):
         for ax, selection in zip(axes, selections):
-            self._plot_selection(ax, selection, variant, stats_variant)
+            self._plot_selection(ax, selection, stats_variant)
 
     def _plot_selection(
         self,
         ax: mpl.axes.Axes,
         selection: Selector,
-        variant: str,
         stats_variant: str = "rewards_avg",
     ):
-        if variant == "subsampling":
-            subsamplings = [
-                param.pwil_training_param["subsampling"] for param in selection.params
-            ]
+        subsamplings = [
+            param.pwil_training_param["subsampling"] for param in selection.params
+        ]
 
-            ax.plot(
-                subsamplings,
-                self.pick_stats(
-                    TrajectoriesStats(selection.trajectories), stats_variant
-                ),
-                "x--",
-            )
-            ax.set_title(
-                "[demo-type]-[n-traj]: {0}-{1}".format(
-                    self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
-                    selection.params[0].pwil_training_param["n_demos"],
-                ),
-            )
-            ax.set_xlabel("Subsampling Frequency")
+        ax.plot(
+            subsamplings,
+            self.pick_stats(TrajectoriesStats(selection.trajectories), stats_variant),
+            "x--",
+        )
+        ax.set_title(
+            "[demo-type]-[n-traj]: {0}-{1}".format(
+                self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
+                selection.params[0].pwil_training_param["n_demos"],
+            ),
+        )
+        self.set_axis_labels(ax, stats_variant)
+
+    @staticmethod
+    def set_axis_labels(ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"):
+        ax.set_xlabel("Subsampling Frequency")
+        if stats_variant == "rewards_avg":
             ax.set_ylabel("Reward (higher is better)")
+        else:
+            ax.set_ylabel("Length (lower is better)")
 
-    def compare_all_by_demo_id(self, variant: str = "rewards_avg"):
+    def plot_all_types(self, variant: str = "rewards_avg"):
         stats_optimal = TrajectoriesStats(
             Selector(self._trajectories, self._params)
             .select_by_trajectory_num([0])
