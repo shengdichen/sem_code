@@ -18,7 +18,8 @@ class TrajectoriesAnalysisPlotConfig:
 class TrajectoriesAnalysisPlot:
     def __init__(self):
         self._figure = plt.figure()
-        plt.rcParams["font.family"] = "Source Code Pro"
+        plt.rcParams["font.family"] = "Fira Code"
+        plt.rcParams["font.size"] = 14.5
 
         self._trajectories_discrete, self._trajectories_cont = (
             [
