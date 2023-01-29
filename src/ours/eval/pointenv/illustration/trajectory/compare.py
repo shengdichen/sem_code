@@ -114,7 +114,7 @@ class TrajectoriesComparisonPlot:
         mpl.rcParams["lines.linewidth"] = 2.5
 
         marker_styles = ["x", "+", "."]
-        markersize_styles = [6.0, 7.5, 9.5]
+        markersize_styles = [11.0, 12.5, 16.5]
         for selection, marker_style, markersize_style in zip(
             selections, marker_styles, markersize_styles
         ):
