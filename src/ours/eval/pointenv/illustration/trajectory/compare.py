@@ -35,7 +35,7 @@ class TrajectoriesComparisonPlot:
 
         self._model_is_discrete = model_is_discrete
         self._env_name = (
-            "'PointNav'-Discrete" if model_is_discrete else "'PointNav'-Continuous"
+            "PointNav-Discrete" if model_is_discrete else "PointNav-Continuous"
         )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
