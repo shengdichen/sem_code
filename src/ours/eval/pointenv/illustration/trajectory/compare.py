@@ -180,6 +180,7 @@ class TrajectoriesComparisonPlot:
         self, ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"
     ) -> None:
         ax.set_xlabel("Subsampling Frequency")
+        ax.set_xticks([1, 2, 5, 10, 20])
         if stats_variant == "length_avg":
             ax.set_ylim([0, 1200])
         else:
