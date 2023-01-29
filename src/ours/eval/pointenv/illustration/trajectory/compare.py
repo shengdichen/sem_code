@@ -111,6 +111,8 @@ class TrajectoriesComparisonPlot:
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
     ) -> None:
+        mpl.rcParams["lines.linewidth"] = 2.5
+
         marker_styles = ["x", "+", "."]
         markersize_styles = [6.0, 7.5, 9.5]
         for selection, marker_style, markersize_style in zip(
@@ -189,9 +191,9 @@ class TrajectoriesComparisonPlot:
         baseline_line_style = {
             "color": "rebeccapurple",
             "label": "baseline",
-            "linewidth": 2.5,
+            "linewidth": 3.5,
         }
-        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 2.5}
+        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 3.5}
         if stats_variant == "length_avg":
             ax.axhline(
                 950,  # baseline
