@@ -133,11 +133,11 @@ class TrajectoriesComparisonPlot:
             )
 
         ax.set_title(
-            "{0}\n<demo-id={1}({2})> -- <n-demos={3}>".format(
+            "{0}\n<demo-id={1}({2})>--<n-demos={3}>".format(
                 self._env_name,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
-                "[1 | 5 | 10]",
+                "[1|5|10]",
             ),
         )
         self._set_axis_labels(ax, stats_variant)
