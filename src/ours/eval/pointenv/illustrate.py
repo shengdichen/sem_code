@@ -67,6 +67,9 @@ class TrajectoriesAnalysisPlot:
             plot_together=True, stats_variant="rewards_avg"
         )
 
+        self._figure.set_size_inches(20, 20)
+        self._figure.set_dpi(200)
+        self._figure.savefig("optimal.png")
         plt.show()
 
     def plot_mixed_distant_discrete(self):
