@@ -71,7 +71,6 @@ class TrajectoriesAnalysisPlot:
         self._figure.set_size_inches(20, 20)
         self._figure.set_dpi(200)
         self._figure.savefig("optimal.png")
-        plt.show()
 
     def plot_mixed_distant_discrete(self):
         if self._config.use_length_as_metric:
@@ -86,7 +85,6 @@ class TrajectoriesAnalysisPlot:
         self._figure.set_size_inches(27, 20)
         self._figure.set_dpi(200)
         self._figure.savefig("mixed_distant_discrete.png")
-        plt.show()
 
     def plot_mixed_distant_cont(self):
         if self._config.use_length_as_metric:
@@ -101,12 +99,12 @@ class TrajectoriesAnalysisPlot:
         self._figure.set_size_inches(27, 20)
         self._figure.set_dpi(200)
         self._figure.savefig("mixed_distant_cont.png")
-        plt.show()
 
 
 def client_code():
     trainer = TrajectoriesAnalysisPlot()
     trainer.plot_mixed_distant_cont()
+    plt.show()
 
 
 if __name__ == "__main__":
