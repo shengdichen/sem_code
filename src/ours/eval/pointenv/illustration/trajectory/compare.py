@@ -39,14 +39,14 @@ class TrajectoriesComparisonPlot:
         )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
-        figures_upper_lower = self._figure.subfigures(2, 1)
+        figures_upper_lower = self._figure.subfigures(1, 2)
 
         self._plot_multi_demo_ids(
-            figures_upper_lower[0].subplots(1, 3), [1, 2, 3], stats_variant
+            figures_upper_lower[0].subplots(3, 1), [1, 2, 3], stats_variant
         )
 
         self._plot_multi_demo_ids(
-            figures_upper_lower[1].subplots(1, 3), [4, 5, 6], stats_variant
+            figures_upper_lower[1].subplots(3, 1), [4, 5, 6], stats_variant
         )
 
     def plot_distant(self, stats_variant: str = "rewards_avg") -> None:

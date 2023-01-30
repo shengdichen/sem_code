@@ -99,7 +99,7 @@ class TrajectoriesAnalysisPlot:
         self._figure.savefig("mixed_distant_cont.png")
 
     def _set_figure_mixed_distant(self):
-        self._figure.set_size_inches(30, 20)
+        self._figure.set_size_inches(20, 30)
         self._figure.set_dpi(200)
 
 def client_code():
