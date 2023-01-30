@@ -170,7 +170,7 @@ class TrajectoriesComparisonPlot:
             "x--",
         )
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}({1})-{2}".format(
+            "[pool-id]-[n-traj]: {0}({1})-{2}".format(
                 selection.params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
                 selection.params[0].pwil_training_param["n_demos"],
