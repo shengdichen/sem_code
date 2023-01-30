@@ -135,7 +135,7 @@ class TrajectoriesComparisonPlot:
             )
 
         ax.set_title(
-            "{0}\n<demo-id={1}({2})>--<n-demos={3}>".format(
+            "{0}\n<expert-pool={1}({2})>--<n-trajs={3}>".format(
                 self._env_name,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
@@ -170,7 +170,7 @@ class TrajectoriesComparisonPlot:
             "x--",
         )
         ax.set_title(
-            "[pool-id]-[n-traj]: {0}({1})-{2}".format(
+            "[expert-pool]-[n-trajs]: {0}({1})-{2}".format(
                 selection.params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
                 selection.params[0].pwil_training_param["n_demos"],
