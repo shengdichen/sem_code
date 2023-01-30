@@ -82,7 +82,7 @@ class TrajectoriesAnalysisPlot:
                 stats_variant="rewards_avg"
             )
 
-        self._figure.set_size_inches(27, 20)
+        self._figure.set_size_inches(30, 20)
         self._figure.set_dpi(200)
         self._figure.savefig("mixed_distant_discrete.png")
 
@@ -96,7 +96,7 @@ class TrajectoriesAnalysisPlot:
                 stats_variant="rewards_avg"
             )
 
-        self._figure.set_size_inches(27, 20)
+        self._figure.set_size_inches(30, 20)
         self._figure.set_dpi(200)
         self._figure.savefig("mixed_distant_cont.png")
 
