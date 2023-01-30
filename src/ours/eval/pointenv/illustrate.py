@@ -18,6 +18,7 @@ class TrajectoriesAnalysisPlotConfig:
 class TrajectoriesAnalysisPlot:
     def __init__(self):
         self._figure = plt.figure()
+        self._figure.set_dpi(200)
         plt.rcParams["font.family"] = "Fira Code"
         plt.rcParams["font.size"] = 14.5
 
@@ -69,7 +70,6 @@ class TrajectoriesAnalysisPlot:
         )
 
         self._figure.set_size_inches(20, 20)
-        self._figure.set_dpi(200)
         self._figure.savefig("optimal.png")
 
     def plot_mixed_distant_discrete(self):
@@ -100,7 +100,7 @@ class TrajectoriesAnalysisPlot:
 
     def _set_figure_mixed_distant(self):
         self._figure.set_size_inches(20, 30)
-        self._figure.set_dpi(200)
+
 
 def client_code():
     trainer = TrajectoriesAnalysisPlot()
