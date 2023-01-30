@@ -82,8 +82,7 @@ class TrajectoriesAnalysisPlot:
                 stats_variant="rewards_avg"
             )
 
-        self._figure.set_size_inches(30, 20)
-        self._figure.set_dpi(200)
+        self._set_figure_mixed_distant()
         self._figure.savefig("mixed_distant_discrete.png")
 
     def plot_mixed_distant_cont(self):
@@ -96,10 +95,12 @@ class TrajectoriesAnalysisPlot:
                 stats_variant="rewards_avg"
             )
 
-        self._figure.set_size_inches(30, 20)
-        self._figure.set_dpi(200)
+        self._set_figure_mixed_distant()
         self._figure.savefig("mixed_distant_cont.png")
 
+    def _set_figure_mixed_distant(self):
+        self._figure.set_size_inches(30, 20)
+        self._figure.set_dpi(200)
 
 def client_code():
     trainer = TrajectoriesAnalysisPlot()
