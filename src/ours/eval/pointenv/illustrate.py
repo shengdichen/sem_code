@@ -18,7 +18,7 @@ class TrajectoriesAnalysisPlotConfig:
 class TrajectoriesAnalysisPlot:
     def __init__(self):
         self._figure = plt.figure()
-        self._figure.set_dpi(200)
+        self._figure.set_dpi(300)
         plt.rcParams["font.family"] = "Fira Code"
         plt.rcParams["font.size"] = 14.5
 
