@@ -34,19 +34,20 @@ class TrajectoriesComparisonPlot:
             self._figure = plt.figure()
 
         self._model_is_discrete = model_is_discrete
-        self._env_name = (
-            "'PointNav'-Discrete" if model_is_discrete else "'PointNav'-Continuous"
+        self._env_name, self._env_variant = (
+            "PointNav",
+            "Discrete" if model_is_discrete else "Continuous",
         )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
-        figures_upper_lower = self._figure.subfigures(2, 1)
+        figures_upper_lower = self._figure.subfigures(1, 2)
 
         self._plot_multi_demo_ids(
-            figures_upper_lower[0].subplots(1, 3), [1, 2, 3], stats_variant
+            figures_upper_lower[0].subplots(3, 1), [1, 2, 3], stats_variant
         )
 
         self._plot_multi_demo_ids(
-            figures_upper_lower[1].subplots(1, 3), [4, 5, 6], stats_variant
+            figures_upper_lower[1].subplots(3, 1), [4, 5, 6], stats_variant
         )
 
     def plot_distant(self, stats_variant: str = "rewards_avg") -> None:
@@ -111,8 +112,10 @@ class TrajectoriesComparisonPlot:
         selections: list[Selector],
         stats_variant: str = "rewards_avg",
     ) -> None:
+        mpl.rcParams["lines.linewidth"] = 2.5
+
         marker_styles = ["x", "+", "."]
-        markersize_styles = [6.0, 7.5, 9.5]
+        markersize_styles = [11.0, 12.5, 16.5]
         for selection, marker_style, markersize_style in zip(
             selections, marker_styles, markersize_styles
         ):
@@ -129,15 +132,16 @@ class TrajectoriesComparisonPlot:
                 marker=marker_style,
                 markersize=markersize_style,
                 dashes=[5, 3],
-                label="num-demos: {0}".format(n_demos),
+                label="num-trajs: {0}".format(n_demos),
             )
 
         ax.set_title(
-            "{0}\n<demo-id={1}({2})> -- <n-demos={3}>".format(
+            "{0} - <{1}> - <expert-pool={2}({3})>".format(
                 self._env_name,
+                self._env_variant,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
-                "[1 | 5 | 10]",
+                "[1|5|10]",
             ),
         )
         self._set_axis_labels(ax, stats_variant)
@@ -168,7 +172,7 @@ class TrajectoriesComparisonPlot:
             "x--",
         )
         ax.set_title(
-            "[demo-type]-[n-traj]: {0}({1})-{2}".format(
+            "[expert-pool]-[n-trajs]: {0}({1})-{2}".format(
                 selection.params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selection.params[0].trajectory_num],
                 selection.params[0].pwil_training_param["n_demos"],
@@ -180,6 +184,7 @@ class TrajectoriesComparisonPlot:
         self, ax: mpl.axes.Axes, stats_variant: str = "rewards_avg"
     ) -> None:
         ax.set_xlabel("Subsampling Frequency")
+        ax.set_xticks([1, 2, 5, 10, 20])
         if stats_variant == "length_avg":
             ax.set_ylim([0, 1200])
         else:
@@ -188,9 +193,9 @@ class TrajectoriesComparisonPlot:
         baseline_line_style = {
             "color": "rebeccapurple",
             "label": "baseline",
-            "linewidth": 2.5,
+            "linewidth": 3.5,
         }
-        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 2.5}
+        expert_line_style = {"color": "grey", "label": "expert", "linewidth": 3.5}
         if stats_variant == "length_avg":
             ax.axhline(
                 950,  # baseline
