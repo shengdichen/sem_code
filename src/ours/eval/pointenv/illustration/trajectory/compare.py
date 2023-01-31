@@ -34,8 +34,9 @@ class TrajectoriesComparisonPlot:
             self._figure = plt.figure()
 
         self._model_is_discrete = model_is_discrete
-        self._env_name = (
-            "PointNav-Discrete" if model_is_discrete else "PointNav-Continuous"
+        self._env_name, self._env_variant = (
+            "PointNav",
+            "Discrete" if model_is_discrete else "Continuous",
         )
 
     def plot_mixed_distant(self, stats_variant: str) -> None:
@@ -131,12 +132,13 @@ class TrajectoriesComparisonPlot:
                 marker=marker_style,
                 markersize=markersize_style,
                 dashes=[5, 3],
-                label="num-demos: {0}".format(n_demos),
+                label="num-trajs: {0}".format(n_demos),
             )
 
         ax.set_title(
-            "{0}\n<expert-pool={1}({2})>--<n-trajs={3}>".format(
+            "{0} - <{1}> - <expert-pool={2}({3})>".format(
                 self._env_name,
+                self._env_variant,
                 selections[0].params[0].trajectory_num,
                 self._demo_id_to_demo_quality[selections[0].params[0].trajectory_num],
                 "[1|5|10]",
