@@ -84,11 +84,7 @@ class TrajectoriesAnalysisPlot:
 
         self._set_figure_mixed_distant()
 
-        filename_base = "mixed_distant_discrete"
-        if self._config.use_length_as_metric:
-            self._figure.savefig(filename_base + "length" + ".png")
-        else:
-            self._figure.savefig(filename_base + "reward" + ".png")
+        self._save_figure_mixed_distant("mixed_distant_discrete")
 
     def plot_mixed_distant_cont(self):
         if self._config.use_length_as_metric:
@@ -102,14 +98,16 @@ class TrajectoriesAnalysisPlot:
 
         self._set_figure_mixed_distant()
 
-        filename_base = "mixed_distant_cont"
+        self._save_figure_mixed_distant("mixed_distant_cont")
+
+    def _set_figure_mixed_distant(self):
+        self._figure.set_size_inches(20, 30)
+
+    def _save_figure_mixed_distant(self, filename_base: str):
         if self._config.use_length_as_metric:
             self._figure.savefig(filename_base + "length" + ".png")
         else:
             self._figure.savefig(filename_base + "reward" + ".png")
-
-    def _set_figure_mixed_distant(self):
-        self._figure.set_size_inches(20, 30)
 
 
 def client_code():
