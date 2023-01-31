@@ -37,7 +37,9 @@ class TrajectoriesAnalysisPlot:
 
         self._config = TrajectoriesAnalysisPlotConfig
 
-    def _make_discrete_plotter(self, figure: mpl.figure.FigureBase):
+    def _make_discrete_plotter(
+        self, figure: mpl.figure.FigureBase
+    ) -> TrajectoriesComparisonPlot:
         return TrajectoriesComparisonPlot(
             self._trajectories_discrete,
             self._params,
@@ -45,7 +47,9 @@ class TrajectoriesAnalysisPlot:
             figure=figure,
         )
 
-    def _make_cont_plotter(self, figure: mpl.figure.FigureBase):
+    def _make_cont_plotter(
+        self, figure: mpl.figure.FigureBase
+    ) -> TrajectoriesComparisonPlot:
         return TrajectoriesComparisonPlot(
             self._trajectories_cont,
             self._params,
@@ -53,7 +57,7 @@ class TrajectoriesAnalysisPlot:
             figure=figure,
         )
 
-    def plot_optimals(self):
+    def plot_optimals(self) -> None:
         figures = self._figure.subfigures(2, 2)
 
         self._make_discrete_plotter(figures[0][0]).plot_optimal(
@@ -73,7 +77,7 @@ class TrajectoriesAnalysisPlot:
         self._figure.set_size_inches(20, 20)
         self._figure.savefig(self._savedir + "optimal.png")
 
-    def plot_mixed_distant_discrete(self):
+    def plot_mixed_distant_discrete(self) -> None:
         if self._config.use_length_as_metric:
             self._make_discrete_plotter(self._figure).plot_mixed_distant(
                 stats_variant="length_avg"
@@ -87,7 +91,7 @@ class TrajectoriesAnalysisPlot:
 
         self._save_figure_mixed_distant("mixed_distant_discrete")
 
-    def plot_mixed_distant_cont(self):
+    def plot_mixed_distant_cont(self) -> None:
         if self._config.use_length_as_metric:
             self._make_cont_plotter(self._figure).plot_mixed_distant(
                 stats_variant="length_avg"
@@ -101,10 +105,10 @@ class TrajectoriesAnalysisPlot:
 
         self._save_figure_mixed_distant("mixed_distant_cont")
 
-    def _set_figure_mixed_distant(self):
+    def _set_figure_mixed_distant(self) -> None:
         self._figure.set_size_inches(20, 30)
 
-    def _save_figure_mixed_distant(self, filename_base: str):
+    def _save_figure_mixed_distant(self, filename_base: str) -> None:
         if self._config.use_length_as_metric:
             plot_variant = "_length"
         else:
