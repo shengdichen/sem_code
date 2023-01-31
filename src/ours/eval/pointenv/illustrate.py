@@ -105,9 +105,9 @@ class TrajectoriesAnalysisPlot:
 
     def _save_figure_mixed_distant(self, filename_base: str):
         if self._config.use_length_as_metric:
-            self._figure.savefig(filename_base + "length" + ".png")
+            self._figure.savefig(filename_base + "_length" + ".png")
         else:
-            self._figure.savefig(filename_base + "reward" + ".png")
+            self._figure.savefig(filename_base + "_reward" + ".png")
 
 
 def client_code():
